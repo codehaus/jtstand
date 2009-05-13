@@ -165,7 +165,7 @@
     </dependencies>
     <distributionManagement>
         <site>
-            <id>www.jtstand.com</id>
+            <id>codehaus.org</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-demo/</url>
         </site>
     </distributionManagement>

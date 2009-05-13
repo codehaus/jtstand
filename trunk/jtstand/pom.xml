@@ -25,10 +25,10 @@
     <packaging>pom</packaging>
     <name>jtstand</name>
     <url>http://www.jtstand.com/</url>
-    <description>Scripting Environment for Data Collection</description>
+    <description>JTStand is a Scripting Environment for Data Collection.</description>
     <issueManagement>
-        <system>Google Code Issue Tracker</system>
-        <url>http://code.google.com/p/jtstand/issues</url>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/JTSTAND</url>
     </issueManagement>
     <developers>
         <developer>
@@ -85,6 +85,13 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
     </build>
     <dependencyManagement>
         <dependencies>
@@ -120,10 +127,31 @@
             </plugin>
         </plugins>
     </reporting-->
+    
+    <!-- ==========
+         DEPLOYMENT
+         ========== -->
     <distributionManagement>
+        <!-- this is where binaries are deployed -->
+        <repository>
+            <id>codehaus.org</id>
+            <name>JTStand Repository</name>
+            <url>dav:https://dav.codehaus.org/repository/jtstand/</url>
+        </repository>
+        <!-- NOTE: the uniqueVersion element tells Maven to keep only a single version of a SNAPSHOT -->
+        <snapshotRepository>
+            <id>codehaus.org</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>JTStand Snapshot Repository</name>
+            <url>dav:https://dav.codehaus.org/snapshots.repository/jtstand/</url>
+        </snapshotRepository>
+        <!-- this is where the site is deployed-->
         <site>
-            <id>www.jtstand.com</id>
+            <id>codehaus.org</id>
             <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
+        <downloadUrl>
+            http://repository.codehaus.org/org/codehaus/jtstand/
+        </downloadUrl>
     </distributionManagement>
 </project>
