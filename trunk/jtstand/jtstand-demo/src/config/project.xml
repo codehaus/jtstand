@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
+    <class name="Foo"><![CDATA[
+class Foo extends com.bar.Bar {
+    void fello(){
+        println "hello Foo"
+    }
+    String getResult(){
+        return "Barbar"
+    }
+}
+    ]]>
+    </class>
+    <class name="com.bar.Bar"><![CDATA[
+package com.bar
+class Bar {
+    void hello(){
+        println "hello Bar"
+    }
+}
+    ]]>
+    </class>
+    <class name="InitClass2"><![CDATA[
+class InitClass2 implements Runnable {
+    def com.jtstand.StepInterface step
+    public void run(){
+        Foo f=new Foo()
+        f.hello()
+        f.fello()
+        step.setValue(f.getResult())
+    }
+}
+    ]]>
+    </class>
+    <class name="com.jtstand.demo.TestRandom"><![CDATA[
+package com.jtstand.demo;
+
+import com.jtstand.StepInterface;
+import java.util.Random;
+
+public class TestRandom implements Runnable {
+
+    public static Random r = new Random()
+    public static final String STR_AVERAGE = "AVERAGE"
+    public static final String STR_SIGMA = "SIGMA"
+    public static final String[][][] ps = [[[], [STR_AVERAGE, STR_SIGMA]]]
+    public static final String UNIT = "V"
+    private StepInterface step
+
+    @Override
+    public void run() {
+        step.setValue(step.getPropertyDouble(STR_AVERAGE, 0.0) + step.getPropertyDouble(STR_SIGMA, 1.0) * TestRandom.r.nextGaussian())
+    }
+}
+    ]]>
+    </class>
+    <library subversionUrl="FooLib.xml" revision="1"/>
+    <library subversionUrl="GroovySession.xml" revision="1"/>
+    <persistenceProperties>
+        <property name="hibernate.cache.provider_class" value="org.hibernate.cache.NoCacheProvider"/>
+        <property name="hibernate.show_sql" value="false"/>
+    </persistenceProperties>
+    <property name="PERSISTING_POLICY" value="SEQUENCE"/>
+    <property name="DEBUG_ENABLED" value="true"/>
+    <authentication>
+        <domainUsers>
+            <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
+        </domainUsers>
+        <localUsers>
+            <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+        </localUsers>
+    </authentication>
+    <product partNumber="RANDOM" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO1" >
+            <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="1"/>
+        </testType>
+        <testType name="DEMO2">
+            <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="1"/>
+        </testType>
+    </product>
+    <product partNumber="HEAVY_RANDOM" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO" >
+            <testSequence subversionUrl="heavyRandom.xml" revision="1"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOMBREAK" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO">
+            <testSequence subversionUrl="demoSequence.xml" revision="1"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOMBREAK" partRevision="A02">
+        <remark>another random</remark>
+        <property name="DEBUG_ENABLED" value="false"/>
+        <testType name="DEMO">
+            <testSequence subversionUrl="demoSequence.xml" revision="1"/>
+        </testType>
+    </product>
+    <product partNumber="MUTEX_DEMO" partRevision="A01">
+        <testType name="DEMO">
+            <testSequence subversionUrl="mutexDemo.xml" revision="1"/>
+        </testType>
+    </product>
+    <testStation hostName="STATION1">
+        <remark>This is the stations configuration file for the host: 'STATION1'</remark>
+        <persistenceProperties>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <property name="hibernate.connection.username" value="dbuser"/>
+            <property name="hibernate.connection.password" value="password"/>
+            <property name="hibernate.connection.url" value="jdbc:postgresql://localhost/jtfw"/>
+        </persistenceProperties>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init1.xml" revision="1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init2.xml" revision="1"/>
+        </fixture>
+    </testStation>
+    <testStation hostName="MYSTATION">
+        <remark>This is the configuration for the host: 'MYSTATION'</remark>
+        <persistenceProperties>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="dbuser"/>
+            <property name="hibernate.connection.password" value="password"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/jtfw"/>
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+            <property name="hibernate.c3p0.max_size" value="100"/>
+            <property name="hibernate.c3p0.idleConnectionTestPeriod" value="300"/>
+        </persistenceProperties>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init1.xml" revision="1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init2.xml" revision="1"/>
+        </fixture>
+    </testStation>
+    <testStation hostName="DEFAULTSTATION">
+        <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init1.xml" revision="1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initSequence subversionUrl="init2.xml" revision="1"/>
+        </fixture>
+    </testStation>
+</project>

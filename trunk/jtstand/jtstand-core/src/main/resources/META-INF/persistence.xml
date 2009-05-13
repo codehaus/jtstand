@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2009 Albert Kurucz
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="HIBERNATE" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.jtstand.Authentication</class>
+    <class>com.jtstand.DomainUser</class>
+    <class>com.jtstand.DomainUsers</class>
+    <class>com.jtstand.FileRevision</class>
+    <class>com.jtstand.FileRevisionReference</class>
+    <class>com.jtstand.FixtureInitSequenceReference</class>
+    <class>com.jtstand.Library</class>
+    <class>com.jtstand.LibraryClass</class>
+    <class>com.jtstand.LibraryReference</class>
+    <class>com.jtstand.LocalUser</class>
+    <class>com.jtstand.LocalUsers</class>
+    <class>com.jtstand.Operator</class>
+    <class>com.jtstand.PersistenceProperties</class>
+    <class>com.jtstand.PersistenceProperty</class>
+    <class>com.jtstand.Product</class>
+    <class>com.jtstand.ProductProperty</class>
+    <class>com.jtstand.StationInitSequenceReference</class>
+    <class>com.jtstand.StepReference</class>
+    <class>com.jtstand.TestFixture</class>
+    <class>com.jtstand.TestFixtureProperty</class>
+    <class>com.jtstand.TestLimit</class>
+    <class>com.jtstand.TestProject</class>
+    <class>com.jtstand.TestProjectClass</class>
+    <class>com.jtstand.TestProjectPersistenceProperties</class>
+    <class>com.jtstand.TestProjectProperty</class>
+    <class>com.jtstand.TestProperty</class>
+    <class>com.jtstand.TestSequence</class>
+    <class>com.jtstand.TestSequenceInstance</class>
+    <class>com.jtstand.TestSequenceProperty</class>
+    <class>com.jtstand.TestStation</class>
+    <class>com.jtstand.TestStationPersistenceProperties</class>
+    <class>com.jtstand.TestStationProperty</class>
+    <class>com.jtstand.TestStep</class>
+    <class>com.jtstand.TestStepInstance</class>
+    <class>com.jtstand.TestStepNamePath</class>
+    <class>com.jtstand.TestStepProperty</class>
+    <class>com.jtstand.TestStepScript</class>
+    <class>com.jtstand.TestType</class>
+    <class>com.jtstand.TestTypeProperty</class>
+    <class>com.jtstand.TestTypeReference</class>
+    <class>com.jtstand.TestTypeSequenceReference</class>
+  </persistence-unit>
+</persistence>

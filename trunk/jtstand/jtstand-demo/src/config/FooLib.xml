@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<library name="FooLib" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+    <class name="Foo1">public class Foo1 extends com.bar.Bar1 { void fello(){println &quot;hello Foo1&quot;}; String getResult(){return &quot;Barbar&quot;;}}</class>
+    <class name="com.bar.Bar1">package com.bar;public class Bar1 { void hello(){println &quot;hello Bar1&quot;}}</class>
+</library>
