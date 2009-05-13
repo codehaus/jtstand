@@ -77,10 +77,13 @@ public class Main {
             /* if none of the default location is a file, then exit */
             projectLocation = "./config/project.xml";
             if (!new File(projectLocation).isFile()) {
+                projectLocation = "./project.xml";
+            }
+            if (!new File(projectLocation).isFile()) {
                 projectLocation = "./src/config/project.xml";
             }
             if (!new File(projectLocation).isFile()) {
-                projectLocation = "./project.xml";
+                projectLocation = "../jtstand-demo/src/config/project.xml";
             }
             if (!new File(projectLocation).isFile()) {
                 System.err.println("Project not specified and it could not be found in default locations!");
