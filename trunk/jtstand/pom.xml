@@ -112,6 +112,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>Codehaus</id>
+            <url>http://repository.codehaus.org/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
