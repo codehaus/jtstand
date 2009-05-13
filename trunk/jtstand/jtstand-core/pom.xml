@@ -148,7 +148,7 @@
         <site>
             <id>doc</id>
             <name>doc</name>
-            <url>doc/jtstand-core</url>
+            <url>dav:https://dav.codehaus.org/jtstand/jtstand-core/</url>
         </site>
     </distributionManagement>
 </project>

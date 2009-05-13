@@ -126,7 +126,7 @@
         <site>
             <id>doc</id>
             <name>doc</name>
-            <url>doc/jtstand-ui</url>
+            <url>dav:https://dav.codehaus.org/jtstand/jtstand-ui/</url>
         </site>
     </distributionManagement>
 </project>

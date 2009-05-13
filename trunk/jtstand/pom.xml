@@ -58,7 +58,7 @@
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk</developerConnection>
-        <url>http://fisheye.codehaus.org/browse/jtstand/trunk</url>
+        <url>http://svn.codehaus.org/jtstand/</url>
     </scm>
     <build>
         <plugins>
@@ -124,7 +124,7 @@
         <site>
             <id>doc</id>
             <name>doc</name>
-            <url>doc</url>
+            <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
     </distributionManagement>
 </project>
