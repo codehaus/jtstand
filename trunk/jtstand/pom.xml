@@ -56,9 +56,9 @@
         <module>jtstand-demo</module>
     </modules>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk</developerConnection>
-        <url>http://fisheye.codehaus.org/browse/jtstand/jtstand/trunk</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk</developerConnection>
+        <url>http://fisheye.codehaus.org/browse/jtstand/trunk</url>
     </scm>
     <build>
         <plugins>
