@@ -146,8 +146,7 @@
     </dependencies>
     <distributionManagement>
         <site>
-            <id>doc</id>
-            <name>doc</name>
+            <id>www.jtstand.com</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-core/</url>
         </site>
     </distributionManagement>

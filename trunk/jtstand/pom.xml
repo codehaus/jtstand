@@ -24,7 +24,7 @@
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
     <name>jtstand</name>
-    <!--url>http://www.jtstand.com/</url-->
+    <url>http://www.jtstand.com/</url>
     <description>Scripting Environment for Data Collection</description>
     <issueManagement>
         <system>Google Code Issue Tracker</system>
@@ -122,8 +122,7 @@
     </reporting-->
     <distributionManagement>
         <site>
-            <id>doc</id>
-            <name>doc</name>
+            <id>www.jtstand.com</id>
             <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
     </distributionManagement>
