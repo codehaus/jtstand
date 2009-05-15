@@ -26,7 +26,7 @@
     <artifactId>jtstand-demo</artifactId>
     <name>jtstand-demo</name>
     <!--url>http://www.jtstand.com/jtstand-demo</url-->
-    <description>Demo application module of JTStand</description>
+    <description>jtstand-demo is the demo application module of JTStand.</description>
     <developers>
         <developer>
             <name>Albert Kurucz</name>

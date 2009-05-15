@@ -21,7 +21,7 @@
     <packaging>jar</packaging>
     <name>jtstand-ui</name>
     <!--url>http://www.jtstand.com/jtstand-ui</url-->
-    <description>User Interface module of JTStand</description>
+    <description>jtstand-ui is the user interface module of JTStand.</description>
     <developers>
         <developer>
             <name>Albert Kurucz</name>

@@ -19,19 +19,23 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<project bane="JTStand site" xmlns="http://maven.apache.org/DECORATION/1.0.0"
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
     <bannerLeft>
         <name>JTStand</name>
         <src>images/jtbean.png</src>
-        <href>http://www.jtstand.com</href>
+        <href>http://jtstand.codehaus.org/</href>
     </bannerLeft>
+    <!--publishDate position="right"/-->
     <body>
+        <breadcrumbs>
+            <item name="JTStand" href="http://jtstand.codehaus.org/"/>
+        </breadcrumbs>
         <menu name="Overview">
             <item name="About" href="index.html"/>
-            <item name="Documentation" href="jtstand-doc.html"/>
-            <item name="Develop" href="jtstand-dev.html"/>
+            <item name="Documentation" href="/jtstand-doc.html"/>
+            <item name="Development" href="/jtstand-dev.html"/>
             <item name="FAQ" href="faq.html"/>
         </menu>
         <menu ref="modules"/>

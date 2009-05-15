@@ -21,7 +21,7 @@
     <packaging>jar</packaging>
     <name>jtstand-core</name>
     <!--url>http://www.jtstand.com/jtstand-core</url-->
-    <description>Core module of JTStand</description>
+    <description>jtstand-core is the core module of JTStand.</description>
     <developers>
         <developer>
             <name>Albert Kurucz</name>
