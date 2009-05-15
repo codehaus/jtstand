@@ -89,7 +89,7 @@
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/</url>
+        <url>http://svn.codehaus.org/jtstand/trunk/jtstand/</url>
     </scm>
     <build>
         <plugins>
