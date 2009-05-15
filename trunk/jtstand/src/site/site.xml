@@ -27,12 +27,12 @@ under the License.
         <src>images/jtbean.png</src>
         <href>http://jtstand.codehaus.org/</href>
     </bannerLeft>
-    <!--publishDate position="right"/-->
+    <publishDate position="left"/>
     <body>
         <breadcrumbs>
             <item name="JTStand" href="http://jtstand.codehaus.org/"/>
         </breadcrumbs>
-        <menu name="Overview">
+        <menu name="Overview" inheritAsRef="true" inherit="top">
             <item name="About" href="index.html"/>
             <item name="Documentation" href="/jtstand-doc.html"/>
             <item name="Development" href="/jtstand-dev.html"/>
