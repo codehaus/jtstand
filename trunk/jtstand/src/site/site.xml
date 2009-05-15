@@ -31,6 +31,9 @@ under the License.
     <publishDate position="right"/>
     <version position="right"/>
     <body>
+        <head>
+            <link href="favicon.ico" rel="SHORTCUT ICON" />
+        </head>
         <breadcrumbs>
             <item name="jtstand"/>
         </breadcrumbs>
