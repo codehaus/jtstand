@@ -36,6 +36,7 @@ under the License.
         </breadcrumbs>
         <menu name="JTStand Overview" inherit="top">
             <item name="About JTStand" href="index.html"/>
+            <item name="Features" href="jtstand-features.html"/>
             <item name="Documentation" href="jtstand-doc.html"/>
             <item name="Development" href="jtstand-dev.html"/>
             <!--item name="FAQ" href="faq.html"/-->

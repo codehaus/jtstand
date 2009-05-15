@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-generate and deploy the site</actionName>
+            <displayName>generate and deploy the site</displayName>
+            <goals>
+                <goal>site:site</goal>
+                <goal>site:deploy</goal>
+            </goals>
+        </action>
+    </actions>

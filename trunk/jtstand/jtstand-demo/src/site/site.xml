@@ -31,6 +31,11 @@ under the License.
     <publishDate position="right"/>
     <version position="right"/>
     <body>
+        <menu name="Demo Overview">
+            <item name="About the Demo" href="index.html"/>
+            <item name="Getting Started" href="jtstand-demo-gs.html"/>
+            <!--item name="FAQ" href="faq.html"/-->
+        </menu>
         <menu ref="modules"/>
         <menu ref="reports"/>
     </body>
