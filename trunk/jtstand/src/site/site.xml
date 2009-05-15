@@ -34,8 +34,8 @@ under the License.
         </breadcrumbs>
         <menu name="Overview" inheritAsRef="true" inherit="top">
             <item name="About" href="index.html"/>
-            <item name="Documentation" href="/jtstand-doc.html"/>
-            <item name="Development" href="/jtstand-dev.html"/>
+            <item name="Documentation" href="jtstand-doc.html"/>
+            <item name="Development" href="jtstand-dev.html"/>
             <item name="FAQ" href="faq.html"/>
         </menu>
         <menu ref="modules"/>
