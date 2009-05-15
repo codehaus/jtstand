@@ -87,9 +87,9 @@
         <module>jtstand-demo</module>
     </modules>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/trunk/jtstand/</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk/jtstand</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/trunk/jtstand</url>
     </scm>
     <build>
         <plugins>
