@@ -521,4 +521,5 @@ Specification
   A driver sub-project will be developed, which will allow JTStand sequences to communicate with instruments by calling VISA functions. Project will have the name JTVisa.
 
 Table of Contents
+
 %{toc|section=0}
