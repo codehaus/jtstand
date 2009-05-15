@@ -20,7 +20,7 @@
     <artifactId>jtstand-core</artifactId>
     <packaging>jar</packaging>
     <name>jtstand-core</name>
-    <!--url>http://www.jtstand.com/jtstand-core</url-->
+    <url>http://jtstand.codehaus.org/jtstand-core/</url>
     <description>jtstand-core is the core module of JTStand.</description>
     <developers>
         <developer>

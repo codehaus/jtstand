@@ -20,7 +20,7 @@
     <artifactId>jtstand-ui</artifactId>
     <packaging>jar</packaging>
     <name>jtstand-ui</name>
-    <!--url>http://www.jtstand.com/jtstand-ui</url-->
+    <url>http://jtstand.codehaus.org/jtstand-ui/</url>
     <description>jtstand-ui is the user interface module of JTStand.</description>
     <developers>
         <developer>

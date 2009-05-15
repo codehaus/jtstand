@@ -24,7 +24,7 @@
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
     <name>jtstand</name>
-    <url>http://www.jtstand.com/</url>
+    <url>http://jtstand.codehaus.org/</url>
     <inceptionYear>2009</inceptionYear>
     <description>JTStand is a Scripting Environment for Data Collection.</description>
     <issueManagement>

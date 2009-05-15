@@ -25,7 +25,7 @@
     <groupId>com.jtstand</groupId>
     <artifactId>jtstand-demo</artifactId>
     <name>jtstand-demo</name>
-    <!--url>http://www.jtstand.com/jtstand-demo</url-->
+    <url>http://jtstand.codehaus.org/jtstand-demo/</url>
     <description>jtstand-demo is the demo application module of JTStand.</description>
     <developers>
         <developer>
