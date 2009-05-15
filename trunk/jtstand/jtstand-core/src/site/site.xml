@@ -24,22 +24,13 @@ under the License.
     xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
     <bannerLeft>
         <name>JTStand</name>
-        <src>images/jtbean.png</src>
+        <src>../images/jtbean.png</src>
         <href>http://jtstand.codehaus.org/</href>
         <alt>JTStand</alt>
     </bannerLeft>
     <publishDate position="right"/>
     <version position="right"/>
     <body>
-        <breadcrumbs>
-            <item name="jtstand"/>
-        </breadcrumbs>
-        <menu name="JTStand Overview" inherit="top">
-            <item name="About JTStand" href="index.html"/>
-            <item name="Documentation" href="jtstand-doc.html"/>
-            <item name="Development" href="jtstand-dev.html"/>
-            <!--item name="FAQ" href="faq.html"/-->
-        </menu>
         <menu ref="modules"/>
         <menu ref="reports"/>
     </body>
