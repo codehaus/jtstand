@@ -1,12 +1,118 @@
 JTStand Demo - Getting Started
 
-* Download
+* Java
+
+** Required Java Version
+
+  For trying the JTStand Demo you need <<JRE 6>> (Java Runtime Environment) on your computer.
+The demo will not run on older JRE versions.
+
+** Verify the Java Version
+
+  Use this command:
+
+---
+java -version
+---
+
+  The command will print the version to the screen, similar to this:
+
+---
+java version "1.6.0_13"
+Java(TM) SE Runtime Environment (build 1.6.0_13-b03)
+Java HotSpot(TM) Client VM (build 11.3-b02, mixed mode)
+---
+
+  The java version starting with 1.6 means it is a JRE 6. Sun has dopped the "1." part when labelling Java versions.
+
+** Installing Java
+
+  For <<Windows>>, download Java from: {{http://java.sun.com/javase/downloads}}
+
+  For <<Linux>>, instead of manually downloading and installing JRE 6, prefer to use the package manager!
+The package name of JRE 6 is different on almost every Linux distribution:
+
+  * <<OpenSUSE>>: <java-1_6_0-sun>
+
+  * <<Debian>>: <sun-java6-jre>
+
+  * <<Mandriva>>: <java-1.6.0-sun>
+
+  []
+
+  JTStand is compatible with <<OpenJDK>> edition JRE 6.
+If you prefer, you may install the OpenJDK instead of the Sun edition
+(but cannot have both at the same time):
+
+  * <<OpenSUSE>>: <java-1_6_0-openjdk>
+
+  * <<Debian>>: <openjdk-6-jre>
+
+  * <<Mandriva>> & <<Fedora>>: <java-1.6.0-openjdk>
+
+  []
+
+** Troubleshooting Java
+
+  Even if you have the JRE 6 installed,
+when trying to check the version with the "<java -version>" command,
+you might run into problems like these:
+  
+  * Not the expected Java version is shown.
+
+  * The command is not recognized.
+
+  []
+
+  You have to set the PATH and/or the JAVA_HOME variable in order to fix this problem.
+
+
+* Download JTStand Demo
+
+  Download site: {{http://download.jtstand.com}}
+
+  The demo comes packaged in a zip file,
+with the file name: jtstand-demo-<version>-distribution.zip
 
 
 * Install
 
+  Unzip the distribution file somewhere, where you want it to be installed.
+If you don't need other users to access this program,
+the best place to install it is to your user directory.
+If you want other users to access this program,
+install it to <C:\Program Files> on Windows,
+or </opt> on Linux.
+
+  Unzip will create a directory with the name: jtstand-demo-<version>,
+with all the files, what you need to run the demo, including two starter scripts:
+<jtstand.bat> for Windows
+and
+<jtstand.sh> for Linux
+
+  Create shortcut to the starter script onto your Start Menu and/or onto your Desktop,
+using the icon files, which are provided in different file formats:
+<jtbean.png>, <jtbean.ico>, and <jtbean.svg>. The <<Windows>> shortcut will need the <ico> format.
 
 * Run
 
+  At the first start, expect some delay.
+JTStand needs time to initialize the database.
 
-* Play
+* Uninstall
+
+  If you don't remember in which directory you have installed the demo,
+check the shortcut properties, before deleting the shortcut as the first step.
+
+  If you uninstall, just to install a newer version of the demo,
+you may want to keep the data files. Then skip the last step!
+
+  [[1]] Delete the shortcut to the demo from your Start Menu and/or Desktop.
+
+  [[2]] Delete the JTStand Demo install directory (jtstand-demo-<version>)
+
+  [[3]] Delete the directory which stores the data files (database) of JTStand.
+This directory is in your user directory, with the name <.jtstand>. On Linux, this directory is hidden.
+You can make the hidden directories visible on the File Browser by typing <CTRL>-H.
+
+  []
