@@ -145,12 +145,8 @@
                     <execution>
                         <phase>process-sources</phase>
                         <configuration>
-                            <destdir>
-								${project.build.directory}/schema
-                            </destdir>
-                            <srcdir>
-								${project.build.directory}/schema-src
-                            </srcdir>
+                            <destdir>${project.build.directory}/schema</destdir>
+                            <srcdir>${project.build.directory}/schema-src</srcdir>
                             <schemas>
                                 <schema>
                                     <namespace>http://www.jtstand.com/</namespace>
