@@ -17,12 +17,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <artifactId>jtstand</artifactId>
-        <groupId>com.jtstand</groupId>
+        <groupId>org.codehaus</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <groupId>com.jtstand</groupId>
+    <groupId>org.codehaus</groupId>
     <artifactId>jtstand-demo</artifactId>
     <name>jtstand-demo</name>
     <url>http://jtstand.codehaus.org/jtstand-demo/</url>
@@ -102,12 +102,12 @@
                         </manifest>
                         <manifestEntries>
                             <url>${pom.url}</url>
-                            <Built-By>jtstand.com</Built-By>
+                            <Built-By>codehaus.org</Built-By>
                             <Specification-Vendor>jtstand.com</Specification-Vendor>
-                            <Specification-Title>JTStand demo</Specification-Title>
-                            <Specification-Version>${pom.version}</Specification-Version>
-                            <Implementation-Vendor>jtstand.com</Implementation-Vendor>
-                            <Implementation-Title>JTStand demo</Implementation-Title>
+                            <Specification-Title>JTStand User Interface</Specification-Title>
+                            <Specification-Version>1.0</Specification-Version>
+                            <Implementation-Vendor>codehaus.org</Implementation-Vendor>
+                            <Implementation-Title>JTStand Swing Based User Interface</Implementation-Title>
                             <Implementation-Version>${pom.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
@@ -178,7 +178,7 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>com.jtstand</groupId>
+            <groupId>org.codehaus</groupId>
             <artifactId>jtstand-ui</artifactId>
         </dependency>
     </dependencies>

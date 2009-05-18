@@ -20,7 +20,7 @@
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <version>1.0-SNAPSHOT</version>
-    <groupId>com.jtstand</groupId>
+    <groupId>org.codehaus</groupId>
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
     <name>jtstand</name>
@@ -130,17 +130,17 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.jtstand</groupId>
+                <groupId>org.codehaus</groupId>
                 <artifactId>jtstand-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.jtstand</groupId>
+                <groupId>org.codehaus</groupId>
                 <artifactId>jtstand-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.jtstand</groupId>
+                <groupId>org.codehaus</groupId>
                 <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
