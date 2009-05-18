@@ -43,6 +43,18 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+    <repositories>
+        <repository>
+            <id>Codehaus</id>
+            <url>http://repository.codehaus.org/</url>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>
@@ -88,6 +100,70 @@
                         <version>1.1</version>
                     </dependency-->
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>process-sources</id>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <mkdir dir="${project.build.directory}/schema-src"/>
+                                <copy todir="${project.build.directory}/schema-src">
+                                    <fileset dir="${basedir}/src/main/java">
+                                        <include name="com/jtstand/*.java"/>
+                                    </fileset>
+                                </copy>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>xsddoc</groupId>
+                        <artifactId>maven-xsddoc-plugin</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>xsddoc</groupId>
+                        <artifactId>xsddoc</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>com.sun.tools.jxc.maven2</groupId>
+                <artifactId>maven-jaxb-schemagen-plugin</artifactId>
+                <version>1.2</version>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <destdir>
+								${project.build.directory}/schema
+                            </destdir>
+                            <srcdir>
+								${project.build.directory}/schema-src
+                            </srcdir>
+                            <schemas>
+                                <schema>
+                                    <namespace>http://www.jtstand.com/</namespace>
+                                    <file>jtstand.xsd</file>
+                                </schema>
+                            </schemas>
+							<!--<verbose>false</verbose>-->
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -162,6 +238,11 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.5.3</version>
         </dependency>
+        <!--dependency>
+            <groupId>com.sun.tools.jxc.maven2</groupId>
+            <artifactId>maven-jaxb-schemagen-plugin</artifactId>
+            <version>1.2</version>
+        </dependency-->
     </dependencies>
     <distributionManagement>
         <site>

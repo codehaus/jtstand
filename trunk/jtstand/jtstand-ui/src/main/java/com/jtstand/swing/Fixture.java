@@ -56,7 +56,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
 
     public void init() {
 //        Logger.getLogger(getClass().getCanonicalName()).info(getTestFixture().getFixtureName() + " init...");
-        if (testFixture.isDisabled()) {
+        if (testFixture.isDisabled() != null && testFixture.isDisabled()) {
             setState(State.DISABLED);
         } else {
             FixtureInitSequenceReference initSequence = testFixture.getInitSequence();
@@ -163,7 +163,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
     }
 
     public String getBorderString() {
-        if (testFixture.isDisabled() || y.getN() == 0) {
+        if ((testFixture.isDisabled() != null && testFixture.isDisabled()) || y.getN() == 0) {
             return "Fixture '" + getName() + "' - " + state.name;
         } else {
             return "Fixture '" + getName() + "' - " + state.name + " - " + y;

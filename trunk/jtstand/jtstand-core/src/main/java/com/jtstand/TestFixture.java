@@ -76,7 +76,7 @@ public class TestFixture extends AbstractVariables implements Serializable {
     }
 
     @XmlAttribute
-    public Boolean getDisabled() {
+    public Boolean isDisabled() {
         return disabled;
     }
 
@@ -84,9 +84,10 @@ public class TestFixture extends AbstractVariables implements Serializable {
         this.disabled = disabled;
     }
 
-    public boolean isDisabled() {
-        return disabled != null && disabled;
-    }
+//    @XmlTransient
+//    public boolean isDisabled() {
+//        return disabled != null && disabled;
+//    }
 
     @XmlTransient
     public Long getId() {
