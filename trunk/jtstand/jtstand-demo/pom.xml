@@ -184,8 +184,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.codehaus</groupId>
+            <groupId>org.codehaus.org</groupId>
             <artifactId>jtstand-ui</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <distributionManagement>
