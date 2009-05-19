@@ -31,37 +31,38 @@
                         <outputDirectory>lib</outputDirectory>
                     </dependencySet>
                 </dependencySets>
-                <outputFileNameMapping>
+                <!--outputFileNameMapping>
 					${module.build.finalName}.${module.extension}
-                </outputFileNameMapping>
+                </outputFileNameMapping-->
                 <unpack>false</unpack>
             </binaries>
         </moduleSet>
     </moduleSets>
 
     <fileSets>
-        <fileSet>
+
+        <!--fileSet>
             <directory>target</directory>
             <includes>
                 <include>*.jar</include>
                 <include>lib/*</include>
             </includes>
             <outputDirectory>/</outputDirectory>
-        </fileSet>
-        <fileSet>
+        </fileSet-->
+        <!--fileSet>
             <directory>src/config</directory>
             <outputDirectory>/config</outputDirectory>
             <useDefaultExcludes>false</useDefaultExcludes>
-        </fileSet>
-        <fileSet>
+        </fileSet-->
+        <!--fileSet>
             <directory>src/raw</directory>
             <outputDirectory>/</outputDirectory>
-        </fileSet>
-        <fileSet>
-            <directory>../jtstand-core/target/schema</directory>
+        </fileSet-->
+        <!--fileSet>
+            <directory>jtstand-core/target/schema</directory>
             <outputDirectory>/</outputDirectory>
-        </fileSet>
-        <fileSet>
+        </fileSet-->
+        <!--fileSet>
             <directory>target</directory>
             <includes>
                 <include>*.sh</include>
@@ -70,8 +71,9 @@
             <filtered>true</filtered>
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
-        </fileSet>
+        </fileSet-->
     </fileSets>
+
     <files>
         <file>
             <source>README.txt</source>
