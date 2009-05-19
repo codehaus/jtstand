@@ -19,20 +19,6 @@
     <formats>
         <format>zip</format>
     </formats>
-    <!--moduleSets>
-        <moduleSet>
-            <binaries>
-                <attachmentClassifier>distribution</attachmentClassifier>
-                <dependencySets>
-                    <dependencySet>
-                        <outputDirectory>lib</outputDirectory>
-                    </dependencySet>
-                </dependencySets>
-                <unpack>false</unpack>
-            </binaries>
-        </moduleSet>
-    </moduleSets-->
-
     <fileSets>
         <fileSet>
             <directory>target</directory>
