@@ -86,6 +86,7 @@
     <modules>
         <module>jtstand-core</module>
         <module>jtstand-ui</module>
+        <module>jtstand-demo</module>
     </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
@@ -149,13 +150,18 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.codehaus</groupId>
+                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.codehaus</groupId>
+                <groupId>org.odehaus.jtstand</groupId>
                 <artifactId>jtstand-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.odehaus.jtstand</groupId>
+                <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
