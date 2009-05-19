@@ -146,12 +146,19 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>assembly</id>
+                        <id>package-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>assembly</goal>
                         </goals>
                     </execution>
+                    <!--execution>
+                        <id>install-assembly</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution-->
                 </executions>
             </plugin>
             <plugin>
