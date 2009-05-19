@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step name="heavyStep100" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+    <remark>This step is the root of the heavyStep100</remark>
+    <step name="step 10">
+        <remark>This is the fist step of heavyStep100</remark>
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 20">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 30">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 40">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 50">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 60">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 70">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 80">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 90">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+    <step name="step 100">
+        <stepFile subversionUrl="heavyStep10.xml" revision="1"/>
+    </step>
+</step>
