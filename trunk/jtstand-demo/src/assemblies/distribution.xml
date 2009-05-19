@@ -19,11 +19,8 @@
     <formats>
         <format>zip</format>
     </formats>
-    <moduleSets>
+    <!--moduleSets>
         <moduleSet>
-            <includes>
-                <include>*:jar</include>
-            </includes>
             <binaries>
                 <attachmentClassifier>distribution</attachmentClassifier>
                 <dependencySets>
@@ -31,13 +28,10 @@
                         <outputDirectory>lib</outputDirectory>
                     </dependencySet>
                 </dependencySets>
-                <!--outputFileNameMapping>
-					${module.build.finalName}.${module.extension}
-                </outputFileNameMapping-->
                 <unpack>false</unpack>
             </binaries>
         </moduleSet>
-    </moduleSets>
+    </moduleSets-->
 
     <fileSets>
         <fileSet>
