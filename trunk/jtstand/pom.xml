@@ -13,15 +13,14 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modelVersion>4.0.0</modelVersion>
-	<prerequisites>
-		<maven>2.0.10</maven>
-	</prerequisites>
+    <prerequisites>
+        <maven>2.0.10</maven>
+    </prerequisites>
     <version>1.0-SNAPSHOT</version>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand</artifactId>
@@ -87,7 +86,6 @@
     <modules>
         <module>jtstand-core</module>
         <module>jtstand-ui</module>
-        <module>jtstand-demo</module>
     </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
@@ -160,11 +158,6 @@
                 <artifactId>jtstand-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.codehaus</groupId>
-                <artifactId>jtstand-demo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -194,7 +187,7 @@
             </plugin>
         </plugins>
     </reporting-->
-    
+
     <!-- ==========
          DEPLOYMENT
          ========== -->
@@ -217,8 +210,6 @@
             <id>codehaus.org</id>
             <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
-        <downloadUrl>
-            http://repository.codehaus.org/org/codehaus/jtstand/
-        </downloadUrl>
+        <downloadUrl>http://repository.codehaus.org/org/codehaus/jtstand/</downloadUrl>
     </distributionManagement>
 </project>
