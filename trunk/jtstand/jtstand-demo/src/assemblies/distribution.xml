@@ -20,7 +20,7 @@
         <format>zip</format>
     </formats>
 
-    <moduleSets>
+    <!--moduleSets>
         <moduleSet>
             <includes>
                 <include>*:jar</include>
@@ -37,7 +37,7 @@
                 <unpack>false</unpack>
             </binaries>
         </moduleSet>
-    </moduleSets>
+    </moduleSets-->
 
     <fileSets>
         <fileSet>
