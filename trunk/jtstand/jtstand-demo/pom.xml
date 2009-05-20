@@ -148,10 +148,10 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>package-assembly</id>
+                        <id>package-single</id>
                         <phase>package</phase>
                         <goals>
-                            <goal>assembly</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                     <!--execution>
