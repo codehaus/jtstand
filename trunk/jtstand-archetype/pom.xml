@@ -3,11 +3,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.jtstand</groupId>
-    <artifactId>jtstand-demo</artifactId>
+    <artifactId>jtstand-archetype</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>JTStand Archetype</name>
-    <url>http://jtstand.codehaus.org/jtstand-demo/</url>
+    <url>http://jtstand.codehaus.org/jtstand-archetype/</url>
     <description>jtstand-demo is the demo application module of JTStand. It is not a typical Hello Word app, but trying to show some of extremes instead.</description>
     <dependencies>
         <dependency>
