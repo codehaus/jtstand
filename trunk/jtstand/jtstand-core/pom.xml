@@ -78,7 +78,7 @@
                             <Built-By>codehaus.org</Built-By>
                             <Specification-Vendor>jtstand.com</Specification-Vendor>
                             <Specification-Title>JTStand User Interface</Specification-Title>
-                            <Specification-Version>1.0</Specification-Version>
+                            <Specification-Version>${jtstand.specificationVersion}</Specification-Version>
                             <Implementation-Vendor>codehaus.org</Implementation-Vendor>
                             <Implementation-Title>JTStand Swing Based User Interface</Implementation-Title>
                             <Implementation-Version>${pom.version}</Implementation-Version>
@@ -149,12 +149,15 @@
                     <execution>
                         <phase>process-sources</phase>
                         <configuration>
+                            <!--destdir>${jtstand.schemaDestDir}</destdir-->
                             <destdir>${project.build.directory}/schema</destdir>
                             <srcdir>${project.build.directory}/schema-src</srcdir>
                             <schemas>
                                 <schema>
+                                    <!--namespace>${parent.project.url}</namespace-->
+                                    <file>${jtstand.schemaFileName}</file>
                                     <namespace>http://www.jtstand.com/</namespace>
-                                    <file>jtstand.xsd</file>
+                                    <!--file>jtstand.xsd</file-->
                                 </schema>
                             </schemas>
 							<!--<verbose>false</verbose>-->

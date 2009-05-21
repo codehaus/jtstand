@@ -57,10 +57,10 @@
             <directory>src/raw</directory>
             <outputDirectory>/</outputDirectory>
         </fileSet>
-        <fileSet>
+        <!--fileSet>
             <directory>../jtstand-core/target/schema</directory>
             <outputDirectory>/</outputDirectory>
-        </fileSet>
+        </fileSet-->
         <fileSet>
             <directory>target</directory>
             <includes>
