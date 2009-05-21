@@ -22,6 +22,9 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,14 +44,53 @@ public class Authentication implements Serializable {
     private Long id;
     @ManyToOne
     private FileRevision creator;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private DomainUsers domainUsers;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LocalUsers localUsers;
     @OneToOne(mappedBy = "authentication")
     private TestProject testProject;
     private transient String operator;
     private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authentication")
+    @OrderBy(TestProject.POSITION_ASC)
+    private List<DomainUser> domainUsers = new ArrayList<DomainUser>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authentication")
+    @OrderBy(TestProject.POSITION_ASC)
+    private List<LocalUser> localUsers = new ArrayList<LocalUser>();
+
+
+    @XmlElement(name = "domainUser")
+    public List<DomainUser> getDomainUsers() {
+        return domainUsers;
+    }
+
+    public void setDomainUsers(List<DomainUser> domainUsers) {
+        this.domainUsers = domainUsers;
+        if (domainUsers != null) {
+            for (ListIterator<DomainUser> iterator = domainUsers.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                DomainUser domainUser = iterator.next();
+                domainUser.setAuthentication(this);
+                domainUser.setPosition(index);
+            }
+        }
+    }
+
+    @XmlElement(name = "localUser")
+    public List<LocalUser> getLocalUsers() {
+        return localUsers;
+    }
+
+    public void setLocalUsers(List<LocalUser> localUsers) {
+        this.localUsers = localUsers;
+        if (localUsers != null) {
+            for (ListIterator<LocalUser> iterator = localUsers.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                LocalUser localUser = iterator.next();
+                localUser.setAuthentication(this);
+                localUser.setPosition(index);
+            }
+        }
+    }
 
     public void addPropertyChangeListener(PropertyChangeListener l) {
         support.addPropertyChangeListener(l);
@@ -119,30 +161,6 @@ public class Authentication implements Serializable {
         return Authentication.class.getCanonicalName() + "[id=" + id + "]";
     }
 
-    @XmlElement(name = "localUsers")
-    public LocalUsers getLocalUsers() {
-        return localUsers;
-    }
-
-    public void setLocalUsers(LocalUsers localUsers) {
-        this.localUsers = localUsers;
-        if (localUsers != null) {
-            localUsers.setCreator(creator);
-        }
-    }
-
-    @XmlElement(name = "domainUsers")
-    public DomainUsers getDomainUsers() {
-        return domainUsers;
-    }
-
-    public void setDomainUsers(DomainUsers domainUsers) {
-        this.domainUsers = domainUsers;
-        if (domainUsers != null) {
-            domainUsers.setCreator(creator);
-        }
-    }
-
     @XmlTransient
     public FileRevision getCreator() {
         return creator;
@@ -208,11 +226,11 @@ public class Authentication implements Serializable {
     }
 
     private String getEmployeeNumber(String username, String password) {
-        if ((localUsers == null || localUsers.getLocalUsers().isEmpty()) && (domainUsers == null || domainUsers.getDomainUsers().isEmpty())) {
+        if ((getLocalUsers() == null || getLocalUsers().isEmpty()) && (getDomainUsers() == null || getDomainUsers().isEmpty())) {
             return username;
         }
-        if (domainUsers != null) {
-            for (DomainUser domuser : domainUsers.getDomainUsers()) {
+        if (getDomainUsers() != null) {
+            for (DomainUser domuser : getDomainUsers()) {
                 if (domuser.getLoginName().equalsIgnoreCase(username) || domuser.getEmployeeNumber().equals(username)) {
                     try {
                         domuser.login(password);
@@ -223,9 +241,9 @@ public class Authentication implements Serializable {
                 }
             }
         }
-        if (localUsers != null) {
+        if (getLocalUsers() != null) {
             try {
-                for (LocalUser locuser : localUsers.getLocalUsers()) {
+                for (LocalUser locuser : getLocalUsers()) {
                     if (locuser.getLoginName().equalsIgnoreCase(username) || locuser.getEmployeeNumber().equals(username)) {
                         if (locuser.getPassword().equals(encryptString(password))) {
                             return locuser.getEmployeeNumber();

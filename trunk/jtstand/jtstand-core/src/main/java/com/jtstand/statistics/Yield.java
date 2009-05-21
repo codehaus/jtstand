@@ -24,7 +24,7 @@ public class Yield {
 
     public static final DecimalFormat decimalFormat = new DecimalFormat("##.#%");
     private long total = 0L;
-    private long pass = 0L;
+    private long passed = 0L;
 
     public long getN() {
         return total;
@@ -32,7 +32,7 @@ public class Yield {
 
     public void pass() {
         total++;
-        pass++;
+        passed++;
     }
 
     public void fail() {
@@ -44,7 +44,7 @@ public class Yield {
         if (total == 0L) {
             return "";
         }
-        String out = "Yield " + Long.toString(pass) + "/" + Long.toString(total);
+        String out = "Yield " + Long.toString(passed) + "/" + Long.toString(total);
         if (total > 1L) {
             out += ": " + getYieldPercent();
         }
@@ -62,7 +62,7 @@ public class Yield {
         if (total == 0L) {
             return 0.0;
         }
-        return (double) pass / (double) total;
+        return (double) passed / (double) total;
     }
 
 //    public static void main(String[] args) {

@@ -13,13 +13,11 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
   <persistence-unit name="HIBERNATE" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.jtstand.Authentication</class>
     <class>com.jtstand.DomainUser</class>
-    <class>com.jtstand.DomainUsers</class>
     <class>com.jtstand.FileRevision</class>
     <class>com.jtstand.FileRevisionReference</class>
     <class>com.jtstand.FixtureInitSequenceReference</class>
@@ -27,7 +25,6 @@
     <class>com.jtstand.LibraryClass</class>
     <class>com.jtstand.LibraryReference</class>
     <class>com.jtstand.LocalUser</class>
-    <class>com.jtstand.LocalUsers</class>
     <class>com.jtstand.Operator</class>
     <class>com.jtstand.PersistenceProperties</class>
     <class>com.jtstand.PersistenceProperty</class>

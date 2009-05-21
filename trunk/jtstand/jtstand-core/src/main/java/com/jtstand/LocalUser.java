@@ -31,9 +31,9 @@ public class LocalUser extends Operator implements Serializable {
     public static final long serialVersionUID = 20081114L;
     private String realName;
     private String password;
-    @ManyToOne
-    private LocalUsers localUsers;
     private int position;
+    @ManyToOne
+    private Authentication authentication;
 
     @XmlTransient
     public int getPosition() {
@@ -45,14 +45,14 @@ public class LocalUser extends Operator implements Serializable {
     }
 
     @XmlTransient
-    public LocalUsers getLocalUsers() {
-        return localUsers;
+    public Authentication getAuthentication() {
+        return authentication;
     }
 
-    public void setLocalUsers(LocalUsers localUsers) {
-        this.localUsers = localUsers;
-        if (localUsers != null) {
-            setCreator(localUsers.getCreator());
+    public void setAuthentication(Authentication authentication) {
+        this.authentication = authentication;
+        if (authentication != null) {
+            setCreator(authentication.getCreator());
         }
     }
 

@@ -36,7 +36,7 @@ public class DomainUser extends Operator implements Serializable {
 
     private String domainName;
     @ManyToOne
-    private DomainUsers domainUsers;
+    private Authentication authentication;
     private int position;
 
     @XmlTransient
@@ -49,14 +49,14 @@ public class DomainUser extends Operator implements Serializable {
     }
 
     @XmlTransient
-    public DomainUsers getDomainUsers() {
-        return domainUsers;
+    public Authentication getAuthentication() {
+        return authentication;
     }
 
-    public void setDomainUsers(DomainUsers domainUsers) {
-        this.domainUsers = domainUsers;
-        if (domainUsers != null) {
-            setCreator(domainUsers.getCreator());
+    public void setAuthentication(Authentication authentication) {
+        this.authentication = authentication;
+        if (authentication != null) {
+            setCreator(authentication.getCreator());
         }
     }
 
