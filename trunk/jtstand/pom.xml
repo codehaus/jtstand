@@ -20,7 +20,7 @@
         <jtstand.schemaNameSpace>${url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
         <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
     <modelVersion>4.0.0</modelVersion>
     <!--prerequisites>
@@ -191,6 +191,14 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories>
     <!--reporting>
         <plugins>
             <plugin>
