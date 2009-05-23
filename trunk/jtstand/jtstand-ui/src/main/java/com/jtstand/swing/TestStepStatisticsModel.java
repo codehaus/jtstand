@@ -93,11 +93,11 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
         if (row >= stats.size()) {
             return "";
         }
-        String name = stats.getStats().keySet().toArray()[row].toString();
+        String name = stats.keySet().toArray()[row].toString();
         if (name == null) {
             return "";
         }
-        Stat stat = stats.getStats().get(name);
+        Stat stat = stats.get(name);
         if (stat == null) {
             return "";
         }

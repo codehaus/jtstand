@@ -44,11 +44,16 @@ public class Yield {
         if (total == 0L) {
             return "";
         }
-        String out = "Yield " + Long.toString(passed) + "/" + Long.toString(total);
+        StringBuffer out=new StringBuffer();
+        out.append("Yield ");
+        out.append(Long.toString(passed));
+        out.append('/');
+        out.append(Long.toString(total));
         if (total > 1L) {
-            out += ": " + getYieldPercent();
+            out.append(": ");
+            out.append(getYieldPercent());
         }
-        return out;
+        return out.toString();
     }
 
     public String getYieldPercent() {
@@ -65,13 +70,4 @@ public class Yield {
         return (double) passed / (double) total;
     }
 
-//    public static void main(String[] args) {
-//        Yield y = new Yield();
-//        System.out.println(y.toString());
-//        y.pass();
-//        y.pass();
-//        System.out.println(y.toString());
-//        y.fail();
-//        System.out.println(y.toString());
-//    }
 }

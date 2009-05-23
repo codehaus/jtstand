@@ -20,23 +20,14 @@ import java.util.Hashtable;
  *
  * @author albert_kurucz
  */
-public class Stats {
+public class Stats extends Hashtable<Object,Stat> {
 
-    private Hashtable<String, Stat> stats = new Hashtable<String, Stat>();
-
-    public Hashtable<String, Stat> getStats() {
-        return stats;
-    }
-
-    public int size() {
-        return stats.size();
-    }
-
-    private Stat get(String name) {
-        Stat stat = stats.get(name);
+    @Override
+    public Stat get(Object name) {
+        Stat stat = super.get(name);
         if (stat == null) {
             stat = new Stat();
-            stats.put(name, stat);
+            put(name, stat);
         }
         return stat;
     }
@@ -53,7 +44,7 @@ public class Stats {
         }
     }
 
-    public void substractValue(String name, Object value) {
+    public void substractValue(Object name, Object value) {
         if (value == null) {
             return;
         }
@@ -65,27 +56,27 @@ public class Stats {
         }
     }
 
-    public void addValue(String name, double val) {
+    public void addValue(Object name, double val) {
         get(name).addValue(val);
     }
 
-    public void substractValue(String name, double val) {
+    public void substractValue(Object name, double val) {
         get(name).substractValue(val);
     }
 
-    public int getN(String name) {
+    public int getN(Object name) {
         return get(name).getN();
     }
 
-    public double getAverage(String name) {
+    public double getAverage(Object name) {
         return get(name).getAverage();
     }
 
-    public double getStandardDeviation(String name) {
+    public double getStandardDeviation(Object name) {
         return get(name).getStandardDeviation();
     }
 
-    public double getCPK(String name, Double LSL, Double USL) {
+    public double getCPK(Object name, Double LSL, Double USL) {
         return get(name).getCPK(LSL, USL);
     }
 }

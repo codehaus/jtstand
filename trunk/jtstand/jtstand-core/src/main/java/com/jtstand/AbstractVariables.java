@@ -85,12 +85,13 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
 
     private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws InterruptedException {
         if (tsp.isMutex() != null && tsp.isMutex()) {
+            Set<Thread> deadThreads = new HashSet<Thread>();
             while (true) {
                 synchronized (variableLock) {
                     boolean locked = false;
                     HashSet<Thread> lockerThread = lockerThreads.get(keyString);
                     if (lockerThread != null) {
-                        Set<Thread> deadThreads = new HashSet<Thread>();
+                        deadThreads.clear();
                         Iterator<Thread> it = lockerThread.iterator();
                         while (it.hasNext() && !locked) {
                             Thread locker = it.next();
@@ -101,7 +102,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
                                     locked = true;
                                     if (!locker.equals(actualLockerThread)) {
                                         actualLockerThread = locker;
-                                        LOGGER.info("Variable is locked by: " + actualLockerThread.getName());
+//                                        LOGGER.info("Variable is locked by: " + actualLockerThread.getName());
                                     }
                                 }
                             }

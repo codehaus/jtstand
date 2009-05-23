@@ -75,7 +75,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
         if (jTable != null && row >= 0 && row < jTable.getRowCount()) {
             int i = jTable.convertRowIndexToModel(row);
             if (i >= 0 && i < stats.size()) {
-                String name = stats.getStats().keySet().toArray()[row].toString();
+                String name = stats.keySet().toArray()[row].toString();
                 if (name != null) {
                     TestStepInstance step = baseSequence.getChild(Util.getPathList(name));
                     if (step != null) {
@@ -147,7 +147,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
             if (Util.isElement(rows, rowIndex)) {
                 for (int i = 0; i < rows.length; i++) {
                     int modelIndex = jTable.convertRowIndexToModel(rows[i]);
-                    String name = stats.getStats().keySet().toArray()[modelIndex].toString();
+                    String name = stats.keySet().toArray()[modelIndex].toString();
                     selectedStats.add(name);
                 }
             }

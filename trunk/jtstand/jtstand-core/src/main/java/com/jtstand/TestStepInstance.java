@@ -540,21 +540,21 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             }
             lastTime = sTime;
         }
-        String tName = "";
+        StringBuffer tName = new StringBuffer();
         if (getTestSequenceInstance().getHostName() != null) {
-            tName += getTestSequenceInstance().getHostName();
+            tName.append(getTestSequenceInstance().getHostName());
         }
         if (getTestSequenceInstance().getTestFixtureName() != null) {
             if (tName.length() > 0) {
-                tName += "@";
+                tName.append('@');
             }
-            tName += getTestSequenceInstance().getTestFixtureName();
+            tName.append(getTestSequenceInstance().getTestFixtureName());
         }
         if (tName.length() > 0) {
-            tName += "@";
+            tName.append('@');
         }
-        tName += getTestStepInstancePath();
-        thisThread.setName(tName);
+        tName.append(getTestStepInstancePath());
+        thisThread.setName(tName.toString());
         setStartTime(sTime);
 //        Log.log(getTestStepInstancePath() + " started at " + getStartedStringMs());
         setFinishTime(null);
@@ -1080,7 +1080,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @Override
     public void setVariable(String keyString, Object variableValue) {
         System.out.println("Setting variable: '" + keyString + "' to " + variableValue);
-        if("value".equals(keyString)){
+        if ("value".equals(keyString)) {
             setValue(variableValue);
         }
         if (getTestStep() != null) {
