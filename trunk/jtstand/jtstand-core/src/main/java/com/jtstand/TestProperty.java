@@ -37,10 +37,10 @@ public class TestProperty implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String propertyText;
+    private String propertyValueAttribute;
     private String propertyValue;
     private Boolean mutex;
-    private Boolean eval;
+//    private Boolean eval;
     private Boolean constant;
     @ManyToOne
     private FileRevision creator;
@@ -106,12 +106,12 @@ public class TestProperty implements Serializable {
     }
 
     @XmlAttribute(name = "value")
-    public String getPropertyText() {
-        return propertyText;
+    public String getPropertyValueAttribute() {
+        return propertyValueAttribute;
     }
 
-    public void setPropertyText(String propertyText) {
-        this.propertyText = propertyText;
+    public void setPropertyValueAttribute(String propertyValueAttribute) {
+        this.propertyValueAttribute = propertyValueAttribute;
     }
 
     @XmlAttribute
@@ -132,17 +132,19 @@ public class TestProperty implements Serializable {
         this.constant = constant;
     }
 
-    @XmlAttribute
-    public Boolean getEval() {
-        return eval;
-    }
-
-    public void setEval(Boolean eval) {
-        this.eval = eval;
-    }
-
+//    @XmlAttribute
+//    public Boolean getEval() {
+//        return eval;
+//    }
+//
+//    public void setEval(Boolean eval) {
+//        this.eval = eval;
+//    }
     public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
-        if (propertyValue == null || propertyValue.length() == 0 || eval == null || eval.equals(false)) {
+        if (getPropertyValueAttribute() != null) {
+            return getPropertyValueAttribute();
+        }
+        if (propertyValue == null || propertyValue.length() == 0) {
             return propertyValue;
         }
         if (gcl != null) {

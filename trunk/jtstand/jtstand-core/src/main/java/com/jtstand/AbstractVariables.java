@@ -70,20 +70,20 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
                 Thread.sleep(1);
             }
         }
-        if (tsp.getEval() != null && tsp.getEval()) {
-            Object v = getVariable(keyString, tsp, step);
-            if (v != null) {
-                return v;
-            }
-            v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step.getBinding());
-            //step.setV
-            setVariable(keyString, v);
+        Object v = getVariable(keyString, tsp, step);
+        if (v != null) {
             return v;
         }
-        return getVariable(keyString, tsp, step);
+        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step.getBinding());
+        //step.setV
+        setVariable(keyString, v);
+        return v;
     }
 
     private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws InterruptedException {
+        if (tsp.getPropertyValueAttribute() != null) {
+            return tsp.getPropertyValueAttribute();
+        }
         if (tsp.isMutex() != null && tsp.isMutex()) {
             Set<Thread> deadThreads = new HashSet<Thread>();
             while (true) {
