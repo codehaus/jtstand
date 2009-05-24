@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <property name="DECIMAL_FORMAT" value="0.000"/>
     <mainStep name="RANDOM">
         <step name="not mutex parallel">
@@ -54,7 +54,7 @@
             </step>
         </step>
         <step name="mutex sequential and parallel with eval">
-            <property name="VAR1" mutex="true" eval="true" value="(Integer) 100"/>
+            <property name="VAR1" mutex="true">(Integer) 100</property>
             <step name="group1">
                 <step name="sub1">
                     <stepFile subversionUrl="mutexSub.xml" revision="1"/>

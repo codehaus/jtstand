@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <property name="DECIMAL_FORMAT" value="0.000"/>
     <limit name="the 1st step's limit" comp="GELE" lsl="-2.0" usl="4.0" unit="V">
         <remark>Set to plus-minus 3 sigma</remark>
     </limit>
     <mainStep name="RANDOM">
         <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
-        <property name="clos" eval="true" mutex="true" value="{->println &quot;I am a closure&quot;}"/>
-        <property name="scr" eval="true" mutex="true" value="{com.jtstand.TestStepInstance it->it.parse('println &quot;I am a Script&quot;')}"/>
-        <!--property name="myprocess" eval="true" value="Runtime.exec(&quot;ftp ftp.ni.com&quot;)"/-->
-        <property name="TEST_IP_PORT" eval="true" value="8089"/>
+        <property name="clos" mutex="true">{->println &quot;I am a closure&quot;}</property>
+        <property name="scr" mutex="true">{com.jtstand.TestStepInstance it->it.parse('println &quot;I am a Script&quot;')}</property>
+        <property name="TEST_IP_PORT">8089</property>
         <property name="serversocket"/>
         <property name="serversession" mutex="true"/>
         <property name="clientsession" mutex="true"/>
 
         <step name="RANDOM1" useLimit="the 1st step's limit">
             <remark>This is the 1st real step</remark>
-            <property name="AVERAGE" eval="true" value="0.5 + 0.5"/>
+            <property name="AVERAGE">0.5 + 0.5</property>
             <script>step.setValue(step.getPropertyDouble('AVERAGE') + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian() )</script>
         </step>
         <step name="Closure Class">
