@@ -77,11 +77,11 @@ public class TestRandom implements Runnable {
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="1"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="53"/>
         </testType>
         <testType name="DEMO2">
             <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="1"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="53"/>
         </testType>
     </product>
     <product partNumber="HEAVY_RANDOM" partRevision="A01">
@@ -93,19 +93,19 @@ public class TestRandom implements Runnable {
     <product partNumber="RANDOMBREAK" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="1"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="53"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A02">
         <remark>another random</remark>
         <property name="DEBUG_ENABLED" value="false"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="1"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="53"/>
         </testType>
     </product>
     <product partNumber="MUTEX_DEMO" partRevision="A01">
         <testType name="DEMO">
-            <testSequence subversionUrl="mutexDemo.xml" revision="1"/>
+            <testSequence subversionUrl="mutexDemo.xml" revision="53"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
@@ -136,7 +136,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="1"/>
+            <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -148,7 +148,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="1"/>
+            <initSequence subversionUrl="init2.xml" revision="53"/>
         </fixture>
     </testStation>
     <testStation hostName="MYSTATION">
@@ -171,7 +171,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="1"/>
+            <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -183,7 +183,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="1"/>
+            <initSequence subversionUrl="init2.xml" revision="53"/>
         </fixture>
     </testStation>
     <testStation hostName="DEFAULTSTATION">
@@ -197,7 +197,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="1"/>
+            <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -209,7 +209,7 @@ public class TestRandom implements Runnable {
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="1"/>
+            <initSequence subversionUrl="init2.xml" revision="53"/>
         </fixture>
     </testStation>
 </project>
