@@ -37,6 +37,7 @@ public class TestProperty implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String propertyText;
     private String propertyValue;
     private Boolean mutex;
     private Boolean eval;
@@ -95,13 +96,22 @@ public class TestProperty implements Serializable {
         this.name = name;
     }
 
-    @XmlAttribute(name = "value")
+    @XmlValue
     public String getPropertyValue() {
         return propertyValue;
     }
 
     public void setPropertyValue(String propertyValue) {
         this.propertyValue = propertyValue;
+    }
+
+    @XmlAttribute(name = "value")
+    public String getPropertyText() {
+        return propertyText;
+    }
+
+    public void setPropertyText(String propertyText) {
+        this.propertyText = propertyText;
     }
 
     @XmlAttribute
