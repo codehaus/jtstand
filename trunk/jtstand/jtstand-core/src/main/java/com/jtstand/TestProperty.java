@@ -40,8 +40,7 @@ public class TestProperty implements Serializable {
     private String propertyValueAttribute;
     private String propertyValue;
     private Boolean mutex;
-//    private Boolean eval;
-    private Boolean constant;
+    private Boolean finalVariable;
     @ManyToOne
     private FileRevision creator;
 
@@ -123,23 +122,15 @@ public class TestProperty implements Serializable {
         this.mutex = mutex;
     }
 
-    @XmlAttribute
-    public Boolean isConstant() {
-        return constant;
+    @XmlAttribute(name="final")
+    public Boolean isFinal() {
+        return finalVariable;
     }
 
-    public void setConstant(Boolean constant) {
-        this.constant = constant;
+    public void setFinal(Boolean finalVariable) {
+        this.finalVariable = finalVariable;
     }
 
-//    @XmlAttribute
-//    public Boolean getEval() {
-//        return eval;
-//    }
-//
-//    public void setEval(Boolean eval) {
-//        this.eval = eval;
-//    }
     public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
         if (getPropertyValueAttribute() != null) {
             return getPropertyValueAttribute();

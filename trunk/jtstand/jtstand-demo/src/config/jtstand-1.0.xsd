@@ -19,8 +19,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="app"/>
-
   <xs:complexType name="authentication">
     <xs:sequence>
       <xs:element name="domainUser" type="tns:domainUser" maxOccurs="unbounded" minOccurs="0"/>
@@ -140,8 +138,7 @@
   <xs:complexType name="testProperty">
     <xs:simpleContent>
       <xs:extension base="xs:string">
-        <xs:attribute name="constant" type="xs:boolean"/>
-        <xs:attribute name="eval" type="xs:boolean"/>
+        <xs:attribute name="final" type="xs:boolean"/>
         <xs:attribute name="mutex" type="xs:boolean"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="value" type="xs:string"/>

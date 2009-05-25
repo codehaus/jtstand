@@ -1086,8 +1086,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    if (tsp.isConstant() != null && tsp.isConstant() && variablesMap.containsKey(keyString)) {
-                        throw new IllegalStateException("Cannot set constant: '" + keyString + "'");
+                    if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
+                        throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
                     }
                     variablesMap.put(keyString, variableValue);
                     return;
@@ -1099,8 +1099,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    if (tsp.isConstant() != null && tsp.isConstant() && variablesMap.containsKey(keyString)) {
-                        throw new IllegalStateException("Cannot set constant: '" + keyString + "'");
+                    if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
+                        throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
                     }
                     variablesMap.put(keyString, variableValue);
                     return;
@@ -1116,8 +1116,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestSequence() != null) {
                 for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        if (tsp.isConstant() != null && tsp.isConstant() && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot set constant: '" + keyString + "'");
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
                         }
                         seq.setVariable(keyString, variableValue);
                         return;
@@ -1127,8 +1127,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestFixture() != null) {
                 for (TestFixtureProperty tsp : testSequenceInstance.getTestFixture().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        if (tsp.isConstant() != null && tsp.isConstant() && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot set constant: '" + keyString + "'");
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
                         }
                         seq.getTestFixture().setVariable(keyString, variableValue);
                         return;
@@ -1138,8 +1138,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestStation() != null) {
                 for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        if (tsp.isConstant() != null && tsp.isConstant() && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot set constant: '" + keyString + "'");
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
                         }
                         seq.getTestStation().setVariable(keyString, variableValue);
                         return;
