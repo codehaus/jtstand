@@ -6,7 +6,7 @@
     </limit>
     <mainStep name="RANDOM">
         <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
-        <property name="AVERAGE">0.5 + 1.5</property>
+        <property name="AVERAGE" final="false">0.5 + 1.5</property>
         <step name="RANDOM1" useLimit="the 1st step's limit">
             <remark>This is the 1st real step</remark>
             <property name="AVERAGE">0.5 + 0.5</property>

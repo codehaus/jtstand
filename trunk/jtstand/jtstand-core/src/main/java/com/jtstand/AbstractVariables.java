@@ -75,13 +75,15 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
             return v;
         }
         v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step.getBinding());
-        //step.setV
-        setVariable(keyString, v);
+        if (v != null) {
+            setVariable(keyString, v);
+        }
         return v;
     }
 
     private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws InterruptedException {
         if (tsp.getPropertyValueAttribute() != null) {
+            System.out.println("propertyValueAttribute of '" + tsp.getName() + "' is: '" + tsp.getPropertyValueAttribute() + "'");
             return tsp.getPropertyValueAttribute();
         }
         if (tsp.isMutex() != null && tsp.isMutex()) {

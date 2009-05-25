@@ -39,7 +39,7 @@ public class TestProperty implements Serializable {
     private String name;
     private String propertyValueAttribute;
     @Lob
-    @Column(length=2147483647)
+    @Column(length = 2147483647)
     private String propertyValue;
     private Boolean mutex;
     private Boolean finalVariable;
@@ -124,7 +124,7 @@ public class TestProperty implements Serializable {
         this.mutex = mutex;
     }
 
-    @XmlAttribute(name="final")
+    @XmlAttribute(name = "final")
     public Boolean isFinal() {
         return finalVariable;
     }
@@ -135,10 +135,11 @@ public class TestProperty implements Serializable {
 
     public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
         if (getPropertyValueAttribute() != null) {
+            System.out.println("propertyValueAttribute of '" + getName() + "' is: '" + getPropertyValueAttribute() + "'");
             return getPropertyValueAttribute();
         }
         if (propertyValue == null || propertyValue.length() == 0) {
-            return propertyValue;
+            return null;
         }
         if (gcl != null) {
             if (binding != null) {
