@@ -38,6 +38,8 @@ public class TestProperty implements Serializable {
     private Long id;
     private String name;
     private String propertyValueAttribute;
+    @Lob
+    @Column(length=2147483647)
     private String propertyValue;
     private Boolean mutex;
     private Boolean finalVariable;

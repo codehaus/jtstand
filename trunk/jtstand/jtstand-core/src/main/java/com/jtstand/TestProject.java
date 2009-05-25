@@ -46,7 +46,7 @@ import java.util.logging.Logger;
  */
 @Entity
 @XmlRootElement(name = "project")
-@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "persistenceProperties", "properties", "authentication", "products", "testStations"})
+@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestProject extends AbstractProperties implements Serializable, PropertiesInterface {
 
@@ -227,30 +227,19 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Library> libraries = new ArrayList<Library>();
     private static GroovyClassLoader cl;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TestProjectPersistenceProperties persistenceProperties;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @XmlTransient
     public Map<String, String> getPeristencePropertiesMap() {
-        Map<String, String> ppm = new HashMap<String, String>();
-        if (persistenceProperties != null) {
-            for (PersistenceProperty tsp : persistenceProperties.getPersistenceProperties()) {
-                ppm.put(tsp.getName(), tsp.getPropertyValue());
+        Object pppm = this.getPropertyObject("persistenceProperties");
+        if (pppm != null) {
+            if (pppm instanceof Map) {
+                return (Map) pppm;
+            } else {
+                throw new IllegalArgumentException("Project's persistenceProperties should be a Map, but it is: " + pppm.getClass().getCanonicalName());
             }
         }
-        return ppm;
-    }
-
-    @XmlElement
-    public TestProjectPersistenceProperties getPersistenceProperties() {
-        return persistenceProperties;
-    }
-
-    public void setPersistenceProperties(TestProjectPersistenceProperties persistenceProperties) {
-        this.persistenceProperties = persistenceProperties;
-        if (persistenceProperties != null) {
-            persistenceProperties.setTestProject(this);
-        }
+        return new HashMap<String, String>();
     }
 
     @XmlTransient

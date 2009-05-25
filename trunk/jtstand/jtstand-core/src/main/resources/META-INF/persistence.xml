@@ -26,8 +26,6 @@
     <class>com.jtstand.LibraryReference</class>
     <class>com.jtstand.LocalUser</class>
     <class>com.jtstand.Operator</class>
-    <class>com.jtstand.PersistenceProperties</class>
-    <class>com.jtstand.PersistenceProperty</class>
     <class>com.jtstand.Product</class>
     <class>com.jtstand.ProductProperty</class>
     <class>com.jtstand.StationInitSequenceReference</class>
@@ -37,14 +35,12 @@
     <class>com.jtstand.TestLimit</class>
     <class>com.jtstand.TestProject</class>
     <class>com.jtstand.TestProjectClass</class>
-    <class>com.jtstand.TestProjectPersistenceProperties</class>
     <class>com.jtstand.TestProjectProperty</class>
     <class>com.jtstand.TestProperty</class>
     <class>com.jtstand.TestSequence</class>
     <class>com.jtstand.TestSequenceInstance</class>
     <class>com.jtstand.TestSequenceProperty</class>
     <class>com.jtstand.TestStation</class>
-    <class>com.jtstand.TestStationPersistenceProperties</class>
     <class>com.jtstand.TestStationProperty</class>
     <class>com.jtstand.TestStep</class>
     <class>com.jtstand.TestStepInstance</class>

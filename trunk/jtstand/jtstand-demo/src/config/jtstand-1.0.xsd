@@ -101,18 +101,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="persistenceProperties">
-    <xs:sequence>
-      <xs:element name="property" type="tns:persistenceProperty" maxOccurs="unbounded" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="persistenceProperty">
-    <xs:sequence/>
-    <xs:attribute name="name" type="xs:string" use="required"/>
-    <xs:attribute name="value" type="xs:string"/>
-  </xs:complexType>
-
   <xs:complexType name="productType">
     <xs:complexContent>
       <xs:extension base="tns:abstractProperties">
@@ -243,7 +231,6 @@
           <xs:element name="remark" type="xs:string" minOccurs="0"/>
           <xs:element name="class" type="tns:testProjectClass" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="library" type="tns:libraryReference" maxOccurs="unbounded" minOccurs="0"/>
-          <xs:element name="persistenceProperties" type="tns:testProjectPersistenceProperties" minOccurs="0"/>
           <xs:element name="property" type="tns:testProjectProperty" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="authentication" type="tns:authentication" minOccurs="0"/>
           <xs:element name="product" type="tns:productType" maxOccurs="unbounded" minOccurs="0"/>
@@ -265,14 +252,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="testProjectPersistenceProperties">
-    <xs:complexContent>
-      <xs:extension base="tns:persistenceProperties">
-        <xs:sequence/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="testProjectProperty">
     <xs:complexContent>
       <xs:extension base="tns:testProperty">
@@ -286,21 +265,12 @@
       <xs:extension base="tns:abstractVariables">
         <xs:sequence>
           <xs:element name="remark" type="xs:string" minOccurs="0"/>
-          <xs:element name="persistenceProperties" type="tns:testStationPersistenceProperties" minOccurs="0"/>
           <xs:element name="property" type="tns:testStationProperty" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="testType" type="tns:productReferenceType" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="fixture" type="tns:testFixtureType" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="initSequence" type="tns:stationInitSequenceReference" minOccurs="0"/>
         </xs:sequence>
         <xs:attribute name="hostName" type="xs:string"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="testStationPersistenceProperties">
-    <xs:complexContent>
-      <xs:extension base="tns:persistenceProperties">
-        <xs:sequence/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>

@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "persistenceProperties", "properties", "testTypes", "fixtures", "initSequence"})
+@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testTypes", "fixtures", "initSequence"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStation extends AbstractVariables implements Serializable {
 
@@ -62,7 +62,6 @@ public class TestStation extends AbstractVariables implements Serializable {
     private StationInitSequenceReference initSequence;
     private int position;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TestStationPersistenceProperties persistenceProperties;
     private static EntityManagerFactory entityManagerFactory;
 //    private Integer rmiPort;
 //
@@ -128,24 +127,15 @@ public class TestStation extends AbstractVariables implements Serializable {
     @XmlTransient
     private Map<String, String> getPeristencePropertiesMap() {
         Map<String, String> ppm = getTestProject() != null ? getTestProject().getPeristencePropertiesMap() : new HashMap<String, String>();
-        if (persistenceProperties != null) {
-            for (PersistenceProperty tsp : persistenceProperties.getPersistenceProperties()) {
-                ppm.put(tsp.getName(), tsp.getPropertyValue());
+        Object sppm = getPropertyObject("persistenceProperties");
+        if (sppm != null) {
+            if (sppm instanceof Map) {
+                ppm.putAll((Map) sppm);
+            } else {
+                throw new IllegalArgumentException("Stations's persistenceProperties should be a Map, but it is: " + sppm.getClass().getCanonicalName());
             }
         }
         return ppm;
-    }
-
-    @XmlElement
-    public TestStationPersistenceProperties getPersistenceProperties() {
-        return persistenceProperties;
-    }
-
-    public void setPersistenceProperties(TestStationPersistenceProperties persistenceProperties) {
-        this.persistenceProperties = persistenceProperties;
-        if (persistenceProperties != null) {
-            persistenceProperties.setTestStation(this);
-        }
     }
 
     @XmlTransient
@@ -264,9 +254,6 @@ public class TestStation extends AbstractVariables implements Serializable {
         this.creator = creator;
         if (getInitSequence() != null) {
             getInitSequence().setCreator(creator);
-        }
-        if (getPersistenceProperties() != null) {
-            getPersistenceProperties().setTestStation(this);
         }
         setProperties(getProperties());
         setFixtures(getFixtures());
