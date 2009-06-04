@@ -173,6 +173,10 @@
     </dependencyManagement>
     <repositories>
         <repository>
+            <id>myrepo</id>
+            <url>maven2.jtstand.com</url>
+        </repository>
+        <repository>
             <id>Codehaus</id>
             <url>http://repository.codehaus.org/</url>
         </repository>
