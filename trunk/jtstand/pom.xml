@@ -160,12 +160,12 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.odehaus.jtstand</groupId>
+                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.odehaus.jtstand</groupId>
+                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -174,7 +174,7 @@
     <repositories>
         <repository>
             <id>myrepo</id>
-            <url>maven2.jtstand.com</url>
+            <url>http://maven2.jtstand.com/internal</url>
         </repository>
         <repository>
             <id>Codehaus</id>
