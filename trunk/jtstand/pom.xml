@@ -173,10 +173,10 @@
         </dependencies>
     </dependencyManagement>
     <repositories>
-        <!--repository>
+        <repository>
             <id>myrepo</id>
             <url>http://localhost:8080/archiva/repository/internal/</url>
-        </repository-->
+        </repository>
         <repository>
             <id>Codehaus</id>
             <url>http://repository.codehaus.org/</url>
