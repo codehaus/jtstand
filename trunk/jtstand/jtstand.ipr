@@ -781,17 +781,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/com/jgoodies/looks/2.2.1/looks-2.2.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.swinglabs:swingx:0.9.7">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/0.9.7/swingx-0.9.7.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/0.9.7/swingx-0.9.7-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/0.9.7/swingx-0.9.7-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: jfree:jfreechart:1.0.13">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/jfree/jfreechart/1.0.13/jfreechart-1.0.13.jar!/" />
@@ -823,6 +812,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-cli/commons-cli/1.2/commons-cli-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.swinglabs:swingx:1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/1.0/swingx-1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/1.0/swingx-1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/swinglabs/swingx/1.0/swingx-1.0-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
