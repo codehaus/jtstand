@@ -222,20 +222,20 @@
     <distributionManagement>
         <!-- this is where binaries are deployed -->
         <repository>
-            <id>codehaus.org</id>
-            <name>JTStand Repository</name>
-            <url>dav:https://dav.codehaus.org/repository/jtstand/</url>
+            <id>jtstand-releases</id>
+            <name>JTStand Release Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/codehaus-releases/</url>
         </repository>
         <!-- NOTE: the uniqueVersion element tells Maven to keep only a single version of a SNAPSHOT -->
         <snapshotRepository>
-            <id>codehaus.org</id>
+            <id>jtstand-snapshots</id>
             <uniqueVersion>false</uniqueVersion>
-            <name>JTStand Snapshot Repository</name>
-            <url>dav:https://dav.codehaus.org/snapshots.repository/jtstand/</url>
+            <name>JTStand Snapshots Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/codehaus-snapshots/</url>
         </snapshotRepository>
         <!-- this is where the site is deployed-->
         <site>
-            <id>codehaus.org</id>
+            <id>jtstand-site</id>
             <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
         <downloadUrl>http://repository.codehaus.org/org/codehaus/jtstand/</downloadUrl>
