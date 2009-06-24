@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Visa demo" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
+    <mainStep name="Visa Demo Main">
+        <script>
+            import com.sun.jna.ptr.IntByReference
+            IntByReference sesn
+            println visa.viOpenDefaultRM(sesn)
+            IntByReference vi
+            println visa.viOpen(sesn.getValue(), "COM1", vi)
+            IntByReference spec
+            println visa.getAttibute(sesn, 0x3FFF0170, spec)
+            setValue spec.getValue()
+        </script>
+    </mainStep>
+</testSequence>
