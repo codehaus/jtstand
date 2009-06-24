@@ -83,7 +83,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
 
     private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws InterruptedException {
         if (tsp.getPropertyValueAttribute() != null) {
-            System.out.println("propertyValueAttribute of '" + tsp.getName() + "' is: '" + tsp.getPropertyValueAttribute() + "'");
+//            System.out.println("propertyValueAttribute of '" + tsp.getName() + "' is: '" + tsp.getPropertyValueAttribute() + "'");
             return tsp.getPropertyValueAttribute();
         }
         if (tsp.isMutex() != null && tsp.isMutex()) {

@@ -135,7 +135,7 @@ public class TestProperty implements Serializable {
 
     public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
         if (getPropertyValueAttribute() != null) {
-            System.out.println("propertyValueAttribute of '" + getName() + "' is: '" + getPropertyValueAttribute() + "'");
+//            System.out.println("propertyValueAttribute of '" + getName() + "' is: '" + getPropertyValueAttribute() + "'");
             return getPropertyValueAttribute();
         }
         if (propertyValue == null || propertyValue.length() == 0) {
