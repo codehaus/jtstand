@@ -188,6 +188,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -214,6 +215,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
