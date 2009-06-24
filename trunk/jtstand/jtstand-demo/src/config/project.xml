@@ -72,6 +72,24 @@
         }
     ]]>
     </class>
+    <class name="Visa"><![CDATA[
+        import com.sun.jna.NativeLibrary
+        import com.sun.jna.Platform
+
+        public class Visa {
+          private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
+
+          def methodMissing(String name, Object[] args) {
+            def method = libc.getFunction(name)
+            if (method) {
+              return method.invokeInt(args)
+            } else {
+              throw new MissingMethodException(name, getClass(), args)
+            }
+          }
+        }
+    ]]>
+    </class>
     <library subversionUrl="FooLib.xml" revision="1"/>
     <library subversionUrl="GroovySession.xml" revision="1"/>
     <property name="persistenceProperties"><![CDATA[
@@ -84,6 +102,7 @@
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
     <property name="clib" mutex="true">new Clib()</property>
+    <property name="visa" mutex="true">new Visa()</property>
     <authentication>
         <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
         <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
@@ -128,6 +147,11 @@
             <testSequence subversionUrl="jnaDemo.xml" revision="81"/>
         </testType>
     </product>
+    <product partNumber="VISA_DEMO" partRevision="1.0">
+        <testType name="DEMO">
+            <testSequence subversionUrl="visaDemo.xml" revision="86"/>
+        </testType>
+    </product>
     <testStation hostName="STATION1">
         <remark>This is the stations configuration file for the host: 'STATION1'</remark>
         <property name="persistenceProperties"><![CDATA[
@@ -150,6 +174,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
+            <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -189,6 +214,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
+            <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -216,6 +242,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
+            <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
