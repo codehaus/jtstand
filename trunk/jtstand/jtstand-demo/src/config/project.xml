@@ -149,7 +149,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="86"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="88"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
