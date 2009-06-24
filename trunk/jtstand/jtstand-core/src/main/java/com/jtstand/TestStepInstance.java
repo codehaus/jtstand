@@ -1011,6 +1011,16 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                         return seq.getTestStation().getVariable(keyString, wait, tsp, step);
                     }
                 }
+                if (seq.getTestStation().getTestProject() != null) {
+                    for (TestProjectProperty tsp : seq.getTestStation().getTestProject().getProperties()) {
+                        if (tsp.getName().equals(keyString)) {
+                            /**
+                             * variables defined at project level are still stored at station level
+                             */
+                            return seq.getTestStation().getVariable(keyString, wait, tsp, step);
+                        }
+                    }
+                }
             }
         } else {
             System.err.println("getVariable : testSequenceInstance is null!");
@@ -1018,6 +1028,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         throw new IllegalArgumentException("Undefined variable:" + keyString);
     }
 
+    @Override
     public void releaseVariable(String keyString) {
         releaseVariable(keyString, this);
     }
