@@ -55,8 +55,11 @@
     ]]>
     </class>
     <class name="Clib"><![CDATA[
-    class Clib {
-      private static def libc = com.sun.jna.NativeLibrary.getInstance(com.sun.jna.Platform.isWindows() ? "msvcrt" : "c")
+    import com.sun.jna.NativeLibrary
+    import com.sun.jna.Platform
+
+    public class Clib {
+      private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "msvcrt" : "c")
 
       def methodMissing(String name, Object[] args) {
         def method = libc.getFunction(name)
