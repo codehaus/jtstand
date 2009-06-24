@@ -83,6 +83,7 @@
     </property>
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
+    <property name="clib" mutex="true">new Clib()</property>
     <authentication>
         <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
         <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
@@ -122,6 +123,11 @@
             <testSequence subversionUrl="mutexDemo.xml" revision="55"/>
         </testType>
     </product>
+    <product partNumber="JNA_DEMO" partRevision="1.0">
+        <testType name="DEMO">
+            <testSequence subversionUrl="jnaDemo.xml" revision="81"/>
+        </testType>
+    </product>
     <testStation hostName="STATION1">
         <remark>This is the stations configuration file for the host: 'STATION1'</remark>
         <property name="persistenceProperties"><![CDATA[
@@ -143,6 +149,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
