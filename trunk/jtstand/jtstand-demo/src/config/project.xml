@@ -55,20 +55,21 @@
     ]]>
     </class>
     <class name="Clib"><![CDATA[
-    import com.sun.jna.NativeLibrary
-    import com.sun.jna.Platform
+        import com.sun.jna.NativeLibrary
+        import com.sun.jna.Platform
 
-    public class Clib {
-      private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "msvcrt" : "c")
+        public class Clib {
+          private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "msvcrt" : "c")
 
-      def methodMissing(String name, Object[] args) {
-        def method = libc.getFunction(name)
-        if (method) {
-          return method.invokeInt(args)
+          def methodMissing(String name, Object[] args) {
+            def method = libc.getFunction(name)
+            if (method) {
+              return method.invokeInt(args)
+            } else {
+              throw new MissingMethodException(name, getClass(), args)
+            }
+          }
         }
-        else throw new MissingMethodException(name, getClass(), args)
-      }
-    }
     ]]>
     </class>
     <library subversionUrl="FooLib.xml" revision="1"/>
