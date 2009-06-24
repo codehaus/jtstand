@@ -3,11 +3,11 @@
     <mainStep name="Visa Demo Main">
         <script>
             import com.sun.jna.ptr.IntByReference
-            IntByReference sesn
+            IntByReference sesn = new IntByReference()
             println visa.viOpenDefaultRM(sesn)
-            IntByReference vi
+            IntByReference vi = new IntByReference()
             println visa.viOpen(sesn.getValue(), "COM1", vi)
-            IntByReference spec
+            IntByReference spec = new IntByReference()
             println visa.getAttibute(sesn, 0x3FFF0170, spec)
             setValue spec.getValue()
         </script>
