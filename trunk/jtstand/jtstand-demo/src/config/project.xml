@@ -80,10 +80,12 @@
           private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
 
           def methodMissing(String name, Object[] args) {
+            println 'method missing: ' + name
             def method = libc.getFunction(name)
             if (method) {
               return method.invokeInt(args)
             } else {
+              println 'not found!'
               throw new MissingMethodException(name, getClass(), args)
             }
           }
@@ -149,7 +151,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="88"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="91"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
