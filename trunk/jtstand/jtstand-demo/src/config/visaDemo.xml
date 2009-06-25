@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Visa demo" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
     <mainStep name="Visa Demo Main">
+        <limit comp="EQ" nominal="4194304"/>
         <script>
             import com.sun.jna.ptr.IntByReference
             IntByReference sesn = new IntByReference()
