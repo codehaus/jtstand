@@ -582,7 +582,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         } catch (InterruptedException iex) {
             LOGGER.info(getTestStepInstancePath() + " is interrupted!");
             setStatus(StepStatus.ABORTED);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             getTestSequenceInstance().setFailureCode(ex.getMessage());
             getTestSequenceInstance().setFailureStep(this);
