@@ -60,6 +60,7 @@
 
         public class Clib {
           private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "msvcrt" : "c")
+          println libc.getOptions()
 
           def methodMissing(String name, Object[] args) {
             def method = libc.getFunction(name)
