@@ -6,7 +6,7 @@
             IntByReference sesn = new IntByReference()
             println visa.viOpenDefaultRM(sesn)
             IntByReference vi = new IntByReference()
-            println visa.viOpen(sesn.getValue(), "COM1", vi)
+            println visa.viOpen(sesn.getValue(), 'COM1', 0, 0, vi)
             IntByReference spec = new IntByReference()
             println visa.getAttibute(sesn.getValue(), 0x3FFF0170, spec)
             setValue spec.getValue()
