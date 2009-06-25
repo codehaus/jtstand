@@ -8,7 +8,7 @@
             IntByReference vi = new IntByReference()
             println visa.viOpen(sesn.getValue(), "COM1", vi)
             IntByReference spec = new IntByReference()
-            println visa.getAttibute(sesn, 0x3FFF0170, spec)
+            println visa.getAttibute(sesn.getValue(), 0x3FFF0170, spec)
             setValue spec.getValue()
         </script>
     </mainStep>
