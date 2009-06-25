@@ -65,7 +65,7 @@
             println libc.getOptions()
           }
           
-          def methodMissing(String name, Object[] args) {
+          def methodMissing(String name, args) {
             def method = libc.getFunction(name)
             if (method) {
               if (args.getClass().isArray()) {
