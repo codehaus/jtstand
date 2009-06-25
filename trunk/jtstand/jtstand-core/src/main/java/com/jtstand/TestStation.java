@@ -539,8 +539,8 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     public boolean databaseValidate() {
         if (Driver.derby.equals(getDriver())) {
-            if (!(new File(getPersistencePath())).isFile()) {
-                //there is no need to check the db if file is missing
+            if (!(new File(getPersistencePath())).isDirectory()) {
+                System.out.println("Derby directory is missing: " + getPersistencePath());
                 return false;
             }
         }
@@ -553,6 +553,7 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     private boolean auto(String operation) {
         long startTime = System.currentTimeMillis();
+        System.out.println("Operation: " + operation + "...");
         HibernateEntityManagerFactory emf = null;
         EntityManager em = null;
         try {
