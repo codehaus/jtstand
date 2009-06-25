@@ -86,7 +86,7 @@
               if (args.getClass().isArray()) {
                 return method.invokeInt(args)
               } else {
-                return method.invokeInt([args] as Object[]}
+                return method.invokeInt([args] as Object[])
               }
             } else {
               println 'not found!'
