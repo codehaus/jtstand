@@ -79,11 +79,15 @@
         public class Visa {
           private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
 
-          def methodMissing(String name, Object[] args) {
+          def methodMissing(String name, args) {
             println 'method missing: ' + name
             def method = libc.getFunction(name)
             if (method) {
-              return method.invokeInt(args)
+              if (args.getClass().isArray()) {
+                return method.invokeInt(args)
+              } else {
+                return method.invokeInt([args] as Object[]}
+              }
             } else {
               println 'not found!'
               throw new MissingMethodException(name, getClass(), args)
