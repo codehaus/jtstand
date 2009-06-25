@@ -68,11 +68,7 @@
           def methodMissing(String name, args) {
             def method = libc.getFunction(name)
             if (method) {
-              if (args.getClass().isArray()) {
                 return method.invokeInt(args)
-              } else {
-                return method.invokeInt([args] as Object[])
-              }
             } else {
               throw new MissingMethodException(name, getClass(), args)
             }
@@ -88,16 +84,10 @@
           private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
 
           def methodMissing(String name, args) {
-            println 'method missing: ' + name
             def method = libc.getFunction(name)
             if (method) {
-              //if (args.getClass().isArray()) {
                 return method.invokeInt(args)
-              //} else {
-              //  return method.invokeInt([args] as Object[])
-              //}
             } else {
-              println 'not found!'
               throw new MissingMethodException(name, getClass(), args)
             }
           }
