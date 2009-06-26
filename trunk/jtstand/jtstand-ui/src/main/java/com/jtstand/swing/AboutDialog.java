@@ -160,9 +160,9 @@ public class AboutDialog extends javax.swing.JDialog {
 
         jPanel4.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 22));
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 22)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/jtstand/images/jtbean.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/jtbean.png")));
         jLabel1.setText(" JTStand");
         jLabel1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel4.add(jLabel1, java.awt.BorderLayout.CENTER);
@@ -180,7 +180,7 @@ public class AboutDialog extends javax.swing.JDialog {
         jTextArea1.setEditable(false);
         jTextArea1.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("JTStand is a free scripting environment for data collection,\nan open source software, written in Java, released under GPL.\nIt helps you to develop and execute Sequences and to analyze the Results.\n\nProject home page: http://www.jtstand.com/");
+        jTextArea1.setText("JTStand is a free scripting environment for data collection,\nan open source software, written in Java.\nIt helps you to develop and execute Sequences and to analyze the Results.\n\nProject home page: http://www.jtstand.com/");
         jPanel1.add(jTextArea1, java.awt.BorderLayout.CENTER);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -189,12 +189,12 @@ public class AboutDialog extends javax.swing.JDialog {
         gridBagConstraints.insets = new java.awt.Insets(4, 4, 4, 4);
         getContentPane().add(jPanel1, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Build"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Version"));
         jPanel2.setLayout(new java.awt.BorderLayout());
 
         jTextAreaBuild.setColumns(20);
         jTextAreaBuild.setEditable(false);
-        jTextAreaBuild.setFont(new java.awt.Font("Verdana", 0, 13)); // NOI18N
+        jTextAreaBuild.setFont(new java.awt.Font("Verdana", 0, 13));
         jTextAreaBuild.setRows(1);
         jTextAreaBuild.setText("preliminary");
         jPanel2.add(jTextAreaBuild, java.awt.BorderLayout.PAGE_END);

@@ -39,8 +39,8 @@
               <Font name="Verdana" size="22" style="0"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/com/jtstand/images/jtbean.png"/>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.ImageIcon(getClass().getResource(&quot;/images/jtbean.png&quot;))" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value=" JTStand"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -77,7 +77,7 @@
               <Font name="Verdana" size="13" style="0"/>
             </Property>
             <Property name="rows" type="int" value="5"/>
-            <Property name="text" type="java.lang.String" value="JTStand is a free scripting environment for data collection,&#xa;an open source software, written in Java, released under GPL.&#xa;It helps you to develop and execute Sequences and to analyze the Results.&#xa;&#xa;Project home page: http://www.jtstand.com/"/>
+            <Property name="text" type="java.lang.String" value="JTStand is a free scripting environment for data collection,&#xa;an open source software, written in Java.&#xa;It helps you to develop and execute Sequences and to analyze the Results.&#xa;&#xa;Project home page: http://www.jtstand.com/"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
@@ -91,7 +91,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Build"/>
+            <TitledBorder title="Version"/>
           </Border>
         </Property>
       </Properties>
