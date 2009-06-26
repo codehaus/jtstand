@@ -1974,32 +1974,33 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (tsi != null && tsi.getTestStep() != null && tsi.getTestStep().getRemark() != null) {
             return tsi.getTestStep().getRemark();
         }
-        if (tsi.getStepClass() != null) {
-            Object o = tsi.getTestSequenceInstance().getTestProject().getGroovyClassLoader();
-            Method[] methods = o.getClass().getMethods();
-            for (int i = 0; i < methods.length; i++) {
-                Method m = methods[i];
-                if (m.getName().equals("getSource")) {
-//                    System.out.println("getSource found!");
-                    Class<?>[] types = m.getParameterTypes();
-//                    for (int j = 0; j < types.length; j++) {
-//                        System.out.println("parameter type[" + j + "]" + types[j].getCanonicalName());
+        /* This should show the source code somehow, but does not work */
+//        if (tsi.getStepClass() != null) {
+//            Object o = tsi.getTestSequenceInstance().getTestProject().getGroovyClassLoader();
+//            Method[] methods = o.getClass().getMethods();
+//            for (int i = 0; i < methods.length; i++) {
+//                Method m = methods[i];
+//                if (m.getName().equals("getSource")) {
+////                    System.out.println("getSource found!");
+//                    Class<?>[] types = m.getParameterTypes();
+////                    for (int j = 0; j < types.length; j++) {
+////                        System.out.println("parameter type[" + j + "]" + types[j].getCanonicalName());
+////                    }
+//                    if (types.length == 1 && types[0].equals(String.class)) {
+//                        m.setAccessible(true);
+//                        try {
+//                            return (String) m.invoke(o, tsi.getStepClass());
+//                        } catch (IllegalAccessException ex) {
+//                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                        } catch (IllegalArgumentException ex) {
+//                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                        } catch (InvocationTargetException ex) {
+//                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
 //                    }
-                    if (types.length == 1 && types[0].equals(String.class)) {
-                        m.setAccessible(true);
-                        try {
-                            return (String) m.invoke(o, tsi.getStepClass());
-                        } catch (IllegalAccessException ex) {
-                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (IllegalArgumentException ex) {
-                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InvocationTargetException ex) {
-                            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            }
-        }
+//                }
+//            }
+//        }
         return null;
     }
 
