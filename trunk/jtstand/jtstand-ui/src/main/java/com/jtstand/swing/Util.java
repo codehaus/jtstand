@@ -118,6 +118,9 @@ public class Util {
     }
 
     public static int dividerChanged(JXTable jTable, JSplitPane jSplitPane) {
+        if (jTable == null) {
+            return 0;
+        }
         if (jSplitPane.getBottomComponent() == null || !jSplitPane.getBottomComponent().isVisible()) {
             return jTable.getVisibleRowCount();
         }
