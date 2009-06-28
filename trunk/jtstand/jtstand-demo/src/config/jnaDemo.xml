@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="JNA demo" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
     <mainStep name="JNA Demo Main">
-        <script>
-            clib.printf('Hello, World\n')
-        </script>
+        <script>clib.printf('Hello, World\n')</script>
     </mainStep>
 </testSequence>
