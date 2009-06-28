@@ -23,6 +23,7 @@ import com.jtstand.Authentication;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
 import com.jtstand.TestStepInstance;
+import com.jtstand.TestStepScript;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.ToDatabase;
 import org.jdesktop.swingx.JXStatusBar;
@@ -47,8 +48,6 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,19 +55,22 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 /**
  *
  **/
 public class MainFrame extends AbstractTestSequenceInstanceListTableModel implements TableModel, TableModelListener, List<TestSequenceInstance>, Set<TestSequenceInstance>, Serializable, ListSelectionListener, PropertyChangeListener, MouseListener, FrameInterface, TreeExpansionListener {
 
-    public static final long serialVersionUID = 20081114L;
+//    public static final long serialVersionUID = 20081114L;
     static final Logger logger = Logger.getLogger(MainFrame.class.getCanonicalName());
 //    public static final int WIDTH0 = -1;
     private JXTable jTable = null;
     private JSplitPane jSplitPane = null;
     private JScrollPane jScrollPaneTop = null;
-    private JScrollPane jScrollPaneBottom = null;
+    private JScrollPane jScrollPaneSequence = null;
     private TestSequenceInstance selectedSequence = null;
     private TestStepInstance selectedStep = null;
     private JXTreeTable jXTreeTable = null;
@@ -88,7 +90,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     private JDialog login;
 //    private File saveDirectory;
     private static Runtime rt;
+    private JSplitPane jSplitPaneSequenceStep;
+    private RSyntaxTextArea textArea;
+    private RTextScrollPane jScrollPaneStep;
 
+    @Override
     public void tableChanged(TableModelEvent e) {
         resizeSequences();
     }
@@ -106,10 +112,12 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
     }
 
+    @Override
     public void treeExpanded(TreeExpansionEvent event) {
         Util.packColumnsWidthFixedFirst(jXTreeTable, 9);
     }
 
+    @Override
     public void treeCollapsed(TreeExpansionEvent event) {
 //        Util.packColumnsWidthFixedFirst(jXTreeTable, 9);
     }
@@ -217,10 +225,12 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //    public TestProject getTestProject() {
 //        return testStation.getTestProject();
 //    }
+    @Override
     public TestStation getTestStation() {
         return testStation;
     }
 
+    @Override
     public boolean isMemoryEnoughRetry() {
         for (int i = 0; i < 1000; i++) {
             if (isMemoryEnough()) {
@@ -586,7 +596,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (changed) {
                 fixtures.removeAll(seqList);
                 if (seqList.contains(selectedSequence)) {
-                    hideBottom();
+                    hideSequence();
                 }
                 updateTableView(size());
                 System.gc();
@@ -607,7 +617,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (changed) {
                 fixtures.removeAll(seqList);
                 if (seqList.contains(selectedSequence)) {
-                    hideBottom();
+                    hideSequence();
                 }
                 updateTableView(size());
                 System.gc();
@@ -666,7 +676,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (changed) {
                 fixtures.removeAll(seqList);
                 if (seqList.contains(selectedSequence)) {
-                    hideBottom();
+                    hideSequence();
                 }
                 updateTableView(size());
                 System.gc();
@@ -824,6 +834,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jTable.setName("Sequences");
             jTable.getFilters().addPipelineListener(new PipelineListener() {
 
+                @Override
                 public void contentsChanged(PipelineEvent e) {
 //                    System.out.println("PipelineEvent:" + e + " " + e.getType());
                     if (jTable.getColumn(SequencesColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
@@ -886,7 +897,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (jTable.getRowCount() > 0) {
             int firstindex = jTable.getSelectedRow();
             if (jTable.getSelectedRowCount() != 1 || firstindex < 0 || size() < 1 || firstindex >= size()) {
-                hideBottom();
+                hideSequence();
                 return;
             } else {
                 firstindex = jTable.convertRowIndexToModel(firstindex);
@@ -895,6 +906,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
     }
 
+    @Override
     public void selectSequence(TestSequenceInstance select) {
         if (select == null) {
             jTable.clearSelection();
@@ -926,18 +938,50 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
     }
 
-    private void hideBottom() {
+    private void hideSequence() {
 //        jScrollPaneBottom.setVisible(false);
         jSplitPane.setDividerSize(0);
         jSplitPane.setBottomComponent(null);
-        if (jScrollPaneBottom != null) {
-            if (jScrollPaneBottom.getComponentCount() > 0) {
-                jScrollPaneBottom.removeAll();
+        if (jScrollPaneSequence != null) {
+            if (jScrollPaneSequence.getComponentCount() > 0) {
+                jScrollPaneSequence.removeAll();
             }
-            jScrollPaneBottom = null;
+            jScrollPaneSequence = null;
         }
         jXTreeTable = null;
     //System.gc();
+    }
+
+    private void showStep() {
+        TestStepInstance tsi = getSelectedStep();
+        if (tsi != null) {
+            TestStepScript s = tsi.getScript();
+            if (s != null) {
+                String text = s.getText();
+                if (text != null && text.trim().length() > 0) {
+                    textArea = new RSyntaxTextArea();
+                    textArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_GROOVY);
+                    textArea.setText(text);
+                    textArea.setEditable(false);
+                    jScrollPaneStep = new RTextScrollPane(textArea);
+                    jXTreeTable.setVisibleRowCount(Math.min(5, jXTreeTable.getRowCount()));
+                    jSplitPaneSequenceStep.setBottomComponent(jScrollPaneStep);
+                    jSplitPaneSequenceStep.setDividerSize(UIManager.getInt("SplitPane.dividerSize"));
+                }
+            }
+        }
+    }
+
+    private void hideStep() {
+        jSplitPaneSequenceStep.setDividerSize(0);
+        jSplitPaneSequenceStep.setBottomComponent(null);
+        if (jScrollPaneStep != null) {
+            if (jScrollPaneStep.getComponentCount() > 0) {
+                jScrollPaneStep.removeAll();
+            }
+            jScrollPaneStep = null;
+        }
+        textArea = null;
     }
 
     public void displaySequence(TestSequenceInstance select) {
@@ -972,13 +1016,20 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            jXTreeTable.setGridColor(Color.lightGray);
             addTreeTableMenu(jXTreeTable);
             jXTreeTable.setBackground(Color.white);
-            jScrollPaneBottom = new JScrollPane();
-            jScrollPaneBottom.setBorder(null);
-            jSplitPane.setBottomComponent(jScrollPaneBottom);
-            jScrollPaneBottom.setViewportView(jXTreeTable);
+            jScrollPaneSequence = new JScrollPane();
+            jScrollPaneSequence.setBorder(null);
+            if (jSplitPaneSequenceStep == null) {
+                jSplitPaneSequenceStep = new JSplitPane();
+//                jSplitPaneSequenceStep.setBorder(null);
+                jSplitPaneSequenceStep.setOrientation(JSplitPane.VERTICAL_SPLIT);
+            }
+            jSplitPaneSequenceStep.setTopComponent(jScrollPaneSequence);
+            jSplitPane.setBottomComponent(jSplitPaneSequenceStep);
+            jScrollPaneSequence.setViewportView(jXTreeTable);
         } else {
             jXTreeTable.setTreeTableModel(tsim);
         }
+        hideStep();
         Util.packColumnsWidthFixedFirst(jXTreeTable, 9);
 
 //        if (selectedSequence != null) {
@@ -989,7 +1040,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //        }
         int dividerSize = UIManager.getInt("SplitPane.dividerSize");
         jSplitPane.setDividerSize(dividerSize);
-        jScrollPaneBottom.setVisible(true);
+        jScrollPaneSequence.setVisible(true);
         selectedSequence = select;
         if (selectedStep != null) {
             selectStep(selectedStep);
@@ -1160,7 +1211,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jSplitPane.setTopComponent(jScrollPaneTop);
 //            jSplitPane.addPropertyChangeListener(this);
             resizeSequences();
-            hideBottom();
+            hideSequence();
         }
         return jSplitPane;
     }
@@ -1748,6 +1799,9 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                            System.out.println("Row: " + treeClickedRow + " Column: " + treeClickedColumn);
                             if (TestSequenceInstanceModel.SequenceColumn.STEPSTATUS.ordinal() == treeClickedColumn) {
                                 expandFailed();
+                            }
+                            if (TestSequenceInstanceModel.SequenceColumn.NAME.ordinal() == treeClickedColumn) {
+                                showStep();
                             }
 
                             if (selectedStep != null && queryDialog != null && queryDialog.isVisible()) {
