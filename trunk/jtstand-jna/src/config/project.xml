@@ -68,7 +68,6 @@
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="53"/>
         </fixture>
     </testStation>
 </project>
