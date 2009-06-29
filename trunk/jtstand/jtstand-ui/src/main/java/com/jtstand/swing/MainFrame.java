@@ -382,7 +382,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     formWindowClosing(evt);
                 }
             });
-            frame.setTitle(getTestStation().getTestProject().getName() + "@" + getTestStation().getTestProject().getCreator().getRevision() + " on " + getTestStation().getHostName() + " - " + getClass().getPackage().getImplementationVersion());
+            frame.setTitle(getTestStation().getTestProject().getName() + "@" + getTestStation().getTestProject().getCreator().getRevision() + " on " + getTestStation().getHostName() + "@" + getClass().getPackage().getImplementationVersion());
             if (testStation.getFixtures().size() > 0) {
                 fixtures = new Fixtures(testStation, this);
                 frame.getContentPane().add(fixtures, BorderLayout.NORTH);
