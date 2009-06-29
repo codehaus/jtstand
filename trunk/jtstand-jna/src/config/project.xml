@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="JNA Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <class name="Clib"><![CDATA[
+        import com.sun.jna.NativeLibrary
+        import com.sun.jna.Platform
+
+        public class Clib {
+          private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "msvcrt" : "c")
+
+          def methodMissing(String name, args) {
+            def method = libc.getFunction(name)
+            if (method) {
+                return method.invokeInt(args)
+            } else {
+              throw new MissingMethodException(name, getClass(), args)
+            }
+          }
+        }
+    ]]>
+    </class>
+    <class name="Visa"><![CDATA[
+        import com.sun.jna.NativeLibrary
+        import com.sun.jna.Platform
+
+        public class Visa {
+          private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
+
+          def methodMissing(String name, args) {
+            def method = libc.getFunction(name)
+            if (method) {
+                return method.invokeInt(args)
+            } else {
+              throw new MissingMethodException(name, getClass(), args)
+            }
+          }
+        }
+    ]]>
+    </class>
+    <property name="persistenceProperties"><![CDATA[
+        [
+        'hibernate.cache.provider_class' : 'org.hibernate.cache.NoCacheProvider',
+        'hibernate.show_sql' : 'false'
+        ]
+        ]]>
+    </property>
+    <property name="PERSISTING_POLICY" value="SEQUENCE"/>
+    <property name="DEBUG_ENABLED" value="true"/>
+    <property name="clib" mutex="true">new Clib()</property>
+    <property name="visa" mutex="true">new Visa()</property>
+    <authentication>
+        <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
+        <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+    </authentication>
+    <product partNumber="JNA_DEMO" partRevision="1.0">
+        <testType name="DEMO">
+            <testSequence subversionUrl="jnaDemo.xml" revision="118"/>
+        </testType>
+    </product>
+    <product partNumber="VISA_DEMO" partRevision="1.0">
+        <testType name="DEMO">
+            <testSequence subversionUrl="visaDemo.xml" revision="118"/>
+        </testType>
+    </product>
+    <testStation hostName="DEFAULTSTATION">
+        <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
+        <property name="FIXTURE_COLUMNS" value="1"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
+            <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
+            <initSequence subversionUrl="init1.xml" revision="53"/>
+        </fixture>
+    </testStation>
+</project>
