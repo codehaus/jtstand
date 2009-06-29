@@ -4,7 +4,7 @@
             <actionName>run</actionName>
             <goals>
                 <goal>process-classes</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
                 <exec.args>-Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main</exec.args>
@@ -15,7 +15,7 @@
             <actionName>debug</actionName>
             <goals>
                 <goal>process-classes</goal>
-                <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.1.1:exec</goal>
             </goals>
             <properties>
                 <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main</exec.args>
