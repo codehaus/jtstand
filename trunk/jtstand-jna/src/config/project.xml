@@ -24,6 +24,7 @@
           def visa
 
           def methodMissing(String name, args) {
+            println("JTVisaInst missing: $name")
             visa."$name"(args)
           }
 
