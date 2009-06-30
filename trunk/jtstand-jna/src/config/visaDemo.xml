@@ -3,14 +3,8 @@
     <mainStep name="Visa Demo Main">
         <limit comp="EQ" nominal="4194304"/>
         <script>
-            import com.sun.jna.ptr.IntByReference
-            IntByReference sesn = new IntByReference()
-            println visa.viOpenDefaultRM(sesn)
-            IntByReference vi = new IntByReference()
-            println visa.viOpen(sesn.getValue(), 'COM1', 0, 0, vi)
-            IntByReference spec = new IntByReference()
-            println visa.viGetAttribute(sesn.getValue(), 0x3FFF0170, spec)
-            setValue spec.getValue()
+            def inst = visa.open('COM1')
+            setValue visa.viGetAttributeInt(0x3FFF0170)
         </script>
     </mainStep>
 </testSequence>
