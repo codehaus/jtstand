@@ -63,7 +63,7 @@
             }
           }
 
-          public int getAttributeInt(attr){
+          public int getAttributeInt(inst, attr){
             IntByReference retval = new IntByReference()
             if (0 == viGetAttribute(inst, attr, retval)){
               return retval.getValue()
@@ -72,7 +72,7 @@
             }
           }
 
-          public String getAttributeString(attr){
+          public String getAttributeString(inst, attr){
             byte[] retval = new byte[256]
             if (0 == viGetAttribute(inst, attr, retval)){
               return Native.toString(retval)
