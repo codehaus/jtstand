@@ -69,10 +69,11 @@
 
           public int getAttributeInt(inst, attr){
             IntByReference retval = new IntByReference()
-            if (0 == viGetAttribute(inst, attr, retval)){
+            def status = viGetAttribute(inst, attr, retval)
+            if (0 == status){
               return retval.getValue()
             } else {
-              throw new IllegalStateException("Cannot read integer attribute if instrument")
+              throw new IllegalStateException("Error reading integer attribute of instrument: $status")
             }
           }
 
@@ -82,10 +83,11 @@
 
           public String getAttributeString(inst, attr){
             byte[] retval = new byte[256]
-            if (0 == viGetAttribute(inst, attr, retval)){
+            def status = viGetAttribute(inst, attr, retval)
+            if (0 == status){
               return Native.toString(retval)
             } else {
-              throw new IllegalStateException("Cannot read string attribute if instrument")
+              throw new IllegalStateException("Error reading string attribute of instrument: $status")
             }
           }
 
