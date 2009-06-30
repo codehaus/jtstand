@@ -83,10 +83,10 @@
           }
 
           public String getAttributeString(inst, attr){
-            String[] retval=new String[1];
+            String[][] retval=new String[1][1];
             def status = viGetAttribute(inst, attr, retval)
             if (0 == status){
-              return retval[0]
+              return retval[0][0]
             } else {
               throw new IllegalStateException("Error reading string attribute of instrument: $status")
             }
