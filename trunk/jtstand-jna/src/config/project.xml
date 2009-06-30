@@ -20,6 +20,7 @@
     </class>
     <class name="JTVisaInst"><![CDATA[
         public class JTVisaInst {
+          @Delegate JTVisa jtvisa
           private int sesn
         }
     ]]>
@@ -54,7 +55,7 @@
             if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
               String name = getAttributeString(vi.getValue(), 0xBFFF0001)
               if (name.equals('INSTR')){
-                return new JTVisaInst(sesn:vi.getValue())
+                return new JTVisaInst(sesn:vi.getValue(), jtvisa:this)
               } else {
                 viClose(vi.getValue())
                 throw new IllegalArgumentException("Not supported class: $name")
@@ -90,6 +91,11 @@
             } else {
               throw new IllegalStateException("Error reading string attribute of instrument: $status")
             }
+          }
+
+          public void close(){
+            println 'Closing session'
+            viClose(sesn)
           }
 
           def methodMissing(String name, args) {
