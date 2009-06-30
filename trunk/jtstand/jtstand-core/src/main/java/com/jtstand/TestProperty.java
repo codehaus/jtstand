@@ -141,17 +141,18 @@ public class TestProperty implements Serializable {
         if (propertyValue == null || propertyValue.length() == 0) {
             return null;
         }
+        String pv = "def propertyMissing(String name){step.getVariable(name)};" + propertyValue;
         if (gcl != null) {
             if (binding != null) {
-                return (new GroovyShell(gcl, binding)).evaluate(propertyValue);
+                return (new GroovyShell(gcl, binding)).evaluate(pv);
             } else {
-                return (new GroovyShell(gcl)).evaluate(propertyValue);
+                return (new GroovyShell(gcl)).evaluate(pv);
             }
         } else {
             if (binding != null) {
-                return (new GroovyShell(binding)).evaluate(propertyValue);
+                return (new GroovyShell(binding)).evaluate(pv);
             } else {
-                return (new GroovyShell()).evaluate(propertyValue);
+                return (new GroovyShell()).evaluate(pv);
             }
         }
     }

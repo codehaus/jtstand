@@ -138,7 +138,6 @@
                     <execution>
                         <phase>process-sources</phase>
                         <configuration>
-                            <!--destdir>${jtstand.schemaDestDir}</destdir-->
                             <destdir>${project.build.directory}/schema</destdir>
                             <srcdir>${project.build.directory}/schema-src</srcdir>
                             <schemas>
@@ -146,10 +145,8 @@
                                     <!--namespace>${parent.project.url}</namespace-->
                                     <file>${jtstand.schemaFileName}</file>
                                     <namespace>http://www.jtstand.com/</namespace>
-                                    <!--file>jtstand.xsd</file-->
                                 </schema>
                             </schemas>
-							<!--<verbose>false</verbose>-->
                         </configuration>
                         <goals>
                             <goal>generate</goal>
