@@ -70,7 +70,7 @@
           JTVisa(){
             IntByReference defaultRM = new IntByReference()
             if (0 == viOpenDefaultRM(defaultRM)) {
-              sesn = defaultRM.getValue()
+              setSesn(defaultRM.getValue())
             } else {
               throw new IllegalStateException('Cannot open default RM')
             }
