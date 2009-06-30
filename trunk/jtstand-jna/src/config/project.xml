@@ -26,6 +26,11 @@
           def methodMissing(String name, args) {
             visa."$name"(args)
           }
+
+          String getRsrcClass(){
+            return getAttributeString((int)0xBFFF0001)
+          }
+
         }
     ]]>
     </class>
@@ -50,14 +55,14 @@
             }
           }
 
-          def open(rsrcName){
+          def open(String rsrcName){
             return open(rsrcName, 0, 0)
           }
 
-          def open(rsrcName, accessMode, openTimeout){
+          def open(String rsrcName, int accessMode, int openTimeout){
             IntByReference vi = new IntByReference()
             if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
-              String name = getRsrcClass()
+              String name = getRsrcClass(vi.getValue())
               if (name.equals('INSTR')){
                 return new JTVisaInst(sesn:vi.getValue(), visa:this)
               } else {
@@ -69,11 +74,11 @@
             }
           }
 
-          int getAttributeInt(attr){
+          int getAttributeInt(int attr){
             return getAttributeInt(sesn, attr)
           }
 
-          int getAttributeInt(int inst, attr){
+          int getAttributeInt(int inst, int attr){
             IntByReference retval = new IntByReference()
             def status = viGetAttribute(inst, (int)attr, retval)
             if (0 == status){
@@ -83,11 +88,11 @@
             }
           }
 
-          int getAttributeString(attr){
+          int getAttributeString(int attr){
             return getAttributeString(sesn, attr)
           }
 
-          String getAttributeString(int inst, attr){
+          String getAttributeString(int inst, int attr){
             byte[] retval = new byte[256]
             def status = viGetAttribute(inst, (int)attr, retval)
             if (0 == status){
@@ -97,8 +102,8 @@
             }
           }
 
-          String getRsrcClass(){
-            return getAttributeString((int)0xBFFF0001)
+          String getRsrcClass(int inst){
+            return getAttributeString(inst,(int)0xBFFF0001)
           }
 
           void close(){
@@ -139,7 +144,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="153"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="155"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
