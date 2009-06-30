@@ -89,7 +89,7 @@
             }
           }
 
-          int getAttributeString(int attr){
+          String getAttributeString(int attr){
             return getAttributeString(sesn, attr)
           }
 
