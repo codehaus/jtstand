@@ -23,6 +23,16 @@
           int sesn
           def visa
 
+          def setSesn(int newSesn){
+            this.sesn = newSesn
+            println "Instrument opened: $sesn"
+          }
+
+          void close(){
+            viClose(sesn)
+            println "Instrument closed: $sesn"
+          }
+
           def methodMissing(String name, args) {
             println("JTVisaInst missing: $name")
             visa."$name"(*args)
@@ -46,6 +56,16 @@
         public class JTVisa {
           static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
           final int sesn
+
+          def setSesn(int newSesn){
+            this.sesn = newSesn
+            println "Session opened: $sesn"
+          }
+
+          void close(){
+            viClose(sesn)
+            println "Session closed: $sesn"
+          }
 
           JTVisa(){
             IntByReference defaultRM = new IntByReference()
@@ -105,11 +125,6 @@
 
           String getRsrcClass(int inst){
             return getAttributeString(inst,(int)0xBFFF0001)
-          }
-
-          void close(){
-            println 'Closing session'
-            viClose(sesn)
           }
 
           def methodMissing(String name, args) {
