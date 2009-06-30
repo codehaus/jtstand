@@ -4,7 +4,7 @@
         <limit comp="EQ" nominal="4194304"/>
         <script>
             def inst = visa.open('COM1')
-            setValue visa.viGetAttribute(0x3FFF0170)
+            setValue visa.getAttributeInt(0x3FFF0170)
         </script>
     </mainStep>
 </testSequence>
