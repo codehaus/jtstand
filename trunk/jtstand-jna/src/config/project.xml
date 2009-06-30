@@ -83,10 +83,10 @@
           }
 
           public String getAttributeString(inst, attr){
-            Memory m = new Memory(1024);
-            def status = viGetAttribute(inst, attr, m.share(0, 1024))
+            String[] retval=new String[1];
+            def status = viGetAttribute(inst, attr, retval)
             if (0 == status){
-              return m.toString()
+              return retval[0]
             } else {
               throw new IllegalStateException("Error reading string attribute of instrument: $status")
             }
