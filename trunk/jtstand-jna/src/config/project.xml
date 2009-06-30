@@ -142,19 +142,19 @@
     </authentication>
     <product partNumber="JNA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="jnaDemo.xml" revision="118"/>
+            <testSequence subversionUrl="jnaDemo.xml" revision="164"/>
         </testType>
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="162"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="164"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
         <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
         <property name="FIXTURE_COLUMNS" value="1"/>
         <fixture fixtureName="FX1" serialNumber="FX1">
-            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <property name="uutPort" value="ASRL1::INSTR"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
         </fixture>
