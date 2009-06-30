@@ -18,12 +18,68 @@
         }
     ]]>
     </class>
-    <class name="Visa"><![CDATA[
+    <class name="JTVisaInst"><![CDATA[
+        public class JTVisaInst {
+          private int inst
+        }
+    ]]>
+    </class>
+    <class name="JTVisa"><![CDATA[
         import com.sun.jna.NativeLibrary
         import com.sun.jna.Platform
+        import com.sun.jna.ptr.IntByReference
+        import com.sun.jna.Native
+        import JTVisaInst
 
-        public class Visa {
+        public class JTVisa {
           private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
+          private final int sesn
+
+          public JTVisa(){
+            IntByReference defaultRM = new IntByReference()
+            if (0 == viOpenDefaultRM(defaultRM)) {
+              sesn = defaultRM.getValue()
+            } else {
+              throw new IllegalStateException('Cannot open default RM')
+            }
+          }
+          
+          public def open(rsrcName){
+            return open(rsrcName, 0, 0)
+          }
+
+          public def open(rsrcName, accessMode, openTimeout){
+            IntByReference vi = new IntByReference()
+            if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
+              String name = getAttributeString(0xBFFF0001)
+              if (name.equals('INSTR')){
+                return new JTVisaInst(inst:vi.getValue())
+              } else {
+                viClose(vi.getValue())
+                throw new IllegalArgumentException("Not supported class: $name")
+              }
+            } else {
+              throw new IllegalStateException("Cannot open: $rsrcName")
+            }
+          }
+
+          public int getAttributeInt(attr){
+            IntByReference retval = new IntByReference()
+            if (0 == viGetAttribute(inst, attr, retval)){
+              return retval.getValue()
+            } else {
+              throw new IllegalStateException("Cannot read integer attribute if instrument")
+            }
+          }
+
+          public String getAttributeString(attr){
+            byte[] retval = new byte[256]
+            if (0 == viGetAttribute(inst, attr, retval)){
+              return Native.toString(retval)
+            } else {
+              throw new IllegalStateException("Cannot read integer attribute if instrument")
+            }
+          }
 
           def methodMissing(String name, args) {
             def method = libc.getFunction(name)
@@ -46,7 +102,7 @@
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
     <property name="clib" mutex="true">new Clib()</property>
-    <property name="visa" mutex="true">new Visa()</property>
+    <property name="visa" mutex="true">new JTVisa()</property>
     <authentication>
         <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
         <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
@@ -58,7 +114,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="118"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="127"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
