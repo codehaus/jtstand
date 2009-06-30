@@ -39,6 +39,8 @@ public class HelloVisa {
         int viOpenDefaultRM(IntByReference sesn);
 
         int viOpen(int sesn, String rsrcName, int accessMode, int openTimeout, IntByReference vi);
+
+        int viGetAttribute(int sesn, int attribute, byte[] attrState);
     }
 
     public static void main(String[] args) {
@@ -46,13 +48,18 @@ public class HelloVisa {
         System.out.println("viOpenDefaultRM...");
         IntByReference sesn = new IntByReference();
         status = NiVisaLibrary.INSTANCE.viOpenDefaultRM(sesn);
-        System.out.println("Status:" + status);
+        System.out.println("Status: " + status);
 
         System.out.println("viOpen...");
         IntByReference vi = new IntByReference();
         status = NiVisaLibrary.INSTANCE.viOpen(sesn.getValue(), "COM1", 0, 0, vi);
-        System.out.println("Status:" + status);
+        System.out.println("Status: " + status);
 
+        System.out.println("viGetAttribute...");
+        byte[] retval = new byte[256];
+        status = NiVisaLibrary.INSTANCE.viGetAttribute(vi.getValue(), 0xBFFF0001, retval);
+        System.out.println("Status: " + status);
+        System.out.println("Attribute: " + Native.toString(retval));
 
     }
 }
