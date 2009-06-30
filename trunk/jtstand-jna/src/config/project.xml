@@ -25,11 +25,11 @@
 
           def methodMissing(String name, args) {
             println("JTVisaInst missing: $name")
-            visa."$name"(args)
+            visa."$name"(*args)
           }
 
           String getRsrcClass(){
-            return getAttributeString((int)0xBFFF0001)
+            return getRsrcClass(sesn)
           }
 
         }
@@ -113,6 +113,8 @@
           }
 
           def methodMissing(String name, args) {
+            println("JTVisa missing: $name")
+
             def method = libc.getFunction(name)
             if (method) {
                 return method.invokeInt(args)
