@@ -4,7 +4,7 @@
         <property name="inst" mutex="true">visa.open('COM1')</property>
         <step name="Specification Version">
             <limit comp="EQ" nominal="4194304"/>
-            <script>setValue visa.getAttributeInt(0x3FFF0170I)</script>
+            <script>setValue visa.getAttributeInt((int)0x3FFF0170)</script>
         </step>
         <step name="Visa class">
             <script>setValue visa.getRsrcClass()</script>
