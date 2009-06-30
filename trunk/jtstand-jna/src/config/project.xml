@@ -125,7 +125,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="146"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="148"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
