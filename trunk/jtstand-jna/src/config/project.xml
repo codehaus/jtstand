@@ -20,8 +20,12 @@
     </class>
     <class name="JTVisaInst"><![CDATA[
         public class JTVisaInst {
-          @Delegate JTVisa jtvisa
-          private int sesn
+          int sesn
+          def visa
+
+          def methodMissing(String name, args) {
+            visa."$name"(args)
+          }
         }
     ]]>
     </class>
@@ -34,10 +38,10 @@
         import JTVisaInst
 
         public class JTVisa {
-          private static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
-          private final int sesn
+          static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
+          final int sesn
 
-          public JTVisa(){
+          JTVisa(){
             IntByReference defaultRM = new IntByReference()
             if (0 == viOpenDefaultRM(defaultRM)) {
               sesn = defaultRM.getValue()
@@ -45,17 +49,17 @@
               throw new IllegalStateException('Cannot open default RM')
             }
           }
-          
-          public def open(rsrcName){
+
+          def open(rsrcName){
             return open(rsrcName, 0, 0)
           }
 
-          public def open(rsrcName, accessMode, openTimeout){
+          def open(rsrcName, accessMode, openTimeout){
             IntByReference vi = new IntByReference()
             if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
-              String name = getAttributeString(vi.getValue(), 0xBFFF0001)
+              String name = getRsrcClass()
               if (name.equals('INSTR')){
-                return new JTVisaInst(sesn:vi.getValue(), jtvisa:this)
+                return new JTVisaInst(sesn:vi.getValue(), visa:this)
               } else {
                 viClose(vi.getValue())
                 throw new IllegalArgumentException("Not supported class: $name")
@@ -65,11 +69,11 @@
             }
           }
 
-          public int getAttributeInt(attr){
+          int getAttributeInt(attr){
             return getAttributeInt(sesn, attr)
           }
 
-          public int getAttributeInt(int inst, attr){
+          int getAttributeInt(int inst, attr){
             IntByReference retval = new IntByReference()
             def status = viGetAttribute(inst, (int)attr, retval)
             if (0 == status){
@@ -79,11 +83,11 @@
             }
           }
 
-          public int getAttributeString(attr){
+          int getAttributeString(attr){
             return getAttributeString(sesn, attr)
           }
 
-          public String getAttributeString(int inst, attr){
+          String getAttributeString(int inst, attr){
             byte[] retval = new byte[256]
             def status = viGetAttribute(inst, (int)attr, retval)
             if (0 == status){
@@ -93,7 +97,11 @@
             }
           }
 
-          public void close(){
+          String getRsrcClass(){
+            return getAttributeString(0xBFFF0001I)
+          }
+
+          void close(){
             println 'Closing session'
             viClose(sesn)
           }
@@ -131,7 +139,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="148"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="151"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
