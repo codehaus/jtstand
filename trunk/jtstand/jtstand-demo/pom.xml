@@ -184,6 +184,30 @@
                     </dependency-->
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>java</executable>
+                    <arguments>
+                        <argument>-Xmx256m</argument>
+                        <argument>-Xms256m</argument>
+                        <argument>-Xmn64m</argument>
+                        <argument>-Dmyproperty=myvalue</argument>
+                        <argument>-classpath</argument>
+                        <classpath/>
+                        <argument>com.jtstand.swing.Main</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
