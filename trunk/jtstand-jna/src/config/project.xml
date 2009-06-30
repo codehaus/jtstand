@@ -51,7 +51,7 @@
           public def open(rsrcName, accessMode, openTimeout){
             IntByReference vi = new IntByReference()
             if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
-              String name = getAttributeString(vi.getValue, 0xBFFF0001)
+              String name = getAttributeString(vi.getValue(), 0xBFFF0001)
               if (name.equals('INSTR')){
                 return new JTVisaInst(inst:vi.getValue())
               } else {
