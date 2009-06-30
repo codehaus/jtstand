@@ -368,7 +368,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            }
 //        });
             System.out.println("Loading icon...");
-            URL iconURL = Thread.currentThread().getContextClassLoader().getResource("com/jtstand/images/jtbean.png");
+            URL iconURL = getClass().getResource("/images/jtbean.png");// Thread.currentThread().getContextClassLoader().getResource("/images/jtbean.png");
             System.out.println("Icon URL: " + iconURL);
             if (iconURL != null) {
                 ImageIcon image = new ImageIcon(iconURL);
