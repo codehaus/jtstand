@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Visa demo" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
     <mainStep name="Visa Demo Main">
-        <limit comp="EQ" nominal="4194304"/>
-        <script>
-            def inst = visa.open('COM1')
-            setValue visa.getAttributeInt(0x3FFF0170)
-        </script>
+        <step name="Specification Version">
+            <limit comp="EQ" nominal="4194304"/>
+            <script>setValue visa.getAttributeInt(0x3FFF0170I)</script>
+        </step>
+        <step name="Open Instrument">
+            <script>def inst = visa.open('COM1')</script>
+        </step>
     </mainStep>
 </testSequence>
