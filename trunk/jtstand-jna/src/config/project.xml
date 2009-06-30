@@ -98,7 +98,7 @@
           }
 
           String getRsrcClass(){
-            return getAttributeString(0xBFFF0001I)
+            return getAttributeString((int)0xBFFF0001)
           }
 
           void close(){
@@ -139,7 +139,7 @@
     </product>
     <product partNumber="VISA_DEMO" partRevision="1.0">
         <testType name="DEMO">
-            <testSequence subversionUrl="visaDemo.xml" revision="151"/>
+            <testSequence subversionUrl="visaDemo.xml" revision="153"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
