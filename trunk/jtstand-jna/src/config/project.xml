@@ -20,10 +20,10 @@
     </class>
     <class name="JTVisaInst"><![CDATA[
         public class JTVisaInst {
-          int sesn
+          final int sesn
           def visa
 
-          def setSesn(int newSesn){
+          void setSesn(int newSesn){
             this.sesn = newSesn
             println "Instrument opened: $sesn"
           }
@@ -57,7 +57,7 @@
           static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
           final int sesn
 
-          def setSesn(int newSesn){
+          void setSesn(int newSesn){
             this.sesn = newSesn
             println "Session opened: $sesn"
           }
