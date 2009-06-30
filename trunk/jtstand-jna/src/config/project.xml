@@ -63,6 +63,10 @@
             }
           }
 
+          public int getAttributeInt(attr){
+            return getAttributeInt(sesn, attr)
+          }
+
           public int getAttributeInt(inst, attr){
             IntByReference retval = new IntByReference()
             if (0 == viGetAttribute(inst, attr, retval)){
@@ -72,12 +76,16 @@
             }
           }
 
+          public int getAttributeString(attr){
+            return getAttributeString(sesn, attr)
+          }
+
           public String getAttributeString(inst, attr){
             byte[] retval = new byte[256]
             if (0 == viGetAttribute(inst, attr, retval)){
               return Native.toString(retval)
             } else {
-              throw new IllegalStateException("Cannot read integer attribute if instrument")
+              throw new IllegalStateException("Cannot read string attribute if instrument")
             }
           }
 
