@@ -147,7 +147,7 @@
     </dependencies>
     <distributionManagement>
         <site>
-            <id>codehaus.org</id>
+            <id>jtstand-site</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-ui/</url>
         </site>
     </distributionManagement>
