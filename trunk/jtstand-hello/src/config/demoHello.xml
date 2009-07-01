@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Hello World Demo" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="helloWorld" value="Hello World"/>
     <mainStep name="The Main Step">
         <remark>This is the main step</remark>
         <limit comp="EQ" unit="Hello World"/>
