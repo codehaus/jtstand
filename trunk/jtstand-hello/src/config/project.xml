@@ -8,7 +8,6 @@
     <testStation hostName="DEFAULTSTATION">
         <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
         <fixture fixtureName="FX1" serialNumber="FX1">
-            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
             <testType partNumber="DEMO_HELLO" partRevision="001" name="DEMO"/>
         </fixture>
     </testStation>
