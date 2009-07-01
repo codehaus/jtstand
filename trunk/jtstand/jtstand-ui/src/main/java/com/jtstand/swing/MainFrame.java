@@ -269,7 +269,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 return;
             }
         }
-        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
+        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
 
             @Override
@@ -791,7 +791,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            jFrame.requestFocus();
 //        }
 //    }
-
 //    public static void displayJFrame(final List<TestSequenceInstance> sequences) {
 //        if (sequences != null) {
 //            JFrame jFrame = new JFrame();
@@ -971,7 +970,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jScrollPaneSequence = null;
         }
         jXTreeTable = null;
-    //System.gc();
+        //System.gc();
     }
 
     private void toggleStep() {
