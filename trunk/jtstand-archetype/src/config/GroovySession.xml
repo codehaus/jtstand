@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<library name="FooLib" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand.xsd">
-    <class name="com.jtstand.io.IOSession" subversionUrl="com/jtstand/io/IOSession.groovy" revision="1"/>
-    <class name="com.jtstand.io.InputSession" subversionUrl="com/jtstand/io/InputSession.groovy" revision="1"/>
-    <class name="com.jtstand.io.OutputSession" subversionUrl="com/jtstand/io/OutputSession.groovy" revision="1"/>
-</library>
