@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
     <product partNumber="DEMO_HELLO" partRevision="001">
         <testType name="DEMO">
-            <testSequence subversionUrl="demoHello.xml" revision="175"/>
+            <testSequence subversionUrl="demoHello.xml" revision="179"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
