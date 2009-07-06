@@ -54,6 +54,7 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
@@ -152,4 +153,5 @@
         </site>
     </distributionManagement>
 </project>
+
 
