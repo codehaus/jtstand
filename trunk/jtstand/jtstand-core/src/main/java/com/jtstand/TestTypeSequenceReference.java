@@ -14,6 +14,7 @@
  */
 package com.jtstand;
 
+import java.io.ByteArrayInputStream;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -39,6 +40,11 @@ public class TestTypeSequenceReference extends FileRevisionReference implements 
 
     @XmlTransient
     public TestSequence getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
+        if (getSubversionUrl() == null) {
+            TestSequence ts = (TestSequence) TestSequence.getUnmarshaller().unmarshal(new ByteArrayInputStream(getText().getBytes("UTF-8")));
+            ts.setCreator(getCreator());
+            return ts;
+        }
         return TestSequence.unmarshal(getNormal(getTestType().getCreator()));
     }
 
