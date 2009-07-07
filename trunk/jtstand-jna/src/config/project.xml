@@ -185,6 +185,7 @@
             <property name="uutPort" value="ASRL1::INSTR"/>
             <testType partNumber="JNA_DEMO" partRevision="1.0" name="DEMO"/>
             <testType partNumber="VISA_DEMO" partRevision="1.0" name="DEMO"/>
+            <testType partNumber="NI845X_DEMO" partRevision="1.0" name="DEMO"/>
         </fixture>
     </testStation>
 </project>
