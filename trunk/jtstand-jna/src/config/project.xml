@@ -21,21 +21,21 @@
     <class name="JTVisaInst"><![CDATA[
         public class JTVisaInst {
           final int sesn
-          def visa
+          def base
 
           void setSesn(int newSesn){
             this.sesn = newSesn
-            println "Instrument opened: $sesn"
+            println "JTVisaInst opened: $sesn"
           }
 
           void close(){
             viClose(sesn)
-            println "Instrument closed: $sesn"
+            println "JTVisaInst closed: $sesn"
           }
 
           def methodMissing(String name, args) {
             println("JTVisaInst missing: $name")
-            visa."$name"(*args)
+            base."$name"(*args)
           }
 
           String getRsrcClass(){
@@ -58,12 +58,12 @@
 
           void setSesn(int newSesn){
             this.sesn = newSesn
-            println "Session opened: $sesn"
+            println "JTVisa opened: $sesn"
           }
 
           void close(){
             viClose(sesn)
-            println "Session closed: $sesn"
+            println "JTVisa closed: $sesn"
           }
 
           JTVisa(){
@@ -84,7 +84,7 @@
             if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
               String name = getRsrcClass(vi.getValue())
               if (name.equals('INSTR')){
-                return new JTVisaInst(sesn:vi.getValue(), visa:this)
+                return new JTVisaInst(sesn:vi.getValue(), base:this)
               } else {
                 viClose(vi.getValue())
                 throw new IllegalArgumentException("Not supported class: $name")

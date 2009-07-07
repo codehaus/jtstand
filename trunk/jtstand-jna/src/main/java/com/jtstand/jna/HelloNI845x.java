@@ -136,8 +136,9 @@ public class HelloNI845x {
 
     public static void main(String[] args) {
         List<String> devicesList = getDevicesList();
-        if (devicesList.size() == 0) {
+        if (devicesList.isEmpty()) {
             System.out.println("There are no devices found");
+            System.exit(-1);
         } else {
             System.out.println("Devices list:");
             for (String dev : devicesList) {
