@@ -12,12 +12,12 @@ import groovy.util.GroovyTestCase
 class Ni845xTest extends GroovyTestCase
 {
     void testList() {
-        List<String> devicesList = Ni845x.getDevicesList()
-        if (devicesList.isEmpty()) {
+        List<String> devices = Ni845x.findDevices()
+        if (devices.isEmpty()) {
             System.out.println("There are no devices found")
         } else {
             System.out.println("Devices list:")
-            for (String dev : devicesList) {
+            for (String dev : devices) {
                 System.out.println(dev)
             }
             System.out.println("[]")
