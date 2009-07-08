@@ -94,20 +94,6 @@ class Ni845x {
         } else {
             throw new MissingMethodException(name, getClass(), args)
         }
-    }
-
-    static void main(args){
-        List<String> devicesList = getDevicesList()
-        if (devicesList.isEmpty()) {
-            System.out.println("There are no devices found")
-            System.exit(-1)
-        } else {
-            System.out.println("Devices list:")
-            for (String dev : devicesList) {
-                System.out.println(dev)
-            }
-            System.out.println("[]")
-        }
-    }
+    }    
 }
 
