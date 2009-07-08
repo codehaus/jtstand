@@ -13,6 +13,8 @@ class VisaTest extends GroovyTestCase
 {
     void testCOM1() {
         def visa = new Visa()
-        def com1 = visa.open('COM1')
+        VisaInst comPort = visa.open('COM1')
+        comPort.write("Hello")
+        System.out.println(comPort.read())
     }
 }

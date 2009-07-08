@@ -25,7 +25,7 @@ class Ni845xDevice {
 
     def methodMissing(String name, args) {
         println("Ni845xDevice missing: $name")
-        base."$name"(*args)
+        base.invokeMethod(name, args)
     }
 	
 }

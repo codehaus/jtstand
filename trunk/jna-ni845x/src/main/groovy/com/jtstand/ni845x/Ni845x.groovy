@@ -16,13 +16,13 @@ import com.sun.jna.Native
 class Ni845x {
     static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "ni845x" : "ni845x")
 
-    public static String toStatusString(int status) {
+    static String toStatusString(int status) {
         byte[] statusString = new byte[1024]
         ni845xStatusToString(status, 1024, statusString)
         return Integer.toString(status) + ": " + Native.toString(statusString)
     }
 
-    public static List<String> findDevices() {
+    static List<String> findDevices() {
         int status
         List<String> list = new ArrayList<String>()
         byte[] dev = new byte[256]
@@ -85,7 +85,7 @@ class Ni845x {
         }
     }
 
-    static $static_methodMissing(String name, args) {
+    static def $static_methodMissing(String name, args) {
         println("NI845x missing: $name")
 
         def method = libc.getFunction(name)
