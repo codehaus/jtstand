@@ -37,7 +37,7 @@ class Ni845xI2cConfiguration {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cConfigurationGetAddress ERROR: " + getStatusString(status))
         }
-        return address.getValue()
+        address.getValue()
     }
 
     int getAddressSize() {
@@ -46,7 +46,7 @@ class Ni845xI2cConfiguration {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cConfigurationGetAddressSize ERROR: " + getStatusString(status))
         }
-        return addressSize.getValue()
+        addressSize.getValue()
     }
 
     int getClockRate() {
@@ -55,7 +55,7 @@ class Ni845xI2cConfiguration {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cConfigurationGetClockRate ERROR: " + getStatusString(status))
         }
-        return clockRate.getValue()
+        clockRate.getValue()
     }
 
     int getPort() {
@@ -64,7 +64,7 @@ class Ni845xI2cConfiguration {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cConfigurationGetPort ERROR: " + getStatusString(status))
         }
-        return port.getValue()
+        port.getValue()
     }
 
     void setAddress(address) {

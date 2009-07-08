@@ -79,6 +79,7 @@ class VisaInst {
     }
 
     String getRsrcClass(){
-        return getRsrcClass(sesn)
+        getRsrcClass(sesn)
     }
-    }
+
+}

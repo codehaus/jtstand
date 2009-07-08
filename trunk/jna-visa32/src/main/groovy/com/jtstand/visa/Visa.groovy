@@ -534,67 +534,63 @@ public class Visa {
     String toStatusString(int status) {
         byte[] statusString = new byte[256]
         viStatusDesc(sesn, status, statusString)
-        return Integer.toString(status) + ": " + Native.toString(statusString)
+        Integer.toString(status) + ": " + Native.toString(statusString)
     }
 
     def open(String rsrcName){
-        return open(rsrcName, 0, 0)
+        open(rsrcName, 0, 0)
     }
 
     def open(String rsrcName, int accessMode, int openTimeout){
         IntByReference vi = new IntByReference()
-        if (0 == viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
-            String name = getRsrcClass(vi.getValue())
-            if (name.equals('INSTR')){
-                return new VisaInst(sesn:vi.getValue(), base:this)
-            } else {
-                viClose(vi.getValue())
-                throw new IllegalArgumentException("Not supported class: $name")
-            }
-        } else {
+        if (0 != viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
             throw new IllegalStateException("Cannot open: $rsrcName")
+        }
+        String name = getRsrcClass(vi.getValue())
+        if (name.equals('INSTR')){
+            return new VisaInst(sesn:vi.getValue(), base:this)
+        } else {
+            viClose(vi.getValue())
+            throw new IllegalArgumentException("Not supported class: $name")
         }
     }
 
     int getAttributeInt(int attr){
-        return getAttributeInt(sesn, attr)
+        getAttributeInt(sesn, attr)
     }
 
     int getAttributeInt(int inst, int attr){
         IntByReference retval = new IntByReference()
         def status = viGetAttribute(inst, (int)attr, retval)
-        if (0 == status){
-            return retval.getValue()
-        } else {
+        if (0 != status){
             throw new IllegalStateException("Error reading integer attribute of instrument: $status")
         }
+        retval.getValue()
     }
 
     String getAttributeString(int attr){
-        return getAttributeString(sesn, attr)
+        getAttributeString(sesn, attr)
     }
 
     String getAttributeString(int inst, int attr){
         byte[] retval = new byte[256]
         def status = viGetAttribute(inst, (int)attr, retval)
-        if (0 == status){
-            return Native.toString(retval)
-        } else {
+        if (0 != status){
             throw new IllegalStateException("Error reading string attribute of instrument: $status")
         }
+        Native.toString(retval)
     }
 
     String getRsrcClass(int inst){
-        return getAttributeString(inst,(int)0xBFFF0001)
+        getAttributeString(inst,(int)0xBFFF0001)
     }
 
     def methodMissing(String name, args) {
         //println "Visa methodMissing: $name, with args: $args"
         def method = libc.getFunction(name)
-        if (method) {
-            return method.invokeInt(args)
-        } else {
+        if (method==null) {
             throw new MissingMethodException(name, getClass(), args)
         }
+        method.invokeInt(args)
     }
 }
