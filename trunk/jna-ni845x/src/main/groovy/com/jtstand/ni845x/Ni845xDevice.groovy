@@ -25,7 +25,7 @@ class Ni845xDevice {
     }
 
     def methodMissing(String name, args) {
-        println("Ni845xDevice missing: $name")
+        //println("Ni845xDevice missing: $name")
         base.invokeMethod(name, args)
     }
 
@@ -43,6 +43,7 @@ class Ni845xDevice {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cRead ERROR: " + toStatusString(status))
         }
+        return readData
     }
 }
 

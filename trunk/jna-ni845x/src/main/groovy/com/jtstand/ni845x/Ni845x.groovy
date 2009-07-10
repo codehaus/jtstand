@@ -83,7 +83,7 @@ class Ni845x {
     }
 
     static def $static_methodMissing(String name, args) {
-        println("NI845x missing: $name")
+        //println("NI845x missing: $name")
 
         def method = libc.getFunction(name)
         if (null == method) {
