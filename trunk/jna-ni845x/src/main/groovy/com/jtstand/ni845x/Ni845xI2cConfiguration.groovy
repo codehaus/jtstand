@@ -35,7 +35,7 @@ class Ni845xI2cConfiguration {
         IntByReference address = new IntByReference()
         def status = ni845xI2cConfigurationGetAddress(sesn, address)
         if (status != 0) {
-            throw new IllegalStateException("ni845xI2cConfigurationGetAddress ERROR: " + getStatusString(status))
+            throw new IllegalStateException("ni845xI2cConfigurationGetAddress ERROR: " + toStatusString(status))
         }
         address.getValue()
     }

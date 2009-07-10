@@ -4,6 +4,7 @@
  */
 
 package com.jtstand.ni845x
+import com.sun.jna.ptr.IntByReference
 
 /**
  *
@@ -27,6 +28,21 @@ class Ni845xDevice {
         println("Ni845xDevice missing: $name")
         base.invokeMethod(name, args)
     }
-	
+
+    byte[] read(Ni845xI2cConfiguration config, int numBytesToRead){
+        byte[] readData = new byte[numBytesToRead]
+
+        IntByReference readSize = new IntByReference()
+        int status = ni845xI2cRead (
+            sesn,
+            config.sesn,
+            numBytesToRead,
+            readSize,
+            readData
+        )
+        if (status != 0) {
+            throw new IllegalStateException("ni845xI2cRead ERROR: " + toStatusString(status))
+        }
+    }
 }
 

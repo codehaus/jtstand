@@ -56,15 +56,15 @@ class Ni845x {
         list
     }
 
-    static Ni845xDevice openDeviceFirst() {
+    static Ni845xDevice openFirst() {
         def devices = findDevices()
         if (devices.isEmpty()){
             throw new IllegalStateException("No Ni845x device was found")
         }
-        openDevice(devices[0])
+        open(devices[0])
     }
 
-    static Ni845xDevice openDevice(String rsrcName) {
+    static Ni845xDevice open(String rsrcName) {
         IntByReference deviceHandle = new IntByReference()
         def status = ni845xOpen(rsrcName, deviceHandle)
         if (0 != status){
@@ -74,7 +74,7 @@ class Ni845x {
     }
 
     static Ni845xI2cConfiguration openI2cConfiguration() {
-        IntByReference configurationHandle
+        IntByReference configurationHandle = new IntByReference()
         def status = ni845xI2cConfigurationOpen(configurationHandle)
         if (0 != status){
             throw new IllegalStateException("Cannot open a configuration: " + toStatusString(status))
