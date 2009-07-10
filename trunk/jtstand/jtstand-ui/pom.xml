@@ -115,6 +115,7 @@
             <artifactId>swingx</artifactId>
             <version>1.0</version>
         </dependency>
+<!--
         <dependency>
             <groupId>jfree</groupId>
             <artifactId>jfreechart</artifactId>
@@ -124,6 +125,12 @@
             <groupId>jfree</groupId>
             <artifactId>jcommon</artifactId>
             <version>1.0.16</version>
+        </dependency>
+-->
+        <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jfc</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-cli</groupId>
