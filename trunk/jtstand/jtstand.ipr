@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project relativePaths="true" version="4">
-  <component name="AntConfiguration">
-    <defaultAnt bundledAnt="true" />
-  </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
@@ -46,7 +43,7 @@
   </component>
   <component name="CopyrightManager" default="LGPL">
     <copyright>
-      <option name="notice" value="Copyright (c) &amp;#36;today.year Albert Kurucz. &#10;&#10;This file, &amp;#36;file.fileName is part of JTStand.&#10;&#10;JTStand is free software: you can redistribute it and/or modify&#10;it under the terms of the GNU Lesser General Public License as published by&#10;the Free Software Foundation, either version 3 of the License, or&#10;(at your option) any later version.&#10;&#10;JTStand is distributed in the hope that it will be useful,&#10;but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10;GNU Lesser General Public License for more details.&#10;&#10;You should have received a copy of the GNU Lesser General Public License&#10;along with Foobar.  If not, see &lt;http://www.gnu.org/licenses/&gt;." />
+      <option name="notice" value="Copyright (c) &amp;#36;today.year Albert Kurucz. &#10;&#10;This file, &amp;#36;file.fileName is part of JTStand.&#10;&#10;JTStand is free software: you can redistribute it and/or modify&#10;it under the terms of the GNU Lesser General Public License as published by&#10;the Free Software Foundation, either version 3 of the License, or&#10;(at your option) any later version.&#10;&#10;JTStand is distributed in the hope that it will be useful,&#10;but WITHOUT ANY WARRANTY; without even the implied warranty of&#10;MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#10;GNU Lesser General Public License for more details.&#10;&#10;You should have received a copy of the GNU Lesser General Public License&#10;along with JTStand.  If not, see &lt;http://www.gnu.org/licenses/&gt;." />
       <option name="keyword" value="Copyright" />
       <option name="myName" value="LGPL" />
       <option name="myLocal" value="true" />
@@ -328,6 +325,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/jtstand.iml" filepath="$PROJECT_DIR$/jtstand.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-chart/jtstand-chart.iml" filepath="$PROJECT_DIR$/jtstand-chart/jtstand-chart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-common/jtstand-common.iml" filepath="$PROJECT_DIR$/jtstand-common/jtstand-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-core/jtstand-core.iml" filepath="$PROJECT_DIR$/jtstand-core/jtstand-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" filepath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" filepath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" />
@@ -489,6 +488,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: javax.servlet:servlet-api:2.5">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.hibernate:hibernate-core:3.3.2.GA">
@@ -819,17 +829,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/jfree/jcommon/1.0-SNAPSHOT/jcommon-1.0-SNAPSHOT-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: javax.servlet:servlet-api:2.5">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: commons-cli:commons-cli:1.2">

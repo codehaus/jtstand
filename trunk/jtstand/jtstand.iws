@@ -18,48 +18,47 @@
     <list default="true" readonly="true" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Gaussian.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Gaussian.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestFixtureProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestFixtureProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nb-configuration.xml" afterPath="$PROJECT_DIR$/nb-configuration.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonPanel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/GeneralQuery.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/GeneralQuery.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nb-configuration.xml" afterPath="$PROJECT_DIR$/nb-configuration.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/QueryDialog.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/QueryDialog.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Library.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Library.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/nbactions.xml" afterPath="$PROJECT_DIR$/jtstand-ui/nbactions.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Library.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Library.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestFixture.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestFixture.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestSequenceInstance.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestSequenceInstance.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterProperties.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterProperties.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AbstractStarterPanel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AbstractStarterPanel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/assemblies/distribution.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/assemblies/distribution.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ResetDatabase.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ResetDatabase.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep100.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep100.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/assemblies/distribution.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/assemblies/distribution.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/jtstand-1.0.xsd" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/jtstand-1.0.xsd" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep100.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep100.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/init2.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/init2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" afterPath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStationProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStationProperty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/mutexDemo.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/mutexDemo.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestTypeReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestTypeReference.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/mutexDemo.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/mutexDemo.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AbstractListTableModel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AbstractListTableModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/demoSequence.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/demoSequence.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/site/site.xml" afterPath="$PROJECT_DIR$/jtstand-ui/src/site/site.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LocalUser.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LocalUser.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/jtstand-core.iml" afterPath="$PROJECT_DIR$/jtstand-core/jtstand-core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" afterPath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LibraryReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LibraryReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestTypeProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestTypeProperty.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestSequence.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestSequence.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/FooLib.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/FooLib.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsTableModel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsTableModel.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/AbstractVariables.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/AbstractVariables.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Stats.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Stats.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/AbstractVariables.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/AbstractVariables.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/QueryDialogTestStep.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/QueryDialogTestStep.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/JXDateTimePicker.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/JXDateTimePicker.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/pom.xml" afterPath="$PROJECT_DIR$/jtstand-core/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstancesHighlighter.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstancesHighlighter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/docbook/thisisatest.xml" afterPath="$PROJECT_DIR$/src/site/docbook/thisisatest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonDialog.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Yields.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Yields.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonDialog.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StarterCommonDialog.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/assemblies/distribution.xml" afterPath="$PROJECT_DIR$/src/assemblies/distribution.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/mutexSub.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/mutexSub.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceHighlighter.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceHighlighter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/mutexSub.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/mutexSub.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/test/java/com/jtstand/swing/AppTest.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/test/java/com/jtstand/swing/AppTest.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestType.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStepProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStepProperty.java" />
@@ -73,8 +72,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/package-info.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/package-info.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsRenderer.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsRenderer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Yield.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Yield.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsPanel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestLimit.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestLimit.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsPanel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsTableRendererDouble.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/StatsTableRendererDouble.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProperty.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/pom.xml" afterPath="$PROJECT_DIR$/jtstand-ui/pom.xml" />
@@ -88,15 +87,16 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Stat.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/statistics/Stat.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/FrameInterface.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/FrameInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepInterface.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-chart/pom.xml" afterPath="$PROJECT_DIR$/jtstand-chart/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceList.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceList.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/MainFrame.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/MainFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/PropertiesInterface.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/PropertiesInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstancesRendererDouble.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstancesRendererDouble.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/MainFrame.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/MainFrame.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/demoStep.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/demoStep.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand.ipr" afterPath="$PROJECT_DIR$/jtstand.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Util.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Util.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/session/TestStepInstanceList.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/session/TestStepInstanceList.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AboutDialog.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AboutDialog.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/session/TestStepInstanceList.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/session/TestStepInstanceList.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsHighlighter.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsHighlighter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStation.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProjectProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProjectProperty.java" />
@@ -104,16 +104,16 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatistics.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatistics.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/FixtureInterface.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/FixtureInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/init1.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/init1.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-common/pom.xml" afterPath="$PROJECT_DIR$/jtstand-common/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProject.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FileRevision.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FileRevision.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Interpreter.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Interpreter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AdvancedStartPanel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/AdvancedStartPanel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/Runner.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/Runner.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/nb-configuration.xml" afterPath="$PROJECT_DIR$/jtstand-ui/nb-configuration.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/nbactions.xml" afterPath="$PROJECT_DIR$/jtstand-demo/nbactions.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StepReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.netbeans/6.5/var/cache/mavencachedirs/-722910355/retriever/maven.apache.org/xsd/assembly-1.0.0.xsd" afterPath="$PROJECT_DIR$/.netbeans/6.5/var/cache/mavencachedirs/-722910355/retriever/maven.apache.org/xsd/assembly-1.0.0.xsd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand.iml" afterPath="$PROJECT_DIR$/jtstand.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Authentication.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Authentication.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/site/resources/jtstand-1.0.xsd" afterPath="$PROJECT_DIR$/src/site/resources/jtstand-1.0.xsd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProjectClass.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProjectClass.java" />
@@ -122,9 +122,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LibraryClass.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/LibraryClass.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstancesRenderer.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstancesRenderer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FixtureInitSequenceReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FixtureInitSequenceReference.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/project.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/project.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstances.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstances.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/project.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/project.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FixtureInitSequenceReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/FixtureInitSequenceReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/heavyRandom.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/heavyRandom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStep.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStep.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Fixture.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Fixture.java" />
@@ -135,17 +135,17 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceModel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestSequenceInstanceModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StationInitSequenceReference.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/StationInitSequenceReference.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/App.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/App.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ChartCategories.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ChartCategories.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/org/hibernate/tool/hbm2ddl/SchemaValidator.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/org/hibernate/tool/hbm2ddl/SchemaValidator.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ChartCategories.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/ChartCategories.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep1000.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/heavyStep1000.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/site/site.xml" afterPath="$PROJECT_DIR$/jtstand-core/src/site/site.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/ToDatabase.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/query/ToDatabase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/site/site.xml" afterPath="$PROJECT_DIR$/jtstand-core/src/site/site.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/resources/META-INF/persistence.xml" afterPath="$PROJECT_DIR$/jtstand-core/src/main/resources/META-INF/persistence.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/raw/jtstand-1.0.xsd" afterPath="$PROJECT_DIR$/jtstand-demo/src/raw/jtstand-1.0.xsd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/config/GroovySession.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/config/GroovySession.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/src/site/site.xml" afterPath="$PROJECT_DIR$/jtstand-demo/src/site/site.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Login.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Login.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstancesModel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepInstancesModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Login.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/Login.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/ProductProperty.java" afterPath="$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/ProductProperty.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsModel.java" afterPath="$PROJECT_DIR$/jtstand-ui/src/main/java/com/jtstand/swing/TestStepStatisticsModel.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nbactions.xml" afterPath="$PROJECT_DIR$/nbactions.xml" />
@@ -350,8 +350,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TestProject.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TestProject.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PngEncoder.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/jtstand-common/src/main/java/com/keypoint/PngEncoder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="16" column="21" selection-start="684" selection-end="702" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="assembly-1.0.0.xsd" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.netbeans/6.5/var/cache/mavencachedirs/-722910355/retriever/maven.apache.org/xsd/assembly-1.0.0.xsd">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="17" column="4" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Operator.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Operator.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
@@ -371,7 +398,7 @@
       <file leaf-file-name="TestStation.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="538" column="50" selection-start="19770" selection-end="19770" vertical-scroll-proportion="0.0">
+            <state line="538" column="50" selection-start="19771" selection-end="19771" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -480,11 +507,10 @@
     <view id="ClasspathPane" />
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Facets" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="project.structure.last.edited" value="JDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="RunManagerConfig.showSettingsBeforeRunnig" value="true" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="com.maddyhome.idea.copyright.ui.CopyrightProfilesPanel" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -492,9 +518,8 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <tempConfiguration default="false" name="Main" type="Application" factoryName="Application" enabled="false" merge="false" sample_coverage="true" runner="emma">
@@ -662,17 +687,17 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298122" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32854864" sideWeight="0.0" order="11" side_tool="false" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32565284" sideWeight="0.0" order="11" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1875" sideWeight="0.6602871" order="7" side_tool="false" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19569673" sideWeight="0.6602871" order="7" side_tool="false" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1875" sideWeight="0.6602871" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" />
@@ -758,44 +783,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/package-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="13" selection-start="1361" selection-end="1361" vertical-scroll-proportion="-4.296029">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://com.jtstand.io.InputSession">
-      <provider selected="true" editor-type-id="UmlClassDiagramEditorProvider">
-        <state>
-          <classes>
-            <class fqn="groovy.lang.GroovyObject" x="0.0" y="147.0" />
-            <class fqn="com.jtstand.io.InputSession" x="0.0" y="76.0" />
-            <class fqn="java.io.Closeable" x="10.0" y="0.0" />
-          </classes>
-          <packages />
-          <edges>
-            <edge source="com.jtstand.io.InputSession" target="java.io.Closeable" relationship="REALIZATION">
-              <point x="-31.75" y="-13.0" />
-              <point x="31.75" y="51.0" />
-              <point x="36.75" y="51.0" />
-              <point x="-26.75" y="13.0" />
-            </edge>
-          </edges>
-          <settings isCamel="false" isColorManagerEnabled="true" isFieldsVisible="false" isConstructorsVisible="false" isMethodsVisible="false" isShowDependencies="false" isShowInnerClasses="false" defaultVisibility="private" isPropertiesVisible="false" zoom="1.0" x="65.0" y="144.0" />
-          <SelectedNodes>
-            <node fqn="com.jtstand.io.InputSession" />
-          </SelectedNodes>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/resources/META-INF/persistence.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="47" selection-start="841" selection-end="841" vertical-scroll-proportion="0.0">
@@ -866,9 +853,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStation.java">
+    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProject.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="538" column="50" selection-start="19770" selection-end="19770" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -880,7 +867,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestProject.java">
+    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/TestStation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="538" column="50" selection-start="19771" selection-end="19771" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jtstand-common/src/main/java/com/keypoint/PngEncoder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="21" selection-start="684" selection-end="702" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.netbeans/6.5/var/cache/mavencachedirs/-722910355/retriever/maven.apache.org/xsd/assembly-1.0.0.xsd">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="4" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jtstand-core/src/main/java/com/jtstand/Operator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
