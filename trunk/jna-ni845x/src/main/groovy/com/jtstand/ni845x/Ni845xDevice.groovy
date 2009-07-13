@@ -45,5 +45,14 @@ class Ni845xDevice {
         }
         return readData
     }
+
+    void write(Ni845xI2cConfiguration config, byte[] writeData){
+        int status = ni845xI2cWrite (
+            sesn,
+            config.sesn,
+            writeData.length,
+            writeData
+        )
+    }
 }
 

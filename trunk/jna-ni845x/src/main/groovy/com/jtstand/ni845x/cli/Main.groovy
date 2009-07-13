@@ -26,8 +26,12 @@ class Main{
         Ni845xI2cConfiguration config = Ni845x.openI2cConfiguration()
         try{
             config.setAddress(0x74)
-            byte[] data = dev.read(config,1)
-            printHex(data)
+            dev.write(config,{(byte) 0})
+            byte[] data0 = dev.read(config,1)
+            printHex(data0)
+            dev.write(config,{(byte) 0x3f})
+            byte[] data3f = dev.read(config,1)
+            printHex(data3f)
         }catch(Exception ex){
             println "Exception: " + ex.getMessage()
         }
