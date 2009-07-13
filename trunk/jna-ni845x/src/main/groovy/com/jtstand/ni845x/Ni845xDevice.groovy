@@ -43,7 +43,7 @@ class Ni845xDevice {
         if (status != 0) {
             throw new IllegalStateException("ni845xI2cRead ERROR: " + toStatusString(status))
         }
-        return readData
+        readData
     }
 
     void write(Ni845xI2cConfiguration config, byte[] writeData){
@@ -53,6 +53,28 @@ class Ni845xDevice {
             writeData.length,
             writeData
         )
+        if (status != 0) {
+            throw new IllegalStateException("ni845xI2cWrite ERROR: " + toStatusString(status))
+    }
+}
+
+    byte[] writeRead(Ni845xI2cConfiguration config, byte[] writeData, int numBytesToRead){
+        byte[] readData = new byte[numBytesToRead]
+
+        IntByReference readSize = new IntByReference()
+        int status = ni845xI2cWriteRead (
+            sesn,
+            config.sesn,
+            writeData.length,
+            writeData,
+            numBytesToRead,
+            readSize,
+            readData
+        )
+        if (status != 0) {
+            throw new IllegalStateException("ni845xI2cWriteRead ERROR: " + toStatusString(status))
+        }
+        readData
     }
 }
 

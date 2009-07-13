@@ -27,7 +27,7 @@ class Ni845xI2cConfiguration {
     }
 
     def methodMissing(String name, args) {
-        println("Ni845xI2cConfiguration missing: $name")
+        // println("Ni845xI2cConfiguration missing: $name")
         base.invokeMethod(name, args)
     }
 
