@@ -483,18 +483,19 @@ public class Visa {
     static final int VI_TRIG_PROT_RESERVE = (6);
     static final int VI_TRIG_PROT_UNRESERVE = (7);
     static final int VI_UNKNOWN_CHASSIS = (-1);
-    static final int VI_ATTR_USB_BULK_OUT_PIPE = (0x3FFF01A2);
-    static final int VI_ATTR_USB_BULK_IN_PIPE = (0x3FFF01A3);
-    static final int VI_ATTR_USB_INTR_IN_PIPE = (0x3FFF01A4);
-    static final int VI_ATTR_USB_CLASS = (0x3FFF01A5);
-    static final int VI_ATTR_USB_SUBCLASS = (0x3FFF01A6);
-    static final int VI_ATTR_USB_ALT_SETTING = (0x3FFF01A8);
-    static final int VI_ATTR_USB_END_IN = (0x3FFF01A9);
-    static final int VI_ATTR_USB_NUM_INTFCS = (0x3FFF01AA);
-    static final int VI_ATTR_USB_NUM_PIPES = (0x3FFF01AB);
-    static final int VI_ATTR_USB_BULK_OUT_STATUS = (0x3FFF01AC);
-    static final int VI_ATTR_USB_BULK_IN_STATUS = (0x3FFF01AD);
-    static final int VI_ATTR_USB_INTR_IN_STATUS = (0x3FFF01AE);
+    static final int VI_ATTR_USB_BULK_OUT_PIPE = 0x3FFF01A2;
+    static final int VI_ATTR_USB_BULK_IN_PIPE = 0x3FFF01A3;
+    static final int VI_ATTR_USB_INTR_IN_PIPE = 0x3FFF01A4;
+    static final int VI_ATTR_USB_CLASS = 0x3FFF01A5;
+    static final int VI_ATTR_USB_SUBCLASS = 0x3FFF01A6;
+    static final int VI_ATTR_USB_ALT_SETTING = 0x3FFF01A8;
+    static final int VI_ATTR_USB_END_IN = 0x3FFF01A9;
+    static final int VI_ATTR_USB_NUM_INTFCS = 0x3FFF01AA;
+    static final int VI_ATTR_USB_NUM_PIPES = 0x3FFF01AB;
+    static final int VI_ATTR_USB_BULK_OUT_STATUS = 0x3FFF01AC;
+    static final int VI_ATTR_USB_BULK_IN_STATUS = 0x3FFF01AD;
+    static final int VI_ATTR_USB_INTR_IN_STATUS = 0x3FFF01AE;
+    static final int VI_ATTR_USB_CTRL_PIPE = 0x3FFF01B0;
     static final int VI_USB_PIPE_STATE_UNKNOWN = (-1);
     static final int VI_USB_PIPE_READY = (0);
     static final int VI_USB_PIPE_STALLED = (1);
@@ -548,8 +549,11 @@ public class Visa {
         }
         String name = getRsrcClass(vi.getValue())
         if (name.equals('INSTR')){
-            return new VisaInst(sesn:vi.getValue(), base:this)
+            return new VisaInst(this, vi.getValue())
+        } else if (name.equals('RAW')) {
+            return new VisaRaw(this, vi.getValue())
         } else {
+            println "Not supported class: $name"
             viClose(vi.getValue())
             throw new IllegalArgumentException("Not supported class: $name")
         }

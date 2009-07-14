@@ -14,9 +14,9 @@ class Ni845xTest extends GroovyTestCase
     void testList() {
         List<String> devices = Ni845x.findDevices()
         if (devices.isEmpty()) {
-            System.out.println("There are no devices found")
+            System.out.println("There are no Ni845x devices found.")
         } else {
-            System.out.println("Devices list:")
+            System.out.println("Ni845x devices list:")
             for (String dev : devices) {
                 System.out.println(dev)
             }

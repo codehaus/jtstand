@@ -15,6 +15,13 @@ class VisaInst {
     final int sesn
     def base
 
+    VisaInst(def base, int sesn){
+        setBase(base)
+        setSesn(sesn)
+        //println "VisaInst init..."
+        //...
+    }
+
     void setSesn(int newSesn){
         this.sesn = newSesn
         println "VisaInst opened: $sesn"
