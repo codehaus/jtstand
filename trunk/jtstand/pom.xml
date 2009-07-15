@@ -187,18 +187,6 @@
     </dependencyManagement>
     <repositories>
         <repository>
-            <id>mythirdparty</id>
-            <url>http://ali65.s156.eatj.com/nexus-webapp-1.3.4/content/repositories/thirdparty/</url>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
             <id>Codehaus</id>
             <url>http://repository.codehaus.org/</url>
             <snapshots>
