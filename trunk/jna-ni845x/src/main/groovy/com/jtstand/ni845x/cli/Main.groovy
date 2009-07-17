@@ -26,44 +26,43 @@ class Main{
     static void main(String[] args){
         Ni845xDevice dev = args.length > 0 ? Ni845x.open(args[0]) : Ni845x.openFirst()
         Ni845xI2cConfiguration config = Ni845x.openI2cConfiguration()
-        try{
-            config.setAddress(0x74)
-            dev.write(config, [(byte)0] as byte[])
-            byte[] data0 = dev.read(config,1)
-            printHex(data0)
-            dev.write(config, [(byte)0x3f] as byte[])
-            byte[] data3f = dev.read(config,1)
-            printHex(data3f)
-        }catch(Exception ex){
-            println "Exception: " + ex.getMessage()
+        //        try{
+        //            config.setAddress(0x74)
+        //            dev.write(config, [(byte)0] as byte[])
+        //            byte[] data0 = dev.read(config,1)
+        //            printHex(data0)
+        //            dev.write(config, [(byte)0x3f] as byte[])
+        //            byte[] data3f = dev.read(config,1)
+        //            printHex(data3f)
+        //        }catch(Exception ex){
+        //            println "Exception: " + ex.getMessage()
+        //        }
+
+        for(int i =0; i<= 0x7f; i++){
+            try{
+                println "Received @" + Integer.toString(i,16) + " : "
+                config.setAddress(i)
+                byte[] data = dev.read(config,1)
+                printHex(data)
+            }catch(Exception ex){
+                //println "Exception: " + ex.getMessage()
+            }
+
         }
-//        try{
-//            config.setAddress(0x20)
-//            byte[] data = dev.read(config,1)
-//            printHex(data)
-//        }catch(Exception ex){
-//            println "Exception: " + ex.getMessage()
-//        }
-//        try{
-//            config.setAddress(0x21)
-//            byte[] data = dev.read(config,1)
-//            printHex(data)
-//        }catch(Exception ex){
-//            println "Exception: " + ex.getMessage()
-//        }
+
         try{
             config.setAddress(0x2c)
 
             println 'LM81 setup'
             dev.write(config, [(byte)0, (byte)1] as byte[])
 
-//            print 'dataDummy: '
-//            byte[] dataDummy = dev.read(config,1)
-//            printHex(dataDummy)
+            //            print 'dataDummy: '
+            //            byte[] dataDummy = dev.read(config,1)
+            //            printHex(dataDummy)
 
             print 'data22: '
-//            dev.write(config, [(byte)0x22] as byte[])
-//            byte[] data22 = dev.read(config, 1)
+            //            dev.write(config, [(byte)0x22] as byte[])
+            //            byte[] data22 = dev.read(config, 1)
             byte[] data22 = dev.writeRead(config, [(byte)0x22] as byte[], 1)
             printHex(data22)
             println "3.3V: " + Double.toString(0.01719 * (data22[0] & 0xff)) + " [V]"
@@ -80,6 +79,9 @@ class Main{
         }catch(Exception ex){
             println "Exception: " + ex.getMessage()
         }
+
+        config.close()
+        dev.close()
 
     }
 }
