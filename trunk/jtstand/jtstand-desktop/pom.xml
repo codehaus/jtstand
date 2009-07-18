@@ -28,7 +28,6 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-desktop</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>jtstand-desktop</name>
     <url>http://jtstand.codehaus.org/jtstand-desktop/</url>
     <dependencies>

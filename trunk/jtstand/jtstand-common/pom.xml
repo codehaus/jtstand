@@ -28,7 +28,6 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-common</artifactId>
-    <version>1.0-SNAPSHOT</version>
     <name>jtstand-common</name>
     <url>http://jtstand.codehaus.org/jtstand-chart/</url>
     <dependencies>

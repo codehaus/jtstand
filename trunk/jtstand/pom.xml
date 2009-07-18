@@ -16,7 +16,8 @@
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
-  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <properties>
         <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
         <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
@@ -85,8 +86,13 @@
     </developers>
     <licenses>
         <license>
-            <name>LGPL</name>
+            <name>GNU Lesser General Public License</name>
             <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>TMate Open Source License</name>
+            <url>http://svnkit.com/license.html</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -96,9 +102,9 @@
         <module>jtstand-demo</module>
         <module>jtstand-chart</module>
         <module>jtstand-common</module>
-    <module>jtstand-desktop</module>
-    <module>jtstand-editor</module>
-  </modules>
+        <module>jtstand-desktop</module>
+        <module>jtstand-editor</module>
+    </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk/jtstand</developerConnection>
@@ -182,6 +188,26 @@
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-desktop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-editor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-chart</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
