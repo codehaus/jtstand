@@ -104,6 +104,10 @@
         <module>jtstand-common</module>
         <module>jtstand-desktop</module>
         <module>jtstand-editor</module>
+        <module>jtstand-svn</module>
+        <module>jtstand-svn-core</module>
+        <module>jtstand-sequence</module>
+        <module>jtstand-ssh2</module>
     </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
@@ -208,6 +212,26 @@
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-chart</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-sequence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ssh2</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

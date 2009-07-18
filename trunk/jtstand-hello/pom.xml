@@ -26,7 +26,7 @@
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>jtstand-hello</name>
-    <url>http://maven.apache.org</url>
+    <url>http://jtstand.codehaus.org/jtstand-hello/</url>
     <description>jtstand-demo is the demo application module of JTStand. It is not a typical Hello Word app, but trying to show some extremes instead.</description>
     <developers>
         <developer>
