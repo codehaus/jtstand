@@ -97,17 +97,17 @@
         </license>
     </licenses>
     <modules>
-        <module>jtstand-core</module>
-        <module>jtstand-ui</module>
-        <module>jtstand-demo</module>
-        <module>jtstand-chart</module>
-        <module>jtstand-common</module>
-        <module>jtstand-desktop</module>
-        <module>jtstand-editor</module>
-        <module>jtstand-svn</module>
-        <module>jtstand-svn-core</module>
         <module>jtstand-sequence</module>
         <module>jtstand-ssh2</module>
+        <module>jtstand-svn-core</module>
+        <module>jtstand-svn</module>
+        <module>jtstand-core</module>
+        <module>jtstand-common</module>
+        <module>jtstand-chart</module>
+        <module>jtstand-desktop</module>
+        <module>jtstand-editor</module>
+        <module>jtstand-ui</module>
+        <module>jtstand-demo</module>
     </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
@@ -266,7 +266,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
+            <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
