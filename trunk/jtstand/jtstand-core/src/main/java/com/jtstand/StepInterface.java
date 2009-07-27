@@ -34,8 +34,6 @@ public interface StepInterface extends PropertiesInterface {
 
     void releaseVariable(String keyString);
 
-    void setVariable(String keyString, Object variableValue);
-
     TestLimit getTestLimit();
 
     Object getValue();

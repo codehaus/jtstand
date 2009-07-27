@@ -21,6 +21,7 @@ package com.jtstand;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 import groovy.lang.Script;
+import java.util.Map.Entry;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -37,6 +38,7 @@ import java.text.NumberFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.Bindings;
 
 /**
  *
@@ -45,7 +47,7 @@ import java.util.logging.Logger;
  */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"position", "parent_id"})})
-public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface {
+public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
     public static final long serialVersionUID = 20081114L;
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
@@ -83,6 +85,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //    private transient Object thisThreadLock = new Object();
     private transient Object parentLock = new Object();
 //    private transient Object stepObject;
+    private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
     public Logger getLogger() {
         return LOGGER;
@@ -696,7 +699,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         if (getTestStep().getMessage() != null) {
             LOGGER.info(getTestStep().getMessage());
-        //... improve!
+            //... improve!
         }
         if (getPreSleep() > 0) {
             Thread.sleep(getPreSleep());
@@ -1093,76 +1096,189 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     @Override
-    public void setVariable(String keyString, Object variableValue) {
-        System.out.println("Setting variable: '" + keyString + "' to " + variableValue);
-        if ("value".equals(keyString)) {
+    public Object put(String key, Object variableValue) {
+        System.out.println("Setting variable: '" + key + "' to " + variableValue);
+        if ("value".equals(key)) {
+            Object retval = getValue();
             setValue(variableValue);
+            return retval;
         }
-        if (getTestStep() != null) {
-            for (TestStepProperty tsp : getTestStep().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
-                        throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
-                    }
-                    variablesMap.put(keyString, variableValue);
-                    return;
+        for (TestStepProperty tsp : getTestStep().getProperties()) {
+            if (tsp.getName().equals(key)) {
+                if ((tsp.isFinal() == null || tsp.isFinal()) && super.containsKey(key)) {
+                    throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                 }
+                return super.put(key, variableValue);
             }
-        } else {
-            System.err.println("setVariable : testStep is null!");
         }
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
-                        throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
+                if (tsp.getName().equals(key)) {
+                    if ((tsp.isFinal() == null || tsp.isFinal()) && super.containsKey(key)) {
+                        throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                     }
-                    variablesMap.put(keyString, variableValue);
-                    return;
+                    return super.put(key, variableValue);
                 }
             }
         }
         if (parent != null) {
-            parent.setVariable(keyString, variableValue);
-            return;
+            return parent.put(key, variableValue);
         }
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
             if (seq.getTestSequence() != null) {
                 for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
+                    if (tsp.getName().equals(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.containsKey(key)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                         }
-                        seq.setVariable(keyString, variableValue);
-                        return;
+                        return seq.put(key, variableValue);
                     }
                 }
             }
             if (seq.getTestFixture() != null) {
-                for (TestFixtureProperty tsp : testSequenceInstance.getTestFixture().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
+                for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
+                    if (tsp.getName().equals(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestFixture().containsKey(key)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                         }
-                        seq.getTestFixture().setVariable(keyString, variableValue);
-                        return;
+                        return seq.getTestFixture().put(key, variableValue);
                     }
                 }
             }
             if (seq.getTestStation() != null) {
                 for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && variablesMap.containsKey(keyString)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + keyString + "'");
+                    if (tsp.getName().equals(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                         }
-                        seq.getTestStation().setVariable(keyString, variableValue);
-                        return;
+                        return seq.getTestStation().put(key, variableValue);
+                    }
+                }
+            }
+            if (seq.getTestProject() != null) {
+                for (TestProjectProperty tsp : seq.getTestProject().getProperties()) {
+                    if (tsp.getName().equals(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
+                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
+                        }
+                        return seq.getTestStation().put(key, variableValue);
                     }
                 }
             }
         }
-        throw new IllegalArgumentException("Undefined variable:" + keyString);
+        return localVariablesMap.put(key, variableValue);
+        //throw new IllegalArgumentException("Undefined variable:" + key);
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends Object> toMerge) {
+        for (Entry<? extends String, ? extends Object> variableEntry : toMerge.entrySet()) {
+            put(variableEntry.getKey(), variableEntry.getValue());
+        }
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return "value".equals(key) ||
+                localVariablesMap.containsKey((String) key) ||
+                containsKeyPublic(key);
+    }
+
+    public boolean containsKeyPublic(Object key) {
+        if (super.containsKey((String) key)) {
+            return true;
+        }
+        if (parent != null) {
+            return parent.containsKeyPublic(key);
+        }
+        TestSequenceInstance seq = getTestSequenceInstance();
+        return seq != null && (seq.containsKey((String) key) ||
+                seq.getTestFixture() != null && seq.getTestFixture().containsKey((String) key) ||
+                seq.getTestStation() != null && seq.getTestStation().containsKey((String) key));
+    }
+
+    @Override
+    public Object get(Object key){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Object remove(Object key) {
+        return localVariablesMap.remove((String) key);
+    }
+
+    @Override
+    public int size() {
+        return keySet().size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        /* 'value' is always there, and cannot be removed */
+        return false;
+    }
+
+    @Override
+    public boolean containsValue(Object value) {
+        for (String key : keySet()) {
+            if (value.equals(get(key))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        /* we cannot support the clear, because 'value' cannot be removed */
+        //throw new UnsupportedOperationException("'clear' operation is not supported.");
+        localVariablesMap.clear();
+    }
+
+    @Override
+    public Set<String> keySet() {
+        Set<String> keys = keySetPublic();
+        keys.add("value");
+        keys.addAll(localVariablesMap.keySet());
+        return keys;
+    }
+
+    private Set<String> keySetPublic() {
+        Set<String> keys = super.keySet();
+        if (parent != null) {
+            keys.addAll(parent.keySetPublic());
+        } else {
+            TestSequenceInstance seq = getTestSequenceInstance();
+            if (seq != null) {
+                keys.addAll(seq.keySet());
+                if (seq.getTestFixture() != null) {
+                    keys.addAll(seq.getTestFixture().keySet());
+                }
+                if (seq.getTestStation() != null) {
+                    keys.addAll(seq.getTestStation().keySet());
+                }
+            }
+        }
+        return keys;
+    }
+
+    @Override
+    public Collection<Object> values() {
+        Collection<Object> values = new ArrayList<Object>();
+        for (String key : keySet()) {
+            values.add(get(key));
+        }
+        return values;
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        Set<Entry<String, Object>> entries = new HashSet<Entry<String, Object>>();
+        for (String key : keySet()) {
+            entries.add(new HashMap.SimpleEntry(key, get(key)));
+        }
+        return entries;
     }
 
     @Override
@@ -1407,7 +1523,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 valueWithUnit += testLimit.getMeasurementUnit();
             }
         }
-    //Log.log("Value num:" + valueWithUnit);
+        //Log.log("Value num:" + valueWithUnit);
     }
 
     public String getLslWithUnit() {

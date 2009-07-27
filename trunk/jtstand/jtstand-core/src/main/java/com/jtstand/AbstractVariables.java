@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Albert Kurucz. 
+ * Copyright (c) 2009 Albert Kurucz.
  *
  * This file, AbstractVariables.java is part of JTStand.
  *
@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 abstract public class AbstractVariables extends AbstractProperties implements Serializable, PropertiesInterface {
 
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
-    protected transient Map<String, Object> variablesMap = new HashMap<String, Object>();
+    private Map<String, Object> variablesMap = new HashMap<String, Object>();
     private transient Map<String, HashSet<Thread>> lockerThreads = new HashMap<String, HashSet<Thread>>();
     private transient Object variableLock = new Object();
     private transient Thread actualLockerThread;
@@ -80,7 +80,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         }
         v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step.getBinding());
         if (v != null) {
-            setVariable(keyString, v);
+            put(keyString, v);
         }
         return v;
     }
@@ -166,8 +166,28 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         }
     }
 
-    public void setVariable(String keyString, Object variableValue) {
-        System.out.println("putting '" + keyString + "' value: " + variableValue);
-        variablesMap.put(keyString, variableValue);
+    public Object put(String name, Object value) {
+        System.out.println("putting '" + name + "' value: " + value);
+        return variablesMap.put(name, value);
+    }
+
+    boolean containsKey(String keyString) {
+        return variablesMap.containsKey(keyString);
+    }
+
+    boolean containsValue(Object value) {
+        return variablesMap.containsValue(value);
+    }
+
+    Object remove(String key) {
+        return variablesMap.remove(key);
+    }
+
+    Set<String> keySet() {
+        return variablesMap.keySet();
+    }
+
+    public Collection<Object> values() {
+        return variablesMap.values();
     }
 }
