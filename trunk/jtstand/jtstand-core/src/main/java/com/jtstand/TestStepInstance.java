@@ -1199,8 +1199,15 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     @Override
-    public Object get(Object key){
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object get(Object key) {
+        if (localVariablesMap.containsKey((String) key)) {
+            return localVariablesMap.get((String) key);
+        }
+        try {
+            return getVariable((String) key);
+        } catch (InterruptedException ex) {
+            throw new IllegalStateException(ex.getMessage());
+        }
     }
 
     @Override
