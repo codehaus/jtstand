@@ -559,6 +559,45 @@ public class Visa {
         }
     }
 
+    def openFirst(String rsrcName){
+        List<String> resources = findResources(rsrcName)
+        resources.size() > 0 ? open(resources[0]) : null
+    }
+
+    List<String> findResources(String expr) {
+        int status
+        List<String> list = new ArrayList<String>()
+        byte[] instrDesc = new byte[256]
+
+        IntByReference findList = new IntByReference()
+        IntByReference retcnt = new IntByReference()
+        status = viFindRsrc(sesn, expr, findList, retcnt, instrDesc)
+        if (status == 0) {
+            list.add(Native.toString(instrDesc))
+            for (int i = 1; i < retcnt.getValue(); i++) {
+                status = viFindNext(findList.getValue(), instrDesc)
+                if (status != 0) {
+                    /* Not checking error condition on close this time */
+                    viClose(findList.getValue())
+                    throw new IllegalStateException("viFindNext ERROR: " + toStatusString(status))
+                }
+                list.add(Native.toString(instrDesc))
+            }
+            /* But we do check error condition on close this time */
+            status = viClose(findList.getValue())
+            if (status != 0) {
+                throw new IllegalStateException("viClose ERROR: " + toStatusString(status))
+            }
+        } else {
+            /* Not checking error condition on close this time */
+            viClose(findList.getValue())
+            if (status != VI_ERROR_RSRC_NFOUND) {
+                throw new IllegalStateException("viFindRsrc ERROR: " + toStatusString(status))
+            }            
+        }
+        list
+    }
+
     int getAttributeInt(int attr){
         getAttributeInt(sesn, attr)
     }

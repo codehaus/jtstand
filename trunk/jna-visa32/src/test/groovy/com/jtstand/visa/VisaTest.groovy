@@ -28,21 +28,26 @@ class VisaTest extends GroovyTestCase
         }
         println()
     }
-
+   
     void testUSB() {
-        def visa = new Visa()
-        println 'open USB'
-        VisaRaw raw = visa.open('USB0::0x04B4::0x0100::NI-VISA-1::RAW')
-        raw.printPipeInfo()
+        Visa visa = new Visa()
+        try{
+            println 'open USB'
+            VisaRaw raw = visa.openFirst('USB0::0x04B4::0x0100::NI-VISA-?::RAW')
+            if(raw){
+                raw.printPipeInfo()
 
-        println 'controlIn'
-        byte[] inputData = raw.controlIn(0x80, 0, 0, 0, 2)
-        printHex(inputData)
-        assertEquals([2, 0] as byte[], inputData)
+                println 'controlIn'
+                byte[] inputData = raw.controlIn(0x80, 0, 0, 0, 2)
+                printHex(inputData)
+                assertEquals([2, 0] as byte[], inputData)
 
-        byte[] descriptor = raw.controlIn(0x80, 6, 256, 0, 18)
-        printHex(descriptor)
-        assertEquals([0x12, 1, 1, 1, 0, 0, 0, 8, 0xb4, 4, 0, 1, 3, 3, 1, 2, 0, 1] as byte[], descriptor)
-
+                byte[] descriptor = raw.controlIn(0x80, 6, 256, 0, 18)
+                printHex(descriptor)
+                assertEquals([0x12, 1, 1, 1, 0, 0, 0, 8, 0xb4, 4, 0, 1, 3, 3, 1, 2, 0, 1] as byte[], descriptor)
+            }
+        } finally {
+            visa?.close()
+        }
     }
 }
