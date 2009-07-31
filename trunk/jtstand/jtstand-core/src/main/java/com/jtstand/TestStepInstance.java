@@ -1203,6 +1203,43 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if ("$type$".equals(key)) {
             return getClass().getName();
         }
+        if ("id".equals(key)) {
+            return id;
+        }
+        if ("testStep".equals(key)) {
+            return testStep;
+        }
+        if ("calledTestStep".equals(key)) {
+            return calledTestStep;
+        }
+        if ("testSequenceInstance".equals(key)) {
+            return testSequenceInstance;
+        }
+        if ("startTime".equals(key)) {
+            return startTime;
+        }
+        if ("finishTime".equals(key)) {
+            return finishTime;
+        }
+        if ("loops".equals(key)) {
+            return loops;
+        }
+        if ("parent".equals(key)) {
+            return parent;
+        }
+        if ("steps".equals(key)) {
+            return steps;
+        }
+        if ("valueString".equals(key)) {
+            return valueString;
+        }
+        if ("valueNumber".equals(key)) {
+            return valueNumber;
+        }
+        if ("position".equals(key)) {
+            return position;
+        }
+
         if (localVariablesMap.containsKey((String) key)) {
             return localVariablesMap.get((String) key);
         }
