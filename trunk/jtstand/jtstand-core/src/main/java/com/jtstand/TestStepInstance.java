@@ -1200,6 +1200,9 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public Object get(Object key) {
+        if ("$type$".equals(key)) {
+            return getClass().getName();
+        }
         if (localVariablesMap.containsKey((String) key)) {
             return localVariablesMap.get((String) key);
         }
