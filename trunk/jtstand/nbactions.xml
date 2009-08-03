@@ -16,22 +16,40 @@
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
-<actions>
-        <action>
-            <actionName>CUSTOM-generate and deploy the site</actionName>
-            <displayName>generate and deploy the site</displayName>
-            <goals>
-                <goal>site:site</goal>
-                <goal>site:deploy</goal>
-            </goals>
-        </action>
+  --><actions>
         <action>
             <actionName>CUSTOM-deploy</actionName>
             <displayName>deploy</displayName>
             <goals>
                 <goal>deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:site no test</actionName>
+            <displayName>site:site no test</displayName>
+            <goals>
+                <goal>site:site</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:deploy no test</actionName>
+            <displayName>site:deploy no test</displayName>
+            <goals>
+                <goal>site:deploy</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:site site:deploy</actionName>
+            <displayName>site:site site:deploy</displayName>
+            <goals>
+                <goal>site:site</goal>
+                <goal>site:deploy</goal>
             </goals>
         </action>
     </actions>
