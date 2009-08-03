@@ -37,7 +37,7 @@ public class LibraryClass extends FileRevisionReference implements Serializable 
     public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private Library library;
-    private int position;
+    private int libraryClassPosition;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String name;
 
@@ -52,11 +52,11 @@ public class LibraryClass extends FileRevisionReference implements Serializable 
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return libraryClassPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.libraryClassPosition = position;
     }
 
     @XmlTransient

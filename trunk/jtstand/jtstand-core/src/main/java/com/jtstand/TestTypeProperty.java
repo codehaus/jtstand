@@ -38,15 +38,15 @@ public class TestTypeProperty extends TestProperty implements Serializable {
     public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private TestType testType;
-    private int position;
+    private int testTypePropertyPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testTypePropertyPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testTypePropertyPosition = position;
     }
 
     @XmlTransient

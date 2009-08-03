@@ -148,10 +148,10 @@ public class TestSequence implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private TestStep cleanupStep;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_SEQUENCE)
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testSequencePropertyPosition ASC")
     private List<TestSequenceProperty> properties = new ArrayList<TestSequenceProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_SEQUENCE)
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testLimitPosition ASC")
     private List<TestLimit> testLimits = new ArrayList<TestLimit>();
     @ManyToOne(cascade = CascadeType.ALL)
     private FileRevision creator;

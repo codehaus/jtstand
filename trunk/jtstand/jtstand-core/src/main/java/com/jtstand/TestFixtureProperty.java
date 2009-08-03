@@ -38,15 +38,15 @@ public class TestFixtureProperty extends TestProperty implements Serializable {
     public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private TestFixture testFixture;
-    private int position;
+    private int testFixturePropertyPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testFixturePropertyPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        testFixturePropertyPosition = position;
     }
 
     @XmlTransient

@@ -50,21 +50,21 @@ public class TestStation extends AbstractVariables implements Serializable {
     private String hostName;
     private String remark;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testStationPropertyPosition ASC")
     private List<TestStationProperty> properties = new ArrayList<TestStationProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testTypeReferencePosition ASC")
     private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
     @ManyToOne
     private FileRevision creator;
     @ManyToOne
     private TestProject testProject;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testFixturePosition ASC")
     private List<TestFixture> fixtures = new ArrayList<TestFixture>();
     @OneToOne(cascade = CascadeType.ALL)
     private StationInitSequenceReference initSequence;
-    private int position;
+    private int testStationsPosition;
     private static EntityManagerFactory entityManagerFactory;
 //    private Integer rmiPort;
 //
@@ -119,7 +119,9 @@ public class TestStation extends AbstractVariables implements Serializable {
             map.put("hibernate.dialect", getDriver().dialect);
         }
         if (getPeristencePropertiesMap().get("hibernate.connection.url") == null) {
-            map.put("hibernate.connection.url", getPersistenceProtocol() + getPersistencePath());
+            String url = getPersistenceProtocol() + getPersistencePath();
+            System.out.println("hibernate.connection.url: " + url);
+            map.put("hibernate.connection.url", url);
         }
         if (Driver.derby.equals(getDriver()) && System.getProperty("derby.stream.error.file") == null) {
             System.setProperty("derby.stream.error.file", getUserHome() + File.separator + ".jtstand" + File.separator + "derby.log");
@@ -143,11 +145,11 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testStationsPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testStationsPosition = position;
     }
 
     @XmlElement(name = "initSequence")
@@ -377,6 +379,7 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     public static enum Driver {
 
+        h2("org.h2.Driver", "org.hibernate.dialect.H2Dialect"),
         derby("org.apache.derby.jdbc.EmbeddedDriver", "org.hibernate.dialect.DerbyDialect"),
         postgresql("org.postgresql.Driver", "org.hibernate.dialect.PostgreSQLDialect"),
         mysql("com.mysql.jdbc.Driver", "org.hibernate.dialect.MySQLDialect");
@@ -393,7 +396,8 @@ public class TestStation extends AbstractVariables implements Serializable {
     public Driver getDriver() {
         String driverClass = getPeristencePropertiesMap().get("hibernate.connection.driver_class");
         if (driverClass == null) {
-            return Driver.derby;
+//            return Driver.derby;
+            return Driver.h2;
         }
         Driver[] drivers = Driver.values();
         for (int i = 0; i < drivers.length; i++) {
@@ -410,8 +414,10 @@ public class TestStation extends AbstractVariables implements Serializable {
         if (url == null) {
             Driver driver = getDriver();
             switch (driver) {
+                case h2:
+                    return getUserHome() + File.separator + ".jtstand" + File.separator + "h2" + File.separator + "jtfw";
                 case derby:
-                    return getUserHome() + File.separator + ".jtstand" + File.separator + "jtfw"; //+";logDevice=" + getUserHome() + File.separator + ".jtstand";
+                    return getUserHome() + File.separator + ".jtstand" + File.separator + "derby";
                 case postgresql:
                     return "//localhost/jtfw";
                 case mysql:
@@ -441,6 +447,7 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     private void createDB(String username, String password) throws ClassNotFoundException, SQLException {
         switch (getDriver()) {
+            case h2:
             case derby:
                 deleteDir(new File(getPersistencePath()));
                 break;
@@ -544,6 +551,15 @@ public class TestStation extends AbstractVariables implements Serializable {
         if (Driver.derby.equals(getDriver())) {
             if (!(new File(getPersistencePath())).isDirectory()) {
                 System.out.println("Derby directory is missing: " + getPersistencePath());
+                return false;
+            }
+        }
+        if (Driver.h2.equals(getDriver())) {
+            String path = getPersistencePath();
+            String dir = path.substring(0, path.lastIndexOf(File.separatorChar));
+            System.out.println("H2 dir: " + dir);
+            if (!(new File(dir)).isDirectory()) {
+                System.out.println("H2 directory is missing: " + dir);
                 return false;
             }
         }

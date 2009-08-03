@@ -56,15 +56,15 @@ public class TestLimit implements Serializable {
     private TestSequence testSequence;
     @ManyToOne
     private TestStep testStep;
-    private int position;
+    private int testLimitPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testLimitPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testLimitPosition = position;
     }
 
     @XmlTransient

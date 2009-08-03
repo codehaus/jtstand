@@ -42,7 +42,7 @@ import java.util.logging.Logger;
  * @author Albert Kurucz
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treepath"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"position", "parent_id"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treepath"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
 @XmlRootElement(name = "step")
 @XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
@@ -156,17 +156,17 @@ public class TestStep implements Serializable {
     private String remark;
     private Boolean parallel;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testStepPosition ASC")
     private List<TestStep> steps = new ArrayList<TestStep>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep", fetch = FetchType.LAZY)
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testStepPropertyPosition ASC")
     private List<TestStepProperty> properties = new ArrayList<TestStepProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testLimitPosition ASC")
     private List<TestLimit> testLimits = new ArrayList<TestLimit>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private StepReference stepReference;
-    private int position;
+    private int testStepPosition;
     /* root is on level zero */
     private int treeLevel;
     private String treePath;
@@ -225,11 +225,11 @@ public class TestStep implements Serializable {
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testStepPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testStepPosition = position;
     }
 
     public static enum RunMode {

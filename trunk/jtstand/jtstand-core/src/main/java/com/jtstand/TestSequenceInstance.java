@@ -279,8 +279,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
-                LOGGER.log(Level.FINE, "Connecting testProject...");
+                System.out.println("Connecting testProject...");
                 setTestProject(tp);
+            } else {
+                System.out.println("Unable to connect testProject");
             }
         }
 //        System.out.println("Connecting libraries...");
@@ -293,9 +295,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (lib.getId() == null) {
                 Library library = Library.query(em, lib.getCreator());
                 if (library != null) {
-                    LOGGER.log(Level.FINE, "Connecting library '" + library.getName() + "'...");
+                    System.out.println("Connecting library '" + library.getName() + "'...");
                     toRemove.add(lib);
                     toAdd.add(library);
+                } else {
+                    System.out.println("Unable to connect library");
                 }
             }
         }
@@ -306,8 +310,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestSequence() != null && getTestSequence().getId() == null) {
             TestSequence ts = TestSequence.query(em, getTestSequence().getCreator());
             if (ts != null) {
-                LOGGER.log(Level.FINE, "Connecting testSequence...");
+                System.out.println("Connecting testSequence...");
                 setTestSequence(ts);
+            } else {
+                System.out.println("Unable to connect testSequence");
             }
         }
         for (TestStepInstance tsi : this) {
@@ -316,8 +322,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (calledTestStep != null && calledTestStep.getId() == null) {
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
-                    LOGGER.log(Level.FINE, "Connecting testStep '" + ts.getName() + "'...");
+                    System.out.println("Connecting testStep '" + ts.getName() + "'...");
                     tsi.setCalledTestStep(ts);
+                } else {
+                    System.out.println("Unable to connect testStep");
                 }
             }
         }

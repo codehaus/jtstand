@@ -56,7 +56,6 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
 
     public static final long serialVersionUID = 20081114L;
     public static final String TEST_PROJECT = "testProject";
-    public static final String POSITION_ASC = "position ASC";
     private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
     public static final String STR_PERSISTING_POLICY = "PERSISTING_POLICY";
     public static final OutputStream NULL_OUTPUT_STREAM = new OutputStream() {
@@ -74,7 +73,6 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
             emf = null;
         }
     }
-
 //    public TestProject() {
 //    }
     public static String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/schema1.xsd";
@@ -142,6 +140,7 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
         }
         FileRevision c = FileRevision.query(em, creator);
         if (c == null) {
+            System.out.println("Creator was not found in database: " + creator.getSubversionUrl() + "@" + creator.getRevision());
             return null;
         }
         try {
@@ -151,6 +150,8 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
             TestProject.getMarshaller().marshal(testProject, TestProject.NULL_OUTPUT_STREAM);
             return testProject;
         } catch (Exception e) {
+            System.out.println("Exception: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
@@ -202,21 +203,21 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     private FileRevision creator;
     private String remark;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy(POSITION_ASC)
+    @OrderBy("testProjectPropertyPosition ASC")
     private List<TestProjectProperty> properties = new ArrayList<TestProjectProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy(POSITION_ASC)
+    @OrderBy("libraryReferencePosition ASC")
     private List<LibraryReference> libraryReferences = new ArrayList<LibraryReference>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy(POSITION_ASC)
+    @OrderBy("testProjectClassPosition ASC")
     private List<TestProjectClass> classes = new ArrayList<TestProjectClass>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy(POSITION_ASC)
+    @OrderBy("productPosition ASC")
     private List<Product> products = new ArrayList<Product>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy(POSITION_ASC)
+    @OrderBy("testStationsPosition ASC")
     private List<TestStation> testStations = new ArrayList<TestStation>();
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="testProject")
     private Authentication authentication;
     private String name;
     private String pun;
@@ -465,7 +466,7 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
         setProducts(getProducts());
         setClasses(getClasses());
         setLibraryReferences(getLibraryReferences());
-    //Log.log("Setting creator on testProject OK");
+        //Log.log("Setting creator on testProject OK");
     }
 
     public static String getSchemaLocation() {

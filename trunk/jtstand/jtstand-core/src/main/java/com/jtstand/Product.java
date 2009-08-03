@@ -39,7 +39,7 @@ public class Product extends AbstractProperties implements Serializable, Propert
 
     public static final long serialVersionUID = 20081114L;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testTypePosition ASC")
     private List<TestType> testTypes = new ArrayList<TestType>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,21 +48,21 @@ public class Product extends AbstractProperties implements Serializable, Propert
     private String partRevision;
     private String remark;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("productPropertyPosition ASC")
     private List<ProductProperty> properties = new ArrayList<ProductProperty>();
     @ManyToOne
     private TestProject testProject;
     @ManyToOne
     private FileRevision creator;
-    private int position;
+    private int productPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return productPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.productPosition = position;
     }
 
     @XmlTransient

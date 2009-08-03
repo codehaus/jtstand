@@ -41,15 +41,15 @@ public class TestStepProperty extends TestProperty implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(TestStepProperty.class.getCanonicalName());
     @ManyToOne
     private TestStep testStep;
-    private int position;
+    private int testStepPropertyPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testStepPropertyPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testStepPropertyPosition = position;
     }
 
     @XmlTransient

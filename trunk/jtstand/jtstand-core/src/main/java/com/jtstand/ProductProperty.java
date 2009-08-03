@@ -38,15 +38,15 @@ public class ProductProperty extends TestProperty implements Serializable {
 
     @ManyToOne
     private Product product;
-    private int position;
+    private int productPropertyPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return productPropertyPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.productPropertyPosition = position;
     }
 
     @XmlTransient

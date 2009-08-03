@@ -44,15 +44,15 @@ public class TestTypeReference implements Serializable {
     private TestFixture testFixture;
     @ManyToOne
     private FileRevision creator;
-    private int position;
+    private int testTypeReferencePosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testTypeReferencePosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testTypeReferencePosition = position;
     }
 
     @XmlTransient

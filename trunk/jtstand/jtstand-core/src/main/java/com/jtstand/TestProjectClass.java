@@ -35,7 +35,7 @@ public class TestProjectClass extends FileRevisionReference implements Serializa
     public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private TestProject testProject;
-    private int position;
+    private int testProjectClassPosition;
     private String name;
 
     @XmlAttribute(required = true)
@@ -49,11 +49,11 @@ public class TestProjectClass extends FileRevisionReference implements Serializa
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testProjectClassPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testProjectClassPosition = position;
     }
 
     @XmlTransient

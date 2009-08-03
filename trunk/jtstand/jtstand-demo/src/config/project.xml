@@ -85,8 +85,12 @@
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
     <authentication>
-        <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
-        <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+        <domainUsers>
+            <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
+        </domainUsers>
+        <localUsers>
+            <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+        </localUsers>
     </authentication>
     <product partNumber="RANDOM" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>

@@ -47,7 +47,7 @@ public class TestType extends AbstractProperties implements Serializable, Proper
     @ManyToOne
     private Product product;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testTypePropertyPosition ASC")
     private List<TestTypeProperty> properties = new ArrayList<TestTypeProperty>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,17 +56,17 @@ public class TestType extends AbstractProperties implements Serializable, Proper
 //    private Long revision;
     @ManyToOne
     private FileRevision creator;
-    private int position;
+    private int testTypePosition;
     @OneToOne(cascade = CascadeType.ALL)
     private TestTypeSequenceReference testSequence;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testTypePosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testTypePosition = position;
     }
 
     @XmlElement
@@ -89,9 +89,7 @@ public class TestType extends AbstractProperties implements Serializable, Proper
     public void setCreator(FileRevision creator) {
         this.creator = creator;
         setProperties(getProperties());
-        if (getTestSequence() != null) {
-            getTestSequence().setTestType(this);
-        }
+        setTestSequence(getTestSequence());
     }
 
     @XmlTransient
@@ -180,7 +178,6 @@ public class TestType extends AbstractProperties implements Serializable, Proper
         this.product = product;
         if (product != null) {
             setCreator(product.getCreator());
-            setProperties(getProperties());
         }
     }
 

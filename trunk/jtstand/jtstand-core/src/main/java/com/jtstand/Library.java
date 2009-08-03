@@ -78,7 +78,7 @@ public class Library implements Serializable {
     private FileRevision creator;
     private String remark;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "library")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("libraryClassPosition ASC")
     private List<LibraryClass> classes = new ArrayList<LibraryClass>();
     private transient Object classesLock = new Object();
     private static transient ConcurrentHashMap<FileRevision, Library> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, Library>();

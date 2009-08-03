@@ -44,10 +44,10 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private String remark;
     private Boolean disabled;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testFixturePropertyPosition ASC")
     private List<TestFixtureProperty> properties = new ArrayList<TestFixtureProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testTypeReferencePosition ASC")
     private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
     @ManyToOne
     private TestStation testStation;
@@ -55,16 +55,16 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private FileRevision creator;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private FixtureInitSequenceReference initSequence;
-    private int position;
+    private int testFixturePosition;
     private String serialNumber;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testFixturePosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testFixturePosition = position;
     }
 
     @XmlElement(name = "initSequence")

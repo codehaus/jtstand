@@ -40,15 +40,15 @@ public class TestSequenceProperty extends TestProperty implements Serializable {
     @ManyToOne
     private TestSequence testSequence;
     @Basic
-    private int position;
+    private int testSequencePropertyPosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return testSequencePropertyPosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testSequencePropertyPosition = position;
     }
 
     @XmlTransient

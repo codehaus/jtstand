@@ -40,15 +40,15 @@ public class LibraryReference extends FileRevisionReference implements Serializa
     public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private TestProject testProject;
-    private int position;
+    private int libraryReferencePosition;
 
     @XmlTransient
     public int getPosition() {
-        return position;
+        return libraryReferencePosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.libraryReferencePosition = position;
     }
 
     @XmlTransient

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Albert Kurucz. 
+ * Copyright (c) 2009 Albert Kurucz.
  *
  * This file, Authentication.java is part of JTStand.
  *
@@ -18,19 +18,11 @@
  */
 package com.jtstand;
 
-import javax.naming.NamingException;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -48,51 +40,36 @@ public class Authentication implements Serializable {
     private Long id;
     @ManyToOne
     private FileRevision creator;
-    @OneToOne(mappedBy = "authentication")
+    @OneToOne
     private TestProject testProject;
     private transient String operator;
     private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
+    @OneToOne(mappedBy="authentication")
+    private DomainUserList domainUserList;
+    @OneToOne(mappedBy="authentication")
+    private LocalUserList localUserList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authentication")
-    @OrderBy(TestProject.POSITION_ASC)
-    private List<DomainUser> domainUsers = new ArrayList<DomainUser>();
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "authentication")
-    @OrderBy(TestProject.POSITION_ASC)
-    private List<LocalUser> localUsers = new ArrayList<LocalUser>();
-
-
-    @XmlElement(name = "domainUser")
-    public List<DomainUser> getDomainUsers() {
-        return domainUsers;
+    @XmlElement(name = "domainUsers")
+    public DomainUserList getDomainUserList() {
+        return domainUserList;
     }
 
-    public void setDomainUsers(List<DomainUser> domainUsers) {
-        this.domainUsers = domainUsers;
-        if (domainUsers != null) {
-            for (ListIterator<DomainUser> iterator = domainUsers.listIterator(); iterator.hasNext();) {
-                int index = iterator.nextIndex();
-                DomainUser domainUser = iterator.next();
-                domainUser.setAuthentication(this);
-                domainUser.setPosition(index);
-            }
+    public void setDomainUserList(DomainUserList domainUserList) {
+        this.domainUserList = domainUserList;
+        if (domainUserList != null) {
+            domainUserList.setAuthentication(this);
         }
     }
 
-    @XmlElement(name = "localUser")
-    public List<LocalUser> getLocalUsers() {
-        return localUsers;
+    @XmlElement(name = "localUsers")
+    public LocalUserList getLocalUserList() {
+        return localUserList;
     }
 
-    public void setLocalUsers(List<LocalUser> localUsers) {
-        this.localUsers = localUsers;
-        if (localUsers != null) {
-            for (ListIterator<LocalUser> iterator = localUsers.listIterator(); iterator.hasNext();) {
-                int index = iterator.nextIndex();
-                LocalUser localUser = iterator.next();
-                localUser.setAuthentication(this);
-                localUser.setPosition(index);
-            }
+    public void setLocalUserList(LocalUserList localUserList) {
+        this.localUserList = localUserList;
+        if (localUserList != null) {
+            localUserList.setAuthentication(this);
         }
     }
 
@@ -172,31 +149,8 @@ public class Authentication implements Serializable {
 
     public void setCreator(FileRevision creator) {
         this.creator = creator;
-        setLocalUsers(getLocalUsers());
-        setDomainUsers(getDomainUsers());
-    }
-
-    public static String encryptString(String x) throws NoSuchAlgorithmException {
-        return byteArrayToHexString(encrypt(x));
-    }
-
-    public static byte[] encrypt(String x) throws NoSuchAlgorithmException {
-        MessageDigest d = MessageDigest.getInstance("SHA-1");
-        d.reset();
-        d.update(x.getBytes());
-        return d.digest();
-    }
-
-    public static String byteArrayToHexString(byte[] b) {
-        StringBuffer sb = new StringBuffer(b.length * 2);
-        for (byte aB : b) {
-            int v = aB & 0xff;
-            if (v < 16) {
-                sb.append('0');
-            }
-            sb.append(Integer.toHexString(v));
-        }
-        return sb.toString().toUpperCase();
+        setLocalUserList(getLocalUserList());
+        setDomainUserList(getDomainUserList());
     }
 
     @XmlTransient
@@ -230,34 +184,16 @@ public class Authentication implements Serializable {
     }
 
     private String getEmployeeNumber(String username, String password) {
-        if ((getLocalUsers() == null || getLocalUsers().isEmpty()) && (getDomainUsers() == null || getDomainUsers().isEmpty())) {
+        if ((getLocalUserList() == null || getLocalUserList().getLocalUsers().isEmpty()) && (getDomainUserList() == null || getDomainUserList().getDomainUsers().isEmpty())) {
             return username;
         }
-        if (getDomainUsers() != null) {
-            for (DomainUser domuser : getDomainUsers()) {
-                if (domuser.getLoginName().equalsIgnoreCase(username) || domuser.getEmployeeNumber().equals(username)) {
-                    try {
-                        domuser.login(password);
-                        return domuser.getEmployeeNumber();
-                    } catch (NamingException ex) {
-                        Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
+        String empNr = null;
+        if (getDomainUserList() != null) {
+            empNr = getDomainUserList().getEmployeeNumber(username, password);
         }
-        if (getLocalUsers() != null) {
-            try {
-                for (LocalUser locuser : getLocalUsers()) {
-                    if (locuser.getLoginName().equalsIgnoreCase(username) || locuser.getEmployeeNumber().equals(username)) {
-                        if (locuser.getPassword().equals(encryptString(password))) {
-                            return locuser.getEmployeeNumber();
-                        }
-                    }
-                }
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(Authentication.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (empNr == null && getLocalUserList() != null) {
+            empNr = getLocalUserList().getEmployeeNumber(username, password);
         }
-        return null;
+        return empNr;
     }
 }

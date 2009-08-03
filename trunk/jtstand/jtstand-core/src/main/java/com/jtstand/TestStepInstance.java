@@ -46,7 +46,7 @@ import javax.script.Bindings;
  *
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"position", "parent_id"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
     public static final long serialVersionUID = 20081114L;
@@ -70,11 +70,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @ManyToOne(fetch = FetchType.LAZY)
     private TestStepInstance parent;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.LAZY)
-    @OrderBy(TestProject.POSITION_ASC)
+    @OrderBy("testStepInstancePosition ASC")
     private List<TestStepInstance> steps = new ArrayList<TestStepInstance>();
     private String valueString = null;
     private Double valueNumber = null;
-    private int position;
+    private int testStepInstancePosition;
     @ManyToOne(fetch = FetchType.EAGER)
     private TestStepNamePath testStepNamePath;
     private transient Thread thisThread = null;
@@ -136,11 +136,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     public int getPosition() {
-        return position;
+        return testStepInstancePosition;
     }
 
     public void setPosition(int position) {
-        this.position = position;
+        this.testStepInstancePosition = position;
     }
 
     public static enum StepStatus {
@@ -1237,7 +1237,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             return valueNumber;
         }
         if ("position".equals(key)) {
-            return position;
+            return testStepInstancePosition;
         }
 
         if (localVariablesMap.containsKey((String) key)) {

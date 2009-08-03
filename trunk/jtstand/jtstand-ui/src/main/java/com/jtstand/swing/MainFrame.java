@@ -343,11 +343,12 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         setLookAndFeel();
         if (!testStation.databaseValidate()) {
             switch (getTestStation().getDriver()) {
+                case h2:
                 case derby:
                     try {
                         getTestStation().databaseReset(null, null);
                     } catch (Exception ex) {
-                        System.out.println("Cannot reset derby database");
+                        System.out.println("Cannot reset the database");
                         System.exit(-1);
                     }
                     break;
@@ -632,6 +633,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     @Override
     public TestSequenceInstance replace(long createTime, String host) {
+        System.out.println("Replacing: " + createTime + " " + host);
         if (!isMemoryEnough()) {
             System.out.println("Not enough memory to replace.");
             return null;
@@ -704,6 +706,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public TestSequenceInstance getSequence(long createTime, String host) {
         synchronized (lock) {
             for (TestSequenceInstance seq : this) {
+                System.out.println("Sequence: " + seq.getCreateTime());
                 if (seq.getCreateTime() == createTime && seq.getTestStation() != null && seq.getTestStation().getHostName().equals(host)) {
                     return seq;
                 }
