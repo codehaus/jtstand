@@ -55,5 +55,7 @@
     <class>com.jtstand.TestTypeProperty</class>
     <class>com.jtstand.TestTypeReference</class>
     <class>com.jtstand.TestTypeSequenceReference</class>
+    <class>com.jtstand.DomainUserList</class>
+    <class>com.jtstand.LocalUserList</class>
   </persistence-unit>
 </persistence>

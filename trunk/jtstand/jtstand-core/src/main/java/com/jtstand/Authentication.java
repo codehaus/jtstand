@@ -44,9 +44,9 @@ public class Authentication implements Serializable {
     private TestProject testProject;
     private transient String operator;
     private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
-    @OneToOne(mappedBy="authentication")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "authentication")
     private DomainUserList domainUserList;
-    @OneToOne(mappedBy="authentication")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "authentication")
     private LocalUserList localUserList;
 
     @XmlElement(name = "domainUsers")
