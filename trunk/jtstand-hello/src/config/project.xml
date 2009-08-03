@@ -18,7 +18,7 @@
   ~ along with JTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <property name="persistenceProperties"><![CDATA[
         [
         'hibernate.cache.provider_class' : 'org.hibernate.cache.NoCacheProvider',
