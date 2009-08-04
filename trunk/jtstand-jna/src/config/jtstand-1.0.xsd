@@ -1,23 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<!--
-  ~ Copyright (c) 2009 Albert Kurucz. 
-  ~
-  ~ This file, jtstand-1.0.xsd is part of JTStand.
-  ~
-  ~ JTStand is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU Lesser General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ JTStand is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU Lesser General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with JTStand.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
 <xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.jtstand.com/" xmlns:tns="http://www.jtstand.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="library" type="tns:libraryType"/>
@@ -40,10 +21,16 @@
 
   <xs:complexType name="authentication">
     <xs:sequence>
-      <xs:element name="domainUser" type="tns:domainUser" maxOccurs="unbounded" minOccurs="0"/>
-      <xs:element name="localUser" type="tns:localUser" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:element name="domainUsers" type="tns:domainUserList" minOccurs="0"/>
+      <xs:element name="localUsers" type="tns:localUserList" minOccurs="0"/>
     </xs:sequence>
     <xs:attribute name="authenticatonMode" type="tns:authenticationMode"/>
+  </xs:complexType>
+
+  <xs:complexType name="domainUserList">
+    <xs:sequence>
+      <xs:element name="domainUser" type="tns:domainUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="domainUser">
@@ -59,6 +46,12 @@
     <xs:sequence/>
     <xs:attribute name="employeeNumber" type="xs:string" use="required"/>
     <xs:attribute name="loginName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="localUserList">
+    <xs:sequence>
+      <xs:element name="localUser" type="tns:localUser" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="localUser">
@@ -366,15 +359,67 @@
     <xs:complexContent>
       <xs:extension base="tns:abstractVariables">
         <xs:sequence>
-          <xs:element name="cleanupStepInstance" type="tns:testStepInstance" minOccurs="0"/>
+          <xs:element name="cleanupStepInstance">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="createTime" type="xs:long"/>
           <xs:element name="employeeNumber" type="xs:string" minOccurs="0"/>
           <xs:element name="failureCode" type="xs:string" minOccurs="0"/>
-          <xs:element name="failureStep" type="tns:testStepInstance" minOccurs="0"/>
-          <xs:element name="mainStepInstance" type="tns:testStepInstance" minOccurs="0"/>
+          <xs:element name="failureStep">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="mainStepInstance">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="sequenceType" type="tns:sequenceType" minOccurs="0"/>
           <xs:element name="serialNumber" type="xs:string" minOccurs="0"/>
-          <xs:element name="setupStepInstance" type="tns:testStepInstance" minOccurs="0"/>
+          <xs:element name="setupStepInstance">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="status" type="tns:sequenceStatus" minOccurs="0"/>
           <xs:element name="testFixture" type="tns:testFixtureType" minOccurs="0"/>
           <xs:element name="testProject" type="tns:projectType" minOccurs="0"/>
@@ -386,6 +431,8 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="testSequenceInstanceIterator"/>
+
   <xs:complexType name="testStepInstance">
     <xs:complexContent>
       <xs:extension base="tns:abstractVariables">
@@ -393,7 +440,20 @@
           <xs:element name="calledTestStep" type="tns:testStepType" minOccurs="0"/>
           <xs:element name="finishTime" type="xs:long" minOccurs="0"/>
           <xs:element name="loops" type="xs:long"/>
-          <xs:element name="parent" type="tns:testStepInstance" minOccurs="0"/>
+          <xs:element name="parent">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
           <xs:element name="position" type="xs:int"/>
           <xs:element name="startTime" type="xs:long" minOccurs="0"/>
           <xs:element name="status" type="tns:stepStatus" minOccurs="0"/>
@@ -419,8 +479,6 @@
       <xs:element ref="tns:testSequence" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
-
-  <xs:complexType name="testSequenceInstanceIterator"/>
 
   <xs:simpleType name="authenticationMode">
     <xs:restriction base="xs:string">
@@ -498,6 +556,15 @@
     </xs:restriction>
   </xs:simpleType>
 
+  <xs:simpleType name="driver">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="mysql"/>
+      <xs:enumeration value="postgresql"/>
+      <xs:enumeration value="derby"/>
+      <xs:enumeration value="h2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="stepStatus">
     <xs:restriction base="xs:string">
       <xs:enumeration value="STEPBYSTEP_FINISHED"/>
@@ -509,14 +576,6 @@
       <xs:enumeration value="RUNNING"/>
       <xs:enumeration value="LOCKED"/>
       <xs:enumeration value="PENDING"/>
-    </xs:restriction>
-  </xs:simpleType>
-
-  <xs:simpleType name="driver">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="mysql"/>
-      <xs:enumeration value="postgresql"/>
-      <xs:enumeration value="derby"/>
     </xs:restriction>
   </xs:simpleType>
 </xs:schema>

@@ -58,6 +58,13 @@
             <useDefaultExcludes>false</useDefaultExcludes>
         </fileSet>
         <fileSet>
+            <directory>src/config</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.xsd</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>src/raw</directory>
             <outputDirectory>/</outputDirectory>
         </fileSet>

@@ -53,76 +53,67 @@ public class ToDatabase extends Thread {
 
     @Override
     public void run() {
+        int num = 0;
         System.out.println("Processing output directory '" + saveDirectory.toString() + "' started...");
         while (!aborted) {
 //            System.out.println("toDatabase checking directory: " + saveDirectory.toString());
             try {
-                try {
-                    if (!saveDirectory.canRead()) {
-                        throw new IllegalArgumentException("Output directory does not exist and cannot be read: " + saveDirectory);
-                    }
-                    File[] files = saveDirectory.listFiles();
-                    if (files.length > 0) {
-                        for (int i = 0; !aborted && i < files.length; i++) {
-                            File file = files[i];
-                            if (!file.canWrite()) {
-                                LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
-                            } else {
-                                try {
-                                    long startTime = System.currentTimeMillis();
-                                    System.out.println("Processing file: " + file.getName());
-                                    TestSequenceInstance seq = TestSequenceInstance.fromFile(file);
-                                    if (seq == null) {
-                                        System.out.println("Output file cannot be Unmarshalled");
+                if (!saveDirectory.canRead()) {
+                    throw new IllegalArgumentException("Output directory does not exist and cannot be read: " + saveDirectory);
+                }
+                File[] files = saveDirectory.listFiles();
+                if (files.length > 0) {
+                    for (int i = 0; !aborted && i < files.length; i++) {
+                        File file = files[i];
+                        if (!file.canWrite()) {
+                            LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
+                        } else {
+                            try {
+                                long startTime = System.currentTimeMillis();
+                                System.out.println("Processing file: " + file.getName());
+                                TestSequenceInstance seq = TestSequenceInstance.fromFile(file);
+                                if (seq == null) {
+                                    System.out.println("Output file cannot be Unmarshalled");
+                                } else {
+                                    EntityManagerFactory emf = seq.getTestStation().getEntityManagerFactory();
+                                    if (emf == null) {
+                                        System.out.println("Entity Manager Factory cannot be obtained");
                                     } else {
-                                        EntityManagerFactory emf = seq.getTestStation().getEntityManagerFactory();
-                                        if (emf == null) {
-                                            System.out.println("Entity Manager Factory cannot be obtained");
+                                        EntityManager em = emf.createEntityManager();
+                                        if (em == null) {
+                                            System.out.println("Entity Manager cannot be obtained");
                                         } else {
-                                            EntityManager em = emf.createEntityManager();
-                                            if (em == null) {
-                                                System.out.println("Entity Manager cannot be obtained");
-                                            } else {
-                                                seq.connect(em);
-                                                if (seq.merge(em)) {
+                                            seq.connect(em);
+                                            if (seq.merge(em)) {
 //                                                Log.log("Output file successfully persisted : " + file.getName());
-                                                    if (model != null) {
-                                                        System.out.println("Replace...");
-                                                        model.replace(seq.getCreateTime(), seq.getHostName());
-//                                                    if (MainFrame.isMemoryEnough()) {
-//                                                        System.out.println("Replace...");
-//                                                        model.replace(seq.getCreateTime(), seq.getHostName());
-//                                                    } else {
-//                                                        System.out.println("Remove...");
-//                                                        model.replace(seq.getCreateTime(), seq.getHostName());
-//                                                    }
-                                                    }
-                                                    if (file.delete()) {
-                                                        LOGGER.fine("Output file successfully deleted : " + file.getName());
-                                                        System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
-                                                    } else {
-                                                        LOGGER.log(Level.SEVERE, "Output file cannot be deleted : " + file.getName());
-                                                    }
-                                                } else {
-                                                    LOGGER.log(Level.SEVERE, "Output file cannot be persisted : " + file.getName());
+                                                if (model != null) {
+                                                    System.out.println("Replace...");
+                                                    model.replace(seq.getCreateTime(), seq.getHostName());
                                                 }
-                                                em.close();
+                                                if (file.delete()) {
+                                                    LOGGER.fine("Output file successfully deleted : " + file.getName());
+                                                    num++;
+                                                    System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+                                                    System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
+                                                } else {
+                                                    LOGGER.log(Level.SEVERE, "Output file cannot be deleted : " + file.getName());
+                                                }
+                                            } else {
+                                                LOGGER.log(Level.SEVERE, "Output file cannot be persisted : " + file.getName());
                                             }
+                                            em.close();
                                         }
                                     }
-                                } catch (Exception ex) {
-                                    LOGGER.log(Level.SEVERE, "Exception : " + ex);
+                                }
+                            } catch (Exception ex) {
+                                LOGGER.log(Level.SEVERE, "Exception : " + ex);
 //                                    aborted = true;
                                 }
-                            }
-                            sleep(1);
                         }
                     }
-                } catch (Exception ex) {
-                    System.out.println(ex);
                 }
-                sleep(1000);
-            } catch (InterruptedException ignored) {
+            } catch (Exception ex) {
+                System.out.println(ex);
             }
         }
     }

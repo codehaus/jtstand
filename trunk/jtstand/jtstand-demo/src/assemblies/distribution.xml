@@ -58,6 +58,13 @@
             <useDefaultExcludes>false</useDefaultExcludes>
         </fileSet>
         <fileSet>
+            <directory>../jtstand-core/target/schema</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.xsd</include>
+            </includes>
+        </fileSet>
+        <fileSet>
             <directory>src/raw</directory>
             <outputDirectory>/</outputDirectory>
         </fileSet>

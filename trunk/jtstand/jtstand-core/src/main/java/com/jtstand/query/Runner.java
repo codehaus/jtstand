@@ -136,6 +136,7 @@ public class Runner extends Thread {
     @Override
     public void run() {
         while (run1()) {
+            System.out.println("Free Memory after running " + Integer.toString(numFailed + numPassed) + " times: " + Runtime.getRuntime().freeMemory());
         }
         if (fixture != null) {
             fixture.sequenceStatusChanged(seq.getStatus());
