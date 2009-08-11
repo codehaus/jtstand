@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project relativePaths="true" version="4">
+  <component name="AntConfiguration">
+    <defaultAnt bundledAnt="true" />
+  </component>
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
@@ -331,6 +334,10 @@
       <module fileurl="file://$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" filepath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-desktop/jtstand-desktop.iml" filepath="$PROJECT_DIR$/jtstand-desktop/jtstand-desktop.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-editor/jtstand-editor.iml" filepath="$PROJECT_DIR$/jtstand-editor/jtstand-editor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-sequence/jtstand-sequence.iml" filepath="$PROJECT_DIR$/jtstand-sequence/jtstand-sequence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-ssh2/jtstand-ssh2.iml" filepath="$PROJECT_DIR$/jtstand-ssh2/jtstand-ssh2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-svn/jtstand-svn.iml" filepath="$PROJECT_DIR$/jtstand-svn/jtstand-svn.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jtstand-svn-core/jtstand-svn-core.iml" filepath="$PROJECT_DIR$/jtstand-svn-core/jtstand-svn-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" filepath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" />
     </modules>
   </component>
@@ -482,17 +489,6 @@
     <find-history />
   </component>
   <component name="libraryTable">
-    <library name="Maven: junit:junit:3.8.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.hibernate:hibernate-core:3.3.2.GA">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/3.3.2.GA/hibernate-core-3.3.2.GA.jar!/" />
@@ -625,17 +621,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/javassist/javassist/3.4.GA/javassist-3.4.GA-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.codehaus.groovy:groovy:1.6.3">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.3/groovy-1.6.3.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.3/groovy-1.6.3-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.3/groovy-1.6.3-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: asm:asm:2.2.3">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/asm/asm/2.2.3/asm-2.2.3.jar!/" />
@@ -713,28 +698,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/jline/jline/0.9.94/jline-0.9.94-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.tmatesoft.svnkit:svnkit:1.3.0.5847">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/tmatesoft/svnkit/svnkit/1.3.0.5847/svnkit-1.3.0.5847.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/tmatesoft/svnkit/svnkit/1.3.0.5847/svnkit-1.3.0.5847-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/tmatesoft/svnkit/svnkit/1.3.0.5847/svnkit-1.3.0.5847-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.apache.derby:derby:10.5.1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.5.1.1/derby-10.5.1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.5.1.1/derby-10.5.1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.5.1.1/derby-10.5.1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: postgresql:postgresql:8.3-603.jdbc4">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/postgresql/postgresql/8.3-603.jdbc4/postgresql-8.3-603.jdbc4.jar!/" />
@@ -810,6 +773,61 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-cli/commons-cli/1.2/commons-cli-1.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: junit:junit:3.8.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.2/junit-3.8.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.2/junit-3.8.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.2/junit-3.8.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.codehaus.groovy:groovy:1.6.4">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.4/groovy-1.6.4.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.4/groovy-1.6.4-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/groovy/groovy/1.6.4/groovy-1.6.4-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.apache.derby:derby:10.4.2.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.4.2.0/derby-10.4.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.4.2.0/derby-10.4.2.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/apache/derby/derby/10.4.2.0/derby-10.4.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: net.java.dev.jna:jna:3.1.0">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna/3.1.0/jna-3.1.0.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna/3.1.0/jna-3.1.0-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/net/java/dev/jna/jna/3.1.0/jna-3.1.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: com.h2database:h2:1.1.116">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/h2database/h2/1.1.116/h2-1.1.116.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/com/h2database/h2/1.1.116/h2-1.1.116-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/com/h2database/h2/1.1.116/h2-1.1.116-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
