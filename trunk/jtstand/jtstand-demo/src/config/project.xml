@@ -132,9 +132,9 @@
         <property name="persistenceProperties"><![CDATA[
             [
             'hibernate.dialect' : 'org.hibernate.dialect.PostgreSQLDialect',
-            'hibernate.connection.driver_class' : 'org.postgresql.Driver'
-            'hibernate.connection.username' : 'dbuser'
-            'hibernate.connection.password' : 'password'
+            'hibernate.connection.driver_class' : 'org.postgresql.Driver',
+            'hibernate.connection.username' : 'dbuser',
+            'hibernate.connection.password' : 'password',
             'hibernate.connection.url' : 'jdbc:postgresql://localhost/jtfw'
             ]
             ]]>
@@ -167,12 +167,12 @@
         <remark>This is the configuration for the host: 'MYSTATION'</remark>
         <property name="persistenceProperties"><![CDATA[
             [
-            'hibernate.connection.driver_class' : 'com.mysql.jdbc.Driver'
-            'hibernate.connection.username' : 'dbuser'
-            'hibernate.connection.password' : 'password'
-            'hibernate.connection.url' : 'jdbc:mysql://localhost:3306/jtfw'
-            'hibernate.connection.provider_class' : 'org.hibernate.connection.C3P0ConnectionProvider'
-            'hibernate.c3p0.max_size' : '100'
+            'hibernate.connection.driver_class' : 'com.mysql.jdbc.Driver',
+            'hibernate.connection.username' : 'dbuser',
+            'hibernate.connection.password' : 'password',
+            'hibernate.connection.url' : 'jdbc:mysql://localhost:3306/jtfw',
+            'hibernate.connection.provider_class' : 'org.hibernate.connection.C3P0ConnectionProvider',
+            'hibernate.c3p0.max_size' : '100',
             'hibernate.c3p0.idleConnectionTestPeriod' : '300'
             ]
             ]]>
