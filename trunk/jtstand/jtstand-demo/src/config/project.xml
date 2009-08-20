@@ -18,7 +18,7 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<project name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+<testProject name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <class name="Foo"><![CDATA[
         class Foo extends com.bar.Bar {
             void fello(){
@@ -227,4 +227,4 @@
             <initSequence subversionUrl="init2.xml" revision="53"/>
         </fixture>
     </testStation>
-</project>
+</testProject>

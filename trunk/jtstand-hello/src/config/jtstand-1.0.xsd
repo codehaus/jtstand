@@ -3,9 +3,9 @@
 
   <xs:element name="library" type="tns:libraryType"/>
 
-  <xs:element name="project" type="tns:projectType"/>
-
   <xs:element name="step" type="tns:testStepType"/>
+
+  <xs:element name="testProject" type="tns:projectType"/>
 
   <xs:element name="testSequence" type="tns:testSequenceType"/>
 
@@ -422,7 +422,7 @@
           </xs:element>
           <xs:element name="status" type="tns:sequenceStatus" minOccurs="0"/>
           <xs:element name="testFixture" type="tns:testFixtureType" minOccurs="0"/>
-          <xs:element name="testProject" type="tns:projectType" minOccurs="0"/>
+          <xs:element ref="tns:testProject" minOccurs="0"/>
           <xs:element ref="tns:testSequence" minOccurs="0"/>
           <xs:element name="testStation" type="tns:testStationType" minOccurs="0"/>
           <xs:element name="testType" type="tns:testType" minOccurs="0"/>

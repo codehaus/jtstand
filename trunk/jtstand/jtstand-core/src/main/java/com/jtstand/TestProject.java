@@ -49,7 +49,7 @@ import java.util.logging.Logger;
  * @author albert_kurucz
  */
 @Entity
-@XmlRootElement(name = "project")
+@XmlRootElement(name = "testProject")
 @XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestProject extends AbstractProperties implements Serializable, PropertiesInterface {
