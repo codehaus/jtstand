@@ -18,8 +18,13 @@
  */
 package com.jtstand;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
+import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
@@ -27,6 +32,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import javax.script.Bindings;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import org.tmatesoft.svn.core.SVNException;
 
 /**
  *
@@ -83,10 +93,17 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         return true;
     }
 
+    public void executeNew(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException {
+        ScriptEngine engine = step.getTestSequenceInstance().getTestProject().getScriptEngineManager().getEngineByExtension((getInterpreter() == null) ? "groovy" : getInterpreter());
+        engine.setBindings(step, ScriptContext.ENGINE_SCOPE);
+        System.out.println(engine.eval(getFileContent()));
+    }
+
     public void execute(TestStepInstance step) throws Exception {
         if (getInterpreter() == null) {
 //            System.out.println("executing groovy script:\n" + getCode());
-            step.runGroovyScript("def propertyMissing(String name){step.getVariable(name)};def setVariable={String name,value->delegate.step.setVariable(name,value)};def setValue={delegate.step.setValue(it)};"+getFileContent());
+            step.runGroovyScript("def propertyMissing(String name){step.getVariable(name)};def setVariable={String name,value->delegate.step.setVariable(name,value)};def setValue={delegate.step.setValue(it)};" + getFileContent());
+
         } else {
             Object o = null;
             try {
@@ -133,7 +150,6 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         }
         return false;
     }
-
 //    public static void main(String[] args) {
 //        ClassLoader cl = TestStepScript.class.getClassLoader();
 //        String bar = "package com.bar;public class Bar { void hello(){println \"hello Bar\"}}";

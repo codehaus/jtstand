@@ -41,6 +41,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.ScriptEngineManager;
 //import org.hibernate.ejb.Ejb3Configuration;
 //import org.hibernate.cache.HashtableCacheProvider;
 
@@ -217,7 +218,7 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
     @OrderBy("testStationsPosition ASC")
     private List<TestStation> testStations = new ArrayList<TestStation>();
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="testProject")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "testProject")
     private Authentication authentication;
     private String name;
     private String pun;
@@ -232,6 +233,7 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Library> libraries = new ArrayList<Library>();
     private static GroovyClassLoader cl;
+    private static ScriptEngineManager manager;
 
     @XmlTransient
     public Map<String, String> getPeristencePropertiesMap() {
@@ -251,6 +253,14 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
         synchronized (librariesLock) {
             return libraries;
         }
+    }
+
+    @XmlTransient
+    public ScriptEngineManager getScriptEngineManager() {
+        if (manager == null) {
+            manager = new ScriptEngineManager(getGroovyClassLoader());
+        }
+        return manager;
     }
 
     @XmlTransient
