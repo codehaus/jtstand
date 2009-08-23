@@ -6,10 +6,10 @@ package com.jtstand;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import junit.framework.TestCase;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
 
 public class TestStepScriptTest extends TestCase {
 
@@ -28,11 +28,11 @@ public class TestStepScriptTest extends TestCase {
 
     public void testClassLoaderGroovyShell() throws ScriptException {
         assertEquals(1, (new GroovyShell(gcl)).parse(SCRIPT).run());
-    }
+    }    
 
-    public void testClassLoaderJSR223() throws ScriptException {
-        ScriptEngineManager factory = new ScriptEngineManager(gcl);
-        ScriptEngine engine = factory.getEngineByName("groovy");
-        assertEquals(1, engine.eval(SCRIPT));
+    public void testClassLoaderBSF() throws BSFException {
+        BSFManager manager = new BSFManager();
+        manager.setClassLoader(gcl);
+        assertEquals(1, manager.eval("groovy", null, 0, 0, SCRIPT));
     }
 }
