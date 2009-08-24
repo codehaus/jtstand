@@ -11,8 +11,6 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import junit.framework.TestCase;
-import org.apache.bsf.BSFException;
-import org.apache.bsf.BSFManager;
 
 public class TestStepScriptTest extends TestCase {
 
@@ -33,14 +31,6 @@ public class TestStepScriptTest extends TestCase {
         Binding binding = new Binding();
         binding.setVariable("r", 1);
         assertEquals(2, (new GroovyShell(gcl, binding)).parse(SCRIPT).run());
-    }
-
-    public void testClassLoaderBSF() throws BSFException {
-        BSFManager manager = new BSFManager();
-        manager.setClassLoader(gcl);
-        manager.declareBean("r", 1, Integer.class);
-        assertEquals(1, manager.lookupBean("r"));
-        assertEquals(2, manager.eval("groovy", null, 0, 0, SCRIPT));
     }
 
     public void testClassLoaderJSR223() throws ScriptException{

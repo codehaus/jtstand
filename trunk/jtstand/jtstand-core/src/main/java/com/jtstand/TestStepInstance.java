@@ -39,6 +39,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.script.Bindings;
+import javax.script.ScriptContext;
 
 /**
  *
@@ -1202,6 +1203,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     public Object get(Object key) {
         if ("$type$".equals(key)) {
             return getClass().getName();
+        }
+        if ("context".equals(key)) {
+            return ScriptContext.ENGINE_SCOPE;
+        }
+        if ("step".equals(key)) {
+            return this;
         }
         if ("id".equals(key)) {
             return id;
