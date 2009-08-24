@@ -20,7 +20,7 @@
 
 <step name="mutexSub" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
     <script>
-        Integer v = (Integer) step.getVariable("VAR1");
+        Integer v = (Integer) VAR1;
         if (v == null){
             v = 1;
         }else{
@@ -31,13 +31,13 @@
         } catch (InterruptedException ex) {
             System.out.println("Step was interrupted while sleeping 1");
         }
-        step.setVariable("VAR1", v);
+        VAR1 = v;
         try {
             Thread.sleep(50);
         } catch (InterruptedException ex) {
             System.out.println("Step was interrupted while sleeping 2");
         }
-        step.setValue(v);
+        value = v;
     </script>
 </step>
 
