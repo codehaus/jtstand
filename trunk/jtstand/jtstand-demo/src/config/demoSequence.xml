@@ -39,7 +39,7 @@
         <step name="RANDOM2">
             <script><![CDATA[
                 System.out.println('AVERAGE: ' + AVERAGE)
-                setVariable 'AVERAGE', AVERAGE * 2.0
+                AVERAGE = AVERAGE * 2.0
                 System.out.println('AVERAGE: ' + AVERAGE)
                 AVERAGE = AVERAGE + 1.0;
                 System.out.println('AVERAGE: ' + AVERAGE)

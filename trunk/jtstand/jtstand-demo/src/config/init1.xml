@@ -23,6 +23,6 @@
     <limit name="positive" comp="GE" lsl="0.0"/>
     <setupStep name="Setup1" useLimit="positive">
         <property name="AVERAGE">0.0</property>
-        <script>step.setValue( step.getPropertyDouble(&quot;AVERAGE&quot;) + step.getPropertyDouble(&quot;SIGMA&quot;,1.0D) * (new java.util.Random()).nextGaussian() )</script>
+        <script>value = step.getPropertyDouble(&quot;AVERAGE&quot;) + step.getPropertyDouble(&quot;SIGMA&quot;,1.0D) * (new java.util.Random()).nextGaussian()</script>
     </setupStep>
 </testSequence>

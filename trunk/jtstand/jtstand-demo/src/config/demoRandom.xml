@@ -35,38 +35,38 @@
         <step name="RANDOM1" useLimit="the 1st step's limit">
             <remark>This is the 1st real step</remark>
             <property name="AVERAGE">0.5 + 0.5</property>
-            <script>step.setValue(step.getPropertyDouble('AVERAGE') + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian() )</script>
+            <script>value = step.getPropertyDouble('AVERAGE') + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian()</script>
         </step>
         <step name="Closure Class">
-            <script>step.setValue(step.getVariable('clos').getClass().getCanonicalName())</script>
+            <script>value = clos.getClass().getCanonicalName()</script>
         </step>
         <step name="Closure Call">
-            <script>step.setValue(step.getVariable('clos').call())</script>
+            <script>value = clos.call()</script>
         </step>
         <step name="Script Class">
-            <script>step.setValue(step.getVariable('scr').call(step).getClass().getCanonicalName())</script>
+            <script>value = scr.call(step).getClass().getCanonicalName()</script>
         </step>
         <step name="Script Call">
-            <script>step.setValue(step.getVariable('scr').call(step).run())</script>
+            <script>value = scr.call(step).run()</script>
         </step>
         <step name="Start the server">
-            <script>step.setVariable('serversocket', new java.net.ServerSocket(step.getPropertyInteger('TEST_IP_PORT')))</script>
+            <script>serversocket = new java.net.ServerSocket(step.getPropertyInteger('TEST_IP_PORT'))</script>
         </step>
         <step name="Server and Client parallel" parallel="true">
             <step name="Server side">
                 <step name="Accept connection at the server">
-                    <script>step.setVariable('serversession', new com.jtstand.io.IOSession(step.getVariable('serversocket').accept()))</script>
+                    <script>serversession = new com.jtstand.io.IOSession(serversocket.accept())</script>
                 </step>
                 <step name="Receive by the server">
-                    <script>step.getVariable('serversession').expect 'GET'</script>
+                    <script>serversession.expect 'GET'</script>
                 </step>
             </step>
             <step name="Client side">
                 <step name="Connect the client" preSleep="50">
-                    <script>step.setVariable('clientsession', new com.jtstand.io.IOSession(new java.net.Socket('127.0.0.1', step.getPropertyInteger('TEST_IP_PORT'))))</script>
+                    <script>clientsession = new com.jtstand.io.IOSession(new java.net.Socket('127.0.0.1', step.getPropertyInteger('TEST_IP_PORT')))</script>
                 </step>
                 <step name="Send from the client">
-                    <script>step.getVariable('clientsession').send 'GET'</script>
+                    <script>clientsession.send 'GET'</script>
                 </step>
             </step>
         </step>
