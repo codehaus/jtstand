@@ -23,7 +23,7 @@
     <setupStep name="Setup2">
         <property name="object1" mutex="true">new InitClass2()</property>
         <step name="step1" useLimit="Barbaric">
-            <script>Foo f=new Foo();f.hello();f.fello();step.setValue(f.getResult());</script>
+            <script>Foo f = new Foo(); f.hello(); f.fello(); result = f.getResult()</script>
         </step>
         <step name="step2" stepClass="InitClass2" useLimit="Barbaric">
         </step>
