@@ -7,7 +7,7 @@ package com.jtstand;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
-import javax.script.Bindings;
+import java.lang.reflect.InvocationTargetException;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -37,27 +37,18 @@ public class TestStepScriptTest extends TestCase {
     }
 
     public void testClassLoaderBSF() throws BSFException {
-        BSFManager manager = new BSFManager() //        {
-                //
-                //            @Override
-                //            public Object lookupBean(String name) {
-                //                if ("r".equals(name)) {
-                //                    return 1;
-                //                }
-                //                return super.lookupBean(name);
-                //            }
-                //        }
-                ;
+        BSFManager manager = new BSFManager();
         manager.setClassLoader(gcl);
         manager.declareBean("r", 1, Integer.class);
         assertEquals(1, manager.lookupBean("r"));
         assertEquals(2, manager.eval("groovy", null, 0, 0, SCRIPT));
     }
 
-//    public void testClassLoaderJSR223() throws ScriptException {
-//        ScriptEngineManager factory = new ScriptEngineManager();
-//        ScriptEngine engine = factory.getEngineByName("groovy");
-//        engine.put("r", 1);
-//        assertEquals(2, engine.eval(SCRIPT));
-//    }
+    public void testClassLoaderJSR223() throws ScriptException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        Thread.currentThread().setContextClassLoader(gcl);
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        engine.put("r", 1);
+        assertEquals(2, engine.eval(SCRIPT));
+    }
 }
