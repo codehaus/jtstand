@@ -44,7 +44,7 @@ public class TestStepScriptTest extends TestCase {
         assertEquals(2, manager.eval("groovy", null, 0, 0, SCRIPT));
     }
 
-    public void testClassLoaderJSR223() throws ScriptException, ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+    public void testClassLoaderJSR223() throws ScriptException{
         ScriptEngineManager factory = new ScriptEngineManager();
         Thread.currentThread().setContextClassLoader(gcl);
         ScriptEngine engine = factory.getEngineByName("groovy");
