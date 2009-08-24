@@ -1098,7 +1098,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public Object put(String key, Object variableValue) {
-        System.out.println("Setting variable: '" + key + "' to " + variableValue);
+        System.out.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
         if ("value".equals(key)) {
             Object retval = getValue();
             setValue(variableValue);
@@ -1182,6 +1182,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @Override
     public boolean containsKey(Object key) {
         return "value".equals(key) ||
+                "step".equals(key) ||
                 localVariablesMap.containsKey((String) key) ||
                 containsKeyPublic(key);
     }
@@ -1201,6 +1202,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public Object get(Object key) {
+        System.out.println("get of Bindings is called with key: '" + key + "'...");
         if ("$type$".equals(key)) {
             return getClass().getName();
         }
@@ -1275,6 +1277,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public boolean containsValue(Object value) {
+        System.out.println("containsValue of Bindings is called");
         for (String key : keySet()) {
             if (value.equals(get(key))) {
                 return true;
@@ -1292,8 +1295,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public Set<String> keySet() {
+        System.out.println("keySet of Bindings is called");
         Set<String> keys = keySetPublic();
         keys.add("value");
+        keys.add("step");
         keys.addAll(localVariablesMap.keySet());
         return keys;
     }
