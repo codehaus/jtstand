@@ -7,12 +7,13 @@ package com.jtstand;
 import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyShell;
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import junit.framework.TestCase;
-import org.apache.bsf.BSFEngine;
 import org.apache.bsf.BSFException;
 import org.apache.bsf.BSFManager;
-import org.apache.bsf.util.ObjectRegistry;
 
 public class TestStepScriptTest extends TestCase {
 
@@ -36,21 +37,27 @@ public class TestStepScriptTest extends TestCase {
     }
 
     public void testClassLoaderBSF() throws BSFException {
-        BSFManager manager = new BSFManager()
-//        {
-//
-//            @Override
-//            public Object lookupBean(String name) {
-//                if ("r".equals(name)) {
-//                    return 1;
-//                }
-//                return super.lookupBean(name);
-//            }
-//        }
-        ;
+        BSFManager manager = new BSFManager() //        {
+                //
+                //            @Override
+                //            public Object lookupBean(String name) {
+                //                if ("r".equals(name)) {
+                //                    return 1;
+                //                }
+                //                return super.lookupBean(name);
+                //            }
+                //        }
+                ;
         manager.setClassLoader(gcl);
         manager.declareBean("r", 1, Integer.class);
         assertEquals(1, manager.lookupBean("r"));
         assertEquals(2, manager.eval("groovy", null, 0, 0, SCRIPT));
     }
+
+//    public void testClassLoaderJSR223() throws ScriptException {
+//        ScriptEngineManager factory = new ScriptEngineManager();
+//        ScriptEngine engine = factory.getEngineByName("groovy");
+//        engine.put("r", 1);
+//        assertEquals(2, engine.eval(SCRIPT));
+//    }
 }
