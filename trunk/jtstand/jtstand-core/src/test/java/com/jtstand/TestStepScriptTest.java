@@ -72,12 +72,12 @@ public class TestStepScriptTest extends TestCase {
 //        assertEquals(2, engine.eval(GROOVY_SCRIPT));
 //    }
 //
-//    public void testClassLoaderJSR223Jruby() throws ScriptException {
-//        ScriptEngineManager factory = new ScriptEngineManager();
-//        Thread.currentThread().setContextClassLoader(gcl);
-//
-//        ScriptEngine engine = factory.getEngineByName("jruby");
-//        engine.put("r", 1);
-//        assertEquals(2, engine.eval(GROOVY_SCRIPT));
-//    }
+    public void testClassLoaderJSR223Jruby() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        Thread.currentThread().setContextClassLoader(gcl);
+
+        ScriptEngine engine = factory.getEngineByName("jruby");
+        engine.put("r", 1);
+        assertEquals(2, engine.eval(GROOVY_SCRIPT));
+    }
 }
