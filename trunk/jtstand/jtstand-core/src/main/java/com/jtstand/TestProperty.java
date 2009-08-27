@@ -25,12 +25,14 @@ import groovy.lang.GroovyShell;
 import javax.persistence.*;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import org.hibernate.annotations.ForceDiscriminator;
 
 /**
  *
  * @author albert_kurucz
  */
 @Entity
+@ForceDiscriminator
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
