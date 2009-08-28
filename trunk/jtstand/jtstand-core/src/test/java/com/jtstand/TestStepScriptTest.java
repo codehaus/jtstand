@@ -11,14 +11,53 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import junit.framework.TestCase;
 
-
 public class TestStepScriptTest extends TestCase {
 
-    public static final String FOO = "class Foo { int getResult() { return 1; } }";
     public static final String GROOVY_SCRIPT = "Foo f = new Foo(); f.getResult() + localvar + globalvar";
     public static final String JS_SCRIPT = "var f = new Packages.Foo(); f.getResult() + localvar + globalvar";
     public static final String RUBY_SCRIPT = "require 'java' \n include_class 'Foo' \n f = Foo.new \n f.getResult() + localvar + globalvar";
+    public static final String FOO_CLASS = "class Foo { int getResult() { return 1; } } ; Foo.class";
+    public static final String FOO = "class Foo { int getResult() { return 1; } }";
+    public static final String I = "Integer i = 1";
+    public static final String FOOBAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } } ; Bar b = new Bar(); b.getResult()";
+    public static final String BAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } }";
+    public static final String MY_THREAD = "class MyThread extends Thread { void run() { System.out.println(\"Hi there!\") } } ";
 
+    public void testMyThread() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        engine.eval(MY_THREAD);
+    }
+
+    public void testFooBar() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        assertEquals(2, engine.eval(FOOBAR));
+    }
+
+    public void testBar() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        //assertEquals("Bar", ((Class) engine.eval(BAR)).getCanonicalName());
+    }
+
+    public void testI() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        assertEquals(1, engine.eval(I));
+    }
+
+    public void testClassEvalVerbose() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        assertEquals("Foo", ((Class) engine.eval(FOO_CLASS)).getCanonicalName());
+    }
+
+    public void testClassEvalBrief() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        //assertEquals("Foo", ((Class) engine.eval(FOO)).getCanonicalName());
+    }
     public static GroovyClassLoader gcl = new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
 
         @Override
@@ -57,7 +96,6 @@ public class TestStepScriptTest extends TestCase {
         engine.put("localvar", 1);
         assertEquals(3.0, engine.eval(JS_SCRIPT));
     }
-
 //    public void testClassLoaderJSR223Python() throws ScriptException {
 //        ScriptEngineManager factory = new ScriptEngineManager();
 //        factory.put("globalvar", 1);
@@ -67,7 +105,6 @@ public class TestStepScriptTest extends TestCase {
 //        assertEquals(3, engine.eval(GROOVY_SCRIPT));
 //    }
 //
-
 //    public void testClassLoaderJSR223Jruby() throws ScriptException {
 //        ScriptEngineManager factory = new ScriptEngineManager();
 //        factory.put("globalvar", 1);
