@@ -21,12 +21,13 @@ package com.jtstand;
 import java.io.Serializable;
 import java.util.*;
 import java.util.logging.Logger;
+import javax.script.ScriptException;
 
 /**
  *
  * @author albert_kurucz
  */
-abstract public class AbstractVariables extends AbstractProperties implements Serializable, PropertiesInterface {
+abstract public class AbstractVariables extends AbstractProperties implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     private Map<String, Object> variablesMap = new HashMap<String, Object>();
@@ -64,7 +65,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         return this;
     }
 
-    public Object getVariable(String keyString, boolean wait, TestProperty tsp, TestStepInstance step) throws InterruptedException {
+    public Object getVariable(String keyString, boolean wait, TestProperty tsp, TestStepInstance step) throws InterruptedException, ScriptException {
         if (wait) {
             while (true) {
                 Object v = getVariable(keyString, tsp, step);
@@ -78,14 +79,14 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         if (v != null) {
             return v;
         }
-        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step.getBinding());
+        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step);
         if (v != null) {
             put(keyString, v);
         }
         return v;
     }
 
-    private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws InterruptedException {
+    private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws ScriptException,InterruptedException {
         if (tsp.getPropertyValueAttribute() != null) {
 //            System.out.println("propertyValueAttribute of '" + tsp.getName() + "' is: '" + tsp.getPropertyValueAttribute() + "'");
             return tsp.getPropertyValueAttribute();

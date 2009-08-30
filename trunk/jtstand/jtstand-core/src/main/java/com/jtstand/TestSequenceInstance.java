@@ -18,7 +18,8 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
+import javax.script.Bindings;
+import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -36,6 +37,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -44,7 +46,7 @@ import java.util.logging.Logger;
 @Entity
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
-public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance>, PropertiesInterface {
+public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
     public static final long serialVersionUID = 20081114L;
     public static final String STR_FIXTURE = "fixture";
@@ -830,36 +832,36 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("sequence", this);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings = new SimpleBindings();
+            bindings.put("sequence", this);
         }
-        return binding;
+        return bindings;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("sequence", this);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("sequence", this);
         }
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         }
         if (getTestType() != null) {
             for (TestProperty tsp : getTestType().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
             if (getTestType().getProduct() != null) {
                 for (TestProperty tsp : getTestType().getProduct().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                        return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                     }
                 }
             }
@@ -867,21 +869,21 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestFixture() != null) {
             for (TestProperty tsp : getTestFixture().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         }
         if (getTestStation() != null) {
             for (TestProperty tsp : getTestStation().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         }
         if (getTestProject() != null) {
             for (TestProperty tsp : getTestProject().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         }
@@ -928,7 +930,12 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public boolean toFile() {
-        return toFile(testStation.getSaveDirectory());
+        try {
+            return toFile(testStation.getSaveDirectory());
+        } catch (ScriptException ex) {
+            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 //    public boolean toFile(Object saveDirectory) {
@@ -1117,7 +1124,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             throw new IllegalArgumentException("Cannot merge " + step.getClass().getCanonicalName() + ", which is not a descendant!");
         }
         return step.merge(getEntityManager());
-    }
+}
 
     @Override
     protected void finalize() throws Throwable {

@@ -26,7 +26,6 @@ import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -96,25 +95,25 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         System.out.println(engine.eval(getFileContent()));
     }
 
-    public void executeOld(TestStepInstance step) throws Exception {
-        if (getInterpreter() == null) {
-//            System.out.println("executing groovy script:\n" + getCode());
-            step.runGroovyScript("def propertyMissing(String name){step.getVariable(name)};def setVariable={String name,value->delegate.step.setVariable(name,value)};def setValue={delegate.step.setValue(it)};" + getFileContent());
-
-        } else {
-            Object o = null;
-            try {
-                o = step.getVariable(getInterpreter());
-            } catch (Exception ex) {
-                Class<?> stepClass = Class.forName(step.getPropertyString(getInterpreter(), getInterpreter()));
-                Constructor<?> stepObjectContructor = stepClass.getConstructor(TestStepInstance.NULL_CONSTRUCTOR);
-                o = stepObjectContructor.newInstance();
-                ((Interpreter) o).eval(getFileContent(), step);
-                disposeOrClose(o);
-            }
-            ((Interpreter) o).eval(getFileContent(), step);
-        }
-    }
+//    public void executeOld(TestStepInstance step) throws Exception {
+//        if (getInterpreter() == null) {
+////            System.out.println("executing groovy script:\n" + getCode());
+//            step.runGroovyScript("def propertyMissing(String name){step.getVariable(name)};def setVariable={String name,value->delegate.step.setVariable(name,value)};def setValue={delegate.step.setValue(it)};" + getFileContent());
+//
+//        } else {
+//            Object o = null;
+//            try {
+//                o = step.getVariable(getInterpreter());
+//            } catch (Exception ex) {
+//                Class<?> stepClass = Class.forName(step.getPropertyString(getInterpreter(), getInterpreter()));
+//                Constructor<?> stepObjectContructor = stepClass.getConstructor(TestStepInstance.NULL_CONSTRUCTOR);
+//                o = stepObjectContructor.newInstance();
+//                ((Interpreter) o).eval(getFileContent(), step);
+//                disposeOrClose(o);
+//            }
+//            ((Interpreter) o).eval(getFileContent(), step);
+//        }
+//    }
 
     public static boolean disposeOrClose(Object o) {
         return call(o, "dispose") ? true : call(o, "close");

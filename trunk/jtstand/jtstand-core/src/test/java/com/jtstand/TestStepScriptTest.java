@@ -25,8 +25,9 @@ public class TestStepScriptTest extends TestCase {
 
     public void testMyThread() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("groovy");
-        engine.eval(MY_THREAD);
+        ScriptEngine engine1 = factory.getEngineByName("groovy");
+        ScriptEngine engine2 = factory.getEngineByName("groovy");
+        assertNotSame(engine1, engine2);
     }
 
     public void testFooBar() throws ScriptException {

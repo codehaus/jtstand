@@ -18,17 +18,16 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
-
+import javax.script.Bindings;
 import java.io.Serializable;
+import javax.script.ScriptException;
 
 /**
  *
  * @author albert_kurucz
  */
-abstract public class AbstractProperties implements PropertiesInterface, Serializable {
+abstract public class AbstractProperties implements Serializable {
 
-    @Override
     public Boolean getPropertyBoolean(String keyString, boolean defaultValue) {
         try {
             return getPropertyBoolean(keyString);
@@ -37,8 +36,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Boolean getPropertyBoolean(String keyString) {
+    public Boolean getPropertyBoolean(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
 //            System.out.println("Required Boolean type property is missing: " + keyString);
@@ -52,7 +50,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Boolean.valueOf(prop.toString().trim());
     }
 
-    @Override
     public Byte getPropertyByte(String keyString, Byte defaultValue) {
         try {
             return getPropertyByte(keyString);
@@ -61,8 +58,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Byte getPropertyByte(String keyString) {
+    public Byte getPropertyByte(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
             throw new IllegalArgumentException("Required Byte type property is missing: " + keyString);
@@ -77,7 +73,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Byte.parseByte(propString);
     }
 
-    @Override
     public Integer getPropertyInteger(String keyString, Integer defaultValue) {
         try {
             return getPropertyInteger(keyString);
@@ -86,8 +81,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Integer getPropertyInteger(String keyString) {
+    public Integer getPropertyInteger(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
             throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
@@ -102,7 +96,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Integer.parseInt(propString);
     }
 
-    @Override
     public Short getPropertyShort(String keyString, Short defaultValue) {
         try {
             return getPropertyShort(keyString);
@@ -111,8 +104,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Short getPropertyShort(String keyString) {
+    public Short getPropertyShort(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
             throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
@@ -127,7 +119,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Short.parseShort(propString);
     }
 
-    @Override
     public Long getPropertyLong(String keyString, Long defaultValue) {
         try {
             return getPropertyLong(keyString);
@@ -136,8 +127,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Long getPropertyLong(String keyString) {
+    public Long getPropertyLong(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
             throw new IllegalArgumentException("Required Long type property is missing: " + keyString);
@@ -152,7 +142,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Long.parseLong(propString);
     }
 
-    @Override
     public Double getPropertyDouble(String keyString, Double defaultValue) {
         try {
             return getPropertyDouble(keyString);
@@ -161,8 +150,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Double getPropertyDouble(String keyString) {
+    public Double getPropertyDouble(String keyString) throws ScriptException {
 //        System.out.println("Getting Double property: '" + keyString + "'");
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
@@ -174,7 +162,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return Double.parseDouble(prop.toString());
     }
 
-    @Override
     public Character getPropertyCharacter(String keyString, Character defaultValue) {
         try {
             return getPropertyCharacter(keyString);
@@ -183,8 +170,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public Character getPropertyCharacter(String keyString) {
+    public Character getPropertyCharacter(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
             throw new IllegalArgumentException("Required Character type property is missing: " + keyString);
@@ -202,7 +188,6 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         throw new IllegalArgumentException("Cannot evaluate the property:'" + keyString + "' as a single Character:'" + propString + "'");
     }
 
-    @Override
     public String getPropertyString(String keyString, String defaultValue) {
         try {
             return getPropertyString(keyString);
@@ -213,8 +198,7 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         }
     }
 
-    @Override
-    public String getPropertyString(String keyString) {
+    public String getPropertyString(String keyString) throws ScriptException {
 //        System.out.println("Finding String property : '" + keyString + "'...");
         Object prop = getPropertyObject(keyString);
         if (prop == null) {
@@ -225,13 +209,12 @@ abstract public class AbstractProperties implements PropertiesInterface, Seriali
         return prop.toString();
     }
 
-    @Override
-    public Object getPropertyObject(String keyString) {
-        return getPropertyObject(keyString, getBinding());
+    public Object getPropertyObject(String keyString) throws ScriptException {
+        return getPropertyObject(keyString, getBindings());
     }
-    protected transient Binding binding;
+    protected transient Bindings bindings;
 
-    abstract public Binding getBinding();
+    abstract public Bindings getBindings();
 
-    abstract public Object getPropertyObject(String keyString, Binding binding);
+    abstract public Object getPropertyObject(String keyString, Bindings binding) throws ScriptException;
 }

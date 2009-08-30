@@ -18,14 +18,16 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
 
 import javax.persistence.*;
+import javax.script.ScriptException;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -35,7 +37,7 @@ import java.util.ListIterator;
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "partNumber", "partRevision"}), @UniqueConstraint(columnNames = {"testproject_id", "partNumber", "partRevision"})})
 @XmlType(name = "productType", propOrder = {"partRevision", "partNumber", "remark", "properties", "testTypes"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class Product extends AbstractProperties implements Serializable, PropertiesInterface {
+public class Product extends AbstractProperties implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
@@ -210,26 +212,26 @@ public class Product extends AbstractProperties implements Serializable, Propert
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("product", this);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings = new SimpleBindings();
+            bindings.put("product", this);
         }
-        return binding;
+        return bindings;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("product", this);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("product", this);
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
             }
         }
         if (getTestProject() != null) {
-            return getTestProject().getPropertyObject(keyString, binding);
+            return getTestProject().getPropertyObject(keyString, bindings);
         }
         return null;
     }

@@ -19,7 +19,8 @@
 package com.jtstand;
 
 import com.jtstand.query.GeneralQuery;
-import groovy.lang.Binding;
+import java.util.logging.Level;
+import javax.script.ScriptException;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
 
 import javax.persistence.*;
@@ -32,6 +33,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Logger;
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -104,13 +107,17 @@ public class TestStation extends AbstractVariables implements Serializable {
     @XmlTransient
     public EntityManagerFactory getEntityManagerFactory() {
         if (entityManagerFactory == null && getTestProject() != null && getTestProject().getPun() != null) {
-            entityManagerFactory = Persistence.createEntityManagerFactory(getTestProject().getPun(), getPeristencePropertiesFixedMap());
+            try {
+                entityManagerFactory = Persistence.createEntityManagerFactory(getTestProject().getPun(), getPeristencePropertiesFixedMap());
+            } catch (ScriptException ex) {
+                Logger.getLogger(TestStation.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return entityManagerFactory;
     }
 
     @XmlTransient
-    public Map<String, String> getPeristencePropertiesFixedMap() {
+    public Map<String, String> getPeristencePropertiesFixedMap() throws ScriptException {
         Map<String, String> map = getPeristencePropertiesMap();
         if (getPeristencePropertiesMap().get("hibernate.connection.driver_class") == null) {
             map.put("hibernate.connection.driver_class", getDriver().driverClass);
@@ -130,7 +137,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
 
     @XmlTransient
-    private Map<String, String> getPeristencePropertiesMap() {
+    private Map<String, String> getPeristencePropertiesMap() throws ScriptException {
         Map<String, String> ppm = getTestProject() != null ? getTestProject().getPeristencePropertiesMap() : new HashMap<String, String>();
         Object sppm = getPropertyObject("persistenceProperties");
         if (sppm != null) {
@@ -307,26 +314,26 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("station", this);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings =  new SimpleBindings() ;
+            bindings.put("station", this);
         }
-        return binding;
+        return bindings;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("station", this);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("station", this);
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), binding);
+                return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
             }
         }
         if (getTestProject() != null) {
-            return getTestProject().getPropertyObject(keyString, binding);
+            return getTestProject().getPropertyObject(keyString, bindings);
         }
         return null;
     }
@@ -371,7 +378,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
 
     @XmlTransient
-    public String getPersistenceProtocol() {
+    public String getPersistenceProtocol() throws ScriptException {
         String pp = "jdbc:" + getDriver().toString() + ":";
         System.out.println("Persistence protocol: " + pp);
         return pp;
@@ -393,7 +400,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
 
     @XmlTransient
-    public Driver getDriver() {
+    public Driver getDriver() throws ScriptException {
         String driverClass = getPeristencePropertiesMap().get("hibernate.connection.driver_class");
         if (driverClass == null) {
 //            return Driver.derby;
@@ -409,7 +416,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
 
     @XmlTransient
-    public String getPersistencePath() {
+    public String getPersistencePath() throws ScriptException {
         String url = getPeristencePropertiesMap().get("hibernate.connection.url");
         if (url == null) {
             Driver driver = getDriver();
@@ -440,12 +447,12 @@ public class TestStation extends AbstractVariables implements Serializable {
         return path;
     }
 
-    public boolean databaseReset(String username, String password) throws ClassNotFoundException, SQLException {
+    public boolean databaseReset(String username, String password) throws ClassNotFoundException, SQLException, ScriptException {
         createDB(username, password);
         return databaseUpdate();
     }
 
-    private void createDB(String username, String password) throws ClassNotFoundException, SQLException {
+    private void createDB(String username, String password) throws ClassNotFoundException, SQLException, ScriptException {
         switch (getDriver()) {
             case h2:
             case derby:
@@ -547,7 +554,7 @@ public class TestStation extends AbstractVariables implements Serializable {
         return dir.delete();
     }
 
-    public boolean databaseValidate() {
+    public boolean databaseValidate() throws ScriptException {
         if (Driver.derby.equals(getDriver())) {
             if (!(new File(getPersistencePath())).isDirectory()) {
                 System.out.println("Derby directory is missing: " + getPersistencePath());
@@ -626,7 +633,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     public static final String STR_SAVE_DIRECTORY = "jtstand.saveDirectory";
 
     @XmlTransient
-    public File getSaveDirectory() {
+    public File getSaveDirectory() throws ScriptException {
         File saveDirectory;
         Object o = getPropertyObject(STR_SAVE_DIRECTORY);
         if (o != null) {

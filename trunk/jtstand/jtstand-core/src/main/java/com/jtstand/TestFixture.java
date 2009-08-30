@@ -18,14 +18,17 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
 
 import javax.persistence.*;
+import javax.script.ScriptException;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -218,26 +221,27 @@ public class TestFixture extends AbstractVariables implements Serializable {
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("fixture", this);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings = new SimpleBindings();
+            bindings.put("fixture", this);
         }
-        return binding;
+        return bindings;
     }
 
+
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("fixture", this);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("fixture", this);
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestStation().getTestProject().getGroovyClassLoader(), binding);
+                return tsp.getPropertyObject(getTestStation().getTestProject().getGroovyClassLoader(), bindings);
             }
         }
         if (testStation != null) {
-            return testStation.getPropertyObject(keyString, binding);
+            return testStation.getPropertyObject(keyString, bindings);
         }
         return null;
     }

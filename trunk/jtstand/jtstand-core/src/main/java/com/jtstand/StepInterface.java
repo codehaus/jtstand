@@ -18,19 +18,19 @@
  */
 package com.jtstand;
 
-import groovy.lang.Script;
 
 import java.util.logging.Logger;
+import javax.script.ScriptException;
 
 /**
  *
  * @author albert_kurucz
  */
-public interface StepInterface extends PropertiesInterface {
+public interface StepInterface {
 
-    Object getVariable(String keyString) throws InterruptedException;
+    Object getVariable(String keyString) throws InterruptedException, ScriptException;
 
-    Object getVariableWait(String keyString) throws InterruptedException;
+    Object getVariableWait(String keyString) throws InterruptedException, ScriptException;
 
     void releaseVariable(String keyString);
 
@@ -48,7 +48,4 @@ public interface StepInterface extends PropertiesInterface {
 
     String getName();
 
-    void runGroovyScript(String scriptText);
-
-    Script parse(String scriptText);
 }

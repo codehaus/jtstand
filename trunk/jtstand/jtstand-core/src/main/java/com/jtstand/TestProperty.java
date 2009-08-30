@@ -18,13 +18,12 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyClassLoader;
-import groovy.lang.GroovyShell;
-
 import javax.persistence.*;
+import javax.script.ScriptException;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import javax.script.Bindings;
+import javax.script.ScriptEngine;
 import org.hibernate.annotations.ForceDiscriminator;
 
 /**
@@ -51,6 +50,7 @@ public class TestProperty implements Serializable {
     private Boolean finalVariable;
     @ManyToOne
     private FileRevision creator;
+//    private String interpreter;
 
     @XmlTransient
     public Long getId() {
@@ -139,27 +139,33 @@ public class TestProperty implements Serializable {
         this.finalVariable = finalVariable;
     }
 
-    public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
+//    public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
+    public Object getPropertyObject(ClassLoader classLoader, Bindings bindings) throws ScriptException {
         if (getPropertyValueAttribute() != null) {
-//            System.out.println("propertyValueAttribute of '" + getName() + "' is: '" + getPropertyValueAttribute() + "'");
             return getPropertyValueAttribute();
         }
         if (propertyValue == null || propertyValue.length() == 0) {
             return null;
         }
-        String pv = "def propertyMissing(String name){step.getVariable(name)};" + propertyValue;
-        if (gcl != null) {
-            if (binding != null) {
-                return (new GroovyShell(gcl, binding)).evaluate(pv);
-            } else {
-                return (new GroovyShell(gcl)).evaluate(pv);
-            }
-        } else {
-            if (binding != null) {
-                return (new GroovyShell(binding)).evaluate(pv);
-            } else {
-                return (new GroovyShell()).evaluate(pv);
-            }
+        if (classLoader != null) {
+            Thread.currentThread().setContextClassLoader(classLoader);
         }
+        ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName("groovy"); //(getInterpreter() == null) ? "groovy" : getInterpreter()
+        //engine.put(step, ScriptContext.ENGINE_SCOPE);
+        return engine.eval(getPropertyValue());
+//        String pv = "def propertyMissing(String name){step.getVariable(name)};" + propertyValue;
+//        if (gcl != null) {
+//            if (binding != null) {
+//                return (new GroovyShell(gcl, binding)).evaluate(pv);
+//            } else {
+//                return (new GroovyShell(gcl)).evaluate(pv);
+//            }
+//        } else {
+//            if (binding != null) {
+//                return (new GroovyShell(binding)).evaluate(pv);
+//            } else {
+//                return (new GroovyShell()).evaluate(pv);
+//            }
+//        }
     }
 }

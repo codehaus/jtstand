@@ -18,8 +18,8 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
 import groovy.lang.GroovyClassLoader;
+import javax.script.ScriptException;
 import org.codehaus.groovy.control.CompilationFailedException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
@@ -42,6 +42,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.script.ScriptEngineManager;
+import javax.script.Bindings;
+import javax.script.SimpleBindings;
 //import org.hibernate.ejb.Ejb3Configuration;
 //import org.hibernate.cache.HashtableCacheProvider;
 
@@ -53,7 +55,7 @@ import javax.script.ScriptEngineManager;
 @XmlRootElement(name = "testProject")
 @XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestProject extends AbstractProperties implements Serializable, PropertiesInterface {
+public class TestProject extends AbstractProperties implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
     public static final String TEST_PROJECT = "testProject";
@@ -236,7 +238,7 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     private static ScriptEngineManager manager;
 
     @XmlTransient
-    public Map<String, String> getPeristencePropertiesMap() {
+    public Map<String, String> getPeristencePropertiesMap() throws ScriptException {
         Object pppm = this.getPropertyObject("persistenceProperties");
         if (pppm != null) {
             if (pppm instanceof Map) {
@@ -255,10 +257,10 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
         }
     }
 
-    @XmlTransient
-    public ScriptEngineManager getScriptEngineManager() {
+    //@XmlTransient
+    public static ScriptEngineManager getScriptEngineManager() {
         if (manager == null) {
-            manager = new ScriptEngineManager(getGroovyClassLoader());
+            manager = new ScriptEngineManager();
         }
         return manager;
     }
@@ -708,22 +710,22 @@ public class TestProject extends AbstractProperties implements Serializable, Pro
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("project", this);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings = new SimpleBindings();
+            bindings.put("project", this);
         }
-        return binding;
+        return bindings;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("project", this);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("project", this);
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getGroovyClassLoader(), binding);
+                return tsp.getPropertyObject(getGroovyClassLoader(), bindings);
             }
         }
         try {

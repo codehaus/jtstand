@@ -18,10 +18,8 @@
  */
 package com.jtstand;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import groovy.lang.Script;
 import java.util.Map.Entry;
+import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -521,14 +519,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     private static long lastTime = 0;
     private static Object lastTimeLock = new Object();
 
-    public void runGroovyScript(String scriptText) {
-        parse(scriptText).run();
-    }
-
-    public Script parse(String scriptText) {
-        return (new GroovyShell(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), getBinding())).parse(scriptText);
-    }
-
+//    public void runGroovyScript(String scriptText) {
+//        parse(scriptText).run();
+//    }
+//
+//    public Script parse(String scriptText) {
+//        return (new GroovyShell(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), getBindings())).parse(scriptText);
+//    }
     @Override
     public void run() {
 //        Log.log(getTestStepInstancePath() + " started");
@@ -904,17 +901,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("step", (StepInterface) this);
-            binding.setVariable("binding", binding);
-        }
-        return binding;
+    public Bindings getBindings() {
+        return this;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
 //        System.out.println("Getting property:'" + keyString + "'...");
 //        if (binding != null) {
 //            binding.setVariable("step", (StepInterface) this);
@@ -922,7 +914,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getTestStep() != null) {
             for (TestProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         } else {
@@ -931,23 +923,23 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getCalledTestStep() != null) {
             for (TestProperty tsp : getCalledTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), binding);
+                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getGroovyClassLoader(), bindings);
                 }
             }
         }
         if (getParent() != null) {
-            return getParent().getPropertyObject(keyString, binding);
+            return getParent().getPropertyObject(keyString, bindings);
         }
-        return getTestSequenceInstance().getPropertyObject(keyString, binding);
+        return getTestSequenceInstance().getPropertyObject(keyString, bindings);
     }
 
     @Override
-    public Object getVariable(String keyString) throws InterruptedException {
+    public Object getVariable(String keyString) throws InterruptedException, ScriptException {
         return getVariable(keyString, false);
     }
 
     @Override
-    public Object getVariableWait(String keyString) throws InterruptedException {
+    public Object getVariableWait(String keyString) throws InterruptedException, ScriptException {
         return getVariable(keyString, true);
     }
 
@@ -969,11 +961,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return thisThread;
     }
 
-    public Object getVariable(String keyString, boolean wait) throws InterruptedException {
+    public Object getVariable(String keyString, boolean wait) throws InterruptedException, ScriptException {
         return getVariable(keyString, wait, this);
     }
 
-    public Object getVariable(String keyString, boolean wait, TestStepInstance step) throws InterruptedException {
+    public Object getVariable(String keyString, boolean wait, TestStepInstance step) throws InterruptedException, ScriptException {
 //        System.out.println("Getting variable: '" + keyString + "'");
         if ("out".equals(keyString)) {
             return System.out;
@@ -1253,7 +1245,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             return localVariablesMap.get((String) key);
         }
         try {
+
             return getVariable((String) key);
+        } catch (ScriptException ex) {
+            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());
         }
