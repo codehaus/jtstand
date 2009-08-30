@@ -58,7 +58,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     private Frame parentFrame;
 //    private transient Binding binding;
     private Dimension initialSize;
-    private PropertiesInterface properties = new StarterProperties(this);
+    private StarterProperties properties = new StarterProperties(this);
 
     public StarterCommonDialog(Frame parentFrame, boolean modal, String employeeNumber, TestFixture testFixture, TestStation testStation, TestProject testProject, FrameInterface fi, Fixture fixture) {
         super(parentFrame, modal);

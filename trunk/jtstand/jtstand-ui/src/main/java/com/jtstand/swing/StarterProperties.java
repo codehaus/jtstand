@@ -19,16 +19,18 @@
 package com.jtstand.swing;
 
 import com.jtstand.AbstractProperties;
-import com.jtstand.PropertiesInterface;
+//import com.jtstand.PropertiesInterface;
 import com.jtstand.TestType;
 import com.jtstand.TestTypeReference;
-import groovy.lang.Binding;
+import java.util.HashMap;
+import javax.script.Bindings;
+import javax.script.ScriptException;
 
 /**
  *
  * @author albert_kurucz
  */
-public class StarterProperties extends AbstractProperties implements PropertiesInterface {
+public class StarterProperties extends AbstractProperties {
 
     public static final long serialVersionUID = 20080507L;
     private StarterInterface si;
@@ -38,31 +40,31 @@ public class StarterProperties extends AbstractProperties implements PropertiesI
     }
 
     @Override
-    public Binding getBinding() {
-        if (binding == null) {
-            binding = new Binding();
-            binding.setVariable("starter", si);
+    public Bindings getBindings() {
+        if (bindings == null) {
+            bindings = (Bindings) new HashMap();
+            bindings.put("starter", si);
         }
-        return binding;
+        return bindings;
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Binding binding) {
-        if (binding != null) {
-            binding.setVariable("starter", si);
+    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        if (bindings != null) {
+            bindings.put("starter", si);
         }
         TestTypeReference ttr = si.getTestType();
         if (ttr != null && ttr.getTestStation() != null && ttr.getTestStation().getTestProject() != null) {
             TestType testType = ttr.getTestStation().getTestProject().getTestType(ttr);
             if (testType != null) {
-                return testType.getPropertyObject(keyString, binding);
+                return testType.getPropertyObject(keyString, bindings);
             }
         }
         if (si.getTestFixture() != null) {
-            return si.getTestFixture().getPropertyObject(keyString, binding);
+            return si.getTestFixture().getPropertyObject(keyString, bindings);
         }
         if (si.getTestStation() != null) {
-            return si.getTestStation().getPropertyObject(keyString, binding);
+            return si.getTestStation().getPropertyObject(keyString, bindings);
         }
         return null;
     }

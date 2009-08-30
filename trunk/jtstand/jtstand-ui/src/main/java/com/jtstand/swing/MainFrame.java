@@ -30,6 +30,7 @@ import com.jtstand.TestStepInstance;
 import com.jtstand.TestStepScript;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.ToDatabase;
+import javax.script.ScriptException;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
@@ -337,7 +338,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
     }
 
-    public MainFrame(TestStation testStation) {
+    public MainFrame(TestStation testStation) throws ScriptException {
         this();
         this.testStation = testStation;
         setLookAndFeel();
@@ -462,7 +463,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
         bar.add(new JSeparator(JSeparator.VERTICAL), getSeparatorConstraint());
         freeDiskLabel = new JLabel("D: x.xxx GB ");
-        freeDiskLabel.setToolTipText("Available Disk Space on '" + getTestStation().getSaveDirectory().getPath() + "'");
+        try {
+            freeDiskLabel.setToolTipText("Available Disk Space on '" + getTestStation().getSaveDirectory().getPath() + "'");
+        } catch (ScriptException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         freeDiskLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         bar.add(freeDiskLabel);
         Thread t = new Thread(new Runnable() {
@@ -470,7 +475,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             @Override
             public void run() {
                 while (true) {
-                    showFreeDisk(getTestStation().getSaveDirectory().getUsableSpace());
+                    try {
+                        showFreeDisk(getTestStation().getSaveDirectory().getUsableSpace());
+                    } catch (ScriptException ex) {
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException ex) {
