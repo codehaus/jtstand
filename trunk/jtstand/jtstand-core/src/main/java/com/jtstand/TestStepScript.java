@@ -89,7 +89,7 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
     }
 
     public void execute(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException {
-        Thread.currentThread().setContextClassLoader(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader());
+        Thread.currentThread().setContextClassLoader(step.getTestSequenceInstance().getTestProject().getClassLoader());
         ScriptEngine engine = step.getTestSequenceInstance().getTestProject().getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
         engine.setBindings(step, ScriptContext.ENGINE_SCOPE);
         System.out.println(engine.eval(getFileContent()));
@@ -146,17 +146,4 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         }
         return false;
     }
-//    public static void main(String[] args) {
-//        ClassLoader cl = TestStepScript.class.getClassLoader();
-//        String bar = "package com.bar;public class Bar { void hello(){println \"hello Bar\"}}";
-//        GroovyClassLoader gcl = new GroovyClassLoader(cl);
-//        gcl.parseClass(bar);
-//        cl = gcl;
-//        String foo = "public class Foo extends com.bar.Bar { void fello(){println \"hello Foo\"}}";
-//        GroovyClassLoader gcl2 = new GroovyClassLoader(cl);
-//        gcl2.parseClass(foo);
-//        cl = gcl2;
-//        String scriptText = "(new Foo()).hello()\n(new Foo()).fello()";
-//        (new GroovyShell(new GroovyClassLoader(cl))).parse(scriptText).run();
-//    }
 }

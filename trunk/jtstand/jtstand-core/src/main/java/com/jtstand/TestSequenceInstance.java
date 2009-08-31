@@ -848,20 +848,20 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                 }
             }
         }
         if (getTestType() != null) {
             for (TestProperty tsp : getTestType().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                 }
             }
             if (getTestType().getProduct() != null) {
                 for (TestProperty tsp : getTestType().getProduct().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                        return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                     }
                 }
             }
@@ -869,21 +869,21 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestFixture() != null) {
             for (TestProperty tsp : getTestFixture().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                 }
             }
         }
         if (getTestStation() != null) {
             for (TestProperty tsp : getTestStation().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                 }
             }
         }
         if (getTestProject() != null) {
             for (TestProperty tsp : getTestProject().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
                 }
             }
         }

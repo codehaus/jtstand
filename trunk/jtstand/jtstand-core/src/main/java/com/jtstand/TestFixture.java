@@ -237,7 +237,7 @@ public class TestFixture extends AbstractVariables implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestStation().getTestProject().getGroovyClassLoader(), bindings);
+                return tsp.getPropertyObject(getTestStation().getTestProject().getClassLoader(), bindings);
             }
         }
         if (testStation != null) {

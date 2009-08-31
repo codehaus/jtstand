@@ -227,7 +227,7 @@ public class Product extends AbstractProperties implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestProject().getGroovyClassLoader(), bindings);
+                return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
             }
         }
         if (getTestProject() != null) {

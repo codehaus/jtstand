@@ -79,7 +79,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         if (v != null) {
             return v;
         }
-        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getGroovyClassLoader(), step);
+        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getClassLoader(), step);
         if (v != null) {
             put(keyString, v);
         }

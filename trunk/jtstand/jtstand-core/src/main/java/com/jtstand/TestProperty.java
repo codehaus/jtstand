@@ -43,6 +43,7 @@ public class TestProperty implements Serializable {
     private Long id;
     private String name;
     private String propertyValueAttribute;
+    private String interpreter;
     @Lob
     @Column(length = 2147483647)
     private String propertyValue;
@@ -139,7 +140,15 @@ public class TestProperty implements Serializable {
         this.finalVariable = finalVariable;
     }
 
-//    public Object getPropertyObject(GroovyClassLoader gcl, Binding binding) {
+    @XmlAttribute
+    public String getInterpreter() {
+        return interpreter;
+    }
+
+    public void setInterpreter(String interpreter) {
+        this.interpreter = interpreter;
+    }
+
     public Object getPropertyObject(ClassLoader classLoader, Bindings bindings) throws ScriptException {
         if (getPropertyValueAttribute() != null) {
             return getPropertyValueAttribute();
@@ -150,22 +159,7 @@ public class TestProperty implements Serializable {
         if (classLoader != null) {
             Thread.currentThread().setContextClassLoader(classLoader);
         }
-        ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName("groovy"); //(getInterpreter() == null) ? "groovy" : getInterpreter()
-        //engine.put(step, ScriptContext.ENGINE_SCOPE);
-        return engine.eval(getPropertyValue());
-//        String pv = "def propertyMissing(String name){step.getVariable(name)};" + propertyValue;
-//        if (gcl != null) {
-//            if (binding != null) {
-//                return (new GroovyShell(gcl, binding)).evaluate(pv);
-//            } else {
-//                return (new GroovyShell(gcl)).evaluate(pv);
-//            }
-//        } else {
-//            if (binding != null) {
-//                return (new GroovyShell(binding)).evaluate(pv);
-//            } else {
-//                return (new GroovyShell()).evaluate(pv);
-//            }
-//        }
+        ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
+        return engine.eval(getPropertyValue(), bindings);
     }
 }

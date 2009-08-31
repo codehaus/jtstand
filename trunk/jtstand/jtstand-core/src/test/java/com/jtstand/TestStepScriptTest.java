@@ -5,10 +5,12 @@
 package com.jtstand;
 
 import groovy.lang.GroovyClassLoader;
+import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 import junit.framework.TestCase;
 
 public class TestStepScriptTest extends TestCase {
@@ -23,11 +25,21 @@ public class TestStepScriptTest extends TestCase {
     public static final String BAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } }";
     public static final String MY_THREAD = "class MyThread extends Thread { void run() { System.out.println(\"Hi there!\") } } ";
 
+    public void testCompiler()
+    {
+        Bindings b=new SimpleBindings();
+
+    }
+
     public void testMyThread() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine1 = factory.getEngineByName("groovy");
         ScriptEngine engine2 = factory.getEngineByName("groovy");
         assertNotSame(engine1, engine2);
+//        Bindings b=new SimpleBindings();
+//        engine1.setBindings(b, ScriptContext.GLOBAL_SCOPE);
+//        engine1.eval(FOO);
+//        engine1.get("Foo");
     }
 
     public void testFooBar() throws ScriptException {
@@ -68,6 +80,10 @@ public class TestStepScriptTest extends TestCase {
             }
             return super.findClass(name);
         }
+    };
+
+    public static ClassLoader cl=new ClassLoader() {
+
     };
 
     public void testListEngines() throws ScriptException {

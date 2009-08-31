@@ -238,7 +238,7 @@ public class TestType extends AbstractProperties implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getProduct().getTestProject().getGroovyClassLoader(), bindings);
+                return tsp.getPropertyObject(getProduct().getTestProject().getClassLoader(), bindings);
             }
         }
         if (getProduct() != null) {

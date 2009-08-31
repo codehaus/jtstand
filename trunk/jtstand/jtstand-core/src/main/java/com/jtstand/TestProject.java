@@ -34,6 +34,7 @@ import javax.xml.validation.Schema;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.net.InetAddress;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
@@ -58,6 +59,7 @@ import javax.script.SimpleBindings;
 public class TestProject extends AbstractProperties implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
+    public static final Class<?>[] CLASS_LOADER_CONSTRUCTOR = {ClassLoader.class};
     public static final String TEST_PROJECT = "testProject";
     private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
     public static final String STR_PERSISTING_POLICY = "PERSISTING_POLICY";
@@ -266,10 +268,18 @@ public class TestProject extends AbstractProperties implements Serializable {
     }
 
     @XmlTransient
-    public GroovyClassLoader getGroovyClassLoader() {
-//        System.out.println("getGroovyClassLoader...");
+    public ClassLoader getClassLoader() {
         synchronized (classesLock) {
             if (cl == null) {
+//                cl = Thread.currentThread().getContextClassLoader();
+//                try {
+//                    Class gclc = cl.loadClass("groovy.lang.GroovyClassLoader");
+//                    Constructor c = gclc.getConstructor(CLASS_LOADER_CONSTRUCTOR);
+//                    Object gcl = (ClassLoader) c.newInstance(cl);
+//
+//                } catch (Exception ex) {
+//                }
+
                 cl = new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
 
                     Map<String, String> sources = new Hashtable<String, String>();
@@ -725,7 +735,7 @@ public class TestProject extends AbstractProperties implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getGroovyClassLoader(), bindings);
+                return tsp.getPropertyObject(getClassLoader(), bindings);
             }
         }
         try {
