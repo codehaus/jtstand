@@ -281,7 +281,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
-                System.out.println("Connecting testProject...");
+                //System.out.println("Connecting testProject...");
                 setTestProject(tp);
             } else {
                 System.out.println("Unable to connect testProject");
@@ -310,7 +310,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestSequence() != null && getTestSequence().getId() == null) {
             TestSequence ts = TestSequence.query(em, getTestSequence().getCreator());
             if (ts != null) {
-                System.out.println("Connecting testSequence...");
+                //System.out.println("Connecting testSequence...");
                 setTestSequence(ts);
             } else {
                 System.out.println("Unable to connect testSequence");
@@ -322,7 +322,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (calledTestStep != null && calledTestStep.getId() == null) {
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
-                    System.out.println("Connecting testStep '" + ts.getName() + "'...");
+                    //System.out.println("Connecting testStep '" + ts.getName() + "'...");
                     tsi.setCalledTestStep(ts);
                 } else {
                     System.out.println("Unable to connect testStep");

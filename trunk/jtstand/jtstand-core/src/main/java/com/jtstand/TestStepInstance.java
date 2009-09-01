@@ -1083,7 +1083,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public Object put(String key, Object variableValue) {
-        System.out.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
+        //System.out.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
         if ("value".equals(key)) {
             Object retval = getValue();
             setValue(variableValue);
