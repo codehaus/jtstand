@@ -10,9 +10,13 @@ import com.jtstand.StepInterface;
  *
  * @author albert_kurucz
  */
-class InitClass2 implements Runnable {
+public class InitClass2 implements Runnable {
 
     StepInterface step;
+
+    public InitClass2(StepInterface step) {
+        this.step = step;
+    }
 
     @Override
     public void run() {
