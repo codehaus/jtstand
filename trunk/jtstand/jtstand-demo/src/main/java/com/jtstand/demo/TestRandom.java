@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package demo;
+package com.jtstand.demo;
 
 import com.jtstand.TestStepInstance;
 import java.util.Random;
