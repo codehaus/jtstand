@@ -160,7 +160,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="249"/>
+            <initSequence subversionUrl="init2.xml" revision="266"/>
         </fixture>
     </testStation>
     <testStation hostName="MYSTATION">
@@ -198,7 +198,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="249"/>
+            <initSequence subversionUrl="init2.xml" revision="266"/>
         </fixture>
     </testStation>
     <testStation hostName="DEFAULTSTATION">
@@ -224,7 +224,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="249"/>
+            <initSequence subversionUrl="init2.xml" revision="266"/>
         </fixture>
     </testStation>
 </testProject>
