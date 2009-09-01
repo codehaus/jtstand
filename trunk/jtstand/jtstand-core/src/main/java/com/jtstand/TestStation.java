@@ -329,7 +329,7 @@ public class TestStation extends AbstractVariables implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                return tsp.getPropertyObject(bindings);
             }
         }
         if (getTestProject() != null) {

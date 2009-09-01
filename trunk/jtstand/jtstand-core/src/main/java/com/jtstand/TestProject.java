@@ -18,9 +18,9 @@
  */
 package com.jtstand;
 
-import groovy.lang.GroovyClassLoader;
+//import groovy.lang.GroovyClassLoader;
 import javax.script.ScriptException;
-import org.codehaus.groovy.control.CompilationFailedException;
+//import org.codehaus.groovy.control.CompilationFailedException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -34,9 +34,7 @@ import javax.xml.validation.Schema;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
 import java.net.InetAddress;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -54,7 +52,8 @@ import javax.script.SimpleBindings;
  */
 @Entity
 @XmlRootElement(name = "testProject")
-@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
+//@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
+@XmlType(name = "projectType", propOrder = {"remark", "properties", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestProject extends AbstractProperties implements Serializable {
 
@@ -210,12 +209,12 @@ public class TestProject extends AbstractProperties implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
     @OrderBy("testProjectPropertyPosition ASC")
     private List<TestProjectProperty> properties = new ArrayList<TestProjectProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy("libraryReferencePosition ASC")
-    private List<LibraryReference> libraryReferences = new ArrayList<LibraryReference>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy("testProjectClassPosition ASC")
-    private List<TestProjectClass> classes = new ArrayList<TestProjectClass>();
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
+//    @OrderBy("libraryReferencePosition ASC")
+//    private List<LibraryReference> libraryReferences = new ArrayList<LibraryReference>();
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
+//    @OrderBy("testProjectClassPosition ASC")
+//    private List<TestProjectClass> classes = new ArrayList<TestProjectClass>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
     @OrderBy("productPosition ASC")
     private List<Product> products = new ArrayList<Product>();
@@ -234,9 +233,9 @@ public class TestProject extends AbstractProperties implements Serializable {
     private transient Object classesLock = new Object();
     private transient Object libraryReferencesLock = new Object();
     private transient Object librariesLock = new Object();
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private List<Library> libraries = new ArrayList<Library>();
-    private static GroovyClassLoader cl;
+//    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+//    private List<Library> libraries = new ArrayList<Library>();
+//    private static GroovyClassLoader cl;
     private static ScriptEngineManager manager;
 
     @XmlTransient
@@ -252,12 +251,12 @@ public class TestProject extends AbstractProperties implements Serializable {
         return new HashMap<String, String>();
     }
 
-    @XmlTransient
-    public List<Library> getLibraries() {
-        synchronized (librariesLock) {
-            return libraries;
-        }
-    }
+//    @XmlTransient
+//    public List<Library> getLibraries() {
+//        synchronized (librariesLock) {
+//            return libraries;
+//        }
+//    }
 
     //@XmlTransient
     public static ScriptEngineManager getScriptEngineManager() {
@@ -267,151 +266,151 @@ public class TestProject extends AbstractProperties implements Serializable {
         return manager;
     }
 
-    @XmlTransient
-    public ClassLoader getClassLoader() {
-        synchronized (classesLock) {
-            if (cl == null) {
-//                cl = Thread.currentThread().getContextClassLoader();
-//                try {
-//                    Class gclc = cl.loadClass("groovy.lang.GroovyClassLoader");
-//                    Constructor c = gclc.getConstructor(CLASS_LOADER_CONSTRUCTOR);
-//                    Object gcl = (ClassLoader) c.newInstance(cl);
+//    @XmlTransient
+//    public ClassLoader getClassLoader() {
+//        synchronized (classesLock) {
+//            if (cl == null) {
+////                cl = Thread.currentThread().getContextClassLoader();
+////                try {
+////                    Class gclc = cl.loadClass("groovy.lang.GroovyClassLoader");
+////                    Constructor c = gclc.getConstructor(CLASS_LOADER_CONSTRUCTOR);
+////                    Object gcl = (ClassLoader) c.newInstance(cl);
+////
+////                } catch (Exception ex) {
+////                }
 //
-//                } catch (Exception ex) {
+//                cl = new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
+//
+//                    Map<String, String> sources = new Hashtable<String, String>();
+//
+//                    @Override
+//                    public Class<?> parseClass(String source) {
+//                        Class c = super.parseClass(source);
+//                        sources.put(c.getCanonicalName(), source);
+//                        return c;
+//                    }
+//
+//                    @Override
+//                    public Class<?> findClass(String name) throws ClassNotFoundException {
+//                        for (TestProjectClass tpc : getClasses()) {
+//                            if (tpc.getName().equals(name)) {
+//                                try {
+//                                    return parseClass(tpc.getFileContent());
+//                                } catch (Exception ex) {
+//                                    throw new ClassNotFoundException(ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                        for (Library lib : libraries) {
+//                            for (LibraryClass tpc : lib.getClasses()) {
+//                                if (tpc.getName().equals(name)) {
+//                                    try {
+//                                        return parseClass(tpc.getFileContent());
+//                                    } catch (Exception ex) {
+//                                        throw new ClassNotFoundException(ex.getMessage());
+//                                    }
+//                                }
+//                            }
+//                        }
+//                        return super.findClass(name);
+//                    }
+//
+//                    public String getSource(String name) {
+//                        return sources.get(name);
+//                    }
+//                };
+//                if (getClasses().size() > 0) {
+//                    System.out.println("Compiling individual classes...");
+//                    for (TestProjectClass tpc : getClasses()) {
+//                        String content = null;
+//                        try {
+////                            System.out.println("Loading class file content '" + tpc.getName() + "'");
+//                            content = tpc.getFileContent();
+////                            System.out.println("Successfully loaded class file content: '" + content + "'");
+//                        } catch (URISyntaxException ex) {
+//                            System.err.println("URISyntaxException while loading class '" + tpc.getName() + "'");
+//                            System.err.println(ex.getMessage());
+//                            ex.printStackTrace();
+//                            System.exit(-1);
+//                        } catch (SVNException ex) {
+//                            System.err.println("SVNException while loading class '" + tpc.getName() + "'");
+//                            System.err.println(ex.getMessage());
+//                            ex.printStackTrace();
+//                            System.exit(-1);
+//                        } catch (IOException ex) {
+//                            System.err.println("IOException while loading class '" + tpc.getName() + "'");
+//                            System.err.println(ex.getMessage());
+//                            ex.printStackTrace();
+//                            System.exit(-1);
+//                        }
+//                        try {
+////                            System.out.println("Compiling class '" + tpc.getName() + "'");
+//                            Class c = cl.parseClass(content);
+//                            if (!c.getCanonicalName().equals(tpc.getName())) {
+//                                throw new IllegalStateException("Class name mismatch! Specified name: '" + tpc.getName() + "' in class text: '" + c.getCanonicalName() + "'");
+//                            }
+//                            System.out.println("Successfully compiled class: '" + c.getCanonicalName() + "'");
+//                        } catch (Exception ex) {
+//                            System.err.println("Parsing: '" + content + "'");
+//                            System.err.println(ex.getMessage());
+//                            ex.printStackTrace();
+//                            System.exit(-1);
+//                        }
+//                    }
 //                }
-
-                cl = new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
-
-                    Map<String, String> sources = new Hashtable<String, String>();
-
-                    @Override
-                    public Class<?> parseClass(String source) {
-                        Class c = super.parseClass(source);
-                        sources.put(c.getCanonicalName(), source);
-                        return c;
-                    }
-
-                    @Override
-                    public Class<?> findClass(String name) throws ClassNotFoundException {
-                        for (TestProjectClass tpc : getClasses()) {
-                            if (tpc.getName().equals(name)) {
-                                try {
-                                    return parseClass(tpc.getFileContent());
-                                } catch (Exception ex) {
-                                    throw new ClassNotFoundException(ex.getMessage());
-                                }
-                            }
-                        }
-                        for (Library lib : libraries) {
-                            for (LibraryClass tpc : lib.getClasses()) {
-                                if (tpc.getName().equals(name)) {
-                                    try {
-                                        return parseClass(tpc.getFileContent());
-                                    } catch (Exception ex) {
-                                        throw new ClassNotFoundException(ex.getMessage());
-                                    }
-                                }
-                            }
-                        }
-                        return super.findClass(name);
-                    }
-
-                    public String getSource(String name) {
-                        return sources.get(name);
-                    }
-                };
-                if (getClasses().size() > 0) {
-                    System.out.println("Compiling individual classes...");
-                    for (TestProjectClass tpc : getClasses()) {
-                        String content = null;
-                        try {
-//                            System.out.println("Loading class file content '" + tpc.getName() + "'");
-                            content = tpc.getFileContent();
-//                            System.out.println("Successfully loaded class file content: '" + content + "'");
-                        } catch (URISyntaxException ex) {
-                            System.err.println("URISyntaxException while loading class '" + tpc.getName() + "'");
-                            System.err.println(ex.getMessage());
-                            ex.printStackTrace();
-                            System.exit(-1);
-                        } catch (SVNException ex) {
-                            System.err.println("SVNException while loading class '" + tpc.getName() + "'");
-                            System.err.println(ex.getMessage());
-                            ex.printStackTrace();
-                            System.exit(-1);
-                        } catch (IOException ex) {
-                            System.err.println("IOException while loading class '" + tpc.getName() + "'");
-                            System.err.println(ex.getMessage());
-                            ex.printStackTrace();
-                            System.exit(-1);
-                        }
-                        try {
-//                            System.out.println("Compiling class '" + tpc.getName() + "'");
-                            Class c = cl.parseClass(content);
-                            if (!c.getCanonicalName().equals(tpc.getName())) {
-                                throw new IllegalStateException("Class name mismatch! Specified name: '" + tpc.getName() + "' in class text: '" + c.getCanonicalName() + "'");
-                            }
-                            System.out.println("Successfully compiled class: '" + c.getCanonicalName() + "'");
-                        } catch (Exception ex) {
-                            System.err.println("Parsing: '" + content + "'");
-                            System.err.println(ex.getMessage());
-                            ex.printStackTrace();
-                            System.exit(-1);
-                        }
-                    }
-                }
-                if (getLibraryReferences().size() > 0) {
-                    System.out.println("Loading libraries...");
-                    try {
-                        for (LibraryReference libref : getLibraryReferences()) {
-                            libraries.add(libref.getLibrary());
-                        }
-                    } catch (Exception ex) {
-                        System.out.println("Exception while loading libraries: " + ex.getMessage());
-                        ex.printStackTrace();
-                        System.exit(-1);
-                    }
-                    System.out.println("Compiling libraries...");
-                    for (Library lib : libraries) {
-                        for (LibraryClass tpc : lib.getClasses()) {
-                            String content = null;
-                            try {
-                                content = tpc.getFileContent();
-                                LOGGER.fine("successfully loaded class file content:\n" + content);
-                            } catch (URISyntaxException ex) {
-                                System.err.println("URISyntaxException while loading class '" + tpc.getName() + "'");
-                                System.err.println(ex.getMessage());
-                                ex.printStackTrace();
-                                System.exit(-1);
-                            } catch (SVNException ex) {
-                                System.err.println("SVNException while loading class '" + tpc.getName() + "'");
-                                System.err.println(ex.getMessage());
-                                ex.printStackTrace();
-                                System.exit(-1);
-                            } catch (IOException ex) {
-                                System.err.println("IOException while loading class '" + tpc.getName() + "'");
-                                System.err.println(ex.getMessage());
-                                ex.printStackTrace();
-                                System.exit(-1);
-                            }
-                            try {
-                                Class c = cl.parseClass(content);
-                                if (!c.getCanonicalName().equals(tpc.getName())) {
-                                    throw new IllegalStateException("Class name mismatch! Specified name: '" + tpc.getName() + "' in class text: '" + c.getCanonicalName() + "'");
-                                }
-                                LOGGER.fine("successfully parsed class: " + c.getCanonicalName());
-                            } catch (CompilationFailedException ex) {
-                                System.err.println("Parsing:\n" + content);
-                                System.err.println(ex.getMessage());
-                                ex.printStackTrace();
-                                System.exit(-1);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return cl;
-    }
+//                if (getLibraryReferences().size() > 0) {
+//                    System.out.println("Loading libraries...");
+//                    try {
+//                        for (LibraryReference libref : getLibraryReferences()) {
+//                            libraries.add(libref.getLibrary());
+//                        }
+//                    } catch (Exception ex) {
+//                        System.out.println("Exception while loading libraries: " + ex.getMessage());
+//                        ex.printStackTrace();
+//                        System.exit(-1);
+//                    }
+//                    System.out.println("Compiling libraries...");
+//                    for (Library lib : libraries) {
+//                        for (LibraryClass tpc : lib.getClasses()) {
+//                            String content = null;
+//                            try {
+//                                content = tpc.getFileContent();
+//                                LOGGER.fine("successfully loaded class file content:\n" + content);
+//                            } catch (URISyntaxException ex) {
+//                                System.err.println("URISyntaxException while loading class '" + tpc.getName() + "'");
+//                                System.err.println(ex.getMessage());
+//                                ex.printStackTrace();
+//                                System.exit(-1);
+//                            } catch (SVNException ex) {
+//                                System.err.println("SVNException while loading class '" + tpc.getName() + "'");
+//                                System.err.println(ex.getMessage());
+//                                ex.printStackTrace();
+//                                System.exit(-1);
+//                            } catch (IOException ex) {
+//                                System.err.println("IOException while loading class '" + tpc.getName() + "'");
+//                                System.err.println(ex.getMessage());
+//                                ex.printStackTrace();
+//                                System.exit(-1);
+//                            }
+//                            try {
+//                                Class c = cl.parseClass(content);
+//                                if (!c.getCanonicalName().equals(tpc.getName())) {
+//                                    throw new IllegalStateException("Class name mismatch! Specified name: '" + tpc.getName() + "' in class text: '" + c.getCanonicalName() + "'");
+//                                }
+//                                LOGGER.fine("successfully parsed class: " + c.getCanonicalName());
+//                            } catch (CompilationFailedException ex) {
+//                                System.err.println("Parsing:\n" + content);
+//                                System.err.println(ex.getMessage());
+//                                ex.printStackTrace();
+//                                System.exit(-1);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return cl;
+//    }
 
 //    public TestSequence getTestSequence(String use) {
 //        for (TestSequence seq : getSequences()) {
@@ -486,8 +485,8 @@ public class TestProject extends AbstractProperties implements Serializable {
         setProperties(getProperties());
         setTestStations(getTestStations());
         setProducts(getProducts());
-        setClasses(getClasses());
-        setLibraryReferences(getLibraryReferences());
+//        setClasses(getClasses());
+//        setLibraryReferences(getLibraryReferences());
         //Log.log("Setting creator on testProject OK");
     }
 
@@ -630,43 +629,43 @@ public class TestProject extends AbstractProperties implements Serializable {
         return null;
     }
 
-    @XmlElement(name = "library")
-    public List<LibraryReference> getLibraryReferences() {
-        synchronized (libraryReferencesLock) {
-            return libraryReferences;
-        }
-    }
+//    @XmlElement(name = "library")
+//    public List<LibraryReference> getLibraryReferences() {
+//        synchronized (libraryReferencesLock) {
+//            return libraryReferences;
+//        }
+//    }
+//
+//    public void setLibraryReferences(List<LibraryReference> libraryReferences) {
+//        this.libraryReferences = libraryReferences;
+//        if (libraryReferences != null) {
+//            for (ListIterator<LibraryReference> iterator = libraryReferences.listIterator(); iterator.hasNext();) {
+//                int index = iterator.nextIndex();
+//                LibraryReference libraryReference = iterator.next();
+//                libraryReference.setTestProject(this);
+//                libraryReference.setPosition(index);
+//            }
+//        }
+//    }
 
-    public void setLibraryReferences(List<LibraryReference> libraryReferences) {
-        this.libraryReferences = libraryReferences;
-        if (libraryReferences != null) {
-            for (ListIterator<LibraryReference> iterator = libraryReferences.listIterator(); iterator.hasNext();) {
-                int index = iterator.nextIndex();
-                LibraryReference libraryReference = iterator.next();
-                libraryReference.setTestProject(this);
-                libraryReference.setPosition(index);
-            }
-        }
-    }
-
-    @XmlElement(name = "class")
-    public List<TestProjectClass> getClasses() {
-        synchronized (classesLock) {
-            return classes;
-        }
-    }
-
-    public void setClasses(List<TestProjectClass> classes) {
-        this.classes = classes;
-        if (classes != null) {
-            for (ListIterator<TestProjectClass> iterator = classes.listIterator(); iterator.hasNext();) {
-                int index = iterator.nextIndex();
-                TestProjectClass testProjectClass = iterator.next();
-                testProjectClass.setTestProject(this);
-                testProjectClass.setPosition(index);
-            }
-        }
-    }
+//    @XmlElement(name = "class")
+//    public List<TestProjectClass> getClasses() {
+//        synchronized (classesLock) {
+//            return classes;
+//        }
+//    }
+//
+//    public void setClasses(List<TestProjectClass> classes) {
+//        this.classes = classes;
+//        if (classes != null) {
+//            for (ListIterator<TestProjectClass> iterator = classes.listIterator(); iterator.hasNext();) {
+//                int index = iterator.nextIndex();
+//                TestProjectClass testProjectClass = iterator.next();
+//                testProjectClass.setTestProject(this);
+//                testProjectClass.setPosition(index);
+//            }
+//        }
+//    }
 
     @Override
     public int hashCode() {
@@ -735,7 +734,7 @@ public class TestProject extends AbstractProperties implements Serializable {
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return tsp.getPropertyObject(getClassLoader(), bindings);
+                return tsp.getPropertyObject(bindings);
             }
         }
         try {

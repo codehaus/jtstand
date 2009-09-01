@@ -25,9 +25,6 @@
     <class>com.jtstand.FileRevision</class>
     <class>com.jtstand.FileRevisionReference</class>
     <class>com.jtstand.FixtureInitSequenceReference</class>
-    <class>com.jtstand.Library</class>
-    <class>com.jtstand.LibraryClass</class>
-    <class>com.jtstand.LibraryReference</class>
     <class>com.jtstand.LocalUser</class>
     <class>com.jtstand.Operator</class>
     <class>com.jtstand.Product</class>
@@ -38,7 +35,6 @@
     <class>com.jtstand.TestFixtureProperty</class>
     <class>com.jtstand.TestLimit</class>
     <class>com.jtstand.TestProject</class>
-    <class>com.jtstand.TestProjectClass</class>
     <class>com.jtstand.TestProjectProperty</class>
     <class>com.jtstand.TestProperty</class>
     <class>com.jtstand.TestSequence</class>

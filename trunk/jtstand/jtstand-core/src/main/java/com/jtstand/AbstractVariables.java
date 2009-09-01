@@ -79,14 +79,14 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         if (v != null) {
             return v;
         }
-        v = tsp.getPropertyObject(step.getTestSequenceInstance().getTestProject().getClassLoader(), step);
+        v = tsp.getPropertyObject(step);
         if (v != null) {
             put(keyString, v);
         }
         return v;
     }
 
-    private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws ScriptException,InterruptedException {
+    private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws ScriptException, InterruptedException {
         if (tsp.getPropertyValueAttribute() != null) {
 //            System.out.println("propertyValueAttribute of '" + tsp.getName() + "' is: '" + tsp.getPropertyValueAttribute() + "'");
             return tsp.getPropertyValueAttribute();

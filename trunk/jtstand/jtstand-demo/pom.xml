@@ -225,6 +225,11 @@
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.6.4</version>
+        </dependency>
     </dependencies>
     <distributionManagement>
         <site>

@@ -287,28 +287,26 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 System.out.println("Unable to connect testProject");
             }
         }
-//        System.out.println("Connecting libraries...");
-//        System.out.println("Project: " + getTestProject().getName());
-//        System.out.println("Libraries: " + getTestProject().getLibraries());
-        List<Library> toAdd = new ArrayList<Library>();
-        List<Library> toRemove = new ArrayList<Library>();
-        for (Library lib : getTestProject().getLibraries()) {
-//            System.out.println(lib.getName());
-            if (lib.getId() == null) {
-                Library library = Library.query(em, lib.getCreator());
-                if (library != null) {
-                    System.out.println("Connecting library '" + library.getName() + "'...");
-                    toRemove.add(lib);
-                    toAdd.add(library);
-                } else {
-                    System.out.println("Unable to connect library");
-                }
-            }
-        }
-        System.out.println("removing...");
-        getTestProject().getLibraries().removeAll(toRemove);
-        System.out.println("adding...");
-        getTestProject().getLibraries().addAll(toAdd);
+////        System.out.println("Connecting libraries...");
+//        List<Library> toAdd = new ArrayList<Library>();
+//        List<Library> toRemove = new ArrayList<Library>();
+//        for (Library lib : getTestProject().getLibraries()) {
+////            System.out.println(lib.getName());
+//            if (lib.getId() == null) {
+//                Library library = Library.query(em, lib.getCreator());
+//                if (library != null) {
+//                    System.out.println("Connecting library '" + library.getName() + "'...");
+//                    toRemove.add(lib);
+//                    toAdd.add(library);
+//                } else {
+//                    System.out.println("Unable to connect library");
+//                }
+//            }
+//        }
+//        System.out.println("removing...");
+//        getTestProject().getLibraries().removeAll(toRemove);
+//        System.out.println("adding...");
+//        getTestProject().getLibraries().addAll(toAdd);
         if (getTestSequence() != null && getTestSequence().getId() == null) {
             TestSequence ts = TestSequence.query(em, getTestSequence().getCreator());
             if (ts != null) {
@@ -418,7 +416,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setFailureCode(String failureCode) {
-        this.failureCode = failureCode;
+        if (failureCode != null && failureCode.length() > 255) {
+            this.failureCode = failureCode.substring(0, 255);
+        } else {
+            this.failureCode = failureCode;
+        }
     }
 
     public String getFailureStepPath() {
@@ -848,20 +850,20 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         }
         if (getTestType() != null) {
             for (TestProperty tsp : getTestType().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
             if (getTestType().getProduct() != null) {
                 for (TestProperty tsp : getTestType().getProduct().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-                        return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                        return tsp.getPropertyObject(bindings);
                     }
                 }
             }
@@ -869,21 +871,21 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestFixture() != null) {
             for (TestProperty tsp : getTestFixture().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         }
         if (getTestStation() != null) {
             for (TestProperty tsp : getTestStation().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         }
         if (getTestProject() != null) {
             for (TestProperty tsp : getTestProject().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         }
@@ -1124,7 +1126,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             throw new IllegalArgumentException("Cannot merge " + step.getClass().getCanonicalName() + ", which is not a descendant!");
         }
         return step.merge(getEntityManager());
-}
+    }
 
     @Override
     protected void finalize() throws Throwable {

@@ -149,16 +149,16 @@ public class TestProperty implements Serializable {
         this.interpreter = interpreter;
     }
 
-    public Object getPropertyObject(ClassLoader classLoader, Bindings bindings) throws ScriptException {
+    public Object getPropertyObject(Bindings bindings) throws ScriptException {
         if (getPropertyValueAttribute() != null) {
             return getPropertyValueAttribute();
         }
         if (propertyValue == null || propertyValue.length() == 0) {
             return null;
         }
-        if (classLoader != null) {
-            Thread.currentThread().setContextClassLoader(classLoader);
-        }
+//        if (classLoader != null) {
+//            Thread.currentThread().setContextClassLoader(classLoader);
+//        }
         ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
         return engine.eval(getPropertyValue(), bindings);
     }

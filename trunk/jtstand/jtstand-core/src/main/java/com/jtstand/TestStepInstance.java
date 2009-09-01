@@ -779,7 +779,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                     stepObject = getVariable(getStepClass());
                     bind(stepObject);
                 } catch (Exception ex) {
-                    Class<?> stepClass = getTestSequenceInstance().getTestProject().getClassLoader().loadClass(getStepClass());
+                    Class<?> stepClass = Thread.currentThread().getContextClassLoader().loadClass(getStepClass());
 //                    Class<?> stepClass = Class.forName(getStepClass());
                     try {
                         Constructor<?> stepObjectContructor = stepClass.getConstructor(STEP_INTERFACE_CONSTRUCTOR);
@@ -907,7 +907,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getTestStep() != null) {
             for (TestProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         } else {
@@ -916,7 +916,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getCalledTestStep() != null) {
             for (TestProperty tsp : getCalledTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(getTestSequenceInstance().getTestProject().getClassLoader(), bindings);
+                    return tsp.getPropertyObject(bindings);
                 }
             }
         }

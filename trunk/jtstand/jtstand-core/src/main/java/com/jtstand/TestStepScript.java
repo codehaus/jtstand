@@ -89,8 +89,8 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
     }
 
     public void execute(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException {
-        Thread.currentThread().setContextClassLoader(step.getTestSequenceInstance().getTestProject().getClassLoader());
-        ScriptEngine engine = step.getTestSequenceInstance().getTestProject().getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
+//        Thread.currentThread().setContextClassLoader(step.getTestSequenceInstance().getTestProject().getClassLoader());
+        ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
         engine.setBindings(step, ScriptContext.ENGINE_SCOPE);
         System.out.println(engine.eval(getFileContent()));
     }

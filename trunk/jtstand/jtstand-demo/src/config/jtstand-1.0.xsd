@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.jtstand.com/" xmlns:tns="http://www.jtstand.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <xs:element name="library" type="tns:libraryType"/>
-
   <xs:element name="step" type="tns:testStepType"/>
 
   <xs:element name="testProject" type="tns:projectType"/>
@@ -88,31 +86,6 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="libraryType">
-    <xs:sequence>
-      <xs:element name="remark" type="xs:string" minOccurs="0"/>
-      <xs:element name="class" type="tns:libraryClass" maxOccurs="unbounded" minOccurs="0"/>
-    </xs:sequence>
-    <xs:attribute name="name" type="xs:string" use="required"/>
-  </xs:complexType>
-
-  <xs:complexType name="libraryClass">
-    <xs:complexContent>
-      <xs:extension base="tns:fileRevisionReference">
-        <xs:sequence/>
-        <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="libraryReference">
-    <xs:complexContent>
-      <xs:extension base="tns:fileRevisionReference">
-        <xs:sequence/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
   <xs:complexType name="productType">
     <xs:complexContent>
       <xs:extension base="tns:abstractProperties">
@@ -139,6 +112,7 @@
     <xs:simpleContent>
       <xs:extension base="xs:string">
         <xs:attribute name="final" type="xs:boolean"/>
+        <xs:attribute name="interpreter" type="xs:string"/>
         <xs:attribute name="mutex" type="xs:boolean"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="value" type="xs:string"/>
@@ -241,8 +215,6 @@
       <xs:extension base="tns:abstractProperties">
         <xs:sequence>
           <xs:element name="remark" type="xs:string" minOccurs="0"/>
-          <xs:element name="class" type="tns:testProjectClass" maxOccurs="unbounded" minOccurs="0"/>
-          <xs:element name="library" type="tns:libraryReference" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="property" type="tns:testProjectProperty" maxOccurs="unbounded" minOccurs="0"/>
           <xs:element name="authentication" type="tns:authentication" minOccurs="0"/>
           <xs:element name="product" type="tns:productType" maxOccurs="unbounded" minOccurs="0"/>
@@ -251,15 +223,6 @@
         <xs:attribute name="defaultHostName" type="xs:string"/>
         <xs:attribute name="name" type="xs:string" use="required"/>
         <xs:attribute name="pun" type="xs:string"/>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-
-  <xs:complexType name="testProjectClass">
-    <xs:complexContent>
-      <xs:extension base="tns:fileRevisionReference">
-        <xs:sequence/>
-        <xs:attribute name="name" type="xs:string" use="required"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
