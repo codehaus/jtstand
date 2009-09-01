@@ -284,7 +284,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 //System.out.println("Connecting testProject...");
                 setTestProject(tp);
             } else {
-                System.out.println("Unable to connect testProject");
+                //System.out.println("Unable to connect testProject");
             }
         }
 ////        System.out.println("Connecting libraries...");
@@ -313,7 +313,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 //System.out.println("Connecting testSequence...");
                 setTestSequence(ts);
             } else {
-                System.out.println("Unable to connect testSequence");
+                //System.out.println("Unable to connect testSequence");
             }
         }
         for (TestStepInstance tsi : this) {
@@ -325,7 +325,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                     //System.out.println("Connecting testStep '" + ts.getName() + "'...");
                     tsi.setCalledTestStep(ts);
                 } else {
-                    System.out.println("Unable to connect testStep");
+                    //System.out.println("Unable to connect testStep");
                 }
             }
         }
