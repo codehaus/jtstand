@@ -54,20 +54,20 @@
             </script>
         </step>
         <step name="This is a really long name" failAction="LOOP" maxLoops="2">
-            <property name="AVERAGE" value="2.1"/>
-            <stepFile subversionUrl="demoStep.xml" revision="283"/>
+            <property name="AVERAGE">2.1</property>
+            <stepFile subversionUrl="demoStep.xml" revision="286"/>
         </step>
         <step name="group 1">
             <step name="group 2" parallel="true" message="This is an interesting group of steps">
                 <step name="far1">
-                    <property name="AVERAGE" value="1"/>
-                    <property name="SIGMA" value="1"/>
+                    <property name="AVERAGE">1.0</property>
+                    <property name="SIGMA">1.0</property>
                     <limit comp="GELE" lsl="-2.0" usl="4.0"/>
                     <script subversionUrl="testrandom.gs" revision="276"/>
                 </step>
                 <step name="far2">
-                    <property name="AVERAGE" value="1"/>
-                    <property name="SIGMA" value="1"/>
+                    <property name="AVERAGE">1.0</property>
+                    <property name="SIGMA">1.0</property>
                     <limit comp="GELE" lsl="-2.0" usl="4.0"/>
                     <script subversionUrl="testrandom.gs" revision="276"/>
                 </step>
