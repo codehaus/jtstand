@@ -55,7 +55,7 @@
         </step>
         <step name="This is a really long name" failAction="LOOP" maxLoops="2">
             <property name="AVERAGE">2.1</property>
-            <stepFile subversionUrl="demoStep.xml" revision="288"/>
+            <stepFile subversionUrl="demoStep.xml" revision="291"/>
         </step>
         <step name="group 1">
             <step name="group 2" parallel="true" message="This is an interesting group of steps">
