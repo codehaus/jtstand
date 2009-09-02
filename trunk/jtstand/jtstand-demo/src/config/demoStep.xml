@@ -24,7 +24,7 @@
         <remark>This is the 1st real step</remark>
         <property name="AVERAGE" value="1"/>
         <property name="SIGMA" value="1"/>
-        <script subversionUrl="testrandom.gs" revision="271"/>
+        <script subversionUrl="testrandom.gs" revision="276"/>
     </step>
 </step>
 
