@@ -440,15 +440,15 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-    public String getStepClass() {
-        if (getTestStep().getStepClass() != null) {
-            return getTestStep().getStepClass();
-        }
-        if (getCalledTestStep() != null) {
-            return getCalledTestStep().getStepClass();
-        }
-        return null;
-    }
+//    public String getStepClass() {
+//        if (getTestStep().getStepClass() != null) {
+//            return getTestStep().getStepClass();
+//        }
+//        if (getCalledTestStep() != null) {
+//            return getCalledTestStep().getStepClass();
+//        }
+//        return null;
+//    }
 
     public TestStepScript getScript() {
         if (getTestStep().getScript() != null) {
@@ -772,29 +772,29 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (getTestSequenceInstance().isAborted() || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.STOP)) {
                 return;
             }
-            if (isRunning() && getStepClass() != null) {
-                Object stepObject;
-                try {
-                    //TBD what is this?
-                    stepObject = getVariable(getStepClass());
-                    bind(stepObject);
-                } catch (Exception ex) {
-                    Class<?> stepClass = Thread.currentThread().getContextClassLoader().loadClass(getStepClass());
-//                    Class<?> stepClass = Class.forName(getStepClass());
-                    try {
-                        Constructor<?> stepObjectContructor = stepClass.getConstructor(STEP_INTERFACE_CONSTRUCTOR);
-                        stepObject = stepObjectContructor.newInstance((StepInterface) this);
-                    } catch (NoSuchMethodException ex2) {
-                        Constructor<?> stepObjectContructor = stepClass.getConstructor(NULL_CONSTRUCTOR);
-                        stepObject = stepObjectContructor.newInstance();
-                        bind(stepObject);
-                    }
-                }
-                ((Runnable) stepObject).run();
-                if (getTestSequenceInstance().isAborted()) {
-                    return;
-                }
-            }
+//            if (isRunning() && getStepClass() != null) {
+//                Object stepObject;
+//                try {
+//                    //TBD what is this?
+//                    stepObject = getVariable(getStepClass());
+//                    bind(stepObject);
+//                } catch (Exception ex) {
+//                    Class<?> stepClass = Thread.currentThread().getContextClassLoader().loadClass(getStepClass());
+////                    Class<?> stepClass = Class.forName(getStepClass());
+//                    try {
+//                        Constructor<?> stepObjectContructor = stepClass.getConstructor(STEP_INTERFACE_CONSTRUCTOR);
+//                        stepObject = stepObjectContructor.newInstance((StepInterface) this);
+//                    } catch (NoSuchMethodException ex2) {
+//                        Constructor<?> stepObjectContructor = stepClass.getConstructor(NULL_CONSTRUCTOR);
+//                        stepObject = stepObjectContructor.newInstance();
+//                        bind(stepObject);
+//                    }
+//                }
+//                ((Runnable) stepObject).run();
+//                if (getTestSequenceInstance().isAborted()) {
+//                    return;
+//                }
+//            }
             if (isRunning() && getScript() != null) {
                 getScript().execute(this);
                 if (getTestSequenceInstance().isAborted()) {

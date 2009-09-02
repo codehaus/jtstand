@@ -44,7 +44,8 @@ import java.util.logging.Logger;
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treepath"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
 @XmlRootElement(name = "step")
-@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
+//@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
+@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStep implements Serializable {
 
@@ -151,7 +152,7 @@ public class TestStep implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private TestStep parent;
     private String name;
-    private String stepClass;
+    //private String stepClass;
     private String message;
     private String remark;
     private Boolean parallel;
@@ -477,14 +478,14 @@ public class TestStep implements Serializable {
         }
     }
 
-    @XmlAttribute
-    public String getStepClass() {
-        return stepClass;
-    }
-
-    public void setStepClass(String stepClass) {
-        this.stepClass = stepClass;
-    }
+//    @XmlAttribute
+//    public String getStepClass() {
+//        return stepClass;
+//    }
+//
+//    public void setStepClass(String stepClass) {
+//        this.stepClass = stepClass;
+//    }
 
     public TestStep getRootTestStep() {
         if (parent == null) {
