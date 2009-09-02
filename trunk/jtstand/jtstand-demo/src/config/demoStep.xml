@@ -22,7 +22,7 @@
     <remark>This step is the root of the demo step</remark>
     <property name="AVERAGE">1.0</property>
     <limit comp="EQ" nominal="3.1"/>
-    <script>value = AVARAGE + 1.0</script>
+    <script>value = AVERAGE + 1.0</script>
     <step name="demo step 1" useLimit="the 1st step's limit">
         <remark>This is the 1st real step</remark>
         <property name="SIGMA">1.0</property>
