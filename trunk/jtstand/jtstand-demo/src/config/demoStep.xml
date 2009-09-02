@@ -22,8 +22,8 @@
     <remark>This step is the root of the demo step</remark>
     <step name="demo step 1" useLimit="the 1st step's limit">
         <remark>This is the 1st real step</remark>
-        <property name="AVERAGE" value="1"/>
-        <property name="SIGMA" value="1"/>
+        <property name="AVERAGE">1.0</property>
+        <property name="SIGMA">1.0</property>
         <script subversionUrl="testrandom.gs" revision="276"/>
     </step>
 </step>
