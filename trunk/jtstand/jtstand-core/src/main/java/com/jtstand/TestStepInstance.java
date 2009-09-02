@@ -1507,7 +1507,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         if (getTestStep() != null) {
             for (TestLimit limit : getTestStep().getTestLimits()) {
-                if (limit.getName().equals(useLimit)) {
+                if (useLimit.equals(limit.getName())) {
                     return limit;
                 }
             }
@@ -1516,7 +1516,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         if (getCalledTestStep() != null) {
             for (TestLimit limit : getCalledTestStep().getTestLimits()) {
-                if (limit.getName().equals(useLimit)) {
+                if (useLimit.equals(limit.getName())) {
                     return limit;
                 }
             }
@@ -1527,7 +1527,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
             for (TestLimit limit : seq.getTestSequence().getTestLimits()) {
-                if (limit.getName().equals(useLimit)) {
+                if (useLimit.equals(limit.getName())) {
                     return limit;
                 }
             }
