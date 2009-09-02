@@ -1166,24 +1166,29 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public boolean containsKey(Object key) {
-        return "value".equals(key) ||
-                "step".equals(key) ||
-                localVariablesMap.containsKey((String) key) ||
-                containsKeyPublic(key);
+        try {
+            return "value".equals(key) || "step".equals(key) || localVariablesMap.containsKey((String) key) || null != getVariable(key.toString());
+        } catch (InterruptedException ex) {
+            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException(ex.getMessage());
+        } catch (ScriptException ex) {
+            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException(ex.getMessage());
+        }
     }
 
-    public boolean containsKeyPublic(Object key) {
-        if (super.containsKey((String) key)) {
-            return true;
-        }
-        if (parent != null) {
-            return parent.containsKeyPublic(key);
-        }
-        TestSequenceInstance seq = getTestSequenceInstance();
-        return seq != null && (seq.containsKey((String) key) ||
-                seq.getTestFixture() != null && seq.getTestFixture().containsKey((String) key) ||
-                seq.getTestStation() != null && seq.getTestStation().containsKey((String) key));
-    }
+//    public boolean containsKeyPublic(Object key) {
+//        if (super.containsKey((String) key)) {
+//            return true;
+//        }
+//        if (parent != null) {
+//            return parent.containsKeyPublic(key);
+//        }
+//        TestSequenceInstance seq = getTestSequenceInstance();
+//        return seq != null && (seq.containsKey((String) key) ||
+//                seq.getTestFixture() != null && seq.getTestFixture().containsKey((String) key) ||
+//                seq.getTestStation() != null && seq.getTestStation().containsKey((String) key));
+//    }
 
     @Override
     public Object get(Object key) {
