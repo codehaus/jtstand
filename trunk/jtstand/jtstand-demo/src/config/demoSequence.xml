@@ -32,7 +32,7 @@
             <script><![CDATA[
                 println 'AVERAGE: ' + AVERAGE
                 println 'AVERAGE: ' + step.getPropertyDouble('AVERAGE')
-                step.setValue( AVERAGE + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian() )
+                value = AVERAGE + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian()
                 ]]>
             </script>
         </step>
@@ -43,13 +43,13 @@
                 System.out.println('AVERAGE: ' + AVERAGE)
                 AVERAGE = AVERAGE + 1.0;
                 System.out.println('AVERAGE: ' + AVERAGE)
-                setValue AVERAGE
+                value = AVERAGE
                 ]]>
             </script>
         </step>
         <step name="RANDOM3">
             <script><![CDATA[
-                setValue AVERAGE
+                value = AVERAGE
                 ]]>
             </script>
         </step>
