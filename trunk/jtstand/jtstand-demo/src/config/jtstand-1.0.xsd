@@ -294,7 +294,6 @@
     <xs:attribute name="failAction" type="tns:failAction"/>
     <xs:attribute name="passAction" type="tns:passAction"/>
     <xs:attribute name="runMode" type="tns:runMode"/>
-    <xs:attribute name="stepClass" type="xs:string"/>
     <xs:attribute name="name" type="xs:string" use="required"/>
     <xs:attribute name="locks" type="xs:string"/>
     <xs:attribute name="message" type="xs:string"/>
