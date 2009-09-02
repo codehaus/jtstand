@@ -49,7 +49,7 @@ public class TestTypeSequenceReference extends FileRevisionReference implements 
             ts.setCreator(getCreator());
             return ts;
         }
-        return TestSequence.unmarshal(getNormal(getTestType().getCreator()));
+        return TestSequence.unmarshal(getFileRevision(getTestType().getCreator()));
     }
 
     @XmlTransient

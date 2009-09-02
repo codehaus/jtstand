@@ -68,7 +68,7 @@ public class FixtureInitSequenceReference extends FileRevisionReference implemen
 //        if (getUseSequence() != null) {
 //            return getTestFixture().getTestStation().getTestProject().getTestSequence(getUseSequence());
 //        }
-        return TestSequence.unmarshal(getNormal(getTestFixture().getCreator()));
+        return TestSequence.unmarshal(getFileRevision(getTestFixture().getCreator()));
     }
 
     @Override

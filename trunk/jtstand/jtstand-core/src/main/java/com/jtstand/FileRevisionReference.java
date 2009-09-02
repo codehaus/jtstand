@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Albert Kurucz. 
+ * Copyright (c) 2009 Albert Kurucz.
  *
  * This file, FileRevisionReference.java is part of JTStand.
  *
@@ -50,14 +50,14 @@ public class FileRevisionReference implements Serializable {
     private FileRevision creator;
     private String charsetName;
     @Lob
-    @Column(length=2147483647)
+    @Column(length = 2147483647)
     private String text;
 
     @XmlTransient
     public String getFileContent() throws URISyntaxException, SVNException, IOException {
         if (getText() == null || getText().length() == 0) {
 //            System.out.println("Getting content from file...");
-            setText(getNormal(getCreator()).getText(getCharsetName()));
+            setText(getFileRevision(getCreator()).getText(getCharsetName()));
         }
         return getText();
     }
@@ -91,26 +91,33 @@ public class FileRevisionReference implements Serializable {
 
 //    public FileRevisionReference() {
 //    }
-
     @XmlTransient
     public Long getId() {
         return id;
     }
 
-    protected FileRevision getNormal(FileRevision creator) throws URISyntaxException {
+    protected FileRevision getFileRevision(FileRevision creator) throws URISyntaxException {
         Long rev = (revision != null) ? revision : creator.getRevision();
         if (rev < 1) {
             throw new IllegalArgumentException("Cannot normalize revision number: " + revision);
         }
-        URI creatorURI = URI.create(creator.getSubversionUrl());
-        URI specified = URI.create(getSubversionUrl());
-//        System.out.println("specified: " + specified + " relative:" + !specified.isAbsolute());
-        URI newURI = specified.isAbsolute() ? specified : creatorURI.resolve(specified);
-        if (!specified.isAbsolute() && creator.getFile() != null) {
-            return new FileRevision(newURI.toString(), rev, new File(creator.getFile().toURI().resolve(specified)));
-        } else {
-            return new FileRevision(newURI.toString(), rev, null);
-        }
+        String creatorURL = creator.getSubversionUrl();
+        String specifiedURL = getSubversionUrl();
+
+        URI creatorURI = URI.create(creatorURL);
+        URI specifiedURI = URI.create(specifiedURL);
+
+        boolean absolute = specifiedURI.isAbsolute();
+
+        URI newURI = absolute ? specifiedURI : creatorURI.resolve(specifiedURI);
+        File newFile = (absolute || creator.getFile() == null)
+                ? null
+                : new File(creator.getFile().toURI().resolve(specifiedURI));
+
+        System.out.println("CREATOR URL:" + creatorURL + " URI:" + creatorURI + " File:" + creator.getFile());
+        System.out.println(absolute ? "ABSOLUTE" : "RELATIVE" + " URL:" + specifiedURL + " URI:" + newURI + " File:" + creator.getFile());
+
+        return new FileRevision(newURI.toString(), rev, newFile);
     }
 
     @XmlAttribute

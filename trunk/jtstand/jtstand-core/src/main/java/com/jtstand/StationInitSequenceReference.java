@@ -55,7 +55,7 @@ public class StationInitSequenceReference extends FileRevisionReference implemen
 
     @XmlTransient
     public TestSequence getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
-        return TestSequence.unmarshal(getNormal(getTestStation().getCreator()));
+        return TestSequence.unmarshal(getFileRevision(getTestStation().getCreator()));
     }
 
     @Override

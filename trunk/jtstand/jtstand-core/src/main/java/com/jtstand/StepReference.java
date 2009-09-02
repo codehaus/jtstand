@@ -76,7 +76,7 @@ public class StepReference extends FileRevisionReference implements Serializable
     }
 
     public TestStep getTestStep(TestStepInstance step) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
-        FileRevision creator = testStep.getStepReference().getNormal(testStep.getCreator());
+        FileRevision creator = testStep.getStepReference().getFileRevision(testStep.getCreator());
         if (step.getParent() != null) {
             step.getParent().checkLoop(creator);
         }

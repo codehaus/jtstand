@@ -112,14 +112,14 @@
     <product partNumber="RANDOMBREAK" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="279"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="284"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A02">
         <remark>another random</remark>
         <property name="DEBUG_ENABLED" value="false"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="279"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="284"/>
         </testType>
     </product>
     <product partNumber="MUTEX_DEMO" partRevision="A01">
