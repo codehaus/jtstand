@@ -449,7 +449,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //        }
 //        return null;
 //    }
-
     public TestStepScript getScript() {
         if (getTestStep().getScript() != null) {
             return getTestStep().getScript();
@@ -959,13 +958,17 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     public Object getVariable(String keyString, boolean wait, TestStepInstance step) throws InterruptedException, ScriptException {
-//        System.out.println("Getting variable: '" + keyString + "'");
+        System.out.println("Step: " + getName() + " is getting variable: '" + keyString + "'");
         if ("out".equals(keyString)) {
             return System.out;
         }
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
+                    System.out.println("From TestStepProperty: " +
+                            ((tsp.getPropertyValueAttribute() == null)
+                            ? tsp.getPropertyValue()
+                            : tsp.getPropertyValueAttribute()));
                     return getVariable(keyString, wait, tsp, step);
                 }
             }
@@ -975,6 +978,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
+                    System.out.println("From Called TestStepProperty: " +
+                            ((tsp.getPropertyValueAttribute() == null)
+                            ? tsp.getPropertyValue()
+                            : tsp.getPropertyValueAttribute()));
                     return getVariable(keyString, wait, tsp, step);
                 }
             }
@@ -987,6 +994,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestSequence() != null) {
                 for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
+                        System.out.println("From TestSequenceProperty: " +
+                                ((tsp.getPropertyValueAttribute() == null)
+                                ? tsp.getPropertyValue()
+                                : tsp.getPropertyValueAttribute()));
                         return seq.getVariable(keyString, wait, tsp, step);
                     }
                 }
@@ -994,6 +1005,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestFixture() != null) {
                 for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
+                        System.out.println("From TestFixtureProperty: " +
+                                ((tsp.getPropertyValueAttribute() == null)
+                                ? tsp.getPropertyValue()
+                                : tsp.getPropertyValueAttribute()));
                         return seq.getTestFixture().getVariable(keyString, wait, tsp, step);
                     }
                 }
@@ -1001,6 +1016,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             if (seq.getTestStation() != null) {
                 for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
+                        System.out.println("From TestStationProperty: " +
+                                ((tsp.getPropertyValueAttribute() == null)
+                                ? tsp.getPropertyValue()
+                                : tsp.getPropertyValueAttribute()));
                         return seq.getTestStation().getVariable(keyString, wait, tsp, step);
                     }
                 }
@@ -1010,6 +1029,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                             /**
                              * variables defined at project level are still stored at station level
                              */
+                            System.out.println("From TestProjectProperty: " +
+                                    ((tsp.getPropertyValueAttribute() == null)
+                                    ? tsp.getPropertyValue()
+                                    : tsp.getPropertyValueAttribute()));
                             return seq.getTestStation().getVariable(keyString, wait, tsp, step);
                         }
                     }
@@ -1189,7 +1212,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //                seq.getTestFixture() != null && seq.getTestFixture().containsKey((String) key) ||
 //                seq.getTestStation() != null && seq.getTestStation().containsKey((String) key));
 //    }
-
     @Override
     public Object get(Object key) {
         System.out.println("get of Bindings is called with key: '" + key + "'...");
