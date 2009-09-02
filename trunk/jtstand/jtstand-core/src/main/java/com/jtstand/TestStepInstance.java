@@ -1423,10 +1423,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                         value <= tl.getUpperSpeficiedLimit();
             case BOOL:
                 return value != 0.0;
-            default:
-                throw new IllegalArgumentException("Unsupported compare type for Numeric value:" + tl.getComp());
+//            default:
+//                throw new IllegalArgumentException("Unsupported compare type for Numeric value:" + tl.getComp());
         }
-
+        return false;
     }
 
 //    private boolean isValueOnTarget(TestLimit tl, double value) {
@@ -1473,9 +1473,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 return value.equals(tl.getMeasurementUnit());
             case NE:
                 return !value.equals(tl.getMeasurementUnit());
-            default:
-                throw new IllegalArgumentException("Unsupported compare type for String value:" + tl.getComp());
+//            default:
+//                throw new IllegalArgumentException("Unsupported compare type for String value:" + tl.getComp());
         }
+        return false;
     }
 
     private TestLimit getTestLimit(String useLimit) {
