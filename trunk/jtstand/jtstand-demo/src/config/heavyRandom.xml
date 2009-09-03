@@ -20,8 +20,8 @@
 
 <testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
     <property name="DECIMAL_FORMAT" value="0.000"/>
-    <property name="AVERAGE" value="1"/>
-    <property name="SIGMA" value="1"/>
+    <property name="AVERAGE">1.0</property>
+    <property name="SIGMA">1.0</property>
     <limit name="the 1st step's limit" comp="GELE" lsl="-3.0" usl="5.0" unit="V">
     </limit>
     <mainStep name="RANDOM">
