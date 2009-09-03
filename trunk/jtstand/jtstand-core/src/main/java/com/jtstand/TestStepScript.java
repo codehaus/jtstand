@@ -108,21 +108,27 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
                 /* no variable with this name, lets try if it is a class */
                 classOfMyInterpreterObjects = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
             } catch (ClassNotFoundException ex1) {
+                System.out.println("Getting engine by name: " + getInterpreter() + "...");
                 return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
             }
         }
         if (ScriptEngine.class.isAssignableFrom(classOfMyInterpreterObjects)) {
             if (myInterpreterObject == null) {
+                System.out.println("Instantiating the engine...");
                 myInterpreterObject = classOfMyInterpreterObjects.newInstance();
             }
+            System.out.println("Calling eval on engine...");
             return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step);
         }
         try {
+            System.out.println("try1...");
             return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
         } catch (NoSuchMethodException ex) {
             try {
+                System.out.println("try2...");
                 return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
             } catch (NoSuchMethodException ex1) {
+                System.out.println("try3 (last one)...");
                 return classOfMyInterpreterObjects.getMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
             }
         }
