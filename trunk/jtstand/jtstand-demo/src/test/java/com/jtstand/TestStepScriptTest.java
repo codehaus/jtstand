@@ -4,6 +4,7 @@
  */
 package com.jtstand;
 
+import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
@@ -24,11 +25,13 @@ public class TestStepScriptTest extends TestCase {
     public static final String FOOBAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } } ; Bar b = new Bar(); b.getResult()";
     public static final String BAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } }";
     public static final String MY_THREAD = "class MyThread extends Thread { void run() { System.out.println(\"Hi there!\") } } ";
+    public static final String MY_CLOSURE = "{it -> it + 1.0}";
 
-    public void testCompiler()
-    {
-        Bindings b=new SimpleBindings();
 
+    public void testMyClosure() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        assertEquals(2.0,((Closure)engine.eval(MY_CLOSURE)).call(1.0));
     }
 
     public void testMyThread() throws ScriptException {
@@ -36,10 +39,6 @@ public class TestStepScriptTest extends TestCase {
         ScriptEngine engine1 = factory.getEngineByName("groovy");
         ScriptEngine engine2 = factory.getEngineByName("groovy");
         assertNotSame(engine1, engine2);
-//        Bindings b=new SimpleBindings();
-//        engine1.setBindings(b, ScriptContext.GLOBAL_SCOPE);
-//        engine1.eval(FOO);
-//        engine1.get("Foo");
     }
 
     public void testFooBar() throws ScriptException {
