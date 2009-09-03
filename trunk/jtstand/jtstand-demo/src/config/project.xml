@@ -106,7 +106,7 @@
     <product partNumber="HEAVY_RANDOM" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="heavyRandom.xml" revision="296"/>
+            <testSequence subversionUrl="heavyRandom.xml" revision="297"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">
