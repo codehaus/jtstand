@@ -114,8 +114,8 @@ public class FileRevisionReference implements Serializable {
                 ? null
                 : new File(creator.getFile().toURI().resolve(specifiedURI));
 
-        System.out.println("CREATOR URL:" + creatorURL + " URI:" + creatorURI + " File:" + creator.getFile());
-        System.out.println(absolute ? "ABSOLUTE" : "RELATIVE" + " URL:" + specifiedURL + " URI:" + newURI + " File:" + creator.getFile());
+//        System.out.println("CREATOR URL:" + creatorURL + " URI:" + creatorURI + " File:" + creator.getFile());
+//        System.out.println(absolute ? "ABSOLUTE" : "RELATIVE" + " URL:" + specifiedURL + " URI:" + newURI + " File:" + creator.getFile());
 
         return new FileRevision(newURI.toString(), rev, newFile);
     }
