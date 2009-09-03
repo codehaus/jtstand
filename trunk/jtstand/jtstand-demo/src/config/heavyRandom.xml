@@ -26,6 +26,6 @@
     </limit>
     <mainStep name="RANDOM">
         <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
-        <stepFile subversionUrl="heavyStep1000.xml" revision="278"/>
+        <stepFile subversionUrl="heavyStep1000.xml" revision="296"/>
     </mainStep>
 </testSequence>
