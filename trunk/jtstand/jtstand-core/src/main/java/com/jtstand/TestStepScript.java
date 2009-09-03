@@ -99,26 +99,31 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
             return TestProject.getScriptEngineManager().getEngineByName("groovy").eval(getFileContent(), step);
         }
         Object myInterpreterObject = null;
+        Class<?> classOfMyInterpreterObjects = null;
         try {
             myInterpreterObject = step.getVariable(getInterpreter());
+            classOfMyInterpreterObjects = myInterpreterObject.getClass();
         } catch (Exception ex) {
             try {
                 /* no variable with this name, lets try if it is a class */
-                myInterpreterObject = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
+                classOfMyInterpreterObjects = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
             } catch (ClassNotFoundException ex1) {
                 return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
             }
         }
-        if (myInterpreterObject instanceof ScriptEngine) {
+        if (ScriptEngine.class.isAssignableFrom(classOfMyInterpreterObjects)) {
+            if (myInterpreterObject == null) {
+                myInterpreterObject = classOfMyInterpreterObjects.newInstance();
+            }
             return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step);
         }
         try {
-            return myInterpreterObject.getClass().getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
+            return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
         } catch (NoSuchMethodException ex) {
             try {
-                return myInterpreterObject.getClass().getMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
+                return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
             } catch (NoSuchMethodException ex1) {
-                return myInterpreterObject.getClass().getMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
+                return classOfMyInterpreterObjects.getMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
             }
         }
     }
