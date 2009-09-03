@@ -105,10 +105,8 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
             try {
                 /* no variable with this name, lets try if it is a class */
                 myInterpreterObject = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
-                if (ScriptEngine.class.isAssignableFrom((Class<?>) myInterpreterObject)) {
-                    Constructor c = ((Class<?>) myInterpreterObject).getConstructor(EVAL_VOID);
-                    myInterpreterObject = c.newInstance();
-                }
+                Constructor c = ((Class<?>) myInterpreterObject).getConstructor(EVAL_VOID);
+                myInterpreterObject = c.newInstance();
             } catch (ClassNotFoundException ex1) {
                 return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
             }
