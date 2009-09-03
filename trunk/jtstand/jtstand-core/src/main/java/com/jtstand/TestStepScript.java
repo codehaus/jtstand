@@ -21,8 +21,6 @@ package com.jtstand;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.script.ScriptException;
@@ -34,10 +32,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import javax.script.Bindings;
-import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import org.tmatesoft.svn.core.SVNException;
-import sun.misc.GC;
 
 /**
  *
