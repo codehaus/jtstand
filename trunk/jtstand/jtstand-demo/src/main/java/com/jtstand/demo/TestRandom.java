@@ -4,24 +4,18 @@
  */
 package com.jtstand.demo;
 
-import com.jtstand.StepInterface;
 import java.util.Random;
+import javax.script.Bindings;
 
 /**
  *
  * @author albert_kurucz
  */
-public class TestRandom implements Runnable {
+public class TestRandom {
 
     public static Random r = new Random();
-    private StepInterface step;
 
-    public TestRandom(StepInterface step) {
-        this.step = step;
-    }
-
-    @Override
-    public void run() {
-        step.setValue(1.0 + TestRandom.r.nextGaussian());
+    public static void eval(String notused, Bindings bindings) {
+        bindings.put("value", 1.0 + TestRandom.r.nextGaussian());
     }
 }

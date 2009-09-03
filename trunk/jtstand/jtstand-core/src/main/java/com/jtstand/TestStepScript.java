@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Albert Kurucz. 
+ * Copyright (c) 2009 Albert Kurucz.
  *
  * This file, TestStepScript.java is part of JTStand.
  *
@@ -19,19 +19,25 @@
 package com.jtstand;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
+import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import org.tmatesoft.svn.core.SVNException;
+import sun.misc.GC;
 
 /**
  *
@@ -87,12 +93,42 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         }
         return true;
     }
+    public static final Class<?>[] EVAL_VOID = {};
+    public static final Class<?>[] EVAL_STRING = {String.class};
+    public static final Class<?>[] EVAL_STRING_BINDINGS = {String.class, Bindings.class};
 
-    public void execute(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException {
-//        Thread.currentThread().setContextClassLoader(step.getTestSequenceInstance().getTestProject().getClassLoader());
-        ScriptEngine engine = TestProject.getScriptEngineManager().getEngineByName((getInterpreter() == null) ? "groovy" : getInterpreter());
-        engine.setBindings(step, ScriptContext.ENGINE_SCOPE);
-        System.out.println(engine.eval(getFileContent()));
+    public Object execute(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
+        if (null == getInterpreter()) {
+            /* interpreter is not defined, use the default interpreter, which is groovy in our case! */
+            return TestProject.getScriptEngineManager().getEngineByName("groovy").eval(getFileContent(), step);
+        }
+        Object myInterpreterObject = null;
+        try {
+            myInterpreterObject = step.getVariable(getInterpreter());
+        } catch (Exception ex) {
+            try {
+                /* no variable with this name, lets try if it is a class */
+                myInterpreterObject = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
+                if (ScriptEngine.class.isAssignableFrom((Class<?>) myInterpreterObject)) {
+                    Constructor c = ((Class<?>) myInterpreterObject).getConstructor(EVAL_VOID);
+                    myInterpreterObject = c.newInstance();
+                }
+            } catch (ClassNotFoundException ex1) {
+                return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
+            }
+        }
+        if (myInterpreterObject instanceof ScriptEngine) {
+            return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step);
+        }
+        try {
+            return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
+        } catch (NoSuchMethodException ex) {
+            try {
+                return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
+            } catch (NoSuchMethodException ex1) {
+                return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
+            }
+        }
     }
 
 //    public void executeOld(TestStepInstance step) throws Exception {
@@ -114,7 +150,6 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
 //            ((Interpreter) o).eval(getFileContent(), step);
 //        }
 //    }
-
     public static boolean disposeOrClose(Object o) {
         return call(o, "dispose") ? true : call(o, "close");
     }
