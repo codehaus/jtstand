@@ -89,7 +89,7 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
         }
         return true;
     }
-    public static final Class<?>[] EVAL_VOID = {};
+    public static final Class<?>[] EVAL_VOID = null;
     public static final Class<?>[] EVAL_STRING = {String.class};
     public static final Class<?>[] EVAL_STRING_BINDINGS = {String.class, Bindings.class};
 
@@ -105,7 +105,6 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
             try {
                 /* no variable with this name, lets try if it is a class */
                 myInterpreterObject = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
-                myInterpreterObject = ((Class<?>) myInterpreterObject).newInstance();
             } catch (ClassNotFoundException ex1) {
                 return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
             }
@@ -114,12 +113,12 @@ public class TestStepScript extends FileRevisionReference implements Serializabl
             return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step);
         }
         try {
-            return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
+            return myInterpreterObject.getClass().getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
         } catch (NoSuchMethodException ex) {
             try {
-                return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
+                return myInterpreterObject.getClass().getMethod("eval", EVAL_STRING).invoke(myInterpreterObject, getFileContent());
             } catch (NoSuchMethodException ex1) {
-                return myInterpreterObject.getClass().getDeclaredMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
+                return myInterpreterObject.getClass().getMethod("eval", EVAL_VOID).invoke(myInterpreterObject);
             }
         }
     }

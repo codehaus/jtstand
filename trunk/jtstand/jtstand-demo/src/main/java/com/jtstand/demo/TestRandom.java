@@ -15,7 +15,9 @@ public class TestRandom {
 
     public static Random r = new Random();
 
-    public static void eval(String notused, Bindings bindings) {
-        bindings.put("value", 1.0 + TestRandom.r.nextGaussian());
+    public static Object eval(String notused, Bindings bindings) {
+        Double retval = 1.0 + r.nextGaussian();
+        bindings.put("value", retval);
+        return retval;
     }
 }
