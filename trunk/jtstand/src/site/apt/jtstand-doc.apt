@@ -139,6 +139,8 @@ Specification
 
   * A Step shall Pass if it has not failed and it has not been aborted (by the operator or by another Step) while it was executed.
 
+  * Step may contain a Script, and the Script of the Step may refer to a ScriptEngine, which ScriptEngine will be called to evaluate the Script, when the Step is executed.
+
   * The Step's code shall not set the State of the Step. The Sequencer, which executes the Sequence/Steps will set the State regarding the Result/Limit/Exception conditions.
 
   * A (caller) Step may refer to a (called) Step definition file by Subversion URL and revision number.
@@ -175,19 +177,11 @@ Specification
 
   * A Project may refer to Libraries, by Subversion URL and revision number
 
-** Library
-
-  * A Library is a collection of Classes
-
-** Class
+** Script
 
   * Scripts of JTStand may refer to Classes defined outside of JTStand if the class is in the Class Path.
 
-  * Within JTStand Classes can be defined within Project and Libraries
-
-  * Within JTStand the source files of the Classes is always Groovy
-
-  * A Class shall either refer to a Groovy source file by URL and Revision Number or contain the source
+  * Text of the Script can stored directly or indirectly in a File.
 
 * Configuration Files
 
