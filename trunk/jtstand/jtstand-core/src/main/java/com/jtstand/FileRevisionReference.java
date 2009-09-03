@@ -55,9 +55,9 @@ public class FileRevisionReference implements Serializable {
 
     @XmlTransient
     public String getFileContent() throws URISyntaxException, SVNException, IOException {
-        if (getText() == null || getText().length() == 0) {
+        if (null != getSubversionUrl()) {
 //            System.out.println("Getting content from file...");
-            setText(getFileRevision(getCreator()).getText(getCharsetName()));
+            return(getFileRevision(getCreator()).getText(getCharsetName()));
         }
         return getText();
     }
