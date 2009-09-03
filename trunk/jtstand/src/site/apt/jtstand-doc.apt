@@ -59,23 +59,19 @@ Specification
 
   * There will be no artificial restriction neither for the number of child Steps nor for the deepness of the tree. Capacity of the hardware or the JVM will be the only limiting factor.
 
-  * The definition of a Step may specify software code of the following types:
+  * The definition of a Step may specify or refer software code of the following types:
 
-    * Java Class name
+    * ScriptEngine
 
-    * Script, which script's text is embedded in the Step's definition
+    * Script
 
-    * Both Class and Script
+  * The default language for the Scripts shall be Groovy
 
-  * Scripts and Classes can be written in Groovy as the default language. Future JTStand versions may support more languages. Candidates: {{{http://jruby.codehaus.org/}JRuby}}, {{{http://www.jython.org/}Jython}}, {{{http://sourceforge.net/projects/tcljava/}Tcl/Java}}, {{{http://clojure.org/}Clojure}}.
+  * Step shall be executed in this order:
 
-  * Components of a Step shall be executed in the following order:
+    * First execute the child Steps if there are any
 
-    * Children if any
-
-    * Java class if specified
-
-    * Groovy script if specified
+    * Then execute the Script of the Step if there is one
 
   * Steps may exists without having neither any children nor any software code specified to execute. These extremely simple Steps will function as Space Holders for future developments.
 
