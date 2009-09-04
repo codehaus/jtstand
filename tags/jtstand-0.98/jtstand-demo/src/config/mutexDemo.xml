@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, mutexDemo.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="DECIMAL_FORMAT" value="0.000"/>
+    <mainStep name="RANDOM">
+        <step name="not mutex parallel">
+            <property name="VAR1" final="false"/>
+            <step name="group" parallel="true">
+                <step name="sub1">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub2">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub3">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub4">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+            </step>
+        </step>
+        <step name="mutex parallel">
+            <property name="VAR1" final="false" mutex="true"/>
+            <step name="group" parallel="true">
+                <step name="sub1">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub2">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub3">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub4">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+            </step>
+        </step>
+        <step name="mutex sequential">
+            <property name="VAR1" final="false" mutex="true"/>
+            <step name="group">
+                <step name="sub1">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub2">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub3">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="sub4">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+            </step>
+        </step>
+        <step name="mutex sequential and parallel with eval">
+            <property name="VAR1" final="false" mutex="true">(Integer) 100</property>
+            <step name="group1">
+                <step name="sub1">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+                <step name="group2" parallel="true">
+                    <step name="sub2">
+                        <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                    </step>
+                    <step name="sub3">
+                        <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                    </step>
+                </step>
+                <step name="sub4">
+                    <stepFile subversionUrl="mutexSub.xml" revision="251"/>
+                </step>
+            </step>
+        </step>
+    </mainStep>
+</testSequence>

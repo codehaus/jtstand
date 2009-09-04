@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, persistence.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+  <persistence-unit name="HIBERNATE" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.jtstand.Authentication</class>
+    <class>com.jtstand.DomainUser</class>
+    <class>com.jtstand.FileRevision</class>
+    <class>com.jtstand.FileRevisionReference</class>
+    <class>com.jtstand.FixtureInitSequenceReference</class>
+    <class>com.jtstand.LocalUser</class>
+    <class>com.jtstand.Operator</class>
+    <class>com.jtstand.Product</class>
+    <class>com.jtstand.ProductProperty</class>
+    <class>com.jtstand.StationInitSequenceReference</class>
+    <class>com.jtstand.StepReference</class>
+    <class>com.jtstand.TestFixture</class>
+    <class>com.jtstand.TestFixtureProperty</class>
+    <class>com.jtstand.TestLimit</class>
+    <class>com.jtstand.TestProject</class>
+    <class>com.jtstand.TestProjectProperty</class>
+    <class>com.jtstand.TestProperty</class>
+    <class>com.jtstand.TestSequence</class>
+    <class>com.jtstand.TestSequenceInstance</class>
+    <class>com.jtstand.TestSequenceProperty</class>
+    <class>com.jtstand.TestStation</class>
+    <class>com.jtstand.TestStationProperty</class>
+    <class>com.jtstand.TestStep</class>
+    <class>com.jtstand.TestStepInstance</class>
+    <class>com.jtstand.TestStepNamePath</class>
+    <class>com.jtstand.TestStepProperty</class>
+    <class>com.jtstand.TestStepScript</class>
+    <class>com.jtstand.TestType</class>
+    <class>com.jtstand.TestTypeProperty</class>
+    <class>com.jtstand.TestTypeReference</class>
+    <class>com.jtstand.TestTypeSequenceReference</class>
+    <class>com.jtstand.DomainUserList</class>
+    <class>com.jtstand.LocalUserList</class>
+  </persistence-unit>
+</persistence>

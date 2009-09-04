@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, pom.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses />.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <properties>
+        <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
+        <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
+        <jtstand.schemaNameSpace>${url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
+        <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <modelVersion>4.0.0</modelVersion>
+    <!--prerequisites>
+        <maven>2.0.10</maven>
+    </prerequisites-->
+    <version>0.98</version>
+    <groupId>org.codehaus.jtstand</groupId>
+    <artifactId>jtstand</artifactId>
+    <packaging>pom</packaging>
+    <name>jtstand</name>
+    <url>http://jtstand.codehaus.org/</url>
+    <inceptionYear>2009</inceptionYear>
+    <description>JTStand is a Scripting Environment for Data Collection.</description>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/JTSTAND</url>
+    </issueManagement>
+    <mailingLists>
+        <mailingList>
+            <name>JTStand Users</name>
+            <post>user@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.user</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Dev</name>
+            <post>dev@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.dev</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand SCM</name>
+            <post>scm@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.scm</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Announce</name>
+            <post>announce@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.announce</archive>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <name>Albert Kurucz</name>
+            <id>albert_kurucz</id>
+            <email>albert.kurucz@gmail.com</email>
+            <organization>jtstand.com</organization>
+            <organizationUrl>http://www.jtstand.com</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>TMate Open Source License</name>
+            <url>http://svnkit.com/license.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <modules>
+        <module>jtstand-sequence</module>
+        <module>jtstand-ssh2</module>
+        <module>jtstand-svn-core</module>
+        <module>jtstand-svn</module>
+        <module>jtstand-core</module>
+        <module>jtstand-common</module>
+        <module>jtstand-chart</module>
+        <module>jtstand-desktop</module>
+        <module>jtstand-editor</module>
+        <module>jtstand-ui</module>
+        <module>jtstand-demo</module>
+    </modules>
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/jtstand-0.98</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/tags/jtstand-0.98</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/tags/jtstand-0.98</url>
+    </scm>
+    <build>
+        <plugins>
+            <!--plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <attach>true</attach>
+                    <descriptors>
+                        <descriptor>src/assemblies/distribution.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>package-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assembly</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin-->
+            <plugin>
+                <artifactId>maven-scm-plugin</artifactId>
+                <configuration>
+                    <connectionType>developerConnection</connectionType>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.0</version>
+                <configuration>
+                    <inputEncoding>UTF-8</inputEncoding>
+                    <stagingDirectory>./target/staging</stagingDirectory>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.doxia</groupId>
+                        <artifactId>doxia-module-twiki</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                    <!--dependency>
+                        <groupId>org.apache.maven.doxia</groupId>
+                        <artifactId>doxia-module-docbook-simple</artifactId>
+                        <version>1.1</version>
+                    </dependency-->
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <showDeprecation>true</showDeprecation>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+    </build>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-sequence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ssh2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-chart</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-desktop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-editor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <repositories>
+        <repository>
+            <id>Codehaus</id>
+            <url>http://repository.codehaus.org/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Releases Repository</name>
+            <url>http://download.java.net/maven/2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>repository.jboss.org</id>
+            <name>JBoss Releases Repository</name>
+            <url>http://repository.jboss.org/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+            <layout>default</layout>
+        </pluginRepository>
+    </pluginRepositories>
+    <!--reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </reporting-->
+
+    <!-- ==========
+         DEPLOYMENT
+         ========== -->
+    <distributionManagement>
+        <repository>
+            <id>jtstand-releases</id>
+            <name>JTStand Release Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/codehaus-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>jtstand-snapshots</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>JTStand Snapshots Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/codehaus-snapshots/</url>
+        </snapshotRepository>
+        <site>
+            <id>jtstand-site</id>
+            <url>dav:https://dav.codehaus.org/jtstand/</url>
+        </site>
+        <downloadUrl>http://repository.codehaus.org/org/codehaus/jtstand/</downloadUrl>
+    </distributionManagement>
+</project>

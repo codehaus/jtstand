@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, demoRandom.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="DECIMAL_FORMAT" value="0.000"/>
+    <limit name="the 1st step's limit" comp="GELE" lsl="-2.0" usl="4.0" unit="V">
+        <remark>Set to plus-minus 3 sigma</remark>
+    </limit>
+    <mainStep name="RANDOM">
+        <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
+        <property name="clos" mutex="true">{->println &quot;I am a closure&quot;}</property>
+        <property name="scr" mutex="true">{com.jtstand.TestStepInstance it->it.parse('println &quot;I am a Script&quot;')}</property>
+        <property name="TEST_IP_PORT">8089</property>
+        <property name="serversocket"/>
+        <property name="serversession" mutex="true"/>
+        <property name="clientsession" mutex="true"/>
+
+        <step name="RANDOM1" useLimit="the 1st step's limit">
+            <remark>This is the 1st real step</remark>
+            <property name="AVERAGE">0.5 + 0.5</property>
+            <script>value = step.getPropertyDouble('AVERAGE') + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian()</script>
+        </step>
+        <step name="Closure Class">
+            <script>value = clos.getClass().getCanonicalName()</script>
+        </step>
+        <step name="Closure Call">
+            <script>value = clos.call()</script>
+        </step>
+        <step name="Script Class">
+            <script>value = scr.call(step).getClass().getCanonicalName()</script>
+        </step>
+        <step name="Script Call">
+            <script>value = scr.call(step).run()</script>
+        </step>
+        <step name="Start the server">
+            <script>serversocket = new java.net.ServerSocket(step.getPropertyInteger('TEST_IP_PORT'))</script>
+        </step>
+        <step name="Server and Client parallel" parallel="true">
+            <step name="Server side">
+                <step name="Accept connection at the server">
+                    <script>serversession = new com.jtstand.io.IOSession(serversocket.accept())</script>
+                </step>
+                <step name="Receive by the server">
+                    <script>serversession.expect 'GET'</script>
+                </step>
+            </step>
+            <step name="Client side">
+                <step name="Connect the client" preSleep="50">
+                    <script>clientsession = new com.jtstand.io.IOSession(new java.net.Socket('127.0.0.1', step.getPropertyInteger('TEST_IP_PORT')))</script>
+                </step>
+                <step name="Send from the client">
+                    <script>clientsession.send 'GET'</script>
+                </step>
+            </step>
+        </step>
+    </mainStep>
+</testSequence>

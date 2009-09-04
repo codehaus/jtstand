@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, demoSequence.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<testSequence xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoSequence" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="DECIMAL_FORMAT" value="0.000"/>
+    <limit name="the 1st step's limit" comp="GELE" lsl="-2.0" usl="4.0" unit="V">
+        <remark>Set to plus-minus 3 sigma</remark>
+    </limit>
+    <mainStep name="RANDOM">
+        <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
+        <property name="AVERAGE" final="false">0.5 + 1.5</property>
+        <step name="RANDOM1" useLimit="the 1st step's limit">
+            <remark>This is the 1st real step</remark>
+            <property name="AVERAGE">0.5 + 0.5</property>
+            <script><![CDATA[
+                println 'AVERAGE: ' + AVERAGE
+                println 'AVERAGE: ' + step.getPropertyDouble('AVERAGE')
+                value = AVERAGE + step.getPropertyDouble('SIGMA',1.0D) * (new java.util.Random()).nextGaussian()
+                ]]>
+            </script>
+        </step>
+        <step name="RANDOM2">
+            <script><![CDATA[
+                System.out.println('AVERAGE: ' + AVERAGE)
+                AVERAGE = AVERAGE * 2.0
+                System.out.println('AVERAGE: ' + AVERAGE)
+                AVERAGE = AVERAGE + 1.0;
+                System.out.println('AVERAGE: ' + AVERAGE)
+                value = AVERAGE
+                ]]>
+            </script>
+        </step>
+        <step name="RANDOM3">
+            <script><![CDATA[
+                value = AVERAGE
+                ]]>
+            </script>
+        </step>
+        <step name="This is a really long name" failAction="LOOP" maxLoops="2">
+            <property name="AVERAGE">2.1</property>
+            <stepFile subversionUrl="demoStep.xml" revision="291"/>
+        </step>
+        <step name="group 1">
+            <step name="group 2" parallel="true" message="This is an interesting group of steps">
+                <step name="far1">
+                    <property name="AVERAGE">1.0</property>
+                    <property name="SIGMA">1.0</property>
+                    <limit comp="GELE" lsl="-2.0" usl="4.0"/>
+                    <script subversionUrl="testrandom.gs" revision="276"/>
+                </step>
+                <step name="far2">
+                    <property name="AVERAGE">1.0</property>
+                    <property name="SIGMA">1.0</property>
+                    <limit comp="GELE" lsl="-2.0" usl="4.0"/>
+                    <script subversionUrl="testrandom.gs" revision="276"/>
+                </step>
+                <step name="far3">
+                    <script>
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException ex) {
+                            step.getLogger().info("far3 was interrupted while sleeping");
+                        }
+                        step.abort();
+                    </script>
+                </step>
+            </step>
+        </step>
+    </mainStep>
+</testSequence>

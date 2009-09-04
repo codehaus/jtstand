@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, heavyStep100.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<step name="heavyStep100" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+    <remark>This step is the root of the heavyStep100</remark>
+    <step name="step 10">
+        <remark>This is the fist step of heavyStep100</remark>
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 20">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 30">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 40">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 50">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 60">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 70">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 80">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 90">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+    <step name="step 100">
+        <stepFile subversionUrl="heavyStep10.xml" revision="300"/>
+    </step>
+</step>
