@@ -30,7 +30,7 @@
     <!--prerequisites>
         <maven>2.0.10</maven>
     </prerequisites-->
-    <version>0.97</version>
+    <version>0.98-SNAPSHOT</version>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
