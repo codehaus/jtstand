@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.codehaus.jtstand</groupId>
         <artifactId>jtstand</artifactId>
-        <version>0.98</version>
+        <version>0.99-SNAPSHOT</version>
     </parent>
     <artifactId>jtstand-ui</artifactId>
     <packaging>jar</packaging>
