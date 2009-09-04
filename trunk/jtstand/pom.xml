@@ -30,7 +30,7 @@
     <!--prerequisites>
         <maven>2.0.10</maven>
     </prerequisites-->
-    <version>0.98-SNAPSHOT</version>
+    <version>0.98</version>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
@@ -110,9 +110,9 @@
         <module>jtstand-demo</module>
     </modules>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/0.97</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/tags/0.97</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/tags/0.97</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/jtstand-0.98</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/tags/jtstand-0.98</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/tags/jtstand-0.98</url>
     </scm>
     <build>
         <plugins>
