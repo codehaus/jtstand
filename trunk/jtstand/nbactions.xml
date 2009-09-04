@@ -67,4 +67,11 @@
                 <goal>release:rollback</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-release:perform</actionName>
+            <displayName>release:perform</displayName>
+            <goals>
+                <goal>release:perform</goal>
+            </goals>
+        </action>
     </actions>
