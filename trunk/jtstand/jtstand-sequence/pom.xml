@@ -8,7 +8,6 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-sequence</artifactId>
-    <version>0.97</version>
     <name>jtstand-sequence</name>
     <url>http://jtstand.codehaus.org/jtstand-sequence/</url>
     <dependencies>

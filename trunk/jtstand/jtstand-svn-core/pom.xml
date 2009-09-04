@@ -8,7 +8,6 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-svn-core</artifactId>
-    <version>0.97</version>
     <name>jtstand-svn-core</name>
     <url>http://jtstand.codehaus.org/jtstand-svn-core/</url>
     <dependencies>

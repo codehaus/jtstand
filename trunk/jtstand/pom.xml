@@ -184,27 +184,27 @@
         <dependencies>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-sequence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ssh2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-ui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-demo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-desktop</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-editor</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -219,22 +219,22 @@
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-svn</artifactId>
+                <artifactId>jtstand-desktop</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-svn-core</artifactId>
+                <artifactId>jtstand-editor</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-sequence</artifactId>
+                <artifactId>jtstand-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-ssh2</artifactId>
+                <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
