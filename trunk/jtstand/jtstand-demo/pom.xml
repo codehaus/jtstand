@@ -15,7 +15,7 @@
   ~ GNU Lesser General Public License for more details.
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses />.
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -23,7 +23,7 @@
     <parent>
         <artifactId>jtstand</artifactId>
         <groupId>org.codehaus.jtstand</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.97</version>
     </parent>
     <packaging>jar</packaging>
     <artifactId>jtstand-demo</artifactId>
@@ -206,7 +206,7 @@
                         <argument>-Xmn64m</argument>
                         <argument>-Dmyproperty=myvalue</argument>
                         <argument>-classpath</argument>
-                        <classpath/>
+                        <classpath />
                         <argument>com.jtstand.swing.Main</argument>
                     </arguments>
                 </configuration>

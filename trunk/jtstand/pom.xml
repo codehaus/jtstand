@@ -15,7 +15,7 @@
   ~ GNU Lesser General Public License for more details.
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
-  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses />.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <properties>
@@ -30,7 +30,7 @@
     <!--prerequisites>
         <maven>2.0.10</maven>
     </prerequisites-->
-    <version>1.0-SNAPSHOT</version>
+    <version>0.97</version>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
@@ -110,9 +110,9 @@
         <module>jtstand-demo</module>
     </modules>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk/jtstand</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk/jtstand</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/trunk/jtstand</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/0.97</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/tags/0.97</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/tags/0.97</url>
     </scm>
     <build>
         <plugins>
