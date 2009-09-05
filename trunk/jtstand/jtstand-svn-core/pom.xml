@@ -8,6 +8,7 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-svn-core</artifactId>
+    <packaging>jar</packaging>
     <name>jtstand-svn-core</name>
     <description>jtstand-svn-core is the core library of the jtstand-svn subversion client implementation.</description>
     <url>http://jtstand.codehaus.org/jtstand-svn-core/</url>

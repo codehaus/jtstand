@@ -8,6 +8,7 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-chart</artifactId>
+    <packaging>jar</packaging>
     <name>jtstand-chart</name>
     <description>jtstand-chart is a swing chart library derived from jfreechart</description>
     <url>http://jtstand.codehaus.org/jtstand-chart/</url>

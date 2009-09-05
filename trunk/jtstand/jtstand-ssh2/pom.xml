@@ -8,6 +8,7 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-ssh2</artifactId>
+    <packaging>jar</packaging>
     <name>jtstand-ssh2</name>
     <description>jtstand-ssh2 is an ssh2 protocol implementation.</description>
     <url>http://jtstand.codehaus.org/jtstand-ssh2/</url>

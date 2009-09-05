@@ -27,6 +27,7 @@
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-editor</artifactId>
+    <packaging>jar</packaging>
     <name>jtstand-editor</name>
     <description>jtstand-editor is a syntax highlighting text editor, derived from rsyntaxtextarea</description>
     <url>http://jtstand.codehaus.org/jtstand-editor/</url>
