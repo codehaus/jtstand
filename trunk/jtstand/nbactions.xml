@@ -74,4 +74,11 @@
                 <goal>release:perform</goal>
             </goals>
         </action>
+        <action>
+            <actionName>CUSTOM-verify</actionName>
+            <displayName>verify</displayName>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+        </action>
     </actions>
