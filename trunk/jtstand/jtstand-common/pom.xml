@@ -28,7 +28,8 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-common</artifactId>
     <name>jtstand-common</name>
-    <url>http://jtstand.codehaus.org/jtstand-chart/</url>
+    <description>jtstand-common is a library derived from jcommon, used by jtstand-chart, which is derived from jfreechart</description>
+    <url>http://jtstand.codehaus.org/jtstand-common/</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>

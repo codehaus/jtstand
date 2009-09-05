@@ -9,6 +9,7 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-svn</artifactId>
     <name>jtstand-svn</name>
+    <description>jtstand-svn is a subversion client implementation.</description>
     <url>http://jtstand.codehaus.org/jtstand-svn/</url>
     <dependencies>
         <dependency>

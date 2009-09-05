@@ -28,6 +28,7 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-desktop</artifactId>
     <name>jtstand-desktop</name>
+    <description>jtstand-desktop is a gui library, an extension of swing. jtstand-desktop is derived from swingx.</description>
     <url>http://jtstand.codehaus.org/jtstand-desktop/</url>
     <dependencies>
         <dependency>

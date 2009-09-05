@@ -9,6 +9,7 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-sequence</artifactId>
     <name>jtstand-sequence</name>
+    <description>jtstand-sequence is a library which is used by the jtstand-svn, jtstand project's svn client library, which one is derived from svnkit.</description>
     <url>http://jtstand.codehaus.org/jtstand-sequence/</url>
     <dependencies>
         <dependency>
