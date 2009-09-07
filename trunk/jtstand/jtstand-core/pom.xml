@@ -134,8 +134,8 @@
 
             <plugin>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-schemagen-plugin</artifactId>
-                <version>0.99-SNAPSHOT</version>
+                <artifactId>jtstand-maven-schemagen-plugin</artifactId>
+                <version>1.0-SNAPSHOT</version>
                 <executions>
                     <execution>
                         <phase>process-sources</phase>
