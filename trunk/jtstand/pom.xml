@@ -16,8 +16,7 @@
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses />.
-  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <properties>
         <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
         <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
@@ -97,6 +96,7 @@
         </license>
     </licenses>
     <modules>
+        <module>jtstand-native</module>
         <module>jtstand-sequence</module>
         <module>jtstand-ssh2</module>
         <module>jtstand-svn-core</module>
@@ -108,7 +108,8 @@
         <module>jtstand-editor</module>
         <module>jtstand-ui</module>
         <module>jtstand-demo</module>
-    </modules>
+    <module>jtstand-schemagen-plugin</module>
+  </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/0.97</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/tags/0.97</developerConnection>
@@ -195,6 +196,11 @@
     </build>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-native</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-sequence</artifactId>
@@ -306,19 +312,30 @@
          DEPLOYMENT
          ========== -->
     <distributionManagement>
-        <repository>
-            <id>jtstand-releases</id>
+        <!--repository>
+            <id>jtstand.oss.sonatype.org</id>
             <name>JTStand Release Repository</name>
             <url>http://oss.sonatype.org/content/repositories/codehaus-releases/</url>
         </repository>
         <snapshotRepository>
-            <id>jtstand-snapshots</id>
+            <id>jtstand.oss.sonatype.org</id>
             <uniqueVersion>false</uniqueVersion>
             <name>JTStand Snapshots Repository</name>
             <url>http://oss.sonatype.org/content/repositories/codehaus-snapshots/</url>
+        </snapshotRepository-->
+        <repository>
+            <id>jtstand.codehaus.org</id>
+            <name>JTStand Release Repository</name>
+            <url>http://repository.codehaus.org/org/codehaus/jtstand/</url>
+        </repository>
+        <snapshotRepository>
+            <id>jtstand.codehaus.org</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>JTStand Snapshots Repository</name>
+            <url>http://snapshots.repository.codehaus.org/org/codehaus/jtstand/</url>
         </snapshotRepository>
         <site>
-            <id>jtstand-site</id>
+            <id>jtstand.codehaus.org</id>
             <url>dav:https://dav.codehaus.org/jtstand/</url>
         </site>
         <downloadUrl>http://repository.codehaus.org/org/codehaus/jtstand/</downloadUrl>
