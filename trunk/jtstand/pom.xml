@@ -108,7 +108,6 @@
         <module>jtstand-editor</module>
         <module>jtstand-ui</module>
         <module>jtstand-demo</module>
-    <module>jtstand-schemagen-plugin</module>
   </modules>
     <scm>
         <connection>scm:svn:http://svn.codehaus.org/jtstand/tags/0.97</connection>
