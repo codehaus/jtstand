@@ -271,9 +271,9 @@
         </mailingList>
     </mailingLists>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/trunk</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/trunk</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/trunk/</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/jtstand/trunk/</url>
     </scm>
     <prerequisites>
         <maven>2.2.0</maven>
