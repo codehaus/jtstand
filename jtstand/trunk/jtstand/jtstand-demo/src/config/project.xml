@@ -18,7 +18,7 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<testProject name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+<testProject name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
     <!--class name="Foo"><![CDATA[
         class Foo extends com.bar.Bar {
             void fello(){
@@ -96,35 +96,35 @@
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="281"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="344"/>
         </testType>
         <testType name="DEMO2">
             <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="281"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="344"/>
         </testType>
     </product>
     <product partNumber="HEAVY_RANDOM" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="heavyRandom.xml" revision="301"/>
+            <testSequence subversionUrl="heavyRandom.xml" revision="344"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="292"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="344"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A02">
         <remark>another random</remark>
         <property name="DEBUG_ENABLED" value="false"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="292"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="344"/>
         </testType>
     </product>
     <product partNumber="MUTEX_DEMO" partRevision="A01">
         <testType name="DEMO">
-            <testSequence subversionUrl="mutexDemo.xml" revision="252"/>
+            <testSequence subversionUrl="mutexDemo.xml" revision="344"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
@@ -148,7 +148,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="252"/>
+            <initSequence subversionUrl="init1.xml" revision="344"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -160,7 +160,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="295"/>
+            <initSequence subversionUrl="init2.xml" revision="344"/>
         </fixture>
     </testStation>
     <testStation hostName="MYSTATION">
@@ -186,7 +186,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="252"/>
+            <initSequence subversionUrl="init1.xml" revision="344"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -198,7 +198,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="295"/>
+            <initSequence subversionUrl="init2.xml" revision="344"/>
         </fixture>
     </testStation>
     <testStation hostName="DEFAULTSTATION">
@@ -212,7 +212,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="252"/>
+            <initSequence subversionUrl="init1.xml" revision="344"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -224,7 +224,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="295"/>
+            <initSequence subversionUrl="init2.xml" revision="344"/>
         </fixture>
     </testStation>
 </testProject>

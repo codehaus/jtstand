@@ -18,37 +18,37 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<step name="heavyStep1000" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ ../jtstand.xsd">
+<step name="heavyStep1000" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
     <remark>This step is the root of the heavyStep1000</remark>
     <step name="step 100">
         <remark>This is the fist step of heavyStep1000</remark>
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 200">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 300">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 400">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 500">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 600">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 700">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 800">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 900">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
     <step name="step 1000">
-        <stepFile subversionUrl="heavyStep100.xml" revision="301"/>
+        <stepFile subversionUrl="heavyStep100.xml" revision="344"/>
     </step>
 </step>
