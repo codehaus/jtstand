@@ -18,7 +18,7 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<step name="heavyStep10" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+<step name="heavyStep10" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
     <remark>This step is the root of the heavyStep10</remark>
     <step name="step 1" useLimit="the 1st step's limit">
         <remark>This is the fist step of heavyStep10</remark>
