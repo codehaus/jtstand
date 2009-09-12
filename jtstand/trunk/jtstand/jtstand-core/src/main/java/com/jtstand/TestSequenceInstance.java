@@ -842,6 +842,55 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return bindings;
     }
 
+    public boolean containsProperty(String key) {
+        if("sequence".equals(key)){
+            return true;
+        }
+        if (getTestSequence() != null) {
+            for (TestProperty tsp : getTestSequence().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        if (getTestType() != null) {
+            for (TestProperty tsp : getTestType().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+            if (getTestType().getProduct() != null) {
+                for (TestProperty tsp : getTestType().getProduct().getProperties()) {
+                    if (tsp.getName().equals(key)) {
+                    return true;
+                    }
+                }
+            }
+        }
+        if (getTestFixture() != null) {
+            for (TestProperty tsp : getTestFixture().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        if (getTestStation() != null) {
+            for (TestProperty tsp : getTestStation().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        if (getTestProject() != null) {
+            for (TestProperty tsp : getTestProject().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {

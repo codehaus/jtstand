@@ -956,6 +956,32 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return getVariable(keyString, wait, this);
     }
 
+    public boolean containsProperty(String key) {
+        if (getTestStep() != null) {
+            for (TestStepProperty tsp : getTestStep().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        } else {
+            System.err.println("getVariable : testStep is null!");
+        }
+        if (getCalledTestStep() != null) {
+            for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    return true;
+                }
+            }
+        }
+        if(getParent()!=null){
+            return getParent().containsProperty(key);
+        }
+        if(getTestSequenceInstance()!=null){
+            return getTestSequenceInstance().containsProperty(key);
+        }
+        return false;
+    }
+
     public Object getVariable(String keyString, boolean wait, TestStepInstance step) throws InterruptedException, ScriptException {
         //System.out.println("Step: " + getName() + " is getting variable: '" + keyString + "'");
         if ("out".equals(keyString)) {
@@ -1188,15 +1214,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public boolean containsKey(Object key) {
-        try {
-            return "value".equals(key) || "step".equals(key) || localVariablesMap.containsKey((String) key) || null != getVariable(key.toString());
-        } catch (InterruptedException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException(ex.getMessage());
-        } catch (ScriptException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException(ex.getMessage());
-        }
+        return "value".equals(key) ||
+                "step".equals(key) ||
+                localVariablesMap.containsKey(key.toString()) ||
+                containsProperty(key.toString());
+        // null != getVariable(key.toString());
     }
 
 //    public boolean containsKeyPublic(Object key) {
@@ -1264,7 +1286,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             return localVariablesMap.get((String) key);
         }
         try {
-
             return getVariable((String) key);
         } catch (ScriptException ex) {
             Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
