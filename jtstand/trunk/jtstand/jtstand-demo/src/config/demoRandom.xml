@@ -26,7 +26,6 @@
     <mainStep name="RANDOM">
         <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
         <property name="clos" mutex="true">{->println &quot;I am a closure&quot;}</property>
-        <property name="scr" mutex="true">{com.jtstand.TestStepInstance it->it.parse('println &quot;I am a Script&quot;')}</property>
         <property name="TEST_IP_PORT">8089</property>
         <property name="serversocket"/>
         <property name="serversession" mutex="true"/>
@@ -42,12 +41,6 @@
         </step>
         <step name="Closure Call">
             <script>value = clos.call()</script>
-        </step>
-        <step name="Script Class">
-            <script>value = scr.call(step).getClass().getCanonicalName()</script>
-        </step>
-        <step name="Script Call">
-            <script>value = scr.call(step).run()</script>
         </step>
         <step name="Start the server">
             <script>serversocket = new java.net.ServerSocket(step.getPropertyInteger('TEST_IP_PORT'))</script>
