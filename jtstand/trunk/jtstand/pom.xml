@@ -35,11 +35,6 @@
         <dependencies>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-native</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-sequence</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -96,7 +91,6 @@
         </dependencies>
     </dependencyManagement>
     <modules>
-        <module>jtstand-native</module>
         <module>jtstand-sequence</module>
         <module>jtstand-ssh2</module>
         <module>jtstand-svn-core</module>

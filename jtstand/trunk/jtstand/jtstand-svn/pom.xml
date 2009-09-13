@@ -19,15 +19,6 @@
             <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
-        <!--dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>3.2.2</version>
-        </dependency-->
-        <!--dependency>
-            <groupId>org.codehaus.jtstand</groupId>
-            <artifactId>jtstand-native</artifactId>
-        </dependency-->
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-svn-core</artifactId>
