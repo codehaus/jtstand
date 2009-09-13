@@ -12,7 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: junit:junit:3.8.2" level="project" />
-    <orderEntry type="library" exported="" name="Maven: net.java.dev.jna:jna:3.1.0" level="project" />
     <orderEntry type="module" module-name="jtstand-svn-core" exported="" />
     <orderEntry type="module" module-name="jtstand-sequence" exported="" />
     <orderEntry type="module" module-name="jtstand-ssh2" exported="" />
