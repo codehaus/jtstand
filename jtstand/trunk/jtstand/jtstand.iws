@@ -16,14 +16,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" afterPath="$PROJECT_DIR$/jtstand-ui/jtstand-ui.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" afterPath="$PROJECT_DIR$/jtstand-demo/jtstand-demo.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand.ipr" afterPath="$PROJECT_DIR$/jtstand.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand.iws" afterPath="$PROJECT_DIR$/jtstand.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-core/jtstand-core.iml" afterPath="$PROJECT_DIR$/jtstand-core/jtstand-core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-desktop/jtstand-desktop.iml" afterPath="$PROJECT_DIR$/jtstand-desktop/jtstand-desktop.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand-svn/jtstand-svn.iml" afterPath="$PROJECT_DIR$/jtstand-svn/jtstand-svn.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/jtstand.iml" afterPath="$PROJECT_DIR$/jtstand.iml" />
     </list>
     <ignored path=".idea/workspace.xml" />
     <ignored path="jtstand.iws" />
