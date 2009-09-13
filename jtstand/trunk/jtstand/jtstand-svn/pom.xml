@@ -24,10 +24,10 @@
             <artifactId>jna</artifactId>
             <version>3.2.2</version>
         </dependency-->
-        <dependency>
+        <!--dependency>
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-native</artifactId>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-svn-core</artifactId>

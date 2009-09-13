@@ -30,17 +30,17 @@ public abstract class SVNPasswordCipher {
     
     private static final SVNPasswordCipher EMPTY_CIPHER = new CompositePasswordCipher(Collections.EMPTY_LIST, SIMPLE_CIPHER_TYPE);
     private static final SVNPasswordCipher SIMPLE_CIPHER = new CompositePasswordCipher(Collections.EMPTY_LIST, SIMPLE_CIPHER_TYPE);
-    private static final SVNPasswordCipher WINCRYPT_CIPHER = new SVNWinCryptPasswordCipher();
+//    private static final SVNPasswordCipher WINCRYPT_CIPHER = new SVNWinCryptPasswordCipher();
     
     private static Map ourInstances = new SVNHashMap();
     private static String ourDefaultType = SIMPLE_CIPHER_TYPE;
     
     static {
         ourInstances.put(SIMPLE_CIPHER_TYPE, SIMPLE_CIPHER);
-        if (SVNWinCryptPasswordCipher.isEnabled()) {
-            ourInstances.put(WINCRYPT_CIPHER_TYPE, WINCRYPT_CIPHER);
-            ourDefaultType = WINCRYPT_CIPHER_TYPE;
-        }
+//        if (SVNWinCryptPasswordCipher.isEnabled()) {
+//            ourInstances.put(WINCRYPT_CIPHER_TYPE, WINCRYPT_CIPHER);
+//            ourDefaultType = WINCRYPT_CIPHER_TYPE;
+//        }
     }
     
     public static SVNPasswordCipher getInstance(String type) {

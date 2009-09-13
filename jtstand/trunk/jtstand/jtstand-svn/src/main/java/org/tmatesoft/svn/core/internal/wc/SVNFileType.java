@@ -17,7 +17,7 @@ import java.util.Set;
 
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.internal.util.SVNHashSet;
-import org.tmatesoft.svn.core.internal.util.jna.SVNJNAUtil;
+//import org.tmatesoft.svn.core.internal.util.jna.SVNJNAUtil;
 import org.tmatesoft.svn.util.SVNDebugLog;
 import org.tmatesoft.svn.util.SVNLogType;
 
@@ -79,14 +79,14 @@ public class SVNFileType {
         if (file == null) {
             return SVNFileType.UNKNOWN;
         }
-        if (SVNFileUtil.isLinux || SVNFileUtil.isBSD || SVNFileUtil.isOSX) {
-            if (detectSymlinks) {
-                SVNFileType ft = SVNJNAUtil.getFileType(file);
-                if (ft != null) {
-                    return ft;
-                }
-            }
-        }
+//        if (SVNFileUtil.isLinux || SVNFileUtil.isBSD || SVNFileUtil.isOSX) {
+//            if (detectSymlinks) {
+//                SVNFileType ft = SVNJNAUtil.getFileType(file);
+//                if (ft != null) {
+//                    return ft;
+//                }
+//            }
+//        }
         if (detectSymlinks && SVNFileUtil.symlinksSupported() && !isAdminFile(file)) {
             if (ourCanonPathCacheUsed && !ourFastSymlinkResoution && SVNFileType.isSymlink(file)) {
                 return SVNFileType.SYMLINK;
