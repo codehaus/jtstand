@@ -118,7 +118,6 @@
                                 <schemagen srcdir="${project.build.directory}/schema-src" destdir="${project.build.directory}/schema">
                                     <schema namespace="http://www.jtstand.com/" file="${jtstand.schemaFileName}" />
                                     <classpath refid="maven.compile.classpath"/>
-                                    <include name="*.java"/>
                                 </schemagen>
                             </tasks>
                         </configuration>
