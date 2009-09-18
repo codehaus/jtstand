@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>jtstand</artifactId>
+        <groupId>org.codehaus.jtstand</groupId>
+        <version>0.99-SNAPSHOT</version>
+    </parent>
+    <groupId>org.codehaus.jtstand</groupId>
+    <artifactId>jtstand-svnkit</artifactId>
+    <packaging>jar</packaging>
+    <name>jtstand-svnkit</name>
+    <description>jtstand-svnkit is a subversion client implementation.</description>
+    <url>http://jtstand.codehaus.org/jtstand-svnkit/</url>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>TMate Open Source License</name>
+            <url>http://svnkit.com/license.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jtstand-svn-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jtstand-sequence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jtstand-ssh2</artifactId>
+        </dependency>
+    </dependencies>
+</project>

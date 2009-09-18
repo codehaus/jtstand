@@ -231,7 +231,7 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
-            <artifactId>jtstand-svn</artifactId>
+            <artifactId>jtstand-svnkit</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
