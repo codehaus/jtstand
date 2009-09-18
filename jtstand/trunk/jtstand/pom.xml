@@ -205,7 +205,7 @@
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-svn</artifactId>
+                <artifactId>jtstand-svnkit</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -249,7 +249,7 @@
         <module>jtstand-sequence</module>
         <module>jtstand-ssh2</module>
         <module>jtstand-svn-core</module>
-        <module>jtstand-svn</module>
+        <module>jtstand-svnkit</module>
         <module>jtstand-core</module>
         <module>jtstand-common</module>
         <module>jtstand-chart</module>
