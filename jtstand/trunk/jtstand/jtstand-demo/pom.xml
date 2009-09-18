@@ -25,31 +25,11 @@
         <groupId>org.codehaus.jtstand</groupId>
         <version>0.99-SNAPSHOT</version>
     </parent>
-    <packaging>jar</packaging>
     <artifactId>jtstand-demo</artifactId>
+    <packaging>jar</packaging>
     <name>jtstand-demo</name>
-    <url>http://jtstand.codehaus.org/jtstand-demo/</url>
     <description>jtstand-demo is the demo application module of JTStand. It is not a typical Hello Word app, but trying to show some extremes instead.</description>
-    <developers>
-        <developer>
-            <name>Albert Kurucz</name>
-            <id>albert_kurucz</id>
-            <email>albert.kurucz@gmail.com</email>
-            <organization>jtstand.com</organization>
-            <organizationUrl>http://www.jtstand.com</organizationUrl>
-            <timezone>-6</timezone>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>LGPL</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+    <url>http://jtstand.codehaus.org/jtstand-demo/</url>
     <build>
         <!--resources>
             <resource>

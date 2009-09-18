@@ -21,97 +21,82 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand</artifactId>
-    <version>0.99-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-sequence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-ssh2</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-svn-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-svn</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-common</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-chart</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-desktop</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-editor</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-ui</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-demo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    <modules>
-        <module>jtstand-sequence</module>
-        <module>jtstand-ssh2</module>
-        <module>jtstand-svn-core</module>
-        <module>jtstand-svn</module>
-        <module>jtstand-core</module>
-        <module>jtstand-common</module>
-        <module>jtstand-chart</module>
-        <module>jtstand-desktop</module>
-        <module>jtstand-editor</module>
-        <module>jtstand-ui</module>
-        <module>jtstand-demo</module>
-    </modules>
-    <properties>
-        <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
-        <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
-        <jtstand.schemaNameSpace>${url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
-        <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    </properties>
-
+    <name>jtstand</name>
+    <version>0.99-SNAPSHOT</version>
+    <description>JTStand is a Scripting Environment for Data Collection.</description>
+    <url>http://jtstand.codehaus.org/</url>
+    <prerequisites>
+        <maven>2.2.0</maven>
+    </prerequisites>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/JTSTAND</url>
+    </issueManagement>
+    <inceptionYear>2009</inceptionYear>
+    <mailingLists>
+        <mailingList>
+            <name>JTStand Users</name>
+            <post>user@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.user</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Dev</name>
+            <post>dev@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.dev</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand SCM</name>
+            <post>scm@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.scm</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Announce</name>
+            <post>announce@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.announce</archive>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>albert_kurucz</id>
+            <name>Albert Kurucz</name>
+            <email>albert.kurucz@gmail.com</email>
+            <organization>jtstand.com</organization>
+            <organizationUrl>http://www.jtstand.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>TMate Open Source License</name>
+            <url>http://svnkit.com/license.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/jtstand/trunk/</url>
+    </scm>
+    <organization>
+        <name>jtstand.com</name>
+        <url>http://www.jtstand.com/</url>
+    </organization>
     <build>
         <plugins>
             <!--plugin>
@@ -191,6 +176,14 @@
             </extension>
         </extensions>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <!--reporting>
         <plugins>
             <plugin>
@@ -198,80 +191,78 @@
             </plugin>
         </plugins>
     </reporting-->
-    <name>jtstand</name>
-    <description>JTStand is a Scripting Environment for Data Collection.</description>
-    <url>http://jtstand.codehaus.org/</url>
-    <inceptionYear>2009</inceptionYear>
-    <licenses>
-        <license>
-            <name>GNU Lesser General Public License</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
-            <name>TMate Open Source License</name>
-            <url>http://svnkit.com/license.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <organization>
-        <name>jtstand.com</name>
-        <url>http://www.jtstand.com/</url>
-    </organization>
-    <developers>
-        <developer>
-            <id>albert_kurucz</id>
-            <name>Albert Kurucz</name>
-            <email>albert.kurucz@gmail.com</email>
-            <organization>jtstand.com</organization>
-            <organizationUrl>http://www.jtstand.com/</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://jira.codehaus.org/browse/JTSTAND</url>
-    </issueManagement>
-    <mailingLists>
-        <mailingList>
-            <name>JTStand Users</name>
-            <post>user@jtstand.codehaus.org</post>
-            <subscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/subscribe</subscribe>
-            <unsubscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/unsubscribe</unsubscribe>
-            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.user</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTStand Dev</name>
-            <post>dev@jtstand.codehaus.org</post>
-            <subscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/subscribe</subscribe>
-            <unsubscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/unsubscribe</unsubscribe>
-            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.dev</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTStand SCM</name>
-            <post>scm@jtstand.codehaus.org</post>
-            <subscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/subscribe</subscribe>
-            <unsubscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/unsubscribe</unsubscribe>
-            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.scm</archive>
-        </mailingList>
-        <mailingList>
-            <name>JTStand Announce</name>
-            <post>announce@jtstand.codehaus.org</post>
-            <subscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/subscribe</subscribe>
-            <unsubscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/unsubscribe</unsubscribe>
-            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.announce</archive>
-        </mailingList>
-    </mailingLists>
-    <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/jtstand/trunk/</url>
-    </scm>
-    <prerequisites>
-        <maven>2.2.0</maven>
-    </prerequisites>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-sequence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ssh2</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-svn</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-chart</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-desktop</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-editor</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-demo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>jtstand-sequence</module>
+        <module>jtstand-ssh2</module>
+        <module>jtstand-svn-core</module>
+        <module>jtstand-svn</module>
+        <module>jtstand-core</module>
+        <module>jtstand-common</module>
+        <module>jtstand-chart</module>
+        <module>jtstand-desktop</module>
+        <module>jtstand-editor</module>
+        <module>jtstand-ui</module>
+        <module>jtstand-demo</module>
+    </modules>
     <distributionManagement>
         <!--repository>
             <id>jtstand.oss.sonatype.org</id>
@@ -301,4 +292,12 @@
         </site>
         <downloadUrl>http://repository.codehaus.org/org/codehaus/jtstand/</downloadUrl>
     </distributionManagement>
+    <properties>
+        <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
+        <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
+        <jtstand.schemaNameSpace>${url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
+        <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
 </project>
