@@ -213,10 +213,10 @@
             <version>1.6.4</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
+    <!--distributionManagement>
         <site>
             <id>jtstand-site</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-demo/</url>
         </site>
-    </distributionManagement>
+    </distributionManagement-->
 </project>

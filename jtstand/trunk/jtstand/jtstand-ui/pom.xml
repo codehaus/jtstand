@@ -28,28 +28,8 @@
     <artifactId>jtstand-ui</artifactId>
     <packaging>jar</packaging>
     <name>jtstand-ui</name>
-    <url>http://jtstand.codehaus.org/jtstand-ui/</url>
     <description>jtstand-ui is the user interface module of JTStand.</description>
-    <developers>
-        <developer>
-            <name>Albert Kurucz</name>
-            <id>albert_kurucz</id>
-            <email>albert.kurucz@gmail.com</email>
-            <organization>jtstand.com</organization>
-            <organizationUrl>http://www.jtstand.com</organizationUrl>
-            <timezone>-6</timezone>
-            <roles>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
-    <licenses>
-        <license>
-            <name>LGPL</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+    <url>http://jtstand.codehaus.org/jtstand-ui/</url>
     <build>
         <plugins>
             <plugin>
@@ -163,12 +143,12 @@
             <artifactId>jtstand-editor</artifactId>
         </dependency>
     </dependencies>
-    <distributionManagement>
+    <!--distributionManagement>
         <site>
             <id>jtstand-site</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-ui/</url>
         </site>
-    </distributionManagement>
+    </distributionManagement-->
 </project>
 
 

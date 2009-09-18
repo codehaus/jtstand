@@ -239,12 +239,12 @@
             <version>1.1.116</version>
         </dependency>
     </dependencies>
-    <distributionManagement>
+    <!--distributionManagement>
         <site>
             <id>jtstand-site</id>
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-core/</url>
         </site>
-    </distributionManagement>
+    </distributionManagement-->
 </project>
 
 

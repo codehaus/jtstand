@@ -12,6 +12,18 @@
     <name>jtstand-svn</name>
     <description>jtstand-svn is a subversion client implementation.</description>
     <url>http://jtstand.codehaus.org/jtstand-svn/</url>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public License</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+        <license>
+            <name>TMate Open Source License</name>
+            <url>http://svnkit.com/license.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
