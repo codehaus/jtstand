@@ -30,7 +30,7 @@
     <orderEntry type="library" exported="" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
-    <orderEntry type="module" module-name="jtstand-svn" exported="" />
+    <orderEntry type="module" module-name="jtstand-svnkit" exported="" />
     <orderEntry type="module" module-name="jtstand-svn-core" exported="" />
     <orderEntry type="module" module-name="jtstand-sequence" exported="" />
     <orderEntry type="module" module-name="jtstand-ssh2" exported="" />

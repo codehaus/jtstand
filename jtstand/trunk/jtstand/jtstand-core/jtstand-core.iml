@@ -1,16 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="FacetManager">
-    <facet type="jpa" name="JPA">
-      <configuration>
-        <setting name="validation-enabled" value="true" />
-        <setting name="provider-name" value="" />
-        <setting name="targe-facet" value="" />
-        <datasource-mapping />
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" optional="false" version="1.0" />
-      </configuration>
-    </facet>
-  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -40,7 +29,7 @@
     <orderEntry type="library" exported="" name="Maven: mysql:mysql-connector-java:5.1.6" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-log4j12:1.5.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
-    <orderEntry type="module" module-name="jtstand-svn" exported="" />
+    <orderEntry type="module" module-name="jtstand-svnkit" exported="" />
     <orderEntry type="module" module-name="jtstand-svn-core" exported="" />
     <orderEntry type="module" module-name="jtstand-sequence" exported="" />
     <orderEntry type="module" module-name="jtstand-ssh2" exported="" />
