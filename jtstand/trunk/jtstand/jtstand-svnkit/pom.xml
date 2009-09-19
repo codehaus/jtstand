@@ -15,11 +15,6 @@
     <url>http://jtstand.codehaus.org/jtstand-svnkit/</url>
     <licenses>
         <license>
-            <name>GNU Lesser General Public License</name>
-            <url>http://www.gnu.org/licenses/lgpl.txt</url>
-            <distribution>repo</distribution>
-        </license>
-        <license>
             <name>TMate Open Source License</name>
             <url>http://svnkit.com/license.html</url>
             <distribution>repo</distribution>
