@@ -20,7 +20,6 @@ package com.jtstand;
 
 import javax.script.Bindings;
 import java.io.Serializable;
-import java.util.List;
 import javax.script.ScriptException;
 
 /**
@@ -30,6 +29,7 @@ import javax.script.ScriptException;
 abstract public class AbstractProperties implements Serializable {
 
     public Boolean getPropertyBoolean(String keyString, boolean defaultValue) {
+        //System.out.println("Getting "+keyString+" as Boolean...");
         try {
             return getPropertyBoolean(keyString);
         } catch (Exception ex) {

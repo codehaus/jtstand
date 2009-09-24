@@ -20,11 +20,16 @@ package com.jtstand.swing;
 
 import com.jtstand.AbstractProperties;
 //import com.jtstand.PropertiesInterface;
+import com.jtstand.Product;
+import com.jtstand.TestFixture;
+import com.jtstand.TestProject;
+import com.jtstand.TestProperty;
+import com.jtstand.TestStation;
 import com.jtstand.TestType;
 import com.jtstand.TestTypeReference;
-import java.util.HashMap;
 import javax.script.Bindings;
 import javax.script.ScriptException;
+import javax.script.SimpleBindings;
 
 /**
  *
@@ -42,7 +47,7 @@ public class StarterProperties extends AbstractProperties {
     @Override
     public Bindings getBindings() {
         if (bindings == null) {
-            bindings = (Bindings) new HashMap();
+            bindings = new SimpleBindings();
             bindings.put("starter", si);
         }
         return bindings;
@@ -50,6 +55,7 @@ public class StarterProperties extends AbstractProperties {
 
     @Override
     public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+        //System.out.println("Getting " + keyString + "...");
         if (bindings != null) {
             bindings.put("starter", si);
         }
@@ -57,14 +63,59 @@ public class StarterProperties extends AbstractProperties {
         if (ttr != null && ttr.getTestStation() != null && ttr.getTestStation().getTestProject() != null) {
             TestType testType = ttr.getTestStation().getTestProject().getTestType(ttr);
             if (testType != null) {
-                return testType.getPropertyObject(keyString, bindings);
+                if (bindings != null) {
+                    bindings.put("testType", testType);
+                }
+                for (TestProperty tsp : testType.getProperties()) {
+                    if (tsp.getName().equals(keyString)) {
+                        return tsp.getPropertyObject(bindings);
+                    }
+                }
+                Product product = testType.getProduct();
+                if (product != null) {
+                    if (bindings != null) {
+                        bindings.put("product", product);
+                    }
+                    for (TestProperty tsp : product.getProperties()) {
+                        if (tsp.getName().equals(keyString)) {
+                            return tsp.getPropertyObject(bindings);
+                        }
+                    }
+                }
             }
         }
-        if (si.getTestFixture() != null) {
-            return si.getTestFixture().getPropertyObject(keyString, bindings);
+        TestFixture testFixture = si.getTestFixture();
+        if (testFixture != null) {
+            if (bindings != null) {
+                bindings.put("fixture", testFixture);
+            }
+            for (TestProperty tsp : testFixture.getProperties()) {
+                if (tsp.getName().equals(keyString)) {
+                    return tsp.getPropertyObject(bindings);
+                }
+            }
         }
-        if (si.getTestStation() != null) {
-            return si.getTestStation().getPropertyObject(keyString, bindings);
+        TestStation testStation = si.getTestStation();
+        if (testStation != null) {
+            if (bindings != null) {
+                bindings.put("station", testStation);
+            }
+            for (TestProperty tsp : testStation.getProperties()) {
+                if (tsp.getName().equals(keyString)) {
+                    return tsp.getPropertyObject(bindings);
+                }
+            }
+        }
+        TestProject testProject = si.getTestProject();
+        if (testProject != null) {
+            if (bindings != null) {
+                bindings.put("project", testProject);
+            }
+            for (TestProperty tsp : testProject.getProperties()) {
+                if (tsp.getName().equals(keyString)) {
+                    return tsp.getPropertyObject(bindings);
+                }
+            }
         }
         return null;
     }

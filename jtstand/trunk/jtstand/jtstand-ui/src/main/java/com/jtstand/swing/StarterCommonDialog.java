@@ -230,6 +230,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                     hideAdvancedPanel();
                 }
                 if (starterPanel.jButtonDebug() != null) {
+                    //System.out.println("Setting debug button enabled: " + isDebugEnabled());
                     starterPanel.jButtonDebug().setEnabled(isDebugEnabled());
                 }
                 initTestTypes(starterPanel, testTypeReferences, pn.toString(), rev.toString(), null);

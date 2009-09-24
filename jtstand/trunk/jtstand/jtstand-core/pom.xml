@@ -203,7 +203,7 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.4.2.0</version>
-        </dependency>
+        </dependency>       
         <!--dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -236,7 +236,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.1.116</version>
+            <version>1.1.118</version>
         </dependency>
     </dependencies>
     <!--distributionManagement>

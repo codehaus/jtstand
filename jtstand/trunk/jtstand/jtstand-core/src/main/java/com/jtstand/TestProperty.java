@@ -151,6 +151,7 @@ public class TestProperty implements Serializable {
 
     public Object getPropertyObject(Bindings bindings) throws ScriptException {
         if (getPropertyValueAttribute() != null) {
+            //System.out.println(name + ":" + getPropertyValueAttribute());
             return getPropertyValueAttribute();
         }
         if (propertyValue == null || propertyValue.length() == 0) {
