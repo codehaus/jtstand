@@ -45,6 +45,21 @@
             </resource>
         </resources-->
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
@@ -203,6 +218,11 @@
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.codehaus.groovy.maven.runtime</groupId>
+            <artifactId>gmaven-runtime-1.6</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-ui</artifactId>
