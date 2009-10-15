@@ -113,6 +113,8 @@ public class TestStepNamePath implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Lob
+    @Column(length = 2147483647)
     private String stepPath;
     private String stepName;
     @ManyToOne(fetch = FetchType.EAGER)
