@@ -2,10 +2,12 @@ Development
 
 * Tools
 
- JTStand is compiled using Sun's {{{http://java.sun.com/javase/downloads/index.jsp}Java Development Kit}}.
+ JTStand is mostly written in Java.
+ Java sources can be compiled using Sun's {{{http://java.sun.com/javase/downloads/index.jsp}Java Development Kit 6}} or
+ {{{http://openjdk.java.net/}OpenJDK 6}}.
  User Interface is developed using the standard Java {{{http://en.wikipedia.org/wiki/Swing_%28Java%29}Swing Widget toolkit}} and also uses {{{https://swingx.dev.java.net/}swingx}}, which is an extension of Swing (still in development).
 
- Drivers and libraries can be called from steps of JTStand Sequence, using JNI the Java Native Interface. Some C programming is required when writing a JNI wrapper. Examples will be provided. Drivers, which will be sub-projects of JTStand, will use JNI technology, but the JTStand core will not be dependent of JNI.
+ Drivers and libraries can be called from steps of JTStand Sequence, using JNA or JNI the Java Native Interface. Some C programming is required when writing a JNI wrapper. Examples will be provided. Drivers, which will be sub-projects of JTStand, will use JNI technology, but the JTStand core will not be dependent of JNI.
 
  JTStand is developed and tested on Operating Systems:
 
