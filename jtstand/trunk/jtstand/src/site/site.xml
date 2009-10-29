@@ -40,8 +40,8 @@
         <menu name="JTStand Overview" inherit="top">
             <item name="About JTStand" href="index.html"/>
             <item name="Features" href="jtstand-features.html"/>
-            <item name="Documentation" href="jtstand-doc.html"/>
-            <item name="Development" href="jtstand-dev.html"/>
+            <item name="User's Guide" href="jtstand-ug.html"/>
+            <item name="Developer's Guide" href="jtstand-dg.html"/>
             <!--item name="FAQ" href="faq.html"/-->
         </menu>
         <menu ref="modules"/>

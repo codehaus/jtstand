@@ -1,14 +1,25 @@
-Introduction
+JTStand User's Guide
 
 * Problems
 
   What problems is JTStand trying to solve?
 
-  There are IO capabilities in every scripting language,
-but creating a consistent and general solution for data persistence,
-data presentation, user interface and creating a deployment process
-with version control requires a lot of work,
-what JTStand is trying to save you from.
+  Scripting languages have long been used for testing and verification.
+{{{http://jcp.org/en/jsr/detail?id=223}JSR223}} allows scripting languages
+to run be used by Java applications.
+
+  JTStand doesn't want to invent the wheel, it is not a new language.
+It just makes these development tools easier to use
+by providing ready to use solutions for common problems.
+It is like CSS for the HTML. Nice web pages can be created without CSS,
+but it is easier to make it with CSS and the result is better organized.
+JTStand helps you to create, configure and version control test sequences,
+provides GUI for executing
+sequences where steps of a sequence may contain scripts written in
+different JSR223 languages like Groovy, Jython, JRuby or JavaScript.
+JTstand creates a database
+from the result, and provides presentation of the data with
+search, processing and report generation.
 
 * Applications
 
@@ -30,11 +41,6 @@ What is the difference between Software and Hardware testing?
 *--+--+
 Software Test vs Hardware Test
 
-* Inkling of the competition
-
-  TBD
-
-Specification
 
 * Definitions
 

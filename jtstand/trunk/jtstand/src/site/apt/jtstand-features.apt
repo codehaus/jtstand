@@ -1,6 +1,6 @@
 JTStand Features
 
-    * Simple, it uses only four different file types for the configuration,
+    * Simple, it uses only 3 different file types for the configuration,
       where each file has a well defined syntax, defined and verifiable by
       a provided XML schema
 
@@ -8,9 +8,7 @@ JTStand Features
 
           * Step
 
-          * Project
-
-          * Library
+          * Project          
 
     * Revision_Control of the configurations
 
@@ -18,13 +16,13 @@ JTStand Features
 
     * Programmable
 
-          * Use all the features what an advanced object oriented language can give you (Groovy Scripts/Classes/Closures)
+          * Use all the features object oriented languages
 
-          * Or use the scripting language of your choice through interpreters
+          * Use any JSR223 compatible scripting language
 
     * Extensible. JTStand extensions can be created to
 
-          * Automate the start/abort of Sequences (starters)
+          * Automate the start/abort of Sequences
 
           * Interpret your favorite scripting language (interpreters)
 
@@ -32,13 +30,15 @@ JTStand Features
 
           * Communicate with the operator (user interface)
 
-          * Present or process the results (processors)
+          * Present or process the results (report generators)
 
     * Multitasking
 
           * Multiple Sequences can be executed parallel
 
           * Sequences may have multiple threads, executing multiple Steps parallel
+
+          * Lock/Unlock shared objects
 
     * Database
 
