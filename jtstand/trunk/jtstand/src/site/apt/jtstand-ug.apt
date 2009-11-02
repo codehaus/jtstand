@@ -1,25 +1,33 @@
 JTStand User's Guide
 
-* Problems
+* What is JTStand
 
-  What problems is JTStand trying to solve?
+  JTStand is a free scripting environment for data collection,
+an open source software, written in Java.\
+It helps you to develop and execute Sequences
+and to store and analyze the Results.
+  
+  Every step of a Sequence may have a Script to execute.
+Because JTStand executes the scripts through
+the {{{http://jcp.org/en/jsr/detail?id=223}JSR223}} interface,
+a JSR223 engine needs to be available for the scripting language,
+which is selected for the step.
+Some examples for scripting languages with JSR223 support:
+  * Groovy
+  * Jython
+  * JRuby
+  * JavaScript.
 
-  Scripting languages have long been used for testing and verification.
-{{{http://jcp.org/en/jsr/detail?id=223}JSR223}} allows scripting languages
-to run be used by Java applications.
+  With access to Java and number of great scripting languages,
+some may feel that everything is given already to develop and execute
+sequences and store the resuls. Yes and no.
 
-  JTStand doesn't want to invent the wheel, it is not a new language.
-It just makes these development tools easier to use
-by providing ready to use solutions for common problems.
-It is like CSS for the HTML. Nice web pages can be created without CSS,
-but it is easier to make it with CSS and the result is better organized.
-JTStand helps you to create, configure and version control test sequences,
-provides GUI for executing
-sequences where steps of a sequence may contain scripts written in
-different JSR223 languages like Groovy, Jython, JRuby or JavaScript.
-JTstand creates a database
-from the result, and provides presentation of the data with
-search, processing and report generation.
+  JTStand is like CSS for the HTML. Nice web pages can be created without CSS,
+but it is easier and you can have better result with CSS.
+
+  JTStand also provides version control of the configurations,
+GUI for executing the sequences and database for storing the results.
+
 
 * Applications
 
