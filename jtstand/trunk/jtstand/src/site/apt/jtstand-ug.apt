@@ -19,15 +19,20 @@ Some examples for scripting languages with JSR223 support:
   * JavaScript.
 
   With access to Java and number of great scripting languages,
-some may feel that everything is given already to develop and execute
-sequences and store the resuls. Yes and no.
+everything is given already to develop and execute
+sequences and store the resuls, but it is easier to use a framework
+(like JTStand) for the some tasks than writing it all from scratch.
 
-  JTStand is like CSS for the HTML. Nice web pages can be created without CSS,
-but it is easier and you can have better result with CSS.
+  JTStand provides help for managing version control of the configurations,
+provides a simple but effective GUI for executing the sequences,
+JTstand stores the result in a database without any extra programming,
+and manages the reports.
 
-  JTStand also provides version control of the configurations,
-GUI for executing the sequences and database for storing the results.
-
+  JTStand is like CSS for the web developer.
+Nice web pages can be created without CSS,
+but with CSS nicely structured
+web pages can be created which are easier to maintain and that
+saves you from a lot of hard work.
 
 * Applications
 
