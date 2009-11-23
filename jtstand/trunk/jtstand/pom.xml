@@ -243,6 +243,11 @@
                 <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-admin-ui</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
@@ -257,6 +262,7 @@
         <module>jtstand-editor</module>
         <module>jtstand-ui</module>
         <module>jtstand-demo</module>
+        <module>jtstand-admin-ui</module>
     </modules>
     <distributionManagement>
         <!--repository>
