@@ -47,10 +47,11 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
     public JXDateTimePicker(Long time) {
         Date date = (time == null) ? null : new Date(time);
         picker = new JXDatePicker(date);
+        picker.setFormats("yyyy/MM/dd");
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
         add(picker);
         spinner = new JSpinner();
-        spinner.setModel(new javax.swing.SpinnerDateModel((date != null) ? date : new Date(), null, null, Calendar.DAY_OF_MONTH));
+        spinner.setModel(new javax.swing.SpinnerDateModel((date == null) ? new Date() : date, null, null, java.util.Calendar.MINUTE));
         SimpleDateFormat format = new SimpleDateFormat("HH:mm", picker.getLocale());
         format.setTimeZone(picker.getTimeZone());
         ((DefaultEditor) spinner.getEditor()).getTextField().setFormatterFactory(
@@ -138,5 +139,21 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                JFrame jframe = new JFrame();
+                JXDateTimePicker my = new JXDateTimePicker(null);
+                jframe.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                jframe.getContentPane().setLayout(new java.awt.FlowLayout());
+                jframe.getContentPane().add(my);
+                jframe.pack();
+                jframe.setVisible(true);
+            }
+        });
     }
 }
