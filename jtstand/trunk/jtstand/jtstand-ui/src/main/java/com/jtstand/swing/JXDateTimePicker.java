@@ -18,6 +18,7 @@
  */
 package com.jtstand.swing;
 
+import javax.swing.event.CaretEvent;
 import org.jdesktop.swingx.JXDatePicker;
 
 import javax.swing.*;
@@ -33,6 +34,8 @@ import java.awt.event.MouseWheelListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
+import javax.swing.event.CaretListener;
 
 /**
  *
@@ -41,23 +44,38 @@ import java.util.Date;
 public class JXDateTimePicker extends JPanel implements MouseWheelListener, ChangeListener {
 
     public static final long serialVersionUID = 20081114L;
+    public static final String TOOLTIP1 = "<html><body>Enter date here or click button to select date from calendar<br>You can use the mouse wheel too!</body></html>";
+    public static final String TOOLTIP2 = "Clear date by entering an empty string";
     JSpinner spinner;
     JXDatePicker picker;
 
     public JXDateTimePicker(Long time) {
         Date date = (time == null) ? null : new Date(time);
         picker = new JXDatePicker(date);
+        picker.setToolTipText(TOOLTIP1);
         picker.setFormats("yyyy/MM/dd");
         setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
         add(picker);
         spinner = new JSpinner();
-        spinner.setModel(new javax.swing.SpinnerDateModel((date == null) ? new Date() : date, null, null, java.util.Calendar.MINUTE));
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm", picker.getLocale());
+
+        spinner.setModel(new SpinnerDateModel((date == null) ? new Date() : date, null, null, Calendar.HOUR_OF_DAY));
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm z", picker.getLocale());
         format.setTimeZone(picker.getTimeZone());
         ((DefaultEditor) spinner.getEditor()).getTextField().setFormatterFactory(
                 new DefaultFormatterFactory(new DateFormatter(format)));
         spinner.setVisible(date != null);
         add(spinner);
+        ((DefaultEditor) spinner.getEditor()).getTextField().addCaretListener(new CaretListener() {
+
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if (0 == ((DefaultEditor) spinner.getEditor()).getTextField().getCaretPosition()) {
+                    if (((DefaultEditor) spinner.getEditor()).getTextField().getText().length() > 13) {
+                        ((DefaultEditor) spinner.getEditor()).getTextField().setCaretPosition(13);
+                    }
+                }
+            }
+        });
         picker.addActionListener(new java.awt.event.ActionListener() {
 
             @Override
@@ -90,16 +108,18 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
 
     private void PickerActionPerformed(ActionEvent evt) {
         Date date = picker.getDate();
-        //System.out.println("Setting spinner to date: " + date);
         setSpinnerDate(date);
         picker.revalidate();
     }
 
     private void setSpinnerDate(Date date) {
         spinner.setVisible(date != null);
-        spinner.setValue(date != null ? date : new Date());
         if (date != null) {
+            picker.setToolTipText(TOOLTIP2);
+            spinner.setValue(date);
             spinner.requestFocus();
+        } else {
+            picker.setToolTipText(TOOLTIP1);
         }
     }
 
@@ -122,21 +142,20 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         spinner.setVisible(true);
-        spinner.setValue(new Date(((Date) spinner.getValue()).getTime() - 1000 * 60 * 60 * e.getWheelRotation()));
+        setSpinnerDate(new Date(((Date) spinner.getValue()).getTime() - 1000 * 60 * 60 * e.getWheelRotation()));
+        //spinner.setValue(new Date(((Date) spinner.getValue()).getTime() - 1000 * 60 * 60 * e.getWheelRotation()));
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
         if (spinner.equals(e.getSource())) {
             if (spinner.isVisible()) {
-                long time = ((Date) spinner.getValue()).getTime();
-                int offset = picker.getTimeZone().getOffset(time);
-                Date date = new Date(time - ((time + offset) % (1000 * 60 * 60 * 24)));
-
-                if (!date.equals(picker.getDate())) {
-                    picker.setDate(date);
-                    picker.revalidate();
-                }
+                Date d = (Date) spinner.getValue();
+                System.out.println("date: " + d);
+                TimeZone tz = ((SimpleDateFormat) ((DateFormatter) ((DefaultEditor) spinner.getEditor()).getTextField().getFormatter()).getFormat()).getTimeZone();
+                picker.setTimeZone(tz);
+                picker.setDate(d);
+                spinner.revalidate();
             }
         }
     }

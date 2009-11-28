@@ -312,11 +312,8 @@ public class QueryDialog extends javax.swing.JDialog implements MouseWheelListen
         jPanel16 = new javax.swing.JPanel();
         jPanelFromPanel = new javax.swing.JPanel();
         jLabelFrom = new javax.swing.JLabel();
-        jPanel37 = new javax.swing.JPanel();
-        jPanel35 = new javax.swing.JPanel();
         jPanelToPanel = new javax.swing.JPanel();
         jLabelTo = new javax.swing.JLabel();
-        jPanel38 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -373,67 +370,30 @@ public class QueryDialog extends javax.swing.JDialog implements MouseWheelListen
         jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("Time"));
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanelFromPanel.setLayout(new javax.swing.BoxLayout(jPanelFromPanel, javax.swing.BoxLayout.LINE_AXIS));
+        jPanelFromPanel.setMinimumSize(new java.awt.Dimension(270, 25));
+        jPanelFromPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabelFrom.setDisplayedMnemonic('F');
         jLabelFrom.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabelFrom.setText("From:");
-        jLabelFrom.setMaximumSize(new java.awt.Dimension(90, 15));
-        jLabelFrom.setPreferredSize(new java.awt.Dimension(90, 15));
+        jLabelFrom.setMaximumSize(new java.awt.Dimension(42, 15));
+        jLabelFrom.setMinimumSize(new java.awt.Dimension(42, 15));
+        jLabelFrom.setPreferredSize(new java.awt.Dimension(42, 15));
         jPanelFromPanel.add(jLabelFrom);
-
-        jPanel37.setMaximumSize(new java.awt.Dimension(5, 5));
-        jPanel37.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel37.setPreferredSize(new java.awt.Dimension(5, 5));
-
-        javax.swing.GroupLayout jPanel37Layout = new javax.swing.GroupLayout(jPanel37);
-        jPanel37.setLayout(jPanel37Layout);
-        jPanel37Layout.setHorizontalGroup(
-            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-        jPanel37Layout.setVerticalGroup(
-            jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-
-        jPanelFromPanel.add(jPanel37);
 
         jPanel16.add(jPanelFromPanel);
 
-        jPanel35.setMaximumSize(new java.awt.Dimension(5, 5));
-        jPanel35.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel35.setPreferredSize(new java.awt.Dimension(5, 5));
-        jPanel16.add(jPanel35);
-
-        jPanelToPanel.setMinimumSize(new java.awt.Dimension(28, 26));
-        jPanelToPanel.setPreferredSize(new java.awt.Dimension(110, 26));
-        jPanelToPanel.setLayout(new javax.swing.BoxLayout(jPanelToPanel, javax.swing.BoxLayout.LINE_AXIS));
+        jPanelToPanel.setMinimumSize(new java.awt.Dimension(270, 25));
+        jPanelToPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabelTo.setDisplayedMnemonic('T');
         jLabelTo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabelTo.setText("To:");
         jLabelTo.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jLabelTo.setMaximumSize(new java.awt.Dimension(90, 15));
-        jLabelTo.setPreferredSize(new java.awt.Dimension(90, 15));
+        jLabelTo.setMaximumSize(new java.awt.Dimension(42, 15));
+        jLabelTo.setMinimumSize(new java.awt.Dimension(42, 15));
+        jLabelTo.setPreferredSize(new java.awt.Dimension(42, 15));
         jPanelToPanel.add(jLabelTo);
-
-        jPanel38.setMaximumSize(new java.awt.Dimension(5, 5));
-        jPanel38.setMinimumSize(new java.awt.Dimension(5, 5));
-        jPanel38.setPreferredSize(new java.awt.Dimension(5, 5));
-
-        javax.swing.GroupLayout jPanel38Layout = new javax.swing.GroupLayout(jPanel38);
-        jPanel38.setLayout(jPanel38Layout);
-        jPanel38Layout.setHorizontalGroup(
-            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-        jPanel38Layout.setVerticalGroup(
-            jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 5, Short.MAX_VALUE)
-        );
-
-        jPanelToPanel.add(jPanel38);
 
         jPanel16.add(jPanelToPanel);
 
@@ -1008,10 +968,7 @@ private void jComboBoxTestTypeFocusGained(java.awt.event.FocusEvent evt) {//GEN-
     private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel33;
     private javax.swing.JPanel jPanel34;
-    private javax.swing.JPanel jPanel35;
     private javax.swing.JPanel jPanel36;
-    private javax.swing.JPanel jPanel37;
-    private javax.swing.JPanel jPanel38;
     private javax.swing.JPanel jPanel39;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
