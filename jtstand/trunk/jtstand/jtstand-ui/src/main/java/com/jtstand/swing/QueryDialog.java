@@ -370,29 +370,25 @@ public class QueryDialog extends javax.swing.JDialog implements MouseWheelListen
         jPanel16.setBorder(javax.swing.BorderFactory.createTitledBorder("Time"));
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.Y_AXIS));
 
-        jPanelFromPanel.setMinimumSize(new java.awt.Dimension(270, 25));
         jPanelFromPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabelFrom.setDisplayedMnemonic('F');
         jLabelFrom.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabelFrom.setText("From:");
-        jLabelFrom.setMaximumSize(new java.awt.Dimension(42, 15));
-        jLabelFrom.setMinimumSize(new java.awt.Dimension(42, 15));
-        jLabelFrom.setPreferredSize(new java.awt.Dimension(42, 15));
+        jLabelFrom.setMaximumSize(new java.awt.Dimension(40, 15));
+        jLabelFrom.setPreferredSize(new java.awt.Dimension(40, 15));
         jPanelFromPanel.add(jLabelFrom);
 
         jPanel16.add(jPanelFromPanel);
 
-        jPanelToPanel.setMinimumSize(new java.awt.Dimension(270, 25));
         jPanelToPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabelTo.setDisplayedMnemonic('T');
         jLabelTo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jLabelTo.setText("To:");
         jLabelTo.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        jLabelTo.setMaximumSize(new java.awt.Dimension(42, 15));
-        jLabelTo.setMinimumSize(new java.awt.Dimension(42, 15));
-        jLabelTo.setPreferredSize(new java.awt.Dimension(42, 15));
+        jLabelTo.setMaximumSize(new java.awt.Dimension(40, 15));
+        jLabelTo.setPreferredSize(new java.awt.Dimension(40, 15));
         jPanelToPanel.add(jLabelTo);
 
         jPanel16.add(jPanelToPanel);

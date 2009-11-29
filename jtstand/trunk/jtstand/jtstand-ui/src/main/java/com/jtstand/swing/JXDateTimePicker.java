@@ -155,7 +155,9 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
                 TimeZone tz = ((SimpleDateFormat) ((DateFormatter) ((DefaultEditor) spinner.getEditor()).getTextField().getFormatter()).getFormat()).getTimeZone();
                 picker.setTimeZone(tz);
                 picker.setDate(d);
+                picker.revalidate();
                 spinner.revalidate();
+                spinner.setMinimumSize(spinner.getPreferredSize());
             }
         }
     }
