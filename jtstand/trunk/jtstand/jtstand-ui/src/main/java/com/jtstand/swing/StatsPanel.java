@@ -23,7 +23,7 @@ import com.jtstand.statistics.Gaussian;
 import com.jtstand.statistics.Stat;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
-import org.jdesktop.swingx.table.ColumnHeaderRenderer;
+//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;
@@ -418,7 +418,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         jTable.setBackground(Color.white);
         //...
 //        resizeSeries();
-        ((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+        //((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         jTable.addHighlighter(
                 new Highlighter() {
 
