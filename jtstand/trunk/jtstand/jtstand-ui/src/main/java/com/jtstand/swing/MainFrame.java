@@ -34,11 +34,11 @@ import javax.script.ScriptException;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.decorator.PipelineEvent;
-import org.jdesktop.swingx.decorator.PipelineListener;
+//import org.jdesktop.swingx.decorator.PipelineEvent;
+//import org.jdesktop.swingx.decorator.PipelineListener;
 import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
 import org.jdesktop.swingx.table.ColumnFactory;
-import org.jdesktop.swingx.table.ColumnHeaderRenderer;
+//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import javax.swing.*;
@@ -835,7 +835,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jTable.getColumnExt(jTable.convertColumnIndexToView(SequencesColumn.FAILEDATSTEP.ordinal())).setVisible(false);
             jTable.getColumnExt(jTable.convertColumnIndexToView(SequencesColumn.ERROR.ordinal())).setVisible(false);
             jTable.getTableHeader().setReorderingAllowed(false);
-            ((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+            //((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             jTable.setDefaultRenderer(Long.class, new TestSequenceInstancesRenderer());
             jTable.addHighlighter(new TestSequenceInstancesHighlighter());
 //            jTable.setShowGrid(false);
@@ -847,11 +847,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jTable.addMouseListener(this);
             Util.packColumnsWidthFixedFirst(jTable, 9);
             jTable.setName("Sequences");
-            jTable.getFilters().addPipelineListener(new PipelineListener() {
+            jTable.setAutoCreateRowSorter(true);
+            jTable.getRowSorter().addRowSorterListener(new RowSorterListener(){
 
                 @Override
-                public void contentsChanged(PipelineEvent e) {
-//                    System.out.println("PipelineEvent:" + e + " " + e.getType());
+                public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(SequencesColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
                         jTable.resetSortOrder();
                     } else {
@@ -859,6 +859,17 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 }
             });
+//            jTable.getFilters().addPipelineListener(new PipelineListener() {
+//
+//                @Override
+//                public void contentsChanged(PipelineEvent e) {
+//                    if (jTable.getColumn(SequencesColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
+//                        jTable.resetSortOrder();
+//                    } else {
+//                        Util.scrollSelectedRowToVisible(jTable);
+//                    }
+//                }
+//            });
             addTableModelListener(this);
         }
         return jTable;
@@ -1068,7 +1079,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jXTreeTable.addTreeExpansionListener(this);
             jXTreeTable.setRootVisible(false);
             jXTreeTable.getTableHeader().setReorderingAllowed(false);
-            ((org.jdesktop.swingx.table.ColumnHeaderRenderer) jXTreeTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+//            ((org.jdesktop.swingx.table.ColumnHeaderRenderer) jXTreeTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             jXTreeTable.addHighlighter(new TestSequenceInstanceHighlighter(jXTreeTable));
             jXTreeTable.getTreeSelectionModel().addTreeSelectionListener(this);
 

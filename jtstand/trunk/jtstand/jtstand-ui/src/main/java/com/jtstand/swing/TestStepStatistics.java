@@ -26,10 +26,10 @@ import com.jtstand.statistics.Stats;
 import com.jtstand.statistics.Yields;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.PipelineEvent;
-import org.jdesktop.swingx.decorator.PipelineListener;
+//import org.jdesktop.swingx.decorator.PipelineEvent;
+//import org.jdesktop.swingx.decorator.PipelineListener;
 import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
-import org.jdesktop.swingx.table.ColumnHeaderRenderer;
+//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 
 import javax.persistence.EntityManager;
 import javax.swing.*;
@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 
 /**
  *
@@ -367,7 +369,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
             jTable = new JXTable(new TestStepStatisticsModel(this, stats, baseSequence));
             jTable.setName("Statistics");
             jTable.getTableHeader().setReorderingAllowed(false);
-            ((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+            //((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             jTable.setDefaultRenderer(Double.class, new TestStepStatisticsRenderer(this));
             jTable.addHighlighter(new TestStepStatisticsHighlighter(jTable));
 //            jTable.setShowGrid(false);
@@ -377,10 +379,12 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
 //            jTable.getSelectionModel().addListSelectionListener(this);
             addMenu(jTable);
 //            jTable.addMouseListener(this);
-            jTable.getFilters().addPipelineListener(new PipelineListener() {
+            jTable.setAutoCreateRowSorter(true);
 
-                public void contentsChanged(PipelineEvent e) {
-//                    System.out.println("PipelineEvent: " + e + " " + e.getType());
+            jTable.getRowSorter().addRowSorterListener(new RowSorterListener(){
+
+                @Override
+                public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(TestStepStatisticsModel.StatisticsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
                         jTable.resetSortOrder();
                     } else {
@@ -388,6 +392,16 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
                     }
                 }
             });
+//            jTable.getFilters().addPipelineListener(new PipelineListener() {
+//
+//                public void contentsChanged(PipelineEvent e) {
+//                    if (jTable.getColumn(TestStepStatisticsModel.StatisticsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
+//                        jTable.resetSortOrder();
+//                    } else {
+//                        Util.scrollSelectedRowToVisible(jTable);
+//                    }
+//                }
+//            });
             jTable.setVisibleRowCount(jTable.getRowCount());
             Util.packColumnsWidthFixedFirst(jTable, 9);
         }

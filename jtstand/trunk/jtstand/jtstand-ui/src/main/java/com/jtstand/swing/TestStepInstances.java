@@ -23,8 +23,8 @@ import com.jtstand.session.TestStepInstanceList;
 import com.jtstand.swing.TestStepInstancesModel.StepsColumn;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.*;
-import org.jdesktop.swingx.decorator.SortOrder;
-import org.jdesktop.swingx.table.ColumnHeaderRenderer;
+//import org.jdesktop.swingx.decorator.SortOrder;
+//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
@@ -40,6 +40,8 @@ import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 
 /**
  *
@@ -330,7 +332,7 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
             jTable = new JXTable(new TestStepInstancesModel(this));
             jTable.setName("Steps");
             jTable.getTableHeader().setReorderingAllowed(false);
-            ((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
+            //((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
             jTable.setDefaultRenderer(Long.class, new TestStepInstancesRendererLong());
             jTable.setDefaultRenderer(Double.class, new TestStepInstancesRendererDouble(this));
 //            jTable.addHighlighter(new TestStepInstancesHighlighter(jTable));
@@ -388,10 +390,11 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
             jTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //            jTable.getSortedColumn();
 //            jTable.addPropertyChangeListener(this);
-            jTable.getFilters().addPipelineListener(new PipelineListener() {
+            jTable.setAutoCreateRowSorter(true);
+            jTable.getRowSorter().addRowSorterListener(new RowSorterListener() {
 
-                public void contentsChanged(PipelineEvent e) {
-//                    System.out.println("PipelineEvent:" + e + " " + e.getType());
+                @Override
+                public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(TestStepInstancesModel.StepsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
                         jTable.resetSortOrder();
                     } else {
@@ -404,6 +407,21 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                     }
                 }
             });
+//            jTable.getFilters().addPipelineListener(new PipelineListener() {
+//
+//                public void contentsChanged(PipelineEvent e) {
+//                    if (jTable.getColumn(TestStepInstancesModel.StepsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
+//                        jTable.resetSortOrder();
+//                    } else {
+//                        Util.scrollSelectedRowToVisible(jTable);
+//                    }
+//                    if (StatsPanel.ChartMode.LIST.equals(statsPanel.getChartMode())) {
+//                        if (statsPanel != null) {
+//                            statsPanel.showChart();
+//                        }
+//                    }
+//                }
+//            });
 //            System.out.println("getJTable setVisibleRowCount...");
             Util.setVisibleRowCount(jTable, Math.min(jTable.getRowCount(), 3), jSplitPane);
             Util.packColumnsWidthFixedFirst(jTable, 9);
@@ -546,7 +564,8 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                 SortOrder so = jTable.getSortOrder(sortedColumnIdentifier);
                 if (so != null) {
                     jTable.resetSortOrder();
-                    System.out.println("Setting sort order to: " + so + " sorted:" + so.isSorted() + " ascending:" + so.isAscending());
+//                    System.out.println("Setting sort order to: " + so + " sorted:" + so.isSorted() + " ascending:" + so.isAscending());
+                    System.out.println("Setting sort order to: " + so);
                     jTable.setSortOrder(sortedColumnIdentifier, so);
                 }
             }
