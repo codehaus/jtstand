@@ -229,7 +229,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>1.6.5</version>
+            <version>1.6.6</version>
         </dependency>
     </dependencies>
     <!--distributionManagement>
