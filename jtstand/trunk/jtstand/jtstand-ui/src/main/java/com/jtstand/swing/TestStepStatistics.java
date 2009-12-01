@@ -26,11 +26,7 @@ import com.jtstand.statistics.Stats;
 import com.jtstand.statistics.Yields;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
-//import org.jdesktop.swingx.decorator.PipelineEvent;
-//import org.jdesktop.swingx.decorator.PipelineListener;
 import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
-//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
-
 import javax.persistence.EntityManager;
 import javax.swing.*;
 import java.awt.*;
@@ -392,16 +388,6 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
                     }
                 }
             });
-//            jTable.getFilters().addPipelineListener(new PipelineListener() {
-//
-//                public void contentsChanged(PipelineEvent e) {
-//                    if (jTable.getColumn(TestStepStatisticsModel.StatisticsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
-//                        jTable.resetSortOrder();
-//                    } else {
-//                        Util.scrollSelectedRowToVisible(jTable);
-//                    }
-//                }
-//            });
             jTable.setVisibleRowCount(jTable.getRowCount());
             Util.packColumnsWidthFixedFirst(jTable, 9);
         }

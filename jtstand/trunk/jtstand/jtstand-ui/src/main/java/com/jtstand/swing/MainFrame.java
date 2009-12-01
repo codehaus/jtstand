@@ -34,13 +34,9 @@ import javax.script.ScriptException;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
-//import org.jdesktop.swingx.decorator.PipelineEvent;
-//import org.jdesktop.swingx.decorator.PipelineListener;
 import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
 import org.jdesktop.swingx.table.ColumnFactory;
-//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 import org.jdesktop.swingx.table.TableColumnExt;
-
 import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.*;
@@ -859,17 +855,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 }
             });
-//            jTable.getFilters().addPipelineListener(new PipelineListener() {
-//
-//                @Override
-//                public void contentsChanged(PipelineEvent e) {
-//                    if (jTable.getColumn(SequencesColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
-//                        jTable.resetSortOrder();
-//                    } else {
-//                        Util.scrollSelectedRowToVisible(jTable);
-//                    }
-//                }
-//            });
             addTableModelListener(this);
         }
         return jTable;

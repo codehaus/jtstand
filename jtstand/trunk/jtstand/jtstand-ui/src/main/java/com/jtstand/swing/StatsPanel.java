@@ -23,7 +23,6 @@ import com.jtstand.statistics.Gaussian;
 import com.jtstand.statistics.Stat;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
-//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
 import org.jfree.chart.*;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.NumberAxis;

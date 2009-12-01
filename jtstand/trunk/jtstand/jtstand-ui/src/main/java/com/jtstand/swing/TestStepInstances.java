@@ -23,9 +23,6 @@ import com.jtstand.session.TestStepInstanceList;
 import com.jtstand.swing.TestStepInstancesModel.StepsColumn;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.*;
-//import org.jdesktop.swingx.decorator.SortOrder;
-//import org.jdesktop.swingx.table.ColumnHeaderRenderer;
-
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.TableColumn;
@@ -407,22 +404,6 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                     }
                 }
             });
-//            jTable.getFilters().addPipelineListener(new PipelineListener() {
-//
-//                public void contentsChanged(PipelineEvent e) {
-//                    if (jTable.getColumn(TestStepInstancesModel.StepsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
-//                        jTable.resetSortOrder();
-//                    } else {
-//                        Util.scrollSelectedRowToVisible(jTable);
-//                    }
-//                    if (StatsPanel.ChartMode.LIST.equals(statsPanel.getChartMode())) {
-//                        if (statsPanel != null) {
-//                            statsPanel.showChart();
-//                        }
-//                    }
-//                }
-//            });
-//            System.out.println("getJTable setVisibleRowCount...");
             Util.setVisibleRowCount(jTable, Math.min(jTable.getRowCount(), 3), jSplitPane);
             Util.packColumnsWidthFixedFirst(jTable, 9);
             addMenu(jTable);
