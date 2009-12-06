@@ -42,7 +42,7 @@ import java.util.logging.Logger;
  * @author Albert Kurucz
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treepath"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treelevel", "name"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
 @XmlRootElement(name = "step")
 //@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
@@ -170,7 +170,7 @@ public class TestStep implements Serializable {
     private int testStepPosition;
     /* root is on level zero */
     private int treeLevel;
-    private String treePath;
+    //private String treePath;
     private String locks;
     @OneToOne(mappedBy = "testStep", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TestStepScript script;
@@ -210,20 +210,19 @@ public class TestStep implements Serializable {
         }
     }
 
-    @XmlTransient
-    public String getTreePath() {
-        return treePath;
-    }
-
-    public void setTreePath(String treePath) {
-        this.treePath = treePath;
-        if (treePath != null && getSteps() != null) {
-            for (TestStep child : getSteps()) {
-                child.setTreePath(treePath + "." + child.getName());
-            }
-        }
-    }
-
+//    @XmlTransient
+//    public String getTreePath() {
+//        return treePath;
+//    }
+//
+//    public void setTreePath(String treePath) {
+//        this.treePath = treePath;
+//        if (treePath != null && getSteps() != null) {
+//            for (TestStep child : getSteps()) {
+//                child.setTreePath(treePath + "." + child.getName());
+//            }
+//        }
+//    }
     @XmlTransient
     public int getPosition() {
         return testStepPosition;
@@ -486,7 +485,6 @@ public class TestStep implements Serializable {
 //    public void setStepClass(String stepClass) {
 //        this.stepClass = stepClass;
 //    }
-
     public TestStep getRootTestStep() {
         if (parent == null) {
             return this;
@@ -513,14 +511,14 @@ public class TestStep implements Serializable {
         setProperties(getProperties());
         setTestLimits(getTestLimits());
         setTreeLevel(0);
-        setTreePath(getName());
+//        setTreePath(getName());
     }
 
     @Override
     public int hashCode() {
         int hash = treeLevel;
         hash += (creator != null ? creator.hashCode() : 0);
-        hash += (treePath != null ? treePath.hashCode() : 0);
+        hash += (name != null ? name.hashCode() : 0);
         return hash;
     }
 
@@ -536,7 +534,7 @@ public class TestStep implements Serializable {
         if ((this.creator == null && other.getCreator() != null) || (this.creator != null && !this.creator.equals(other.getCreator()))) {
             return false;
         }
-        if ((this.treePath == null && other.getTreePath() != null) || (this.treePath != null && !this.treePath.equals(other.getTreePath()))) {
+        if ((this.name == null && other.getName() != null) || (this.name != null && !this.name.equals(other.getName()))) {
             return false;
         }
         return true;
@@ -544,8 +542,8 @@ public class TestStep implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + getClass().getCanonicalName() + ":" + getTreeLevel() + ":" + getCreator() + ":" + getTreePath() + "]";
-    //String out = this.getClass().getCanonicalName() + "[Name=" + name + ", Creator=" + creator + "]";
+        return "[" + getClass().getCanonicalName() + ":" + getTreeLevel() + ":" + getCreator() + ":" + getName() + "]";
+        //String out = this.getClass().getCanonicalName() + "[Name=" + name + ", Creator=" + creator + "]";
 //        String out = "step[" + name + "]";
 //        if (creator == null) {
 //            out += "c";

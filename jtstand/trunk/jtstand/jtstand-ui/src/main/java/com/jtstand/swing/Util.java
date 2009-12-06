@@ -356,7 +356,7 @@ public class Util {
                     col.setResizable(false);
                     int width = getPreferredColumnWidth(table, vColIndex, margin);
                     if (width != col.getPreferredWidth()) {
-                        System.out.println("Setting first column width to: " + width);
+                        //System.out.println("Setting first column width to: " + width);
                         col.setMinWidth(width);
                         col.setMaxWidth(width);
                         col.setPreferredWidth(width);
