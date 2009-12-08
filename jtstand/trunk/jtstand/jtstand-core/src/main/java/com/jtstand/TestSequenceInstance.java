@@ -93,10 +93,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TestStepInstance setupStepInstance;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TestStepInstance mainStepInstance;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TestStepInstance testStepInstance;
     private String serialNumber;
     private String employeeNumber;
@@ -674,7 +670,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         dispose();
         finishTime = System.currentTimeMillis();
         if (isRunning()) {
-            switch (isInitType() ? setupStepInstance.getStatus() : mainStepInstance.getStatus()) {
+            switch (testStepInstance.getStatus()) {
                 case PASSED:
                     setStatus(SequenceStatus.PASSED);
                     break;
@@ -689,7 +685,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                     setStatus(SequenceStatus.STEPBYSTEP_FINISHED);
                     break;
                 default:
-                    throw new IllegalStateException("mainStep finished with illegal state: " + mainStepInstance.getStatus().statusString);
+                    throw new IllegalStateException("mainStep finished with illegal state: " + testStepInstance.getStatus().statusString);
             }
         } else if (isStepByStep()) {
             setStatus(TestSequenceInstance.SequenceStatus.STEPBYSTEP_FINISHED);

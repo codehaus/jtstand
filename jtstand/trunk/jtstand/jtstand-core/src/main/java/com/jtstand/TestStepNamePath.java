@@ -26,7 +26,7 @@ import java.io.Serializable;
  * @author albert_kurucz
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"testsequence_id", "steppath"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
 public class TestStepNamePath implements Serializable {
 
     public static final long serialVersionUID = 20081114L;

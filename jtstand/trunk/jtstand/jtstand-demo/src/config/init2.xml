@@ -19,14 +19,12 @@
   -->
 
 <step name="Init2" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="myClosure" mutex="true">import demo.Foo; {it -> Foo f = new Foo(); f.hello(); f.fello(); f.getResult()}</property>
     <limit name="Barbaric" comp="EQ" unit="Barbar"/>
-    <step name="Setup2">
-        <property name="myClosure" mutex="true">import demo.Foo; {it -> Foo f = new Foo(); f.hello(); f.fello(); f.getResult()}</property>
-        <step name="scriptRunner" useLimit="Barbaric">
-            <script>import demo.Foo; Foo f = new Foo(); f.hello(); f.fello(); value = f.getResult()</script>
-        </step>
-        <step name="closureCaller" useLimit="Barbaric">
-            <script>value = myClosure.call()</script>
-        </step>
+    <step name="scriptRunner" useLimit="Barbaric">
+        <script>import demo.Foo; Foo f = new Foo(); f.hello(); f.fello(); value = f.getResult()</script>
+    </step>
+    <step name="closureCaller" useLimit="Barbaric">
+        <script>value = myClosure.call()</script>
     </step>
 </step>

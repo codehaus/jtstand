@@ -1535,22 +1535,22 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (getTestStep().getUseLimit() != null) {
             return getTestLimit(getTestStep().getUseLimit());
         }
-        if (getTestStep().getTestLimits() != null && getTestStep().getTestLimits().size() == 1) {
-            return getTestStep().getTestLimits().get(0);
-        }
+//        if (getTestStep().getTestLimits() != null && getTestStep().getTestLimits().size() == 1 && getTestStep().getScript()!=null) {
+//            return getTestStep().getTestLimits().get(0);
+//        }
         if (getCalledTestStep() != null && getCalledTestStep().getUseLimit() != null) {
             return getTestLimit(getCalledTestStep().getUseLimit());
         }
-        if (getTestStep().getTestLimits().size() > 1) {
-            /*
-             * Multiple limits are specified,
-             * none is selected, which means no limit!
-             */
-            return null;
-        }
-        if (getCalledTestStep() != null && getCalledTestStep().getTestLimits() != null && getCalledTestStep().getTestLimits().size() == 1) {
-            return getCalledTestStep().getTestLimits().get(0);
-        }
+//        if (getTestStep().getTestLimits().size() > 1) {
+//            /*
+//             * Multiple limits are specified,
+//             * none is selected, which means no limit!
+//             */
+//            return null;
+//        }
+//        if (getCalledTestStep() != null && getCalledTestStep().getTestLimits() != null && getCalledTestStep().getTestLimits().size() == 1 && getCalledTestStep().getScript()!=null) {
+//            return getCalledTestStep().getTestLimits().get(0);
+//        }
         return null;
     }
 
