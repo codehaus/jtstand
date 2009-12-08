@@ -43,13 +43,13 @@ public class TestTypeSequenceReference extends FileRevisionReference implements 
     private TestType testType;
 
     @XmlTransient
-    public TestSequence getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
+    public TestStep getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
         if (getSubversionUrl() == null) {
-            TestSequence ts = (TestSequence) TestSequence.getUnmarshaller().unmarshal(new ByteArrayInputStream(getText().getBytes("UTF-8")));
+            TestStep ts = (TestStep) TestStep.getUnmarshaller().unmarshal(new ByteArrayInputStream(getText().getBytes("UTF-8")));
             ts.setCreator(getCreator());
             return ts;
         }
-        return TestSequence.unmarshal(getFileRevision(getTestType().getCreator()));
+        return TestStep.unmarshal(getFileRevision(getTestType().getCreator()));
     }
 
     @XmlTransient

@@ -1113,14 +1113,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (selectedSequence == null) {
             return;
         }
-        if (selectedSequence.getSetupStepInstance() != null && selectedSequence.getSetupStepInstance().isFailed()) {
-            canExpandFailed(selectedSequence.getSetupStepInstance());
-        }
-        if (selectedSequence.getMainStepInstance() != null && selectedSequence.getMainStepInstance().isFailed()) {
-            canExpandFailed(selectedSequence.getMainStepInstance());
-        }
-        if (selectedSequence.getCleanupStepInstance() != null && selectedSequence.getCleanupStepInstance().isFailed()) {
-            canExpandFailed(selectedSequence.getCleanupStepInstance());
+        if (selectedSequence.getTestStepInstance() != null && selectedSequence.getTestStepInstance().isFailed()) {
+            canExpandFailed(selectedSequence.getTestStepInstance());
         }
     }
 

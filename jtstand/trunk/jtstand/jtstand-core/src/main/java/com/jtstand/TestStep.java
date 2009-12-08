@@ -32,8 +32,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +52,7 @@ import java.util.logging.Logger;
 public class TestStep implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
+    public static final String TEST_STEP = "testStep";
     private static final Logger LOGGER = Logger.getLogger(TestStep.class.getCanonicalName());
     private static JAXBContext jc;
     private static Marshaller m;
@@ -257,9 +260,17 @@ public class TestStep implements Serializable {
     private Integer preSleep;
     private Integer postSleep;
     private String useLimit;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_STEP, fetch = FetchType.EAGER)
+    @MapKey(name = "stepPath")
+    private Map<String, TestStepNamePath> names = new HashMap<String, TestStepNamePath>();
     private transient Object testLimitsLock = new Object();
     private transient Object propertiesLock = new Object();
     private transient Object stepsLock = new Object();
+
+    @XmlTransient
+    public Map<String, TestStepNamePath> getNames() {
+        return names;
+    }
 
     public TestStep getCalledTestStep(TestStepInstance tsi) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
         if (getStepReference() == null) {

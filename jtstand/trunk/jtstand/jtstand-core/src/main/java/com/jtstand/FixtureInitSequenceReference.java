@@ -64,11 +64,11 @@ public class FixtureInitSequenceReference extends FileRevisionReference implemen
 //    }
 //
     @XmlTransient
-    public TestSequence getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
+    public TestStep getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
 //        if (getUseSequence() != null) {
 //            return getTestFixture().getTestStation().getTestProject().getTestSequence(getUseSequence());
 //        }
-        return TestSequence.unmarshal(getFileRevision(getTestFixture().getCreator()));
+        return TestStep.unmarshal(getFileRevision(getTestFixture().getCreator()));
     }
 
     @Override

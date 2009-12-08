@@ -37,41 +37,17 @@ public class TestSequenceInstanceIterator implements Iterator<TestStepInstance> 
         if (tsi == null) {
             throw new IllegalArgumentException("TestSequenceInstance parameter is null!");
         }
-        tsi.getSetupStepInstance();
-//            System.out.println(".");
-        tsi.getMainStepInstance();
-//            System.out.println(".");
-        tsi.getCleanupStepInstance();
+        tsi.getTestStepInstance();
 //            System.out.println(".");
         this.tsi = tsi;
-        if (tsi.getSetupStepInstance() != null) {
-            current = tsi.getSetupStepInstance();
-        } else if (tsi.getMainStepInstance() != null) {
-            current = tsi.getMainStepInstance();
-        } else if (tsi.getCleanupStepInstance() != null) {
-            current = tsi.getCleanupStepInstance();
-        } else {
-            current = null;
-        }
-//            System.out.println("TestSequenceInstanceIterator initialized.");
-    }
+        current = tsi.getTestStepInstance();
+   }
 
     @Override
     public TestStepInstance next() {
         if (current != null) {
             TestStepInstance retval = current;
             current = current.next();
-            if (current == null) {
-                if (retval.equals(tsi.getSetupStepInstance())) {
-                    if (tsi.getMainStepInstance() != null) {
-                        current = tsi.getMainStepInstance();
-                    } else {
-                        current = tsi.getCleanupStepInstance();
-                    }
-                } else if (retval.equals(tsi.getMainStepInstance())) {
-                    current = tsi.getCleanupStepInstance();
-                }
-            }
             return retval;
         }
         return null;

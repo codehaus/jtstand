@@ -77,17 +77,9 @@ public class TestSequenceInstanceModel extends AbstractTreeTableModel implements
     private void init(TestSequenceInstance tsi) {
         this.testSequenceInstance = tsi;
         List<TestStepInstance> roots = Collections.synchronizedList(new ArrayList<TestStepInstance>());
-        if (tsi.getSetupStepInstance() != null) {
+        if (tsi.getTestStepInstance() != null) {
 //            System.out.println("adding: " + tsi.getSetupStepInstance());
-            roots.add(tsi.getSetupStepInstance());
-        }
-        if (tsi.getMainStepInstance() != null) {
-//            System.out.println("adding: " + tsi.getMainStepInstance());
-            roots.add(tsi.getMainStepInstance());
-        }
-        if (tsi.getCleanupStepInstance() != null) {
-//            System.out.println("adding: " + tsi.getCleanupStepInstance());
-            roots.add(tsi.getCleanupStepInstance());
+            roots.add(tsi.getTestStepInstance());
         }
         root = roots;
 //        System.out.println("roots: " + roots);

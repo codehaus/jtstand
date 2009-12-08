@@ -118,7 +118,7 @@ public class TestStepNamePath implements Serializable {
     private String stepPath;
     private String stepName;
     @ManyToOne(fetch = FetchType.EAGER)
-    private TestSequence testSequence;
+    private TestStep testStep;
     @ManyToOne
     private TestLimit testLimit;
     @ManyToOne
@@ -132,12 +132,12 @@ public class TestStepNamePath implements Serializable {
         return stepNumber;
     }
 
-    public TestStepNamePath(TestSequence testSequence, String name, String path, TestLimit testLimit, TestStep calledTestStep, int stepNumber) {
+    public TestStepNamePath(TestStep testStep, String name, String path, TestLimit testLimit, TestStep calledTestStep, int stepNumber) {
 //    public TestStepNamePath(TestSequence testSequence, String name, String path) {
         if (!path.endsWith(name)) {
             throw new IllegalArgumentException("Path have to end with name!");
         }
-        this.testSequence = testSequence;
+        this.testStep = testStep;
         this.stepName = name;
         this.stepPath = path;
         this.testLimit = testLimit;
@@ -178,12 +178,12 @@ public class TestStepNamePath implements Serializable {
         this.stepName = stepName;
     }
 
-    public TestSequence getTestSequence() {
-        return testSequence;
+    public TestStep getTestStep() {
+        return testStep;
     }
 
-    public void setTestSequence(TestSequence testSequence) {
-        this.testSequence = testSequence;
+    public void setTestStep(TestStep testStep) {
+        this.testStep = testStep;
     }
 
     public Long getId() {
@@ -197,7 +197,7 @@ public class TestStepNamePath implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (testSequence != null ? testSequence.hashCode() : 0);
+        hash += (testStep != null ? testStep.hashCode() : 0);
         hash += (stepPath != null ? stepPath.hashCode() : 0);
         return hash;
     }
@@ -208,7 +208,7 @@ public class TestStepNamePath implements Serializable {
             return false;
         }
         TestStepNamePath other = (TestStepNamePath) object;
-        if ((this.testSequence == null && other.getTestSequence() != null) || (this.testSequence != null && !this.testSequence.equals(other.getTestSequence()))) {
+        if ((this.testStep == null && other.getTestStep() != null) || (this.testStep != null && !this.testStep.equals(other.getTestStep()))) {
             return false;
         }
         if ((this.stepPath == null && other.getStepPath() != null) || (this.stepPath != null && !this.stepPath.equals(other.getStepPath()))) {
@@ -219,6 +219,6 @@ public class TestStepNamePath implements Serializable {
 
     @Override
     public String toString() {
-        return "[" + getClass().getCanonicalName() + ":" + getTestSequence() + ":" + getStepPath() + "]";
+        return "[" + getClass().getCanonicalName() + ":" + getTestStep() + ":" + getStepPath() + "]";
     }
 }

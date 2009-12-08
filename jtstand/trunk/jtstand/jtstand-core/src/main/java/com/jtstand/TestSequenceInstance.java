@@ -97,11 +97,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private TestStepInstance mainStepInstance;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private TestStepInstance cleanupStepInstance;
+    private TestStepInstance testStepInstance;
     private String serialNumber;
     private String employeeNumber;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private TestSequence testSequence;
+    private TestStep testSequence;
     @ManyToOne(fetch = FetchType.LAZY)
     private TestFixture testFixture;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -122,9 +122,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private transient ConcurrentHashMap<FileRevision, TestStep> testSteps = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
     public transient EntityManager em;
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
-    private transient Object setupStepInstanceLock = new Object();
-    private transient Object mainStepInstanceLock = new Object();
-    private transient Object cleanupStepInstanceLock = new Object();
+    private transient Object testStepInstanceLock = new Object();
 
     public SequenceType getSequenceType() {
         return sequenceType;
@@ -184,9 +182,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     private Object readResolve() {
-        setupStepInstanceLock = new Object();
-        mainStepInstanceLock = new Object();
-        cleanupStepInstanceLock = new Object();
+        testStepInstanceLock = new Object();
         return this;
     }
 
@@ -308,7 +304,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        System.out.println("adding...");
 //        getTestProject().getLibraries().addAll(toAdd);
         if (getTestSequence() != null && getTestSequence().getId() == null) {
-            TestSequence ts = TestSequence.query(em, getTestSequence().getCreator());
+            TestStep ts = TestStep.query(em, getTestSequence().getCreator());
             if (ts != null) {
                 //System.out.println("Connecting testSequence...");
                 setTestSequence(ts);
@@ -513,7 +509,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this(sequenceType, serialNumber, employeeNumber, testType.getTestSequence().getTestSequence(), testType, testFixture, testStation, testProject);
     }
 
-    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestSequence testSequence, TestType testType, TestFixture testFixture, TestStation testStation, TestProject testProject)
+    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestStep testSequence, TestType testType, TestFixture testFixture, TestStation testStation, TestProject testProject)
             throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
         super();
         if (serialNumber == null) {
@@ -549,23 +545,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         setTestType(testType);
 //        setProduct(product);
         setTestProject(testProject);
-        if (testSequence.getSetupStep() != null) {
+        if (testSequence != null) {
 //            System.out.println("setupstep: " + testSequence.getSetupStep());
-            setSetupStepInstance(new TestStepInstance(testSequence.getSetupStep(), this));
+            setTestStepInstance(new TestStepInstance(testSequence, this));
         }
-        if (!isInitType()) {
-            if (testSequence.getMainStep() != null) {
-//                System.out.println("mainstep: " + testSequence.getMainStep());
-                setMainStepInstance(new TestStepInstance(testSequence.getMainStep(), this));
-            }
-            if (testSequence.getCleanupStep() != null) {
-//                System.out.println("cleanupstep: " + testSequence.getCleanupStep());
-                setCleanupStepInstance(new TestStepInstance(testSequence.getCleanupStep(), this));
-            }
-        }
-//        System.out.println("setupstepinstance: " + getSetupStepInstance());
-//        System.out.println("mainstepinstance: " + getMainStepInstance());
-//        System.out.println("cleanupstepinstance: " + getCleanupStepInstance());
         setPersistingPolicy(PersistingPolicy.valueOf(getPropertyString(TestProject.STR_PERSISTING_POLICY, PersistingPolicy.NEVER.toString())));
 //        logger.log(Level.INFO, "PersistingPolicy: " + getPersistingPolicy());
     }
@@ -627,57 +610,27 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        return out;
     }
 
-    public TestSequence getTestSequence() {
+    public TestStep getTestSequence() {
         return testSequence;
     }
 
-    public void setTestSequence(TestSequence newValue) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+    public void setTestSequence(TestStep newValue) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         testSequence = newValue;
         //... This must be much more complicated!
-        if (setupStepInstance != null) {
-            setupStepInstance.setTestStep(testSequence.getSetupStep());
-            setupStepInstance.setNames(newValue.getNames());
-        }
-        if (!isInitType()) {
-            if (mainStepInstance != null) {
-                mainStepInstance.setTestStep(testSequence.getMainStep());
-                mainStepInstance.setNames(newValue.getNames());
-            }
-            if (cleanupStepInstance != null) {
-                cleanupStepInstance.setTestStep(testSequence.getCleanupStep());
-                cleanupStepInstance.setNames(newValue.getNames());
-            }
+        if (testStepInstance != null) {
+            testStepInstance.setTestStep(testSequence);
+            testStepInstance.setNames(newValue.getNames());
         }
     }
 
-    public TestStepInstance getSetupStepInstance() {
-        synchronized (setupStepInstanceLock) {
-            return setupStepInstance;
+    public TestStepInstance getTestStepInstance() {
+        synchronized (testStepInstanceLock) {
+            return testStepInstance;
         }
     }
 
-    public void setSetupStepInstance(TestStepInstance setupStepInstance) {
-        this.setupStepInstance = setupStepInstance;
-    }
-
-    public TestStepInstance getMainStepInstance() {
-        synchronized (mainStepInstanceLock) {
-            return mainStepInstance;
-        }
-    }
-
-    public void setMainStepInstance(TestStepInstance mainStepInstance) {
-        this.mainStepInstance = mainStepInstance;
-    }
-
-    public TestStepInstance getCleanupStepInstance() {
-        synchronized (cleanupStepInstanceLock) {
-            return cleanupStepInstance;
-        }
-    }
-
-    public void setCleanupStepInstance(TestStepInstance cleanupStepInstance) {
-        this.cleanupStepInstance = cleanupStepInstance;
+    public void setTestStepInstance(TestStepInstance testStepInstance) {
+        this.testStepInstance = testStepInstance;
     }
 
     @Override
@@ -688,47 +641,14 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (isPersistPerStep()) {
             persistOrSerialize(getEntityManager());
         }
-        startAndJoin(setupStepInstance);
-        if (!isInitType()) {
-            startAndJoin(mainStepInstance);
-            startAndJoin(cleanupStepInstance);
-        }
+        startAndJoin(testStepInstance);
         finish();
     }
 
-//    public void runSetup() {
-//        Thread.currentThread().setName(toString());
-//        setStatus(SequenceStatus.RUNNING);
-//        if (isPersistPerStep()) {
-//            em = TestProject.getEntityManagerFactory().createEntityManager();
-//            persistOrSerialize(em);
-//        }
-//        startAndJoin(setupStepInstance);
-//        finish();
-//    }
-//
-//    public void runCleanup() {
-//        Thread.currentThread().setName(toString());
-//        setStatus(SequenceStatus.RUNNING);
-//        if (isPersistPerStep()) {
-//            em = TestProject.getEntityManagerFactory().createEntityManager();
-//            persistOrSerialize(em);
-//        }
-//        startAndJoin(cleanupStepInstance);
-//        finish();
-//    }
     public void startAndJoin(TestStepInstance step) {
         if (step != null) {
             step.run();
         }
-//        Thread t = start(step);
-//        if (t != null) {
-//            try {
-//                t.join();
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
     }
 
     public Thread start(TestStepInstance step) {
@@ -843,7 +763,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public boolean containsProperty(String key) {
-        if("sequence".equals(key)){
+        if ("sequence".equals(key)) {
             return true;
         }
         if (getTestSequence() != null) {
@@ -862,7 +782,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (getTestType().getProduct() != null) {
                 for (TestProperty tsp : getTestType().getProduct().getProperties()) {
                     if (tsp.getName().equals(key)) {
-                    return true;
+                        return true;
                     }
                 }
             }
@@ -1148,17 +1068,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public TestStepInstance getChild(List<String> pathList) {
-
-        String stepInstanceName = pathList.get(0);
-
-        if (getSetupStepInstance() != null && getSetupStepInstance().getName().equals(stepInstanceName)) {
-            return getSetupStepInstance().getChild(pathList, 1);
-        }
-        if (getMainStepInstance() != null && getMainStepInstance().getName().equals(stepInstanceName)) {
-            return getMainStepInstance().getChild(pathList, 1);
-        }
-        if (getCleanupStepInstance() != null && getCleanupStepInstance().getName().equals(stepInstanceName)) {
-            return getCleanupStepInstance().getChild(pathList, 1);
+        if (getTestStepInstance() != null ) {
+            return getTestStepInstance().getChild(pathList, 1);
         }
         return null;
     }

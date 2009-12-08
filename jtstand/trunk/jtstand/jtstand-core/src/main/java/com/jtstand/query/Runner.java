@@ -49,7 +49,7 @@ public class Runner extends Thread {
     private TestStation testStation;
     private TestProject testProject;
     private TestType testType;
-    private TestSequence testSequence;
+    private TestStep testSequence;
 //    private String testTypeName;
 //    private String productName;
     private TestSequenceInstance.SequenceType sequenceType;

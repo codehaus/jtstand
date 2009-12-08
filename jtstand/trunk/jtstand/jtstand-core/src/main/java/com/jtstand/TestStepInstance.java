@@ -1016,17 +1016,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
-            if (seq.getTestSequence() != null) {
-                for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-//                        System.out.println("From TestSequenceProperty: " +
-//                                ((tsp.getPropertyValueAttribute() == null)
-//                                ? tsp.getPropertyValue()
-//                                : tsp.getPropertyValueAttribute()));
-                        return seq.getVariable(keyString, wait, tsp, step);
-                    }
-                }
-            }
             if (seq.getTestFixture() != null) {
                 for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
@@ -1099,14 +1088,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
-            if (seq.getTestSequence() != null) {
-                for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-                        seq.releaseVariable(keyString, tsp, step);
-                        return;
-                    }
-                }
-            }
             if (seq.getTestFixture() != null) {
                 for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
                     if (tsp.getName().equals(keyString)) {
@@ -1160,16 +1141,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
-            if (seq.getTestSequence() != null) {
-                for (TestSequenceProperty tsp : seq.getTestSequence().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.containsKey(key)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                        }
-                        return seq.put(key, variableValue);
-                    }
-                }
-            }
             if (seq.getTestFixture() != null) {
                 for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
                     if (tsp.getName().equals(key)) {
