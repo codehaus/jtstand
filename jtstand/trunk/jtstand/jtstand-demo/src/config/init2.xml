@@ -18,9 +18,9 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<testSequence name="Init2" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+<step name="Init2" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <limit name="Barbaric" comp="EQ" unit="Barbar"/>
-    <setupStep name="Setup2">
+    <step name="Setup2">
         <property name="myClosure" mutex="true">import demo.Foo; {it -> Foo f = new Foo(); f.hello(); f.fello(); f.getResult()}</property>
         <step name="scriptRunner" useLimit="Barbaric">
             <script>import demo.Foo; Foo f = new Foo(); f.hello(); f.fello(); value = f.getResult()</script>
@@ -28,5 +28,5 @@
         <step name="closureCaller" useLimit="Barbaric">
             <script>value = myClosure.call()</script>
         </step>
-    </setupStep>
-</testSequence>
+    </step>
+</step>

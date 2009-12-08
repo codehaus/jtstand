@@ -18,11 +18,11 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<testSequence name="Init1" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+<step name="Init1" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <property name="DECIMAL_FORMAT" value="0.000"/>
     <limit name="positive" comp="GE" lsl="0.0"/>
-    <setupStep name="Setup1" useLimit="positive">
+    <step name="Setup1" useLimit="positive">
         <property name="AVERAGE">0.0</property>
         <script>value = step.getPropertyDouble(&quot;AVERAGE&quot;) + step.getPropertyDouble(&quot;SIGMA&quot;,1.0D) * (new java.util.Random()).nextGaussian()</script>
-    </setupStep>
-</testSequence>
+    </step>
+</step>
