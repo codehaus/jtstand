@@ -148,7 +148,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="399"/>
+            <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -160,7 +160,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="399"/>
+            <initSequence subversionUrl="init2.xml" revision="400"/>
         </fixture>
     </testStation>
     <testStation hostName="MYSTATION">
@@ -186,7 +186,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="399"/>
+            <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -198,7 +198,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="399"/>
+            <initSequence subversionUrl="init2.xml" revision="400"/>
         </fixture>
     </testStation>
     <testStation hostName="DEFAULTSTATION">
@@ -212,7 +212,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init1.xml" revision="399"/>
+            <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
             <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
@@ -224,7 +224,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
-            <initSequence subversionUrl="init2.xml" revision="399"/>
+            <initSequence subversionUrl="init2.xml" revision="400"/>
         </fixture>
     </testStation>
 </testProject>
