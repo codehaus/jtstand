@@ -96,35 +96,35 @@
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="398"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
         </testType>
         <testType name="DEMO2">
             <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="398"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
         </testType>
     </product>
     <product partNumber="HEAVY_RANDOM" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="heavyRandom.xml" revision="344"/>
+            <testSequence subversionUrl="heavyRandom.xml" revision="402"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="344"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="402"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A02">
         <remark>another random</remark>
         <property name="DEBUG_ENABLED" value="false"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="344"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="402"/>
         </testType>
     </product>
     <product partNumber="MUTEX_DEMO" partRevision="A01">
         <testType name="DEMO">
-            <testSequence subversionUrl="mutexDemo.xml" revision="344"/>
+            <testSequence subversionUrl="mutexDemo.xml" revision="402"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
