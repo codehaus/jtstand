@@ -146,10 +146,10 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
             int row = -1;
             for (TestStepInstance step : select) {
                 int modelIndex = indexOf(step);
-                System.out.println("modelIndex:" + modelIndex);
+//                System.out.println("modelIndex:" + modelIndex);
                 if (modelIndex >= 0) {
                     row = jTable.convertRowIndexToView(modelIndex);
-                    System.out.println("row:" + row);
+//                    System.out.println("row:" + row);
                     if (row >= 0) {
                         jTable.getSelectionModel().addSelectionInterval(row, row);
                     }

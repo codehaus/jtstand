@@ -54,7 +54,7 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
 
     @Override
     public boolean add(TestStepInstance step) {
-        System.out.println("adding TestStepInstance which started at: " + step.getStartedStringMs() + "...");
+//        System.out.println("adding TestStepInstance which started at: " + step.getStartedStringMs() + "...");
         if (step != null && step.getStartTime() != null && step.getFinishTime() != null) {
             synchronized (lock) {
                 int i = 0;

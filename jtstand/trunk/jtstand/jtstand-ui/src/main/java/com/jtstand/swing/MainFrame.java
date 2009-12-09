@@ -711,7 +711,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public TestSequenceInstance getSequence(long createTime, String host) {
         synchronized (lock) {
             for (TestSequenceInstance seq : this) {
-                System.out.println("Sequence: " + seq.getCreateTime());
+//                System.out.println("Sequence: " + seq.getCreateTime());
                 if (seq.getCreateTime() == createTime && seq.getTestStation() != null && seq.getTestStation().getHostName().equals(host)) {
                     return seq;
                 }
