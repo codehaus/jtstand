@@ -59,19 +59,19 @@ Software Test vs Hardware Test
 
 ** Sequence
 
-  * Every Sequence refers to a single Step, which Step may have child Steps, and the childs may have more child Steps, creating a tree structure of descendants, similar to the directory structure of a file system. There will be no artificial restriction neither for the number of child Steps nor for the deepness of the tree. Capacity of the hardware or the JVM will be the only limiting factor.
+  * Every Sequence refers to a single Step, which Step may have child Steps, and the childs may have more child Steps, creating a tree structure of descendants, similar to the directory structure of a file system. There will be no restriction neither for the number of child Steps nor for the deepness of the tree. Capacity of the hardware or the JVM will be the only limiting factor.
 
   * Every Step may contain a Script, and the Script of the Step may refer to a ScriptEngine, which ScriptEngine will be called to evaluate the Script, when the Step is executed. If ScriptEngine is not specified, JTStand shall call the Groovy ScriptEngine by default.
 
   * Steps shall be executed in this order:
 
-    * First execute the child Steps if there are any
+    * First execute the Step's children or child if there are any
 
-    * Then execute the Script of the Step if there is one defined
+    * Then execute the Step's Script of the Step if there is one defined. If exception occured, set the state to failed.
 
-    * Examine Limit if there is one selected to be used
+    * Finally if there was no exception caused by the Script, examine the Step's Limit if there is Limit selected. Set the Step's state accordingly.
 
-  * Steps may exists without having neither any children nor any script. These Steps are prototypes for future developments.
+  * Steps may exists without having neither any children nor any script. These Steps are prototypes for future developments. Prototypes shall always pass.
 
   * The Script of a Step shall set the Result value of the Step, which Result can be one of the following types:
 
@@ -85,7 +85,7 @@ Software Test vs Hardware Test
 
   * If a limit is selected for a Step, the null Result shall not be accepted (out of limit).
 
-  * A Step may have multiple definitions of Limits and Properties to be referred by it's descendants
+  * A Step may have multiple definitions of Properties to be referred to by it's descendants by name.
 
   * If a Property is referenced at a Step, JTStand shall search for the Property in this order:
 
@@ -105,6 +105,8 @@ Software Test vs Hardware Test
 
     * Project
 
+  * A Step may have multiple definitions of Limits to be referred to by it's descendants by name.
+
   * If a Limit is referred by a Step, JTStand shall search for the Limit in this order:
 
     * Step where the Limit Reference resides
@@ -112,6 +114,14 @@ Software Test vs Hardware Test
     * Step in the Step File referred by the Step, if any
 
     * Ancestors of the Step (from parent Step to Sequence)
+
+    * Test Type
+
+    * Product
+
+    * Project
+
+  * There is a difference between limit and property resolution: Stations/Fixtures cannot define limits, but properties only.
 
   * A Step may share Objects with other Steps using shared Variables
 
@@ -173,13 +183,13 @@ Software Test vs Hardware Test
 
   * Scripts of JTStand may refer to Classes defined outside of JTStand if the class is in the Class Path.
 
-  * Text of the Script can stored directly or indirectly in a File.
+  * Text of the Script can be stored directly or indirectly in a File.
 
 * Configuration Files
 
- JTStand shall use only four different types of configuration: {{Project}}, {{Sequence}}, {{Step}} and {{Library}} files.
+ JTStand shall use only two different types of configuration files: {{Project}} and {{Step}}.
 
- Each configuration file will be stored in XML files. JTStand uses JAXB, the Java XML Binding library to access these files. When a configuration file is loaded, Java objects are automatically created from the XML files by the JAXB "Unmarshalling" process.
+ The configuration files' format will be XML. JTStand shall use JAXB, the Java XML Binding library to access configuration files. When a configuration file is loaded, Java objects are automatically created from the XML files by the JAXB "Unmarshalling" process.
 
  A single {{{http://en.wikipedia.org/wiki/XML_schema} XML schema}} file shall be provided with JTStand. The schema file can be used to validate any of the four configuration types. It is highly recommended to use a validating XML editor, for example {{{http://www.jedit.org/}jEdit}} or {{{http://xml-copy-editor.sourceforge.net/}XML Copy Editor}}.
 
