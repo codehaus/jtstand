@@ -115,21 +115,4 @@ public class TestStepScriptTest extends TestCase {
         engine.put("localvar", 1);
         assertEquals(3.0, engine.eval(JS_SCRIPT));
     }
-//    public void testClassLoaderJSR223Python() throws ScriptException {
-//        ScriptEngineManager factory = new ScriptEngineManager();
-//        factory.put("globalvar", 1);
-//        Thread.currentThread().setContextClassLoader(gcl);
-//        ScriptEngine engine = factory.getEngineByName("python");
-//        engine.put("localvar", 1);
-//        assertEquals(3, engine.eval(GROOVY_SCRIPT));
-//    }
-//
-//    public void testClassLoaderJSR223Jruby() throws ScriptException {
-//        ScriptEngineManager factory = new ScriptEngineManager();
-//        factory.put("globalvar", 1);
-//        Thread.currentThread().setContextClassLoader(gcl);
-//        ScriptEngine engine = factory.getEngineByName("jruby");
-//        engine.put("localvar", 1);
-//        assertEquals(3, engine.eval(RUBY_SCRIPT));
-//    }
 }
