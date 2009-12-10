@@ -18,20 +18,25 @@ public class TestStepScriptTest extends TestCase {
 
     public static final String GROOVY_SCRIPT = "Foo f = new Foo(); f.getResult() + localvar + globalvar";
     public static final String JS_SCRIPT = "var f = new Packages.Foo(); f.getResult() + localvar + globalvar";
-    public static final String RUBY_SCRIPT = "require 'java' \n include_class 'Foo' \n f = Foo.new \n f.getResult() + localvar + globalvar";
     public static final String FOO_CLASS = "class Foo { int getResult() { return 1; } } ; Foo.class";
     public static final String FOO = "class Foo { int getResult() { return 1; } }";
     public static final String I = "Integer i = 1";
+    public static final String I1 = "i = new Integer(1)";
     public static final String FOOBAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } } ; Bar b = new Bar(); b.getResult()";
-    public static final String BAR = "class Foo { int getResult() { return 1; } } ; class Bar extends Foo { int getResult() { return super.getResult() + 1; } }";
-    public static final String MY_THREAD = "class MyThread extends Thread { void run() { System.out.println(\"Hi there!\") } } ";
     public static final String MY_CLOSURE = "{it -> it + 1.0}";
 
+    public void testBinding() throws ScriptException {
+        ScriptEngineManager factory = new ScriptEngineManager();
+        ScriptEngine engine = factory.getEngineByName("groovy");
+        Bindings bindings = new SimpleBindings();
+        engine.eval(I1, bindings);
+        assertEquals(new Integer(1), bindings.get("i"));
+    }
 
     public void testMyClosure() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("groovy");
-        assertEquals(2.0,((Closure)engine.eval(MY_CLOSURE)).call(1.0));
+        assertEquals(2.0, ((Closure) engine.eval(MY_CLOSURE)).call(1.0));
     }
 
     public void testMyThread() throws ScriptException {
@@ -80,9 +85,7 @@ public class TestStepScriptTest extends TestCase {
             return super.findClass(name);
         }
     };
-
-    public static ClassLoader cl=new ClassLoader() {
-
+    public static ClassLoader cl = new ClassLoader() {
     };
 
     public void testListEngines() throws ScriptException {
