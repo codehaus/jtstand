@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~ Copyright (c) 2009 Albert Kurucz.
   ~
   ~ This file, pom.xml is part of JTStand.
   ~
@@ -177,7 +177,7 @@
             <artifactId>jython</artifactId>
             <version>2.5.1</version>
         </dependency-->
-        
+
         <!--dependency>
             <groupId>org.jruby</groupId>
             <artifactId>jruby-complete</artifactId>
@@ -203,7 +203,7 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.4.2.0</version>
-        </dependency>       
+        </dependency>
         <!--dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -217,7 +217,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.9</version>
+            <version>5.1.10</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -236,7 +236,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.2.124</version>
+            <version>1.2.126</version>
         </dependency>
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
