@@ -12,6 +12,7 @@ package com.jtstand.ftdi
 class FtdiTest extends GroovyTestCase{
     void testFtdi(){
         def ftdi = new Ftdi()
+        ftdi.close()
     }
 }
 
