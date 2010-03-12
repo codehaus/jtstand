@@ -18,6 +18,13 @@ class FtdiTest extends GroovyTestCase{
         if(serialNumberList.contains(TEST_SN)){
             println 'TEST_SN found!'
             ftdi.setBitMode(TEST_SN, 0xff, 1)
+            ftdi.write(TEST_SN, 0xff)
+            Thread.sleep(500)
+            ftdi.write(TEST_SN, 0)
+            Thread.sleep(500)
+            ftdi.write(TEST_SN, 0xff)
+            Thread.sleep(500)
+            ftdi.write(TEST_SN, 0)
         }
         ftdi.close()
     }

@@ -135,8 +135,8 @@ class Ftdi {
     }
 
     public void setBitMode(byte[] sn, int mask, int mode){
-        IntByReference handle=new IntByReference();
-        int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle);
+        IntByReference handle=new IntByReference()
+        int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
         if(FT_OK == status){
             FT_SetBitMode(handle.getValue(), mask, mode)
             FT_Close(handle.getValue())
@@ -145,6 +145,27 @@ class Ftdi {
 
     public void setBitMode(String sn, int mask, int mode){
         setBitMode(Native.toByteArray(sn), mask, mode)
+    }
+
+    public int write(byte[] sn, byte[] buffer){
+        IntByReference handle = new IntByReference()
+        IntByReference written = new IntByReference()
+        int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
+        if(FT_OK == status){
+            FT_Write(handle.getValue(), buffer, buffer.length, written)
+            FT_Close(handle.getValue())
+        }
+        return written.getValue()
+    }
+
+    public int write(byte[] sn, int data){
+        byte[] buffer = new byte[1]
+        buffer[0] = data
+        return write(sn, buffer)
+    }
+
+    public int write(String sn, int data){
+        return write(Native.toByteArray(sn), data)
     }
 
     public List<String> getSerialNumberList() throws IOException {
