@@ -10,8 +10,15 @@ package com.jtstand.ftdi
  * @author albert_kurucz
  */
 class FtdiTest extends GroovyTestCase{
+    public static final String TEST_SN = "A6008COr"
     void testFtdi(){
         def ftdi = new Ftdi()
+        List<String> serialNumberList = ftdi.getSerialNumberList()
+        serialNumberList.each({println it})
+        if(serialNumberList.contains(TEST_SN)){
+            println 'TEST_SN found!'
+            ftdi.setBitMode(TEST_SN, 0xff, 1)
+        }
         ftdi.close()
     }
 }
