@@ -205,10 +205,38 @@ class Ftdi {
                 }
             }
         }else{
+            int numberOfDevices
+            DeviceList[] deviceList = new DeviceList[1];
+            Pointer[] devlist = new Pointer[1]
+            byte[] manufacturer = new byte[64]
+            byte[] description = new byte[64]
+            byte[] serialNumber = new byte[64]
             int retval;
-            Pointer[] devlist=new Pointer[1];
-            retval = ftdi_usb_find_all(context, devlist, 0x0403, 0x6001);
-            println "retval:" + retval
+
+            numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
+            println "numberOfDevices:" + numberOfDevices
+            if(numberOfDevices<0){
+                throw new IOException("ftdi_usb_find_all")
+            }
+            DeviceList list = null
+            for(int i=0; i < numberOfDevices; i++){
+                println i + ":" + deviceList[0]
+                list = (list == null) ? deviceList[0] : list.nextDevice
+                retval = ftdi_usb_get_strings(
+                    context,
+                    list.device,
+                    manufacturer,
+                    64,
+                    description,
+                    64,
+                    serialNumber,
+                    64)
+                println "retval:" + retval
+                println "manufacturer:" + Native.toString(manufacturer)
+                println "description:" + Native.toString(description)
+                println "serialNumber:" + Native.toString(serialNumber)
+            }
+            ftdi_list_free(devicelist)
         }
         return serialNumbers;
     }
