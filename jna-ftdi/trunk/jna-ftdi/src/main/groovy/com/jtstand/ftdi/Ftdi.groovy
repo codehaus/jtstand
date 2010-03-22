@@ -238,7 +238,7 @@ class Ftdi {
                 println "description:" + Native.toString(description)
                 println "serialNumber:" + Native.toString(serialNumber)
             }
-            ftdi_list_free(devicelist)
+            ftdi_list_free(deviceList)
         }
         return serialNumbers;
     }
