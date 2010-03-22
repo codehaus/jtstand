@@ -169,8 +169,8 @@ class Ftdi {
     }
 
     public List<String> getSerialNumberList() throws IOException {
+        List<String> serialNumbers=new ArrayList<String>();
         if(Platform.isWindows()){
-            List<String> serialNumbers=new ArrayList<String>()
             byte[] buffer = new byte[64]
             int retval
 
@@ -204,8 +204,13 @@ class Ftdi {
                     }
                 }
             }
-            return serialNumbers;
+        }else{
+            int retval;
+            Pointer[] devlist=new Pointer[1];
+            retval = ftdi_usb_find_all(context, devlist, 0x0403, 0x6001);
+            println "retval:" + retval
         }
+        return serialNumbers;
     }
 
 
