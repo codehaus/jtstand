@@ -220,8 +220,10 @@ class Ftdi {
             }
             DeviceList list = null
             for(int i=0; i < numberOfDevices; i++){
-                println i + ":" + deviceList[0]
+                println i + ":" 
                 list = (list == null) ? deviceList[0] : list.nextDevice
+                println list
+                println list.device
                 retval = ftdi_usb_get_strings(
                     context,
                     list.device,
