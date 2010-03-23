@@ -134,20 +134,23 @@ class Ftdi {
         }
     }
 
-    public void setBitMode(byte[] sn, int mask, int mode){
+    public void setBitMode(byte[] sn, int mask, int mode) throws IOException {
         IntByReference handle=new IntByReference()
         int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
         if(FT_OK == status){
             FT_SetBitMode(handle.getValue(), mask, mode)
             FT_Close(handle.getValue())
         }
+        else{
+            throw new IOException("Cannot open");
+        }
     }
 
-    public void setBitMode(String sn, int mask, int mode){
+    public void setBitMode(String sn, int mask, int mode) throws IOException {
         setBitMode(Native.toByteArray(sn), mask, mode)
     }
 
-    public int write(byte[] sn, byte[] buffer){
+    public int write(byte[] sn, byte[] buffer) throws IOException {
         IntByReference handle = new IntByReference()
         IntByReference written = new IntByReference()
         int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
@@ -155,54 +158,54 @@ class Ftdi {
             FT_Write(handle.getValue(), buffer, buffer.length, written)
             FT_Close(handle.getValue())
         }
+        else{
+            throw new IOException("Cannot open");
+        }
         return written.getValue()
     }
 
-    public int write(byte[] sn, int data){
+    public int write(byte[] sn, int data) throws IOException {
         byte[] buffer = new byte[1]
         buffer[0] = data
         return write(sn, buffer)
     }
 
-    public int write(String sn, int data){
+    public int write(String sn, int data) throws IOException {
         return write(Native.toByteArray(sn), data)
     }
 
     public List<String> getSerialNumberList() throws IOException {
         List<String> serialNumbers=new ArrayList<String>();
         if(Platform.isWindows()){
-            byte[] buffer = new byte[64]
-            int retval
-
             IntByReference numberOfDevices = new IntByReference()
-            retval = FT_CreateDeviceInfoList(numberOfDevices)
-
-            if(FT_OK == retval){
+            if(FT_OK == FT_CreateDeviceInfoList(numberOfDevices)){
                 println "number of devices:" + numberOfDevices.getValue()
-            }
-            IntByReference flags = new IntByReference()
-            IntByReference type = new IntByReference()
-            IntByReference id = new IntByReference()
-            IntByReference locId = new IntByReference()
-            byte[] sn = new byte[64]            
-            byte[] desc = new byte[64]
-            IntByReference handle = new IntByReference()
-            for(int i=0; i<numberOfDevices.getValue(); i++){
-                retval = FT_GetDeviceInfoDetail(i, flags, type, id, locId, sn, desc, handle)
-                if(FT_OK == retval){
-                    if(0 == (1 & flags.getValue())){
-                        println ""
-                        println "i:" + i
-                        println "flags:" + flags.getValue()
-                        println "type:" + type.getValue()
-                        println "id:" + id.getValue()
-                        println "locId:" + locId.getValue()
-                        println "sn:" + Native.toString(sn)
-                        println "desc:" + Native.toString(desc)
-                        println "handle:" + handle.getValue()
-                        serialNumbers.add(Native.toString(sn))
+                IntByReference flags = new IntByReference()
+                IntByReference type = new IntByReference()
+                IntByReference id = new IntByReference()
+                IntByReference locId = new IntByReference()
+                byte[] sn = new byte[64]
+                byte[] desc = new byte[64]
+                IntByReference handle = new IntByReference()
+                for(int i=0; i<numberOfDevices.getValue(); i++){
+                    if(FT_OK == FT_GetDeviceInfoDetail(i, flags, type, id, locId, sn, desc, handle)){
+                        if(0 == (1 & flags.getValue())){
+                            println ""
+                            println "i:" + i
+                            println "flags:" + flags.getValue()
+                            println "type:" + type.getValue()
+                            println "id:" + id.getValue()
+                            println "locId:" + locId.getValue()
+                            println "sn:" + Native.toString(sn)
+                            println "desc:" + Native.toString(desc)
+                            println "handle:" + handle.getValue()
+                            serialNumbers.add(Native.toString(sn))
+                        }
                     }
                 }
+            }
+            else{
+                throw new IOException("Cannot open");
             }
         }else{
             int numberOfDevices
