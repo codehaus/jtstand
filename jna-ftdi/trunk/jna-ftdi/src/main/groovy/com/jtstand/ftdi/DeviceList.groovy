@@ -6,13 +6,14 @@
 package com.jtstand.ftdi
 import com.sun.jna.Structure
 import com.sun.jna.Pointer
+import com.sun.jna.ptr.IntByReference
 
 /**
  *
  * @author albert_kurucz
  */
 class DeviceList extends Structure{
-     public Pointer device
-     public Pointer nextDevice
+     public int device
+     public int nextDevice
 }
 

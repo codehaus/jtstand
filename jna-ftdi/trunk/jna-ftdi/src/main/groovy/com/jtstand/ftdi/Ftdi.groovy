@@ -213,8 +213,8 @@ class Ftdi {
             byte[] serialNumber = new byte[64]
             int retval;
 
-            //numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
-            numberOfDevices = ftdi_usb_find_all(context, deviceList,  0x557, 0x2008)
+            numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
+            //numberOfDevices = ftdi_usb_find_all(context, deviceList,  0x557, 0x2008)
             println "numberOfDevices:" + numberOfDevices
             if(numberOfDevices<0){
                 throw new IOException("ftdi_usb_find_all")
@@ -224,19 +224,21 @@ class Ftdi {
                 println i + ":" 
                 list = (list == null) ? deviceList[0] : list.nextDevice
                 println list
-                println list.device
+                //println list.device
+                IntByReference dev = new IntByReference()
+                dev.setValue(list.device)
                 retval = ftdi_usb_get_strings(
                     context,
-                    list.device,
-                    manufacturer,
-                    64,
-                    description,
-                    64,
+                    dev,
+                    null,
+                    0,
+                    null,
+                    0,
                     serialNumber,
                     64)
                 println "retval:" + retval
-                println "manufacturer:" + Native.toString(manufacturer)
-                println "description:" + Native.toString(description)
+                //println "manufacturer:" + Native.toString(manufacturer)
+                //println "description:" + Native.toString(description)
                 println "serialNumber:" + Native.toString(serialNumber)
             }
             ftdi_list_free(deviceList)
