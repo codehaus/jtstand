@@ -1,6 +1,8 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
+ *
+ * put chmod o+w -R /dev/bus/usb into /etc/init.d/rc shell script!
  */
 
 package com.jtstand.ftdi
@@ -227,7 +229,7 @@ class Ftdi {
                 println i + ":" 
                 list = (list == null) ? deviceList[0] : list.nextDevice
                 println list
-                //println list.device
+                println list.device
                 IntByReference dev = new IntByReference()
                 dev.setValue(list.device)
                 retval = ftdi_usb_get_strings(
