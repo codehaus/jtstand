@@ -213,7 +213,8 @@ class Ftdi {
             byte[] serialNumber = new byte[64]
             int retval;
 
-            numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
+            //numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
+            numberOfDevices = ftdi_usb_find_all(context, deviceList,  0x557, 0x2008)
             println "numberOfDevices:" + numberOfDevices
             if(numberOfDevices<0){
                 throw new IOException("ftdi_usb_find_all")
