@@ -135,7 +135,8 @@ class Ftdi {
 
 
     static def libftdi = NativeLibrary.getInstance(Platform.isWindows() ? "ftd2xx" : "libftdi")
-    final Pointer context
+    Pointer context
+    int handle
 
     Ftdi(){
         if(!Platform.isWindows()){
@@ -150,60 +151,14 @@ class Ftdi {
         }
     }
 
-    public void setBitMode(byte[] sn, int mask, int mode) throws IOException {
+    public void open(byte[] sn) throws IOException{
         if(Platform.isWindows()){
-            IntByReference handle=new IntByReference()
-            int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
+            IntByReference handleByRef
+            int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER, handleByRef)
             if(FT_OK == status){
-                status = FT_SetBitMode(handle.getValue(), mask, mode)
-                FT_Close(handle.getValue())
-                if(FT_OK != status){
-                    throw new IOException("FT_SetBitMode error:"+status)
-                }
-            }
-            else{
+                handle=handleByRef.getValue()
+            }else{
                 throw new IOException("FT_OpenEx error:"+status)
-            }
-        }
-        else{
-            int status = ftdi_usb_open_desc(context,
-                VENDOR,
-                PRODUCT,
-                null,
-                sn)
-            if(0 == status){
-                status= ftdi_set_bitmode(context, mask, mode)
-                ftdi_usb_close(context)
-                if(status < 0){
-                    throw new IOException("ftdi_set_bitmode error:"+status)
-                }
-            }
-            else{
-                throw new IOException("ftdi_usb_open_desc error:"+status)
-            }
-        }
-    }
-
-    public void setBitMode(String sn, int mask, int mode) throws IOException {
-        setBitMode(Native.toByteArray(sn), mask, mode)
-    }
-
-    public int write(byte[] sn, byte[] buffer) throws IOException {
-        if(Platform.isWindows()){
-            IntByReference handle = new IntByReference()
-
-            IntByReference written = new IntByReference()
-            int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
-            if(FT_OK == status){
-                status = FT_Write(handle.getValue(), buffer, buffer.length, written)
-                FT_Close(handle.getValue())
-                if(FT_OK != status){
-                    throw new IOException("FT_Write error:" + status)
-                }
-                return written.getValue()
-            }
-            else{
-                throw new IOException("FT_OpenEx error:" + status)
             }
         }else{
             int status = ftdi_usb_open_desc(context,
@@ -211,34 +166,58 @@ class Ftdi {
                 PRODUCT,
                 null,
                 sn)
-            if(0 == status){
-                status = ftdi_write_data_set_chunksize(context, Math.min(4096, buffer.length))
-                if(status == 0){
-                    status = ftdi_write_data(context, buffer, buffer.length)
-                    ftdi_usb_close(context)
-                    if(status < 0){
-                        throw new IOException("ftdi_write_data error:" + status)
-                    }
-                    return status
-                }
-                else{
-                    throw new IOException("ftdi_write_data_set_chunksize error:" + status)
-                }
-            }
-            else{
-                throw new IOException("ftdi_usb_open_desc error:" + status)
+            if(0 != status){
+                throw new IOException("ftdi_usb_open_desc error:"+status)
             }
         }
     }
 
-    public int write(byte[] sn, int data) throws IOException {
-        byte[] buffer = new byte[1]
-        buffer[0] = data
-        return write(sn, buffer)
+    public void open(String sn) throws IOException{
+        open(Native.toByteArray(sn))
     }
 
-    public int write(String sn, int data) throws IOException {
-        return write(Native.toByteArray(sn), data)
+    public void setBitMode(int mask, int mode) throws IOException {
+        if(Platform.isWindows()){
+            int status = FT_SetBitMode(handle, mask, mode)
+            if(FT_OK != status){
+                throw new IOException("FT_SetBitMode error:"+status)
+            }
+        }
+        else{
+            int status= ftdi_set_bitmode(context, mask, mode)
+            if(status < 0){
+                throw new IOException("ftdi_set_bitmode error:"+status)
+            }
+        }
+    }
+
+    public int write(byte[] buffer) throws IOException {
+        if(Platform.isWindows()){
+            IntByReference written = new IntByReference()
+            int status = FT_Write(handle, buffer, buffer.length, written)
+            if(FT_OK != status){
+                throw new IOException("FT_Write error:" + status)
+            }
+            return written.getValue()
+        }else{
+            int status = ftdi_write_data_set_chunksize(context, Math.min(4096, buffer.length))
+            if(status == 0){
+                status = ftdi_write_data(context, buffer, buffer.length)
+                if(status < 0){
+                    throw new IOException("ftdi_write_data error:" + status)
+                }
+                return status
+            }
+            else{
+                throw new IOException("ftdi_write_data_set_chunksize error:" + status)
+            }
+        }
+    }
+
+    public int write(int data) throws IOException {
+        byte[] buffer = new byte[1]
+        buffer[0] = data
+        return write(buffer)
     }
 
     public List<String> getSerialNumberList() throws IOException {
@@ -320,7 +299,7 @@ class Ftdi {
 
     void close(){
         if(Platform.isWindows()){
-
+            FT_Close(handle.getValue())
         }else{
             ftdi_free(context)
         }
