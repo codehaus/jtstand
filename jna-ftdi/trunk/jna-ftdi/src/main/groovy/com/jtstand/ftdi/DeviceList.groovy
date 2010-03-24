@@ -13,7 +13,7 @@ import com.sun.jna.ptr.IntByReference
  * @author albert_kurucz
  */
 class DeviceList extends Structure{
-     public int device
-     public int nextDevice
+     public int dev
+     public int next
 }
 

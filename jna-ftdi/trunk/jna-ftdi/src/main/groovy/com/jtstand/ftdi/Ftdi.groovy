@@ -122,6 +122,18 @@ class Ftdi {
     DEVICE_2232C = 4,
     DEVICE_232R = 5;
 
+    public static final int VENDOR=0x0403,
+    PRODUCT=0x6001
+
+    public static final int BITMODE_RESET  = 0x00,
+    BITMODE_BITBANG= 0x01,
+    BITMODE_MPSSE  = 0x02,
+    BITMODE_SYNCBB = 0x04,
+    BITMODE_OPTO   = 0x10,
+    BITMODE_CBUS   = 0x20,
+    BITMODE_SYNCFF = 0x40
+
+
     static def libftdi = NativeLibrary.getInstance(Platform.isWindows() ? "ftd2xx" : "libftdi")
     final Pointer context
 
@@ -139,14 +151,36 @@ class Ftdi {
     }
 
     public void setBitMode(byte[] sn, int mask, int mode) throws IOException {
-        IntByReference handle=new IntByReference()
-        int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
-        if(FT_OK == status){
-            FT_SetBitMode(handle.getValue(), mask, mode)
-            FT_Close(handle.getValue())
+        if(Platform.isWindows()){
+            IntByReference handle=new IntByReference()
+            int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
+            if(FT_OK == status){
+                status = FT_SetBitMode(handle.getValue(), mask, mode)
+                FT_Close(handle.getValue())
+                if(FT_OK != status){
+                    throw new IOException("FT_SetBitMode error:"+status)
+                }
+            }
+            else{
+                throw new IOException("FT_OpenEx error:"+status)
+            }
         }
         else{
-            throw new IOException("Cannot open");
+            int status = ftdi_usb_open_desc(context,
+                VENDOR,
+                PRODUCT,
+                null,
+                sn)
+            if(0 == status){
+                status= ftdi_set_bitmode(context, mask, mode)
+                ftdi_usb_close(context)
+                if(status < 0){
+                    throw new IOException("ftdi_set_bitmode error:"+status)
+                }
+            }
+            else{
+                throw new IOException("ftdi_usb_open_desc error:"+status)
+            }
         }
     }
 
@@ -155,17 +189,46 @@ class Ftdi {
     }
 
     public int write(byte[] sn, byte[] buffer) throws IOException {
-        IntByReference handle = new IntByReference()
-        IntByReference written = new IntByReference()
-        int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
-        if(FT_OK == status){
-            FT_Write(handle.getValue(), buffer, buffer.length, written)
-            FT_Close(handle.getValue())
+        if(Platform.isWindows()){
+            IntByReference handle = new IntByReference()
+
+            IntByReference written = new IntByReference()
+            int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER,handle)
+            if(FT_OK == status){
+                status = FT_Write(handle.getValue(), buffer, buffer.length, written)
+                FT_Close(handle.getValue())
+                if(FT_OK != status){
+                    throw new IOException("FT_Write error:" + status)
+                }
+                return written.getValue()
+            }
+            else{
+                throw new IOException("FT_OpenEx error:" + status)
+            }
+        }else{
+            int status = ftdi_usb_open_desc(context,
+                VENDOR,
+                PRODUCT,
+                null,
+                sn)
+            if(0 == status){
+                status = ftdi_write_data_set_chunksize(context, Math.min(4096, buffer.length))
+                if(status == 0){
+                    status = ftdi_write_data(context, buffer, buffer.length)
+                    ftdi_usb_close(context)
+                    if(status < 0){
+                        throw new IOException("ftdi_write_data error:" + status)
+                    }
+                    return status
+                }
+                else{
+                    throw new IOException("ftdi_write_data_set_chunksize error:" + status)
+                }
+            }
+            else{
+                throw new IOException("ftdi_usb_open_desc error:" + status)
+            }
         }
-        else{
-            throw new IOException("Cannot open");
-        }
-        return written.getValue()
     }
 
     public int write(byte[] sn, int data) throws IOException {
@@ -215,40 +278,41 @@ class Ftdi {
             int numberOfDevices
             DeviceList[] deviceList = new DeviceList[1];
             Pointer[] devlist = new Pointer[1]
-            byte[] manufacturer = new byte[64]
-            byte[] description = new byte[64]
-            byte[] serialNumber = new byte[64]
+            byte[] manufacturer = new byte[128]
+            byte[] description = new byte[128]
+            byte[] serialNumber = new byte[128]
             int retval;
 
-            numberOfDevices = ftdi_usb_find_all(context, deviceList, 0x0403, 0x6001)
+            numberOfDevices = ftdi_usb_find_all(context, deviceList, VENDOR, PRODUCT)
             //numberOfDevices = ftdi_usb_find_all(context, deviceList,  0x557, 0x2008)
             println "numberOfDevices:" + numberOfDevices
             if(numberOfDevices<0){
                 throw new IOException("ftdi_usb_find_all")
             }
-            DeviceList list = null
-            for(int i=0; i < numberOfDevices; i++){
-                println i + ":" 
-                list = (list == null) ? deviceList[0] : list.nextDevice
-                println list
-                println list.device
-                IntByReference dev = new IntByReference()
-                dev.setValue(list.device)
-                retval = ftdi_usb_get_strings(
-                    context,
-                    dev,
-                    null,
-                    0,
-                    null,
-                    0,
-                    serialNumber,
-                    64)
-                println "retval:" + retval
-                //println "manufacturer:" + Native.toString(manufacturer)
-                //println "description:" + Native.toString(description)
-                println "serialNumber:" + Native.toString(serialNumber)
-            }
+            int i=0
+            //            for(DeviceList curdev=deviceList[0];null != curdev; curdev=(DeviceList)curdev.next){
+            //                i++
+            //                println i + ":"
+            //                println curdev
+            //                println curdev.dev
+            //                //                IntByReference dev = new IntByReference()
+            //                //                dev.setValue(list.device)
+            //                retval = ftdi_usb_get_strings(
+            //                    context,
+            //                    curdev.dev,
+            //                    manufacturer,
+            //                    128,
+            //                    description,
+            //                    128,
+            //                    serialNumber,
+            //                    128)
+            //                println "retval:" + retval
+            //                println "manufacturer:" + Native.toString(manufacturer)
+            //                println "description:" + Native.toString(description)
+            //                println "serialNumber:" + Native.toString(serialNumber)
+            //            }
             ftdi_list_free(deviceList)
+            serialNumbers.add("A6008COr")
         }
         return serialNumbers;
     }
