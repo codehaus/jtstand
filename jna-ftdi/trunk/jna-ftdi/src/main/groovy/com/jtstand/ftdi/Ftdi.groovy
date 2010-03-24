@@ -3,6 +3,8 @@
  * and open the template in the editor.
  *
  * put chmod o+w -R /dev/bus/usb into /etc/init.d/rc shell script!
+ * 
+ * modprobe -r ftdi-sio
  */
 
 package com.jtstand.ftdi
