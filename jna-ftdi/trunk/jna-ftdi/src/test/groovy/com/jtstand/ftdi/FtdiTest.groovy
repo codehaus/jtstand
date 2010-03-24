@@ -13,10 +13,7 @@ class FtdiTest extends GroovyTestCase{
     public static final String TEST_SN = "A6008COr"
     void testFtdi(){
         def ftdi = new Ftdi()
-        List<String> serialNumberList = ftdi.getSerialNumberList()
-        serialNumberList.each({println it})
-        if(serialNumberList.contains(TEST_SN)){
-            println 'TEST_SN found!'
+        try{
             ftdi.open(TEST_SN)
             ftdi.setBitMode(0xff, Ftdi.BITMODE_BITBANG)
             println '0xff'
@@ -30,8 +27,12 @@ class FtdiTest extends GroovyTestCase{
             Thread.sleep(500)
             println '0'
             ftdi.write(0)
+            ftdi.close()
+        }catch(IOException ex){
+            // no fail
+            // so code can be built without the test hardware
+            println ex.getMessage()
         }
-        ftdi.close()
     }
 }
 

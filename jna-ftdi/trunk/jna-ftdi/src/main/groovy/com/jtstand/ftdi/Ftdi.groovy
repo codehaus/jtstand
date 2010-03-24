@@ -21,25 +21,25 @@ import com.sun.jna.Function
  * @author albert_kurucz
  */
 class Ftdi {
-    public static final int  FT_OK = 0;
+    public static final int  FT_OK = 0
 
     //
     // FT_OpenEx Flags
     //
 
-    public static final int  FT_OPEN_BY_SERIAL_NUMBER = 1;
-    public static final int  FT_OPEN_BY_DESCRIPTION   = 2;
-    public static final int  FT_OPEN_BY_LOCATION      =	4;
+    public static final int  FT_OPEN_BY_SERIAL_NUMBER = 1
+    public static final int  FT_OPEN_BY_DESCRIPTION   = 2
+    public static final int  FT_OPEN_BY_LOCATION      =	4
 
     //
     // FT_ListDevices Flags (used in conjunction with FT_OpenEx Flags
     //
 
-    public static final int  FT_LIST_NUMBER_ONLY = 0x80000000;
-    public static final int  FT_LIST_BY_INDEX    = 0x40000000;
-    public static final int  FT_LIST_ALL         = 0x20000000;
+    public static final int  FT_LIST_NUMBER_ONLY = 0x80000000
+    public static final int  FT_LIST_BY_INDEX    = 0x40000000
+    public static final int  FT_LIST_ALL         = 0x20000000
 
-    public static final int  FT_LIST_MASK =(FT_LIST_NUMBER_ONLY|FT_LIST_BY_INDEX|FT_LIST_ALL);
+    public static final int  FT_LIST_MASK =(FT_LIST_NUMBER_ONLY|FT_LIST_BY_INDEX|FT_LIST_ALL)
 
     /* Device status */
     public static final int OK = 0,
@@ -60,16 +60,16 @@ class Ftdi {
     EEPROM_NOT_PROGRAMMED = 15,
     INVALID_ARGS = 16,
     NOT_SUPPORTED = 17,
-    OTHER_ERROR = 18;
+    OTHER_ERROR = 18
     /* openEx flags */
     public static final int OPEN_BY_SERIAL_NUMBER = 1 << 0,
     OPEN_BY_DESCRIPTION = 1 << 1,
-    OPEN_BY_LOCATION = 1 << 2;
+    OPEN_BY_LOCATION = 1 << 2
     /* listDevices flags (used in conjunction with openEx flags) */
     public static final int LIST_NUMBER_ONLY = 1 << 31,
     LIST_BY_INDEX = 1 << 30,
     LIST_ALL = 1 << 29,
-    LIST_MASK = LIST_NUMBER_ONLY | LIST_BY_INDEX | LIST_ALL;
+    LIST_MASK = LIST_NUMBER_ONLY | LIST_BY_INDEX | LIST_ALL
     /* Baud rates */
     public static final int BAUD_300 = 300,
     BAUD_600 = 600,
@@ -84,43 +84,43 @@ class Ftdi {
     BAUD_115200 = 115200,
     BAUD_230400 = 230400,
     BAUD_460800 = 460800,
-    BAUD_921600 = 921600;
+    BAUD_921600 = 921600
     /* Word lengths */
     public static final int BITS_8 = 8,
     BITS_7 = 7,
     BITS_6 = 6,
-    BITS_5 = 5;
+    BITS_5 = 5
     /* Stop bits */
     public static final int STOP_BITS_1 = 0,
     STOP_BITS_1_5 = 1,
-    STOP_BITS_2 = 2;
+    STOP_BITS_2 = 2
     /* Parity */
     public static final int PARITY_NONE = 0,
     PARITY_ODD = 1,
     PARITY_EVEN = 2,
     PARITY_MARK = 3,
-    PARITY_SPACE = 4;
+    PARITY_SPACE = 4
     /* Flow control */
     public static final int FLOW_NONE = 0,
     FLOW_RTS_CTS = 1 << 8,
     FLOW_DTR_DSR = 1 << 9,
-    FLOW_XON_XOFF = 1 << 10;
+    FLOW_XON_XOFF = 1 << 10
     /* Purge rx and tx `s */
     public static final int PURGE_RX = 1 << 0,
     PURGE_TX = 1 << 1;
     /* Events */
     public static final int EVENT_RXCHAR = 1 << 0,
-    EVENT_MODEM_STATUS = 1 << 1;
+    EVENT_MODEM_STATUS = 1 << 1
     /* Timeouts */
     public static final int DEFAULT_RX_TIMEOUT = 300,
-    DEFAULT_TX_TIMEOUT = 300;
+    DEFAULT_TX_TIMEOUT = 300
     /* Device types */
     public static final int DEVICE_BM = 0,
     DEVICE_AM = 1,
     DEVICE_100AX = 2,
     DEVICE_UNKNOWN = 3,
     DEVICE_2232C = 4,
-    DEVICE_232R = 5;
+    DEVICE_232R = 5
 
     public static final int VENDOR=0x0403,
     PRODUCT=0x6001
@@ -219,83 +219,6 @@ class Ftdi {
         buffer[0] = data
         return write(buffer)
     }
-
-    public List<String> getSerialNumberList() throws IOException {
-        List<String> serialNumbers=new ArrayList<String>();
-        if(Platform.isWindows()){
-            IntByReference numberOfDevices = new IntByReference()
-            if(FT_OK == FT_CreateDeviceInfoList(numberOfDevices)){
-                println "number of devices:" + numberOfDevices.getValue()
-                IntByReference flags = new IntByReference()
-                IntByReference type = new IntByReference()
-                IntByReference id = new IntByReference()
-                IntByReference locId = new IntByReference()
-                byte[] sn = new byte[64]
-                byte[] desc = new byte[64]
-                IntByReference handle = new IntByReference()
-                for(int i=0; i<numberOfDevices.getValue(); i++){
-                    if(FT_OK == FT_GetDeviceInfoDetail(i, flags, type, id, locId, sn, desc, handle)){
-                        if(0 == (1 & flags.getValue())){
-                            println ""
-                            println "i:" + i
-                            println "flags:" + flags.getValue()
-                            println "type:" + type.getValue()
-                            println "id:" + id.getValue()
-                            println "locId:" + locId.getValue()
-                            println "sn:" + Native.toString(sn)
-                            println "desc:" + Native.toString(desc)
-                            println "handle:" + handle.getValue()
-                            serialNumbers.add(Native.toString(sn))
-                        }
-                    }
-                }
-            }
-            else{
-                throw new IOException("Cannot open");
-            }
-        }else{
-            int numberOfDevices
-            DeviceList[] deviceList = new DeviceList[1];
-            Pointer[] devlist = new Pointer[1]
-            byte[] manufacturer = new byte[128]
-            byte[] description = new byte[128]
-            byte[] serialNumber = new byte[128]
-            int retval;
-
-            numberOfDevices = ftdi_usb_find_all(context, deviceList, VENDOR, PRODUCT)
-            //numberOfDevices = ftdi_usb_find_all(context, deviceList,  0x557, 0x2008)
-            println "numberOfDevices:" + numberOfDevices
-            if(numberOfDevices<0){
-                throw new IOException("ftdi_usb_find_all")
-            }
-            int i=0
-            //            for(DeviceList curdev=deviceList[0];null != curdev; curdev=(DeviceList)curdev.next){
-            //                i++
-            //                println i + ":"
-            //                println curdev
-            //                println curdev.dev
-            //                //                IntByReference dev = new IntByReference()
-            //                //                dev.setValue(list.device)
-            //                retval = ftdi_usb_get_strings(
-            //                    context,
-            //                    curdev.dev,
-            //                    manufacturer,
-            //                    128,
-            //                    description,
-            //                    128,
-            //                    serialNumber,
-            //                    128)
-            //                println "retval:" + retval
-            //                println "manufacturer:" + Native.toString(manufacturer)
-            //                println "description:" + Native.toString(description)
-            //                println "serialNumber:" + Native.toString(serialNumber)
-            //            }
-            ftdi_list_free(deviceList)
-            serialNumbers.add("A6008COr")
-        }
-        return serialNumbers;
-    }
-
 
     void close(){
         if(Platform.isWindows()){
