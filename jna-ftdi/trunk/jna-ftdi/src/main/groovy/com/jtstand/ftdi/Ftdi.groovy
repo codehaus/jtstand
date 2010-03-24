@@ -153,7 +153,7 @@ class Ftdi {
 
     public void open(byte[] sn) throws IOException{
         if(Platform.isWindows()){
-            IntByReference handleByRef
+            IntByReference handleByRef = new IntByReference()
             int status = FT_OpenEx(sn, FT_OPEN_BY_SERIAL_NUMBER, handleByRef)
             if(FT_OK == status){
                 handle=handleByRef.getValue()
@@ -299,7 +299,7 @@ class Ftdi {
 
     void close(){
         if(Platform.isWindows()){
-            FT_Close(handle.getValue())
+            FT_Close(handle)
         }else{
             ftdi_free(context)
         }
