@@ -10,6 +10,7 @@
     <packaging>jar</packaging>
     <name>jna-ftdi</name>
     <version>1.0-SNAPSHOT</version>
+    <url>http://jna-ftdi.jtstand.com</url>
     <licenses>
         <license>
             <name>LGPL</name>
