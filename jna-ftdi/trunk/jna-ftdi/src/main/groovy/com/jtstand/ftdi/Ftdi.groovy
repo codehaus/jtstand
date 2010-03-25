@@ -5,6 +5,15 @@
  * put chmod o+w -R /dev/bus/usb into /etc/init.d/rc shell script!
  * 
  * modprobe -r ftdi-sio
+ *
+ * sudo gedit /etc/modprobe.d/blacklist
+
+ * add the following lines:
+
+ * blacklist usbserial
+ * blacklist usb-serial
+ * blacklist ftdi_sio
+
  */
 
 package com.jtstand.ftdi
