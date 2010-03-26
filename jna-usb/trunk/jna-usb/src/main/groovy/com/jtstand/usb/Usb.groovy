@@ -30,7 +30,7 @@ import com.sun.jna.Function
  * @author albert_kurucz
  */
 class Usb {
-    static def libusb = NativeLibrary.getInstance(Platform.isWindows() ? "usb" : "usb")
+    static def libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb")
 
     Usb(){
         usb_init()
