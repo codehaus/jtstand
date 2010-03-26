@@ -14,6 +14,7 @@ import com.sun.jna.Native
 class VisaInst {
     final int sesn
     def base
+    boolean loggingEnabled=false;
 
     VisaInst(def base, int sesn){
         setBase(base)
@@ -43,6 +44,9 @@ class VisaInst {
     }
 
     void write(String outputString) {
+        if(loggingEnabled){
+            println "<" + outputString
+        }
         IntByReference retCount = new IntByReference()
         def status = viWrite(sesn, outputString, outputString.length(), retCount)
         if(status != 0){
