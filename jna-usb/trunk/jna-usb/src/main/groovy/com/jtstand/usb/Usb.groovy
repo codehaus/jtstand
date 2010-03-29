@@ -120,20 +120,21 @@ class Usb {
         usb_init()
     }
 
-    UsbBus getBusses(){
-        return (UsbBus)usb_get_busses()
+    def getBusses(){
+        return usb_get_busses()
     }
 
     def methodMissing(String name, args) {
         println "Usb methodMissing: $name, with args: $args"
-        def method = libusb.getFunction(name)
-        if (method==null) {
+        Function f = libusb.getFunction(name)
+        if (f == null) {
             throw new MissingMethodException(name, getClass(), args)
         }
         if("usb_get_busses".equals(name)){
-            return method.invokeMethod(name, null)
+            f.invoke(UsbBus.class, null)
+        }else{
+            f.invokeInt(args)
         }
-        method.invokeInt(args)
     }
 }
 

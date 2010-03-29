@@ -4,6 +4,8 @@
  */
 
 package com.jtstand.usb
+import com.sun.jna.Pointer
+import com.sun.jna.Native
 
 /**
  *
@@ -17,7 +19,9 @@ class UsbTest extends GroovyTestCase{
         usb.usb_set_debug(0)
         usb.usb_find_busses()
         usb.usb_find_devices()
-        UsbBus bus = usb.getBusses()
+        def bus = usb.getBusses()
+        println bus
+        println Native.toString(bus.dirname)
 //  for (bus = usb_get_busses(); bus; bus = bus->next) {
 //    if (bus->root_dev && !verbose)
 //      print_device(bus->root_dev, 0);

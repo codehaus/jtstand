@@ -11,16 +11,15 @@ import com.sun.jna.Pointer
  *
  * @author albert_kurucz
  */
+
 class UsbBus extends Structure {
     /**
      * struct usb_bus *next;
      */
-    //public UsbBus.ByReference next
     public Pointer next
     /**
      * struct usb_bus *prev;
-     */
-    //public UsbBus.ByReference prev
+     */    
     public Pointer prev
     /**
      * char dirname[PATH_MAX + 1];
@@ -29,7 +28,6 @@ class UsbBus extends Structure {
     /**
      * struct usb_device *devices;
      */
-    //public UsbDevice.ByReference devices;
     public Pointer devices;
     /**
      * uint32_t location;
@@ -38,7 +36,6 @@ class UsbBus extends Structure {
     /**
      * struct usb_device *root_dev;
      */
-    //public UsbDevice.ByReference root_dev;
     public Pointer root_dev;
 }
 
