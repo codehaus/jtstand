@@ -22,16 +22,18 @@ class UsbTest extends GroovyTestCase{
         def bus = usb.getBusses()
         println bus
         println Native.toString(bus.dirname)
-//  for (bus = usb_get_busses(); bus; bus = bus->next) {
-//    if (bus->root_dev && !verbose)
-//      print_device(bus->root_dev, 0);
-//    else {
-//      struct usb_device *dev;
-//
-//      for (dev = bus->devices; dev; dev = dev->next)
-//        print_device(dev, 0);
-//    }
-//  }
+        for (bus = usb.getBusses(); bus!=null; bus =  new UsbBus(bus.next)) {
+            println Native.toString(bus.dirname)
+        }
+        //    if (bus->root_dev && !verbose)
+        //      print_device(bus->root_dev, 0);
+        //    else {
+        //      struct usb_device *dev;
+        //
+        //      for (dev = bus->devices; dev; dev = dev->next)
+        //        print_device(dev, 0);
+        //    }
+        //  }
 
     }
 }
