@@ -6,6 +6,7 @@
 package com.jtstand.usb
 import com.sun.jna.Pointer
 import com.sun.jna.Native
+import com.sun.jna.Structure
 
 /**
  *
@@ -21,9 +22,10 @@ class UsbTest extends GroovyTestCase{
         println usb.usb_find_devices()
         def bus = usb.getBusses()
         println bus
-        //println Native.toString(bus.dirname)
-        for (bus = usb.getBusses(); bus!=null; bus = (bus.next !=null)?new UsbBus(bus.next):null) {
+        while (bus != null) {
             println Native.toString(bus.dirname)
+            bus=(bus.next!=null)?Structure.updateStructureByReference(UsbBus,bus,bus.next):null
+            println bus
         }
         //    if (bus->root_dev && !verbose)
         //      print_device(bus->root_dev, 0);

@@ -16,8 +16,8 @@ class UsbBus extends Structure {
     public UsbBus(){
         super()
     }
-    public UsbBus(Pointer p){
-        super(p)
+    public void useMemory(Pointer m){
+        super.useMemory(m)
     }
     /**
      * struct usb_bus *next;

@@ -125,7 +125,7 @@ class Usb {
     }
 
     def methodMissing(String name, args) {
-        println "Usb methodMissing: $name, with args: $args"
+        //println "Usb methodMissing: $name, with args: $args"
         Function f = libusb.getFunction(name)
         if (f == null) {
             throw new MissingMethodException(name, getClass(), args)
