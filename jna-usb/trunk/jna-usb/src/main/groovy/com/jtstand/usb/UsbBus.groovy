@@ -13,6 +13,12 @@ import com.sun.jna.Pointer
  */
 
 class UsbBus extends Structure {
+    public UsbBus(){
+        super()
+    }
+    public UsbBus(Pointer p){
+        super(p)
+    }
     /**
      * struct usb_bus *next;
      */
