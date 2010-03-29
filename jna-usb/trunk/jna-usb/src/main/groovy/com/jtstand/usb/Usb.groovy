@@ -30,7 +30,7 @@ import com.sun.jna.Function
  * @author albert_kurucz
  */
 class Usb {
-    static final int PATH_MAX = Platform.isWindows() ? 256 : 4096;
+    static final int PATH_MAX = Platform.isWindows() ? 511 : 4096;
     /*
      * Device and/or Interface Class codes
      */
@@ -125,7 +125,7 @@ class Usb {
     }
 
     def methodMissing(String name, args) {
-        //println "Usb methodMissing: $name, with args: $args"
+        println "Usb methodMissing: $name, with args: $args"
         Function f = libusb.getFunction(name)
         if (f == null) {
             throw new MissingMethodException(name, getClass(), args)

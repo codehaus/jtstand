@@ -16,9 +16,9 @@ class UsbTest extends GroovyTestCase{
 
     void testUsb(){
         def usb = new Usb()
-        usb.usb_set_debug(0)
-        usb.usb_find_busses()
-        usb.usb_find_devices()
+        println usb.usb_set_debug(0)
+        println usb.usb_find_busses()
+        println usb.usb_find_devices()
         def bus = usb.getBusses()
         println bus
         //println Native.toString(bus.dirname)
