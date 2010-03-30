@@ -6,6 +6,7 @@
 package com.jtstand.usb
 import com.sun.jna.Structure
 import com.sun.jna.Pointer
+import com.sun.jna.Native
 
 /**
  *
@@ -40,5 +41,17 @@ class UsbBus extends Structure {
      * struct usb_device *root_dev;
      */
     public Pointer root_dev;
+
+    def print(){
+        println 'usbBus:' + Native.toString(dirname)
+        if(devices != null){
+            def dev = new UsbDevice()
+            dev = Structure.updateStructureByReference(UsbDevice, dev, devices)
+            dev?.print()
+        }
+        if(next!=null){
+            Structure.updateStructureByReference(UsbBus, this, next)?.print()
+        }
+    }
 }
 

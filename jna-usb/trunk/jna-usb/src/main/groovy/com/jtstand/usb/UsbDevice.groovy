@@ -7,6 +7,8 @@ package com.jtstand.usb
 import com.sun.jna.Structure
 import com.sun.jna.Pointer
 import com.sun.jna.ptr.PointerByReference
+import com.sun.jna.Native
+import com.sun.jna.Function
 
 /**
  *
@@ -60,5 +62,35 @@ class UsbDevice extends Structure{
      * struct usb_device **children;
      */
     public PointerByReference children
+
+    int open(){
+        usb_open(getPointer()).getInt(0)
+    }
+
+    def methodMissing(String name, args) {
+        println "UsbDevice methodMissing: $name, with args: $args"
+        Function f = Usb.libusb.getFunction(name)
+        if (f == null) {
+            throw new MissingMethodException(name, getClass(), args)
+        }
+        if("usb_open".equals(name)){
+            f.invokePointer(args)
+        }else{
+            f.invokeInt(args)
+        }
+    }
+
+    def print(){
+        println 'usbDevice:' + Native.toString(filename)
+        int udev = open()
+        println "udev:" + udev
+        if(udev > 0){
+            println Native.toString(descriptor.iManufacturer)
+            usb_close(udev)
+        }
+        if(next != null){
+            Structure.updateStructureByReference(UsbDevice, this, next)?.print()
+        }
+    }
 }
 

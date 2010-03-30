@@ -114,7 +114,7 @@ class Usb {
     /* Error codes */
     static final int USB_ERROR_BEGIN = 500000
     
-    static NativeLibrary libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb")
+    static public NativeLibrary libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb")
 
     Usb(){
         usb_init()
@@ -125,7 +125,7 @@ class Usb {
     }
 
     def methodMissing(String name, args) {
-        //println "Usb methodMissing: $name, with args: $args"
+        println "Usb methodMissing: $name, with args: $args"
         Function f = libusb.getFunction(name)
         if (f == null) {
             throw new MissingMethodException(name, getClass(), args)
