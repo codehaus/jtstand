@@ -63,8 +63,8 @@ class UsbDevice extends Structure{
      */
     public PointerByReference children
 
-    int open(){
-        usb_open(getPointer()).getInt(0)
+    Pointer open(){
+        usb_open(getPointer())
     }
 
     def methodMissing(String name, args) {
@@ -82,9 +82,9 @@ class UsbDevice extends Structure{
 
     def print(){
         println 'usbDevice:' + Native.toString(filename)
-        int udev = open()
+        Pointer udev = open()
         println "udev:" + udev
-        if(udev > 0){
+        if(udev != null){
             println Native.toString(descriptor.iManufacturer)
             usb_close(udev)
         }
