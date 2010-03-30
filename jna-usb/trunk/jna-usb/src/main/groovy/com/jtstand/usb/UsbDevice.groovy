@@ -26,7 +26,7 @@ class UsbDevice extends Structure{
     /**
      * char filename[PATH_MAX + 1];
      */
-    public byte[] filename = new byte[LibUSBConstants.PATH_MAX + 1];
+    public byte[] filename = new byte[Usb.PATH_MAX + 1];
     /**
      * struct usb_bus *bus;
      */

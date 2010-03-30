@@ -17,13 +17,21 @@ class UsbTest extends GroovyTestCase{
 
     void testUsb(){
         def usb = new Usb()
-        println usb.usb_set_debug(0)
-        println usb.usb_find_busses()
-        println usb.usb_find_devices()
-        def bus = usb.getBusses()
+        usb.usb_set_debug(0)
+        usb.usb_find_busses()
+        usb.usb_find_devices()
+        UsbBus bus = usb.getBusses()
         //println bus
         while (bus != null) {
-            println Native.toString(bus.dirname)
+            println 'usbBus:' + Native.toString(bus.dirname)
+            if(bus.devices!=null){
+                def dev = new UsbDevice()
+                dev = Structure.updateStructureByReference(UsbDevice,dev,bus.devices)
+                while (dev != null){
+                    println 'usbDevice:' + Native.toString(dev.filename)
+                    dev = (dev.next != null)?Structure.updateStructureByReference(UsbDevice,dev,dev.next):null
+                }
+            }
             bus=(bus.next!=null)?Structure.updateStructureByReference(UsbBus,bus,bus.next):null
             //println bus
         }
