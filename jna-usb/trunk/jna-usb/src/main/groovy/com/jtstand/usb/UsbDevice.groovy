@@ -80,52 +80,79 @@ class UsbDevice extends Structure{
         }
     }
 
+    String getManufacturer(Pointer udev){
+        if(descriptor.iManufacturer != null){
+            byte[] manufacturer = new byte[256]
+            def ret = usb_get_string_simple(udev,
+                descriptor.iManufacturer,
+                manufacturer,
+                manufacturer.length)
+            if (ret > 0){
+                return Native.toString(manufacturer)
+            }
+        }
+        return null
+    }
+
+    String getProduct(Pointer udev){
+        if(descriptor.iProduct!=null){
+            byte[] product = new byte[256]
+            def ret = usb_get_string_simple(udev,
+                descriptor.iProduct,
+                product,
+                product.length)
+            if (ret > 0){
+                return Native.toString(product)
+            }
+        }
+        return null
+    }
+
+    String getSerialNumber(Pointer udev){
+        if(descriptor.iSerialNumber!=null){
+            byte[] sn = new byte[256]
+            def ret = usb_get_string_simple(udev,
+                descriptor.iSerialNumber,
+                sn,
+                sn.length)
+            if (ret > 0){
+                return Native.toString(sn)
+            }
+        }
+        return null;
+    }
+
+    static String hex4(int i){
+        if(i<0x10){
+            return '0x000'+Integer.toHexString(i)
+        }else if(i<0x100){
+            return '0x00'+Integer.toHexString(i)
+        }else if(i<0x1000){
+            return '0x0'+Integer.toHexString(i)
+        }
+        return '0x'+Integer.toHexString(i)
+    }
+
     def print(){
-        println 'usbDevice:' + Native.toString(filename)
+        print 'Device: '
+        print Native.toString(filename)
         Pointer udev = open()
         if(udev != null){
-            if(descriptor.iManufacturer!=null){
-                byte[] manufacturer = new byte[256]
-                def ret = usb_get_string_simple(udev,
-                    descriptor.iManufacturer,
-                    manufacturer,
-                    manufacturer.length);
-                if (ret > 0){
-                    print 'manufacturer:'
-                    println Native.toString(manufacturer)
-                }
-            }
-            if(descriptor.iProduct!=null){
-                byte[] product = new byte[256]
-                def ret = usb_get_string_simple(udev,
-                    descriptor.iProduct,
-                    product,
-                    product.length);
-                if (ret > 0){
-                    print 'product:'
-                    println Native.toString(product)
-                }
-            }
-            if(descriptor.iSerialNumber!=null){
-                byte[] sn = new byte[256]
-                def ret = usb_get_string_simple(udev,
-                    descriptor.iSerialNumber,
-                    sn,
-                    sn.length);
-                if (ret > 0){
-                    print 'Serial number:'
-                    println Native.toString(sn)
-                }
-            }
-            print 'vendor id - product id:'
-            print Integer.toHexString(descriptor.idVendor)
+            print ' #'
+            print devnum
+            print ' '
+            print getManufacturer(udev)
+            print ' - '
+            print getProduct(udev)
+            print ' - '
+            print getSerialNumber(udev)
+            print ' '
+            print hex4(descriptor.idVendor)
             print '-'
-            println Integer.toHexString(descriptor.idProduct)
-
-            print 'Device #'
-            println devnum
+            print hex4(descriptor.idProduct)
             usb_close(udev)
         }
+        println ''
         if(next != null){
             Structure.updateStructureByReference(UsbDevice, this, next)?.print()
         }

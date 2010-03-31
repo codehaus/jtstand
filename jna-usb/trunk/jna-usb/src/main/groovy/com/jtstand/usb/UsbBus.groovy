@@ -43,7 +43,7 @@ class UsbBus extends Structure {
     public Pointer root_dev;
 
     def print(){
-        println 'usbBus:' + Native.toString(dirname)
+        println 'Bus: ' + Native.toString(dirname)
         if(devices != null){
             def dev = new UsbDevice()
             dev = Structure.updateStructureByReference(UsbDevice, dev, devices)
