@@ -124,13 +124,13 @@ class UsbDevice extends Structure{
 
     static String hex4(int i){
         if(i<0x10){
-            return '0x000'+Integer.toHexString(i)
+            return '000' + Integer.toHexString(i)
         }else if(i<0x100){
-            return '0x00'+Integer.toHexString(i)
+            return '00' + Integer.toHexString(i)
         }else if(i<0x1000){
-            return '0x0'+Integer.toHexString(i)
+            return '0' + Integer.toHexString(i)
         }
-        return '0x'+Integer.toHexString(i)
+        return Integer.toHexString(i)
     }
 
     def print(){
@@ -155,8 +155,12 @@ class UsbDevice extends Structure{
         print ' '
         println num_children
         if(num_children>0){
-            children.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
+            print this
+            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
         }
+//        if(next!=null){
+//            Structure.updateStructureByReference(UsbDevice, new UsbDevice(), next)?.print()
+//        }
     }
 }
 
