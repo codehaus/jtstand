@@ -61,7 +61,7 @@ class UsbDevice extends Structure{
     /**
      * struct usb_device **children;
      */
-    public PointerByReference children
+    public Pointer children
 
     Pointer open(){
         usb_open(getPointer())
@@ -155,12 +155,7 @@ class UsbDevice extends Structure{
         print ' '
         println num_children
         if(num_children>0){
-            Pointer p=children?.getValue()
-            Pointer[] pa=p?.getPointerArray(0,num_children)
-            pa?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
-        }
-        if(next != null){
-            Structure.updateStructureByReference(UsbDevice, this, next)?.print()
+            children.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
         }
     }
 }

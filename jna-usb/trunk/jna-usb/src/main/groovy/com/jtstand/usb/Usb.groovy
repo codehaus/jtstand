@@ -31,6 +31,7 @@ import com.sun.jna.Function
  */
 class Usb {
     static final int PATH_MAX = Platform.isWindows() ? 511 : 4096;
+    //static final int PATH_MAX = 511;
     /*
      * Device and/or Interface Class codes
      */
@@ -114,7 +115,7 @@ class Usb {
     /* Error codes */
     static final int USB_ERROR_BEGIN = 500000
     
-    static public NativeLibrary libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb")
+    static public NativeLibrary libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb-0.1")
 
     Usb(){
         usb_init()
