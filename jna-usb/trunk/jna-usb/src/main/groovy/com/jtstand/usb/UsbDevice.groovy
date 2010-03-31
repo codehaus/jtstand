@@ -152,7 +152,13 @@ class UsbDevice extends Structure{
             print hex4(descriptor.idProduct)
             usb_close(udev)
         }
-        println ''
+        print ' '
+        println num_children
+        if(num_children>0){
+            Pointer p=children?.getValue()
+            Pointer[] pa=p?.getPointerArray(0,num_children)
+            pa?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
+        }
         if(next != null){
             Structure.updateStructureByReference(UsbDevice, this, next)?.print()
         }
