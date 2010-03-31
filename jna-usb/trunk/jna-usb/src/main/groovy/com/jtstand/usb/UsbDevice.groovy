@@ -94,9 +94,36 @@ class UsbDevice extends Structure{
                     print 'manufacturer:'
                     println Native.toString(manufacturer)
                 }
-                print 'vendor:'
-                println Integer.toHexString(descriptor.idVendor)
             }
+            if(descriptor.iProduct!=null){
+                byte[] product = new byte[256]
+                def ret = usb_get_string_simple(udev,
+                    descriptor.iProduct,
+                    product,
+                    product.length);
+                if (ret > 0){
+                    print 'product:'
+                    println Native.toString(product)
+                }
+            }
+            if(descriptor.iSerialNumber!=null){
+                byte[] sn = new byte[256]
+                def ret = usb_get_string_simple(udev,
+                    descriptor.iSerialNumber,
+                    sn,
+                    sn.length);
+                if (ret > 0){
+                    print 'Serial number:'
+                    println Native.toString(sn)
+                }
+            }
+            print 'vendor id - product id:'
+            print Integer.toHexString(descriptor.idVendor)
+            print '-'
+            println Integer.toHexString(descriptor.idProduct)
+
+            print 'Device #'
+            println devnum
             usb_close(udev)
         }
         if(next != null){
