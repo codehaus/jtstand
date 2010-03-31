@@ -68,7 +68,7 @@ class UsbDevice extends Structure{
     }
 
     def methodMissing(String name, args) {
-        println "UsbDevice methodMissing: $name, with args: $args"
+        //println "UsbDevice methodMissing: $name, with args: $args"
         Function f = Usb.libusb.getFunction(name)
         if (f == null) {
             throw new MissingMethodException(name, getClass(), args)
@@ -83,9 +83,20 @@ class UsbDevice extends Structure{
     def print(){
         println 'usbDevice:' + Native.toString(filename)
         Pointer udev = open()
-        println "udev:" + udev
         if(udev != null){
-            println Native.toString(descriptor.iManufacturer)
+            if(descriptor.iManufacturer!=null){
+                byte[] manufacturer = new byte[256]
+                def ret = usb_get_string_simple(udev,
+                    descriptor.iManufacturer,
+                    manufacturer,
+                    manufacturer.length);
+                if (ret > 0){
+                    print 'manufacturer:'
+                    println Native.toString(manufacturer)
+                }
+                print 'vendor:'
+                println Integer.toHexString(descriptor.idVendor)
+            }
             usb_close(udev)
         }
         if(next != null){
