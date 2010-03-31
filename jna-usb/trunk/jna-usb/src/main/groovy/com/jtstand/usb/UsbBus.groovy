@@ -44,11 +44,15 @@ class UsbBus extends Structure {
 
     def print(){
         println 'Bus: ' + Native.toString(dirname)
-        if(root_dev != null){
-            Structure.updateStructureByReference(UsbDevice, null, root_dev)?.print()
+//        println this
+//        if(root_dev != null){
+//            Structure.updateStructureByReference(UsbDevice, null, root_dev)?.print()
+//        }
+        if(devices != null){
+            Structure.updateStructureByReference(UsbDevice, null, devices)?.print()
         }
         if(next!=null){
-            Structure.updateStructureByReference(UsbBus, this, next)?.print()
+            Structure.updateStructureByReference(UsbBus, null, next)?.print()
         }
     }
 }

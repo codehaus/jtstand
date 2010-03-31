@@ -154,13 +154,13 @@ class UsbDevice extends Structure{
         }
         print ' '
         println num_children
-        if(num_children>0){
-            print this
-            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
-        }
-//        if(next!=null){
-//            Structure.updateStructureByReference(UsbDevice, new UsbDevice(), next)?.print()
+//        if(num_children>0){
+//            print this
+//            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
 //        }
+        if(next!=null){
+            Structure.updateStructureByReference(UsbDevice, null, next)?.print()
+        }
     }
 }
 
