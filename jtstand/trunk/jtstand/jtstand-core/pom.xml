@@ -134,18 +134,18 @@
         </plugins>
     </build>
     <dependencies>
-        <!--dependency>
+        <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
-            <version>3.5.0.Beta-1</version>
+            <version>3.5.0-Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.5.0.Beta-1</version>
-        </dependency-->
+            <version>3.5.0-Final</version>
+        </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>3.3.2.GA</version>
@@ -159,7 +159,7 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>3.4.0.GA</version>
-        </dependency>
+        </dependency-->
 
         <!--dependency>
             <groupId>org.hibernate</groupId>
@@ -251,4 +251,11 @@
             <url>dav:https://dav.codehaus.org/jtstand/jtstand-core/</url>
         </site>
     </distributionManagement-->
+    <repositories>
+        <repository>
+            <id>jboss</id>
+            <url>http://repository.jboss.com/maven2/</url>
+        </repository>
+    </repositories>
 </project>
+
