@@ -9,7 +9,7 @@ import com.sun.jna.Pointer
 import com.sun.jna.ptr.PointerByReference
 import com.sun.jna.Native
 import com.sun.jna.Function
-
+import com.sun.jna.Platform
 /**
  *
  * @author albert_kurucz
@@ -64,7 +64,9 @@ class UsbDevice extends Structure{
     public Pointer children
 
     UsbDevice(){
-        setAlignType(Structure.ALIGN_NONE)
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
+        }
     }
 
     Pointer open(){
@@ -156,16 +158,16 @@ class UsbDevice extends Structure{
             print hex4(0xFFFF & descriptor.idProduct)
             usb_close(udev)
         }
-//        print ' '
-//        print num_children
+        //        print ' '
+        //        print num_children
         println ''
         if(config != null){
             Structure.updateStructureByReference(UsbConfigDescriptor, null, config)?.print()
         }
-//        if(num_children>0){
-//            print this
-//            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
-//        }
+        //        if(num_children>0){
+        //            print this
+        //            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
+        //        }
         if(next!=null){
             Structure.updateStructureByReference(UsbDevice, null, next)?.print()
         }
