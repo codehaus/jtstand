@@ -59,12 +59,18 @@ class UsbConfigDescriptor extends Structure{
     public int extralen;
 
     def print(){
-        println "  wTotalLength:         " + wTotalLength
-        println "  bNumInterfaces:       " + bNumInterfaces
-        println "  bConfigurationValue:  " + bConfigurationValue
-        println "  iConfiguration:       " + iConfiguration
-        println "  bmAttributes:         0x" + Integer.toHexString(0xFF & bmAttributes)
-        println "  MaxPower:             " + MaxPower
+        print "  wTotalLength:         "
+        println 0xffff & wTotalLength
+        print "  bNumInterfaces:       "
+        println 0xff & bNumInterfaces
+        print "  bConfigurationValue:  "
+        println 0xff & bConfigurationValue
+        print "  iConfiguration:       "
+        println 0xff & iConfiguration
+        print "  bmAttributes:         0x"
+        println Integer.toHexString(0xff & bmAttributes)
+        print "  MaxPower:             "
+        println 0xff & MaxPower
     }
 }
 

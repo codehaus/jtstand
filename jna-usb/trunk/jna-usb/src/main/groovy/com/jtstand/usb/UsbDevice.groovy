@@ -63,6 +63,10 @@ class UsbDevice extends Structure{
      */
     public Pointer children
 
+    UsbDevice(){
+        setAlignType(Structure.ALIGN_NONE)
+    }
+
     Pointer open(){
         usb_open(getPointer())
     }
@@ -155,7 +159,7 @@ class UsbDevice extends Structure{
 //        print ' '
 //        print num_children
         println ''
-        if(config!=null){
+        if(config != null){
             Structure.updateStructureByReference(UsbConfigDescriptor, null, config)?.print()
         }
 //        if(num_children>0){

@@ -106,8 +106,6 @@ int print_device(struct usb_device *dev, int level)
   } else
     snprintf(description, sizeof(description), "%04X - %04X",
              dev->descriptor.idVendor, dev->descriptor.idProduct);
-        print ' '
-//        print num_children
 
   printf("%.*sDev #%d: %s\n", level * 2, "                    ", dev->devnum,
          description);
