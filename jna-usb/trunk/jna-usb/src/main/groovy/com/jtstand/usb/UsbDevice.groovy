@@ -147,13 +147,17 @@ class UsbDevice extends Structure{
             print ' - '
             print getSerialNumber(udev)
             print ' '
-            print hex4(descriptor.idVendor)
+            print hex4(0xFFFF & descriptor.idVendor)
             print '-'
-            print hex4(descriptor.idProduct)
+            print hex4(0xFFFF & descriptor.idProduct)
             usb_close(udev)
         }
-        print ' '
-        println num_children
+//        print ' '
+//        print num_children
+        println ''
+        if(config!=null){
+            Structure.updateStructureByReference(UsbConfigDescriptor, null, config)?.print()
+        }
 //        if(num_children>0){
 //            print this
 //            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
