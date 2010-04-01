@@ -15,7 +15,7 @@
  * blacklist ftdi_sio
 
  * */
-
+//"USB0::0x0699::0x0401::C000580::INSTR"
 //bus-0/\\.\libusb0-0012--0x0699-0x0401     0699/0401
 //- Manufacturer : Tektronix
 //- Product      : MSO4034
