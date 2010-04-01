@@ -7,7 +7,7 @@ package com.jtstand.usb
 import com.sun.jna.Pointer
 import com.sun.jna.ptr.ByteByReference
 import com.sun.jna.Structure
-
+import com.sun.jna.Platform
 /**
  *
  * @author albert
@@ -58,6 +58,12 @@ class UsbConfigDescriptor extends Structure{
      */
     public int extralen;
 
+    UsbConfigDescriptor(){
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
+        }
+    }
+
     def print(){
         print "  wTotalLength:         "
         println 0xffff & wTotalLength
@@ -71,6 +77,11 @@ class UsbConfigDescriptor extends Structure{
         println Integer.toHexString(0xff & bmAttributes)
         print "  MaxPower:             "
         println 0xff & MaxPower
+        if(bNumInterfaces > 0){
+            if(interf!=null){
+                Structure.updateStructureByReference(UsbInterface, null, interf)?.toArray(bNumInterfaces).each({it.print()})
+            }
+        }
     }
 }
 

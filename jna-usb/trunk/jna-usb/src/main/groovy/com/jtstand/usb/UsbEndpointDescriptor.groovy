@@ -52,5 +52,20 @@ class UsbEndpointDescriptor extends Structure{
      * int extralen;
      */
     public int extralen;
+
+    def print(){
+        print "      bEndpointAddress: 0x"
+        println Integer.toHexString(0xff & bEndpointAddress)
+        print "      bmAttributes:     0x"
+        println Integer.toHexString(0xff & bmAttributes)
+        print "      wMaxPacketSize:   "
+        println 0xff & wMaxPacketSize
+        print "      bInterval:        "
+        println 0xff & bInterval
+        print "      bRefresh:         "
+        println 0xff & bRefresh
+        print "      bSynchAddress:    "
+        println 0xff & bSynchAddress
+    }
 }
 
