@@ -147,7 +147,7 @@ class UsbDevice extends Structure{
             print ' #'
             print devnum
             print ' '
-            print getAddress(udev)
+            print getInstrumentAddress(udev)
             print ' '
             print getManufacturer(udev)
             print '::'
@@ -169,7 +169,7 @@ class UsbDevice extends Structure{
         }
     }
 
-    String getAddress(Pointer udev){
+    String getInstrumentAddress(Pointer udev){
         String address='USB'
         address += Structure.updateStructureByReference(UsbBus, null, bus).getIndex()
         address += '::0x'
@@ -178,6 +178,7 @@ class UsbDevice extends Structure{
         address +=  hex4(0xFFFF & descriptor.idProduct)
         address += '::'
         address += getSerialNumber(udev)
+        address += '::INSTR'
     }
 
 }
