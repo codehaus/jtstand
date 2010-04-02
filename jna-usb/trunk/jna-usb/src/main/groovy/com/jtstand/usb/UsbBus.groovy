@@ -42,12 +42,16 @@ class UsbBus extends Structure {
      */
     public Pointer root_dev;
 
+    int getIndex(){
+        (prev==null)?0:1+Structure.updateStructureByReference(UsbBus, null, prev).getIndex()
+    }
+
     def print(){
-        println 'Bus: ' + Native.toString(dirname) + '@' + location
-//        println this
-//        if(root_dev != null){
-//            Structure.updateStructureByReference(UsbDevice, null, root_dev)?.print()
-//        }
+        println 'Bus: ' + Native.toString(dirname) + '@' + getIndex()
+        //        println this
+        //        if(root_dev != null){
+        //            Structure.updateStructureByReference(UsbDevice, null, root_dev)?.print()
+        //        }
         if(devices != null){
             Structure.updateStructureByReference(UsbDevice, null, devices)?.print()
         }
