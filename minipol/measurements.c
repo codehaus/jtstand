@@ -32,20 +32,17 @@ int measurement_size(Measurement* meas) {
 }
 
 int measurement_compute_factors(Measurement* meas, const gsl_vector_int* f, double* factors) {
-    int i=0;
     int f_size;
     int m_size;
-    if(!meas){
-        return 0;
+    if (m_size = measurement_size(meas)) {
+        f_size = factor_size(f);
+        factors = (double*) malloc(f_size * m_size * sizeof (double));
+        while (meas) {
+            //TBD
+            meas = meas->next;
+        }
     }
-    int f_size = factor_size(f);
-    int m_size = measurement_size(meas);
-    factors = double* malloc(f_size * m_size * sizeof (double));
-    while(meas){
-        //TBD
-        meas=meas->next;
-        i++;
-    }
+    return m_size;
 }
 
 double measurement_f(const gsl_vector *v, void *params) {

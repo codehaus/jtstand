@@ -9,6 +9,7 @@
 #define	_MEASUREMENTS_H
 
 #include <gsl/gsl_vector_double.h>
+#include <gsl/gsl_vector_int.h>
 
 #ifdef	__cplusplus
 extern "C" {
