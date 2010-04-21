@@ -24,7 +24,7 @@ int factorVectorToScalar(const gsl_vector_int* f, int* a) {
     return retval;
 }
 
-int factorSize(const gsl_vector_int* f) {
+int factor_size(const gsl_vector_int* f) {
     int i;
     int retval = 1;
 
@@ -42,7 +42,7 @@ int factorTest(void) {
     gsl_vector_int_set(f, 2, 5);
 
     int n = 3;
-    int m = factorSize(f);
+    int m = factor_size(f);
     printf("m:%d\r\n", m);
 
     int a[3];
