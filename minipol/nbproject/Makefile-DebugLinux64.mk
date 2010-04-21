@@ -20,7 +20,7 @@ AS=as
 
 # Macros
 CND_PLATFORM=GNU-Linux-x86
-CND_CONF=Debug
+CND_CONF=DebugLinux64
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -52,16 +52,16 @@ LDLIBSOPTIONS=/usr/lib64/libgsl.a /usr/lib64/libgslcblas.a /usr/lib64/libm.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/minipol
+	${MAKE}  -f nbproject/Makefile-DebugLinux64.mk dist/DebugLinux64/GNU-Linux-x86/minipol
 
-dist/Debug/GNU-Linux-x86/minipol: /usr/lib64/libgsl.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libgsl.a
 
-dist/Debug/GNU-Linux-x86/minipol: /usr/lib64/libgslcblas.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libgslcblas.a
 
-dist/Debug/GNU-Linux-x86/minipol: /usr/lib64/libm.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libm.a
 
-dist/Debug/GNU-Linux-x86/minipol: ${OBJECTFILES}
-	${MKDIR} -p dist/Debug/GNU-Linux-x86
+dist/DebugLinux64/GNU-Linux-x86/minipol: ${OBJECTFILES}
+	${MKDIR} -p dist/DebugLinux64/GNU-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minipol ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/factors.o: nbproject/Makefile-${CND_CONF}.mk factors.c 
@@ -79,8 +79,8 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-Linux-x86/minipol
+	${RM} -r build/DebugLinux64
+	${RM} dist/DebugLinux64/GNU-Linux-x86/minipol
 
 # Subprojects
 .clean-subprojects:

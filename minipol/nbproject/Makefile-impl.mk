@@ -27,11 +27,11 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 PROJECTNAME=minipol
 
 # Active Configuration
-DEFAULTCONF=Debug
+DEFAULTCONF=DebugLinux64
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=Debug Release 
+ALLCONFS=DebugLinux64 Release DebugLinux32 
 
 
 # build
