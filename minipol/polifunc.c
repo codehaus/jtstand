@@ -1,6 +1,5 @@
 #include <gsl/gsl_vector_double.h>
 #include <math.h>
-#include "polifunc.h"
 
 double polifunc_f(const gsl_vector *v, void *params) {
     int i;
