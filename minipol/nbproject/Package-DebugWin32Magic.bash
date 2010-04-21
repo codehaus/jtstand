@@ -7,7 +7,7 @@
 # Macros
 TOP=`pwd`
 CND_PLATFORM=Cygwin_ofMagIC3SDK-Windows
-CND_CONF=DebugLinux64
+CND_CONF=DebugWin32Magic
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging

@@ -28,8 +28,8 @@
     <conf name="DebugLinux64" type="1">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <compilerSet>GNU|GNU</compilerSet>
-        <platform>2</platform>
+        <compilerSet>Cygwin_ofMagIC3SDK|Cygwin</compilerSet>
+        <platform>3</platform>
       </toolsSet>
       <compileType>
         <linkerTool>
@@ -75,6 +75,25 @@
             <linkerLibLibItem>gsl</linkerLibLibItem>
             <linkerLibLibItem>gslcblas</linkerLibLibItem>
             <linkerLibLibItem>m</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="DebugWin32Magic" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin_ofMagIC3SDK|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>C:/MagIC3SDK/utils/root/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libgsl.a</linkerLibFileItem>
+            <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libgslcblas.a</linkerLibFileItem>
+            <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libm.a</linkerLibFileItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>

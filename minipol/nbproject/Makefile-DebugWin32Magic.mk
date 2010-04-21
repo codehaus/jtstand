@@ -20,7 +20,7 @@ AS=as.exe
 
 # Macros
 CND_PLATFORM=Cygwin_ofMagIC3SDK-Windows
-CND_CONF=DebugLinux64
+CND_CONF=DebugWin32Magic
 CND_DISTDIR=dist
 
 # Include project Makefile
@@ -49,20 +49,20 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=/usr/lib64/libgsl.a /usr/lib64/libgslcblas.a /usr/lib64/libm.a
+LDLIBSOPTIONS=-L/cygdrive/C/MagIC3SDK/utils/root/lib C:/MagIC3SDK/utils/root/lib/libgsl.a C:/MagIC3SDK/utils/root/lib/libgslcblas.a C:/MagIC3SDK/utils/root/lib/libm.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-DebugLinux64.mk dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe
+	${MAKE}  -f nbproject/Makefile-DebugWin32Magic.mk dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libgsl.a
+dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /cygdrive/C/MagIC3SDK/utils/root/lib/libgsl.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libgslcblas.a
+dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /cygdrive/C/MagIC3SDK/utils/root/lib/libgslcblas.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libm.a
+dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /cygdrive/C/MagIC3SDK/utils/root/lib/libm.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows
+dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe: ${OBJECTFILES}
+	${MKDIR} -p dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minipol ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/polifunc.o: nbproject/Makefile-${CND_CONF}.mk polifunc.c 
@@ -85,8 +85,8 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r build/DebugLinux64
-	${RM} dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe
+	${RM} -r build/DebugWin32Magic
+	${RM} dist/DebugWin32Magic/Cygwin_ofMagIC3SDK-Windows/minipol.exe
 
 # Subprojects
 .clean-subprojects:

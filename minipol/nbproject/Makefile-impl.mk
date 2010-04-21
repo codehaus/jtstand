@@ -31,7 +31,7 @@ DEFAULTCONF=DebugLinux64
 CONF=${DEFAULTCONF}
 
 # All Configurations
-ALLCONFS=DebugLinux64 Release DebugLinux32 
+ALLCONFS=DebugLinux64 Release DebugLinux32 DebugWin32Magic 
 
 
 # build
