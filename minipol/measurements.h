@@ -17,6 +17,7 @@ extern "C" {
     typedef struct {
         gsl_vector* x;
         double y;
+        double* params;
         void* next;
     } Measurement;
 
