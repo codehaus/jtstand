@@ -28,7 +28,7 @@ int factorSize(const gsl_vector_int* f) {
     int i;
     int retval = 1;
 
-    for (i = f->size - 1; i >= 0; i--) {
+    for (i = 0; i < f->size; i++) {
         retval *= f->data[i];
     }
     return retval;
