@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "factors.h"
 
-int factorScalarToVector(const gsl_vector_int* f, int s, int* a) {
+int factor_scalar_to_vector(const gsl_vector_int* f, int s, int* a) {
     int i;
     int fi;
     for (i = f->size - 1; i >= 0; i--) {
@@ -13,7 +13,7 @@ int factorScalarToVector(const gsl_vector_int* f, int s, int* a) {
     return s; //error if not zero
 }
 
-int factorVectorToScalar(const gsl_vector_int* f, int* a) {
+int factor_vector_to_scalar(const gsl_vector_int* f, int* a) {
     int i;
     int retval = 0;
 
@@ -40,6 +40,23 @@ int factor_compute_params(
         double y,
         double* params) {
     //TBD
+    int s;
+    int i;
+    double y2 = y * y;
+    int f_size = factor_size(f);
+    int* a = (int*) malloc(f->size * sizeof (int));
+    *params = 1.0;
+    for (s = 1; s < f_size; s++) {
+        factor_scalar_to_vector(f, s, a);
+        for (i = 0; i < f->size; i++) {
+            if (a[i]) {
+                a[i]--;
+                params[s] = params[factor_vector_to_scalar(f, a)]
+                        * gsl_vector_get(x, i);
+                continue;
+            }
+        }
+    }
     return 0;
 }
 
@@ -56,29 +73,29 @@ int factorTest(void) {
 
     int a[3];
     int s = 1;
-    factorScalarToVector(f, s, a);
+    factor_scalar_to_vector(f, s, a);
     printf("s:%d\r\n", s);
     for (i = 0; i < n; i++) {
         printf("a[%d]:%d\r\n", i, a[i]);
     }
-    s = factorVectorToScalar(f, a);
+    s = factor_vector_to_scalar(f, a);
     printf("s:%d\r\n\r\n", s);
 
     s = 39;
-    factorScalarToVector(f, s, a);
+    factor_scalar_to_vector(f, s, a);
     printf("s:%d\r\n", s);
     for (i = 0; i < n; i++) {
         printf("a[%d]:%d\r\n", i, a[i]);
     }
-    s = factorVectorToScalar(f, a);
+    s = factor_vector_to_scalar(f, a);
     printf("s:%d\r\n\r\n", s);
 
     s = 25;
-    factorScalarToVector(f, s, a);
+    factor_scalar_to_vector(f, s, a);
     printf("s:%d\r\n", s);
     for (i = 0; i < n; i++) {
         printf("a[%d]:%d\r\n", i, a[i]);
     }
-    s = factorVectorToScalar(f, a);
+    s = factor_vector_to_scalar(f, a);
     printf("s:%d\r\n\r\n", s);
 }

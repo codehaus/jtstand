@@ -12,8 +12,11 @@ int measurement_add(
     if (!x) {
         return -2;
     }
-    if (*meas && ((*meas)->x->size != x->size)) {
+    if (0.0 == y) {
         return -3;
+    }
+    if (*meas && ((*meas)->x->size != x->size)) {
+        return -4;
     }
     Measurement* m = (Measurement*) malloc(sizeof (Measurement));
     m->x = x;
