@@ -4,6 +4,7 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>factors.h</itemPath>
       <itemPath>measurements.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"

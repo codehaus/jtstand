@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <gsl/gsl_vector_int.h>
+#include "factors.h"
 
 int factorScalarToVector(const gsl_vector_int* f, int s, int* a) {
     int i;
@@ -32,6 +32,15 @@ int factor_size(const gsl_vector_int* f) {
         retval *= f->data[i];
     }
     return retval;
+}
+
+int factor_compute_params(
+        const gsl_vector_int* f,
+        const gsl_vector* x,
+        double y,
+        double* params) {
+    //TBD
+    return 0;
 }
 
 int factorTest(void) {

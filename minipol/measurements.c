@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include "factors.h"
 #include "measurements.h"
 
 int measurement_add(
@@ -31,16 +32,24 @@ int measurement_size(Measurement* meas) {
     return size;
 }
 
-int measurement_compute_factors(Measurement* meas, const gsl_vector_int* f, double* factors) {
+int measurement_compute_params(Measurement* meas, const gsl_vector_int* f, double* allparams) {
+    int i = 0;
+    double* params;
     int f_size;
     int m_size;
     if (m_size = measurement_size(meas)) {
         f_size = factor_size(f);
-        factors = (double*) malloc(f_size * m_size * sizeof (double));
-        while (meas) {
-            //TBD
-            meas = meas->next;
-        }
+        allparams = (double*) malloc(f_size * m_size * sizeof (double));
+        if (allparams) {
+            while (meas) {
+                params = &allparams[i];
+                factor_compute_params(f, meas->x, meas->y, params);
+                meas->params = params;
+                i += f_size;
+                meas = meas->next;
+            }
+        } else
+            return -1;
     }
     return m_size;
 }
