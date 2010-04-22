@@ -31,8 +31,10 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/polifunc.o \
 	${OBJECTDIR}/factors.o \
-	${OBJECTDIR}/main.o
+	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/measurements.o
 
 # C Compiler Flags
 CFLAGS=
@@ -58,6 +60,11 @@ dist/DebugLinux32/GNU-Linux-x86/minipol: ${OBJECTFILES}
 	${MKDIR} -p dist/DebugLinux32/GNU-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minipol ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
+${OBJECTDIR}/polifunc.o: nbproject/Makefile-${CND_CONF}.mk polifunc.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/polifunc.o polifunc.c
+
 ${OBJECTDIR}/factors.o: nbproject/Makefile-${CND_CONF}.mk factors.c 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
@@ -67,6 +74,11 @@ ${OBJECTDIR}/main.o: nbproject/Makefile-${CND_CONF}.mk main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.c
+
+${OBJECTDIR}/measurements.o: nbproject/Makefile-${CND_CONF}.mk measurements.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/measurements.o measurements.c
 
 # Subprojects
 .build-subprojects:

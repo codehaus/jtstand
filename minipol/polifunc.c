@@ -15,10 +15,15 @@ double polifunc_f(const gsl_vector *v, void *params) {
 
 void polifunc_df(const gsl_vector *v, void *params,
                  gsl_vector *df) {
+    double f;
+    my_fdf(v,params,&f,df);
+}
+
+void polifunc_fdf(const gsl_vector *v, void *params,
+        double *f, gsl_vector *df) {
     int i;
     double *p = (double *) params;
-    double f = polifunc_f(v, params);
-    if (f >= 0) {
+    if ((*f = polifunc_f(v, params)) >= 0) {
         for (i = 0; i < v->size; i++) {
             gsl_vector_set(df, i, p[i]);
         }

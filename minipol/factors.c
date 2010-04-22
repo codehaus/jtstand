@@ -34,17 +34,19 @@ int factor_size(const gsl_vector_int* f) {
     return retval;
 }
 
-int factor_compute_params(
-        const gsl_vector_int* f,
-        const gsl_vector* x,
-        double y,
-        double* params) {
+int factor_compute_params(const gsl_vector_int* f,
+                          const gsl_vector* x,
+                          double y,
+                          double* params) {
     //TBD
     int s;
     int i;
     double y2 = y * y;
     int f_size = factor_size(f);
     int* a = (int*) malloc(f->size * sizeof (int));
+    if (!a) {
+        return -1;
+    }
     *params = 1.0;
     for (s = 1; s < f_size; s++) {
         factor_scalar_to_vector(f, s, a);
@@ -57,12 +59,16 @@ int factor_compute_params(
             }
         }
     }
+    free(a);
     return 0;
 }
 
 int factorTest(void) {
     int i;
     gsl_vector_int* f = gsl_vector_int_alloc(3);
+    if (!f) {
+        return -1;
+    }
     gsl_vector_int_set(f, 0, 2);
     gsl_vector_int_set(f, 1, 4);
     gsl_vector_int_set(f, 2, 5);
@@ -98,4 +104,5 @@ int factorTest(void) {
     }
     s = factor_vector_to_scalar(f, a);
     printf("s:%d\r\n\r\n", s);
+    return 0;
 }

@@ -12,14 +12,14 @@ MKDIR=mkdir
 CP=cp
 CCADMIN=CCadmin
 RANLIB=ranlib
-CC=gcc.exe
-CCC=g++.exe
-CXX=g++.exe
+CC=gcc
+CCC=g++
+CXX=g++
 FC=
-AS=as.exe
+AS=as
 
 # Macros
-CND_PLATFORM=Cygwin_ofMagIC3SDK-Windows
+CND_PLATFORM=GNU-Linux-x86
 CND_CONF=DebugLinux64
 CND_DISTDIR=dist
 
@@ -54,16 +54,16 @@ LDLIBSOPTIONS=/usr/lib64/libgsl.a /usr/lib64/libgslcblas.a /usr/lib64/libm.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-DebugLinux64.mk dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe
+	${MAKE}  -f nbproject/Makefile-DebugLinux64.mk dist/DebugLinux64/GNU-Linux-x86/minipol
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libgsl.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libgsl.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libgslcblas.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libgslcblas.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: /usr/lib64/libm.a
+dist/DebugLinux64/GNU-Linux-x86/minipol: /usr/lib64/libm.a
 
-dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe: ${OBJECTFILES}
-	${MKDIR} -p dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows
+dist/DebugLinux64/GNU-Linux-x86/minipol: ${OBJECTFILES}
+	${MKDIR} -p dist/DebugLinux64/GNU-Linux-x86
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/minipol ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
 ${OBJECTDIR}/polifunc.o: nbproject/Makefile-${CND_CONF}.mk polifunc.c 
@@ -92,7 +92,7 @@ ${OBJECTDIR}/measurements.o: nbproject/Makefile-${CND_CONF}.mk measurements.c
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/DebugLinux64
-	${RM} dist/DebugLinux64/Cygwin_ofMagIC3SDK-Windows/minipol.exe
+	${RM} dist/DebugLinux64/GNU-Linux-x86/minipol
 
 # Subprojects
 .clean-subprojects:
