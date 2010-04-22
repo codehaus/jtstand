@@ -13,11 +13,6 @@ double polifunc_f(const gsl_vector *v, void *params) {
 	return (f >= 0) ? f : -f; //abs
 }
 
-void polifunc_df(const gsl_vector *v, void *params, gsl_vector *df) {
-	double f;
-	my_fdf(v, params, &f, df);
-}
-
 void polifunc_fdf(const gsl_vector *v, void *params, double *f, gsl_vector *df) {
 	int i;
 	double *p = (double *) params;
@@ -32,3 +27,10 @@ void polifunc_fdf(const gsl_vector *v, void *params, double *f, gsl_vector *df) 
 		}
 	}
 }
+
+void polifunc_df(const gsl_vector *v, void *params, gsl_vector *df) {
+	double f;
+	polifunc_fdf(v, params, &f, df);
+}
+
+
