@@ -35,9 +35,9 @@ int factor_size(const gsl_vector_int* f) {
 }
 
 int factor_compute_params(const gsl_vector_int* f,
-                          const gsl_vector* x,
-                          double y,
-                          double* params) {
+        const gsl_vector* x,
+        double y,
+        double* params) {
     //TBD
     int s;
     int i;
@@ -60,6 +60,9 @@ int factor_compute_params(const gsl_vector_int* f,
         }
     }
     free(a);
+    for (s = 1; s < f_size; s++) {
+        params[s] /= y2;
+    }
     return 0;
 }
 

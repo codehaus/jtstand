@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_vector_double.h>
-
+#include "factors.h"
 
 
 /* Paraboloid centered on (p[0],p[1]), with
@@ -50,7 +50,7 @@ void my_fdf(const gsl_vector *x, void *params,
  *
  */
 int main(int argc, char** argv) {
-    size_t iter = 0;
+    int iter = 0;
     int status;
 
     const gsl_multimin_fdfminimizer_type *T;

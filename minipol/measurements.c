@@ -1,12 +1,14 @@
 #include <stdlib.h>
+#include <gsl/gsl_sys.h>
 #include <gsl/gsl_nan.h>
 #include "factors.h"
+#include "polifunc.h"
 #include "measurements.h"
 
 int measurement_add(
-                    Measurement** meas,
-                    gsl_vector* x,
-                    double y) {
+        Measurement** meas,
+        gsl_vector* x,
+        double y) {
     if (!meas) {
         return -1;
     }
@@ -41,7 +43,7 @@ int measurement_compute_params(Measurement* meas, const gsl_vector_int* f, doubl
     double* params;
     int f_size;
     int m_size;
-    if (m_size = measurement_size(meas)) {
+    if ((m_size = measurement_size(meas))) {
         f_size = factor_size(f);
         allparams = (double*) malloc(f_size * m_size * sizeof (double));
         if (allparams) {
@@ -68,14 +70,8 @@ double measurement_f(const gsl_vector *v, void *params) {
     return f;
 }
 
-void measurement_df(const gsl_vector *v, void *params,
-                    gsl_vector *df) {
-    double f;
-    my_fdf(v, params, &f, df);
-}
-
 void measurement_fdf(const gsl_vector *v, void *params,
-                     double *f, gsl_vector *df) {
+        double *f, gsl_vector *df) {
     Measurement *p = (Measurement *) params;
     double pf;
     gsl_vector* pdf = gsl_vector_alloc(df->size);
@@ -83,7 +79,7 @@ void measurement_fdf(const gsl_vector *v, void *params,
         *f = 0.0;
         gsl_vector_set_zero(df);
         while (p) {
-            df += polifunc_fdf(v, p->params, &pf, pdf);
+            polifunc_fdf(v, p->params, &pf, pdf);
             *f += pf;
             gsl_vector_add(df, pdf);
             p = p->next;
@@ -93,4 +89,10 @@ void measurement_fdf(const gsl_vector *v, void *params,
         *f = GSL_NAN;
         gsl_vector_set_all(df, GSL_NAN);
     }
+}
+
+void measurement_df(const gsl_vector *v, void *params,
+        gsl_vector *df) {
+    double f;
+    measurement_fdf(v, params, &f, df);
 }
