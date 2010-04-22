@@ -15,13 +15,12 @@
 extern "C" {
 #endif
 
-    typedef struct {
-        gsl_vector* x;
-        double y;
-        double* params;
-        void* next;
-    } Measurement;
-
+typedef struct {
+	gsl_vector* x;
+	double y;
+	double* params;
+	void* next;
+} Measurement;
 
 #ifdef	__cplusplus
 }

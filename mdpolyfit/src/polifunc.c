@@ -33,4 +33,3 @@ void polifunc_df(const gsl_vector *v, void *params, gsl_vector *df) {
 	polifunc_fdf(v, params, &f, df);
 }
 
-

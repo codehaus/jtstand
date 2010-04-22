@@ -15,13 +15,10 @@
 extern "C" {
 #endif
 
-    extern int factor_size(const gsl_vector_int* f);
+extern int factor_size(const gsl_vector_int* f);
 
-    extern int factor_compute_params(
-            const gsl_vector_int* f,
-            const gsl_vector* x,
-            double y,
-            double* params);
+extern int factor_compute_params(const gsl_vector_int* f, const gsl_vector* x,
+		double y, double* params);
 
 #ifdef	__cplusplus
 }
