@@ -75,34 +75,34 @@ int factorTest(void) {
 
     int n = 3;
     int m = factor_size(f);
-    printf("m:%d\r\n", m);
+    printf("m:%d\n", m);
 
     int a[3];
     int s = 1;
     factor_scalar_to_vector(f, s, a);
-    printf("s:%d\r\n", s);
+    printf("s:%d\n", s);
     for (i = 0; i < n; i++) {
-        printf("a[%d]:%d\r\n", i, a[i]);
+        printf("a[%d]:%d\n", i, a[i]);
     }
     s = factor_vector_to_scalar(f, a);
-    printf("s:%d\r\n\r\n", s);
+    printf("s:%d\n\n", s);
 
     s = 39;
     factor_scalar_to_vector(f, s, a);
-    printf("s:%d\r\n", s);
+    printf("s:%d\n", s);
     for (i = 0; i < n; i++) {
-        printf("a[%d]:%d\r\n", i, a[i]);
+        printf("a[%d]:%d\n", i, a[i]);
     }
     s = factor_vector_to_scalar(f, a);
-    printf("s:%d\r\n\r\n", s);
+    printf("s:%d\n\n", s);
 
     s = 25;
     factor_scalar_to_vector(f, s, a);
-    printf("s:%d\r\n", s);
+    printf("s:%d\n", s);
     for (i = 0; i < n; i++) {
-        printf("a[%d]:%d\r\n", i, a[i]);
+        printf("a[%d]:%d\n", i, a[i]);
     }
     s = factor_vector_to_scalar(f, a);
-    printf("s:%d\r\n\r\n", s);
+    printf("s:%d\n\n", s);
     return 0;
 }
