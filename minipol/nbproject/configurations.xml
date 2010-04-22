@@ -36,9 +36,9 @@
       <compileType>
         <linkerTool>
           <linkerLibItems>
-            <linkerLibFileItem>/usr/lib64/libgsl.a</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib64/libgslcblas.a</linkerLibFileItem>
-            <linkerLibFileItem>/usr/lib64/libm.a</linkerLibFileItem>
+            <linkerLibLibItem>gsl</linkerLibLibItem>
+            <linkerLibLibItem>gslcblas</linkerLibLibItem>
+            <linkerLibLibItem>m</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
