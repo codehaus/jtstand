@@ -15,7 +15,7 @@
 extern "C" {
 #endif
 
-    typedef struct {
+    typedef struct measurement_type{
         gsl_vector* x;
         double y;
         double* params;

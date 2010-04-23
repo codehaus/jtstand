@@ -1,14 +1,16 @@
 #include <stdlib.h>
 #include <gsl/gsl_sys.h>
 #include <gsl/gsl_nan.h>
+#include <gsl/gsl_multimin.h>
+
 #include "factors.h"
 #include "polifunc.h"
 #include "measurements.h"
 
 int measurement_add(
-        Measurement** meas,
-        gsl_vector* x,
-        double y) {
+                    Measurement** meas,
+                    gsl_vector* x,
+                    double y) {
     if (!meas) {
         return -1;
     }
@@ -38,11 +40,14 @@ int measurement_size(Measurement* meas) {
     return size;
 }
 
-int measurement_compute_params(Measurement* meas, const gsl_vector_int* f, double* allparams) {
+double* measurement_allparams_alloc(Measurement* meas,
+                                    const gsl_vector_int* f) {
     int i = 0;
+    double* allparams;
     double* params;
     int f_size;
     int m_size;
+
     if ((m_size = measurement_size(meas))) {
         f_size = factor_size(f);
         allparams = (double*) malloc(f_size * m_size * sizeof (double));
@@ -54,10 +59,10 @@ int measurement_compute_params(Measurement* meas, const gsl_vector_int* f, doubl
                 i += f_size;
                 meas = meas->next;
             }
-        } else
-            return -1;
+        }
+        return allparams;
     }
-    return m_size;
+    return NULL;
 }
 
 double measurement_f(const gsl_vector *v, void *params) {
@@ -71,7 +76,7 @@ double measurement_f(const gsl_vector *v, void *params) {
 }
 
 void measurement_fdf(const gsl_vector *v, void *params,
-        double *f, gsl_vector *df) {
+                     double *f, gsl_vector *df) {
     Measurement *p = (Measurement *) params;
     double pf;
     gsl_vector* pdf = gsl_vector_alloc(df->size);
@@ -91,8 +96,58 @@ void measurement_fdf(const gsl_vector *v, void *params,
     }
 }
 
-void measurement_df(const gsl_vector *v, void *params,
-        gsl_vector *df) {
+void measurement_df(const gsl_vector *v,
+                    void *params,
+                    gsl_vector *df) {
     double f;
     measurement_fdf(v, params, &f, df);
+}
+
+int measurement_optimize(//measurements
+                         Measurement* meas,
+                         //factors
+                         const gsl_vector_int* f,
+                         //start vector
+                         gsl_vector* x) {
+    int i;
+    int iter = 0;
+    int status;
+    const gsl_multimin_fdfminimizer_type* T;
+    gsl_multimin_fdfminimizer *s;
+    gsl_multimin_function_fdf measurement_func;
+
+    measurement_func.n = x->size;
+    measurement_func.f = measurement_f;
+    measurement_func.df = measurement_df;
+    measurement_func.fdf = measurement_fdf;
+    measurement_func.params = meas;
+
+    double* allparams = measurement_allparams_alloc(meas, f);
+    T = gsl_multimin_fdfminimizer_conjugate_fr;
+    s = gsl_multimin_fdfminimizer_alloc(T, x->size);
+
+    gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 1e-4);
+
+    do {
+        iter++;
+        status = gsl_multimin_fdfminimizer_iterate(s);
+
+        if (status)
+            break;
+
+        status = gsl_multimin_test_gradient(s->gradient, 1e-3);
+
+        if (status == GSL_SUCCESS) {
+            printf("Minimum found at:\n");
+            for (i = 0; i < s->x->size; i++) {
+                printf("x[%d] %.5f\n", i, gsl_vector_get(s->x, i));
+            }
+        }
+        printf("%5d %10.5f\n", iter, s->f);
+
+    } while (status == GSL_CONTINUE && iter < 100);
+
+    gsl_multimin_fdfminimizer_free(s);
+    free(allparams);
+    return (EXIT_SUCCESS);
 }
