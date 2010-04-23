@@ -66,7 +66,7 @@ int factor_compute_params(const gsl_vector_int* f,
     return 0;
 }
 
-int factorTest(void) {
+int factor_test(void) {
     int i;
     gsl_vector_int* f = gsl_vector_int_alloc(3);
     if (!f) {
@@ -107,5 +107,7 @@ int factorTest(void) {
     }
     s = factor_vector_to_scalar(f, a);
     printf("s:%d\n\n", s);
+
+    gsl_vector_int_free(f);
     return 0;
 }

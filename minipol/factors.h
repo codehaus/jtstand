@@ -22,7 +22,8 @@ extern "C" {
             const gsl_vector* x,
             double y,
             double* params);
-    extern int factorTest(void);
+
+    extern int factor_test(void);
 
 #ifdef	__cplusplus
 }

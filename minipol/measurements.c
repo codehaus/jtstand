@@ -20,10 +20,15 @@ int measurement_add(
     if (0.0 == y) {
         return -3;
     }
-    if (*meas && ((*meas)->x->size != x->size)) {
-        return -4;
+    if (*meas) {
+        if ((*meas)->x->size != x->size) {
+            return -4;
+        }
     }
     Measurement* m = (Measurement*) malloc(sizeof (Measurement));
+    if (!m) {
+        return -5;
+    }
     m->x = x;
     m->y = y;
     m->next = *meas;
@@ -112,6 +117,7 @@ int measurement_optimize(//measurements
     int i;
     int iter = 0;
     int status;
+    printf("optimizing...\n");
     const gsl_multimin_fdfminimizer_type* T;
     gsl_multimin_fdfminimizer *s;
     gsl_multimin_function_fdf measurement_func;
@@ -131,7 +137,7 @@ int measurement_optimize(//measurements
     do {
         iter++;
         status = gsl_multimin_fdfminimizer_iterate(s);
-
+        printf("status: %d\n", status);
         if (status)
             break;
 
@@ -149,5 +155,6 @@ int measurement_optimize(//measurements
 
     gsl_multimin_fdfminimizer_free(s);
     free(allparams);
+    printf("optimization done\n");
     return (EXIT_SUCCESS);
 }

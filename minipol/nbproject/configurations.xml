@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>factors.h</itemPath>
       <itemPath>measurements.h</itemPath>
+      <itemPath>myfunc.h</itemPath>
       <itemPath>polifunc.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -18,6 +19,7 @@
       <itemPath>factors.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>measurements.c</itemPath>
+      <itemPath>myfunc.c</itemPath>
       <itemPath>polifunc.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"

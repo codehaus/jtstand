@@ -32,6 +32,7 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/polifunc.o \
+	${OBJECTDIR}/myfunc.o \
 	${OBJECTDIR}/factors.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/measurements.o
@@ -64,6 +65,11 @@ ${OBJECTDIR}/polifunc.o: nbproject/Makefile-${CND_CONF}.mk polifunc.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/polifunc.o polifunc.c
+
+${OBJECTDIR}/myfunc.o: nbproject/Makefile-${CND_CONF}.mk myfunc.c 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} $@.d
+	$(COMPILE.c) -g -MMD -MP -MF $@.d -o ${OBJECTDIR}/myfunc.o myfunc.c
 
 ${OBJECTDIR}/factors.o: nbproject/Makefile-${CND_CONF}.mk factors.c 
 	${MKDIR} -p ${OBJECTDIR}
