@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>factors.h</itemPath>
       <itemPath>measurements.h</itemPath>
+      <itemPath>polifunc.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -34,6 +35,12 @@
         <platform>2</platform>
       </toolsSet>
       <compileType>
+        <cTool>
+          <commandLine>-Wall</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>-Wall</commandLine>
+        </ccTool>
         <linkerTool>
           <linkerLibItems>
             <linkerLibLibItem>gsl</linkerLibLibItem>
