@@ -2,29 +2,41 @@
 #include <math.h>
 
 double polifunc_f(const gsl_vector *v, void *params) {
-    int i;
+    int i, j;
     double f = -1.0;
+    double t;
 
     double *p = (double *) params;
-
     for (i = 0; i < v->size; i++) {
-        f += gsl_vector_get(v, i) * p[i];
+        t = gsl_vector_get(v, i) * p[i];
+        f += t * t;
+        for (j = 0; j < i; j++) {
+            f += 2.0 * t * gsl_vector_get(v, j) * p[j];
+        }
     }
     return (f >= 0) ? f : -f; //abs
 }
 
 void polifunc_fdf(const gsl_vector *v, void *params,
         double *f, gsl_vector *df) {
-    int i;
+    int i, j;
     double *p = (double *) params;
-    if ((*f = polifunc_f(v, params)) >= 0) {
-        for (i = 0; i < v->size; i++) {
-            gsl_vector_set(df, i, p[i]);
-        }
+    double t, u;
 
-    } else {
+    *f = -1.0;
+    for (i = 0; i < v->size; i++) {
+        t = gsl_vector_get(v, i) * p[i];
+        *f += t * t;
+        gsl_vector_set(df, i, 2.0 * t);
+        for (j = 0; j < i; j++) {
+            u = 2.0 * gsl_vector_get(v, j) * p[j];
+            *f += t * u;
+            gsl_vector_set(df, i, u + gsl_vector_get(df, i));
+        }
+    }
+    if (*f < 0.0) {
         for (i = 0; i < v->size; i++) {
-            gsl_vector_set(df, i, -p[i]);
+            gsl_vector_set(df, i, -gsl_vector_get(df, i));
         }
     }
 }

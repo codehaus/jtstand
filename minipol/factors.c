@@ -40,8 +40,7 @@ int factor_compute_params(const gsl_vector_int* f,
         double* params) {
     //TBD
     int s;
-    int i;
-    double y2 = y * y;
+    int i;    
     int f_size = factor_size(f);
     int* a = (int*) malloc(f->size * sizeof (int));
     if (!a) {
@@ -60,8 +59,8 @@ int factor_compute_params(const gsl_vector_int* f,
         }
     }
     free(a);
-    for (s = 1; s < f_size; s++) {
-        params[s] /= y2;
+    for (s = 0; s < f_size; s++) {
+        params[s] /= y;
     }
     return 0;
 }
