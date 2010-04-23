@@ -23,8 +23,6 @@ extern "C" {
             double y,
             double* params);
 
-    extern int factor_test(void);
-
 #ifdef	__cplusplus
 }
 #endif

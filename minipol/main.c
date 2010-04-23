@@ -60,12 +60,80 @@ int meas_test(void) {
     gsl_vector_int_free(f);
 }
 
+
+int factor_test(void) {
+    int i;
+    gsl_vector_int* f = gsl_vector_int_alloc(3);
+    if (!f) {
+        return -1;
+    }
+    gsl_vector_int_set(f, 0, 2);
+    gsl_vector_int_set(f, 1, 4);
+    gsl_vector_int_set(f, 2, 5);
+
+    int n = 3;
+    int m = factor_size(f);
+    printf("m:%d\n", m);
+
+    int a[3];
+    int s = 1;
+    factor_scalar_to_vector(f, s, a);
+    printf("s:%d\n", s);
+    for (i = 0; i < n; i++) {
+        printf("a[%d]:%d\n", i, a[i]);
+    }
+    s = factor_vector_to_scalar(f, a);
+    printf("s:%d\n\n", s);
+
+    s = 39;
+    factor_scalar_to_vector(f, s, a);
+    printf("s:%d\n", s);
+    for (i = 0; i < n; i++) {
+        printf("a[%d]:%d\n", i, a[i]);
+    }
+    s = factor_vector_to_scalar(f, a);
+    printf("s:%d\n\n", s);
+
+    s = 25;
+    factor_scalar_to_vector(f, s, a);
+    printf("s:%d\n", s);
+    for (i = 0; i < n; i++) {
+        printf("a[%d]:%d\n", i, a[i]);
+    }
+    s = factor_vector_to_scalar(f, a);
+    printf("s:%d\n\n", s);
+
+    gsl_vector_int_free(f);
+    return 0;
+}
+
+int factor_test2(void) {
+    int i;
+    gsl_vector_int* f = gsl_vector_int_alloc(2);
+    if (!f) {
+        return -1;
+    }
+    gsl_vector_int_set(f, 0, 3);
+    gsl_vector_int_set(f, 1, 3);
+
+    gsl_vector* v = gsl_vector_alloc(2);
+    gsl_vector_set(v, 0, 2.0);
+    gsl_vector_set(v, 1, 3.0);
+
+    double params[9];
+    factor_compute_params(f, v, 1.0, params);
+
+    for (i = 0; i < 9; i++) {
+        printf("%.0f\n", params[i]);
+    }
+}
 /*
  *
  */
 int main(int argc, char** argv) {
     my_test();
     factor_test();
+    factor_test2();
     meas_test();
     return (EXIT_SUCCESS);
 }
