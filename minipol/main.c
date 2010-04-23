@@ -18,8 +18,8 @@ int my_test(void) {
     double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
     gsl_vector *x = gsl_vector_alloc(2);
     /* Starting point, x = (5,7) */
-    gsl_vector_set(x, 0, 5.0);
-    gsl_vector_set(x, 1, 7.0);
+    //gsl_vector_set(x, 0, 5.0);
+    //gsl_vector_set(x, 1, 7.0);
 
     my_optimize(par, x);
     gsl_vector_free(x);
@@ -36,7 +36,7 @@ Measurement* meas_test_data(void) {
             gsl_vector_set(x, 0, xx);
             gsl_vector_set(x, 1, xy);
             y = my_f(x, par);
-            printf("%.5f %.5f %10.5f\n", xx, xy, y);
+            //printf("%.5f %.5f %10.5f\n", xx, xy, y);
             measurement_add(&meas, x, y);
         }
     }
