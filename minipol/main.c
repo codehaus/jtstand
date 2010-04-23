@@ -31,12 +31,12 @@ Measurement* meas_test_data(void) {
     double y;
     double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};    
     for (xx = 0.8; xx < 0.93; xx += 0.01) {
-        for (xy = 0.8; xy < 0.93; xy += 0.01) {
+        for (xy = 0.85; xy < 0.935; xy += 0.01) {
             gsl_vector *x = gsl_vector_alloc(2);
             gsl_vector_set(x, 0, xx);
             gsl_vector_set(x, 1, xy);
             y = my_f(x, par);
-            printf("%.2f %.2f %.3f\n", xx, xy, y);
+            //printf("%.2f %.2f %.3f\n", xx, xy, y);
             measurement_add(&meas, x, y);
         }
     }
