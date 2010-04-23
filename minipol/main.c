@@ -26,17 +26,19 @@ int my_test(void) {
 }
 
 Measurement* meas_test_data(void) {
+    int size = 0;
     Measurement* meas = NULL;
     double xx, xy;
     double y;
-    double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};    
+    double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
     for (xx = 0.8; xx < 0.93; xx += 0.01) {
-        for (xy = 0.85; xy < 0.935; xy += 0.01) {
+        for (xy = 0.805; xy < 0.935; xy += 0.01) {
+            size++;
             gsl_vector *x = gsl_vector_alloc(2);
             gsl_vector_set(x, 0, xx);
             gsl_vector_set(x, 1, xy);
             y = my_f(x, par);
-            //printf("%.2f %.2f %.3f\n", xx, xy, y);
+            printf("%d %.2f %.2f %.3f\n", size, xx, xy, y);
             measurement_add(&meas, x, y);
         }
     }
@@ -53,13 +55,13 @@ int meas_test(void) {
     gsl_vector_int_set(f, 1, 5);
 
     gsl_vector *x = gsl_vector_alloc(factor_size(f));
+    gsl_vector_set_all(x, 1.0);
 
     measurement_optimize(meas, f, x);
 
     gsl_vector_free(x);
     gsl_vector_int_free(f);
 }
-
 
 int factor_test(void) {
     int i;
@@ -127,6 +129,7 @@ int factor_test2(void) {
         printf("%.0f\n", params[i]);
     }
 }
+
 /*
  *
  */
