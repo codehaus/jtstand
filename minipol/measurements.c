@@ -154,11 +154,13 @@ int measurement_optimize(//measurements
     //measurement_print(meas->next, f);
 
     T = gsl_multimin_fdfminimizer_conjugate_fr;
+    //T = gsl_multimin_fdfminimizer_conjugate_pr;
     //T = gsl_multimin_fdfminimizer_vector_bfgs;
+    //T = gsl_multimin_fdfminimizer_vector_bfgs2;
     s = gsl_multimin_fdfminimizer_alloc(T, x->size);
 
-    //gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 1e-4);
-    gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 0.1);
+    gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 1e-4);
+    //gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 0.1);
 
     do {
         iter++;
