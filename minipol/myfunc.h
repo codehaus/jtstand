@@ -14,6 +14,7 @@ extern "C" {
 
     extern int my_optimize(double *par, gsl_vector *x);
     extern double my_f(const gsl_vector *v, void *params);
+    gsl_vector* my_get_start(gsl_vector_int* f, void *params);
 #ifdef	__cplusplus
 }
 #endif

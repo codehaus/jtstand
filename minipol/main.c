@@ -14,7 +14,9 @@
 
 int my_test(void) {
     /* Position of the minimum (1,2), scale factors
-       10,20, height 30. */
+       10,20, height 30.
+
+     */
     double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
     gsl_vector *x = gsl_vector_alloc(2);
     /* Starting point, x = (5,7) */
@@ -25,12 +27,14 @@ int my_test(void) {
     gsl_vector_free(x);
 }
 
+double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
+
 Measurement* meas_test_data(void) {
     int size = 0;
     Measurement* meas = NULL;
     double xx, xy;
     double y;
-    double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
+
     for (xx = 0.8; xx < 0.93; xx += 0.01) {
         for (xy = 0.805; xy < 0.935; xy += 0.01) {
             size++;
@@ -54,8 +58,10 @@ int meas_test(void) {
     gsl_vector_int_set(f, 0, 4);
     gsl_vector_int_set(f, 1, 5);
 
-    gsl_vector *x = gsl_vector_alloc(factor_size(f));
-    gsl_vector_set_all(x, 1.0);
+    //gsl_vector *x = gsl_vector_alloc(factor_size(f));
+    //gsl_vector_set_all(x, 1.0);
+
+    gsl_vector* x = my_get_start(f, par);
 
     measurement_optimize(meas, f, x);
 

@@ -17,6 +17,33 @@ double my_f(const gsl_vector *v, void *params) {
             p[3] * (y - p[1]) * (y - p[1]) + p[4];
 }
 
+double err = 0.01;
+
+gsl_vector* my_get_start(gsl_vector_int* f, void *params) {
+    double *p = (double *) params;
+    gsl_vector* x = gsl_vector_alloc(factor_size(f));
+
+    gsl_vector_set(x, 0, p[2] * p[0] * p[0] + p[3] * p[1] * p[1] + p[4] + err);
+
+    int i;
+    int a[] = {1, 0};
+    i = factor_vector_to_scalar(f, a);
+    gsl_vector_set(x, i, -2.0 * p[2] * p[0] + err);
+    a[0] = 2;
+    a[1] = 0;
+    i = factor_vector_to_scalar(f, a);
+    gsl_vector_set(x, i, p[2] + err);
+    a[0] = 0;
+    a[1] = 1;
+    i = factor_vector_to_scalar(f, a);
+    gsl_vector_set(x, i, -2.0 * p[3] * p[1] + err);
+    a[0] = 0;
+    a[1] = 2;
+    i = factor_vector_to_scalar(f, a);
+    gsl_vector_set(x, i, p[3] + err);
+    return x;
+}
+
 /* The gradient of f, df = (df/dx, df/dy). */
 void my_df(const gsl_vector *v, void *params,
            gsl_vector *df) {
