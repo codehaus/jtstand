@@ -135,14 +135,15 @@ int measurement_optimize(//measurements
     int status;
     printf("optimizing...\n");
     const gsl_multimin_fdfminimizer_type* T;
-    gsl_multimin_fdfminimizer *s;
-    gsl_multimin_function_fdf measurement_func;
 
+    gsl_multimin_fdfminimizer *fdfminimizer;
+    gsl_multimin_function_fdf measurement_func;
     measurement_func.n = x->size;
     measurement_func.f = measurement_f;
     measurement_func.df = measurement_df;
     measurement_func.fdf = measurement_fdf;
     measurement_func.params = meas;
+
 
     double* allparams = measurement_allparams_alloc(meas, f);
 
@@ -153,36 +154,97 @@ int measurement_optimize(//measurements
     //measurement_print(meas, f);
     //measurement_print(meas->next, f);
 
+
     T = gsl_multimin_fdfminimizer_conjugate_fr;
     //T = gsl_multimin_fdfminimizer_conjugate_pr;
     //T = gsl_multimin_fdfminimizer_vector_bfgs;
     //T = gsl_multimin_fdfminimizer_vector_bfgs2;
-    s = gsl_multimin_fdfminimizer_alloc(T, x->size);
-
-    gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 1e-4);
-    //gsl_multimin_fdfminimizer_set(s, &measurement_func, x, 0.01, 0.1);
+    //T = gsl_multimin_fminimizer_nmsimplex;
+    fdfminimizer = gsl_multimin_fdfminimizer_alloc(T, x->size);
+    gsl_multimin_fdfminimizer_set(fdfminimizer, &measurement_func, x, 0.01, 1e-4);
 
     do {
         iter++;
-        status = gsl_multimin_fdfminimizer_iterate(s);
+        status = gsl_multimin_fdfminimizer_iterate(fdfminimizer);
         printf("status: %d\n", status);
         if (status)
             break;
 
-        status = gsl_multimin_test_gradient(s->gradient, 1e-3);
+        status = gsl_multimin_test_gradient(fdfminimizer->gradient, 1e-3);
 
         if (status == GSL_SUCCESS) {
             printf("Minimum found at:\n");
         }
-        printf("%5d %10.5f\n", iter, s->f);
+        printf("%5d %10.5f\n", iter, fdfminimizer->f);
 
     } while (status == GSL_CONTINUE && iter < 100);
 
-    for (i = 0; i < s->x->size; i++) {
-        printf("x[%d] %.5f\n", i, gsl_vector_get(s->x, i));
+    for (i = 0; i < fdfminimizer->x->size; i++) {
+        printf("x[%d] %.5f\n", i, gsl_vector_get(fdfminimizer->x, i));
     }
 
-    gsl_multimin_fdfminimizer_free(s);
+    gsl_multimin_fdfminimizer_free(fdfminimizer);
+    free(allparams);
+    printf("optimization done\n");
+    return (EXIT_SUCCESS);
+}
+
+int measurement_optimize_f(//measurements
+                           Measurement* meas,
+                           //factors
+                           const gsl_vector_int* f,
+                           //start vector
+                           gsl_vector* x) {
+    int i;
+    int iter = 0;
+    int status;
+    printf("optimizing...\n");
+    const gsl_multimin_fminimizer_type* T;
+
+
+    gsl_multimin_fminimizer *fminimizer;
+    gsl_multimin_function minex_func;
+    minex_func.n = x->size;
+    minex_func.f = measurement_f;
+    minex_func.params = meas;
+
+    double* allparams = measurement_allparams_alloc(meas, f);
+
+    printf("computing error...\n");
+    double error = measurement_f(x, meas);
+    printf("error %f\n", error);
+
+    //measurement_print(meas, f);
+    //measurement_print(meas->next, f);
+
+    T = gsl_multimin_fminimizer_nmsimplex;
+    fminimizer = gsl_multimin_fminimizer_alloc(T, x->size);
+    gsl_vector* ss = gsl_vector_alloc(x->size);
+    gsl_vector_set_all(ss, 1.0);
+    gsl_multimin_fminimizer_set(fminimizer, &minex_func, x, ss);
+
+    do {
+        iter++;
+        status = gsl_multimin_fminimizer_iterate(fminimizer);
+        //printf("status: %d\n", status);
+        if (status)
+            break;
+
+        double size = gsl_multimin_fminimizer_size(fminimizer);
+        status = gsl_multimin_test_size(size, 1e-10);
+
+        if (status == GSL_SUCCESS) {
+            printf("Minimum found at:\n");
+        }
+        printf("%5d %10.5f\n", iter, fminimizer->f);
+
+    } while (status == GSL_CONTINUE && iter < 100000000);
+
+    for (i = 0; i < fminimizer->x->size; i++) {
+        printf("x[%d] %.5f\n", i, gsl_vector_get(fminimizer->x, i));
+    }
+
+    gsl_multimin_fminimizer_free(fminimizer);
     free(allparams);
     printf("optimization done\n");
     return (EXIT_SUCCESS);

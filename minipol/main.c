@@ -35,8 +35,8 @@ Measurement* meas_test_data(void) {
     double xx, xy;
     double y;
 
-    for (xx = 0.8; xx < 0.93; xx += 0.01) {
-        for (xy = 0.805; xy < 0.935; xy += 0.01) {
+    for (xx = 0.8; xx < 0.93; xx += 0.001) {
+        for (xy = 0.805; xy < 0.935; xy += 0.001) {
             size++;
             gsl_vector *x = gsl_vector_alloc(2);
             gsl_vector_set(x, 0, xx);
@@ -55,8 +55,8 @@ int meas_test(void) {
     if (!f) {
         return -1;
     }
-    gsl_vector_int_set(f, 0, 4);
-    gsl_vector_int_set(f, 1, 5);
+    gsl_vector_int_set(f, 0, 3);
+    gsl_vector_int_set(f, 1, 3);
 
     //gsl_vector *x = gsl_vector_alloc(factor_size(f));
     //gsl_vector_set_all(x, 1.0);
