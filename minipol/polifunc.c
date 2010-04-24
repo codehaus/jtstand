@@ -28,13 +28,14 @@ void polifunc_fdf(const gsl_vector *v, void *params,
         t = gsl_vector_get(v, i) * p[i];
         *f += t * t;
         gsl_vector_set(df, i, 2.0 * t);
-        for (j = 0; j < i; j++) {
-            u = 2.0 * gsl_vector_get(v, j) * p[j];
+        for (j = 0; j < v->size; j++) {
+            u = gsl_vector_get(v, j) * p[j];
             *f += t * u;
             gsl_vector_set(df, i, u + gsl_vector_get(df, i));
         }
     }
     if (*f < 0.0) {
+        *f = -*f;
         for (i = 0; i < v->size; i++) {
             gsl_vector_set(df, i, -gsl_vector_get(df, i));
         }
