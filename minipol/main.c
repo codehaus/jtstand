@@ -25,6 +25,7 @@ int my_test(void) {
 
     my_optimize(par, x);
     gsl_vector_free(x);
+    return 0;
 }
 
 double par[5] = {1.0, 2.0, 10.0, 20.0, 30.0};
@@ -67,6 +68,7 @@ int meas_test(void) {
 
     gsl_vector_free(x);
     gsl_vector_int_free(f);
+    return 0;
 }
 
 int factor_test(void) {
@@ -134,6 +136,7 @@ int factor_test2(void) {
     for (i = 0; i < 9; i++) {
         printf("%.0f\n", params[i]);
     }
+    return 0;
 }
 
 /*

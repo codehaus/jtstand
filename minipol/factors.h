@@ -22,6 +22,8 @@ extern "C" {
             const gsl_vector* x,
             double y,
             double* params);
+    extern int factor_scalar_to_vector(const gsl_vector_int* f, int s, int* a);
+    extern int factor_vector_to_scalar(const gsl_vector_int* f, int* a);
 
 #ifdef	__cplusplus
 }

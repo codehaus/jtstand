@@ -22,6 +22,16 @@ extern "C" {
         void* next;
     } Measurement;
 
+    extern int measurement_add(
+                    Measurement** meas,
+                    gsl_vector* x,
+                    double y);
+    extern int measurement_optimize(//measurements
+                         Measurement* meas,
+                         //factors
+                         const gsl_vector_int* f,
+                         //start vector
+                         gsl_vector* x);
 
 #ifdef	__cplusplus
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <gsl/gsl_multimin.h>
 #include <gsl/gsl_vector_double.h>
+#include "factors.h"
 
 /* Paraboloid centered on (p[0],p[1]), with
        scale factors (p[2],p[3]) and minimum p[4] */

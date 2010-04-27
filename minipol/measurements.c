@@ -236,7 +236,7 @@ int measurement_optimize_f(//measurements
         if (status == GSL_SUCCESS) {
             printf("Minimum found at:\n");
         }
-        printf("%5d %10.5f\n", iter, fminimizer->f);
+        printf("%5d\n", iter);
 
     } while (status == GSL_CONTINUE && iter < 100000000);
 

@@ -26,7 +26,7 @@ void polifunc_fdf(const gsl_vector *v, void *params,
                   double *f, gsl_vector *df) {
     int i, j;
     double *p = (double *) params;
-    double t, u;
+    double t;
 
     for (i = 0; i < v->size; i++) {
         t = gsl_vector_get(v, i) * p[i];
