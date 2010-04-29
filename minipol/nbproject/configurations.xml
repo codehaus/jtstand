@@ -92,7 +92,7 @@
         </linkerTool>
       </compileType>
     </conf>
-    <conf name="DebugWin32" type="1">
+    <conf name="DebugWin32Magic" type="1">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>Cygwin|Cygwin</compilerSet>
@@ -104,6 +104,22 @@
             <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libgsl.a</linkerLibFileItem>
             <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libgslcblas.a</linkerLibFileItem>
             <linkerLibFileItem>C:/MagIC3SDK/utils/root/lib/libm.a</linkerLibFileItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+    </conf>
+    <conf name="DebugWin32Cygwin" type="1">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>Cygwin|Cygwin</compilerSet>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibLibItem>gsl</linkerLibLibItem>
+            <linkerLibLibItem>gslcblas</linkerLibLibItem>
+            <linkerLibLibItem>m</linkerLibLibItem>
           </linkerLibItems>
         </linkerTool>
       </compileType>
