@@ -59,8 +59,10 @@ int meas_test(void) {
     gsl_vector_int_set(f, 0, 3);
     gsl_vector_int_set(f, 1, 3);
 
-    //gsl_vector *x = gsl_vector_alloc(factor_size(f));
-    //gsl_vector_set_all(x, 1.0);
+/*
+    gsl_vector *x = gsl_vector_alloc(factor_size(f));
+    gsl_vector_set_zero(x);
+*/
 
     gsl_vector* x = my_get_start(f, par);
 
