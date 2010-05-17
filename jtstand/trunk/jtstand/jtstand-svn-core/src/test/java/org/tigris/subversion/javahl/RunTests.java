@@ -28,13 +28,13 @@ import junit.textui.TestRunner;
 /**
  * A test runner, and comprehensive test suite definition.
  */
-public class RunTests
-{
+public class RunTests {
+
     /**
      * The Subversion JavaHL test suite.
      */
-    private static class SVNTestSuite extends TestSuite
-    {
+    private static class SVNTestSuite extends TestSuite {
+
         /**
          * Create a conglomerate test suite containing all our test
          * suites, or the fully qualified method names specified by
@@ -42,40 +42,34 @@ public class RunTests
          *
          * @return The complete test suite.
          */
-        public static TestSuite suite()
-        {
+        public static TestSuite suite() {
             TestSuite suite = new SVNTestSuite();
 
             // Determine whether the caller requested that a specific
             // set of test cases be run, and verify that they exist.
             TestCase[] testCases = null;
             String testNames = System.getProperty("test.tests");
-            if (testNames != null)
-            {
+            if (testNames != null) {
                 StringTokenizer tok = new StringTokenizer(testNames, ", ");
                 testCases = new TestCase[tok.countTokens()];
                 int testCaseIndex = 0;
-                while (tok.hasMoreTokens())
-                {
+                while (tok.hasMoreTokens()) {
                     // ASSUMPTION: Class names are fully-qualified
                     // (with package), and are included with method
                     // names in test names.
                     String methodName = tok.nextToken();
                     int i = methodName.lastIndexOf('.');
                     String className = methodName.substring(0, i);
-                    try
-                    {
+                    try {
                         Class clazz = Class.forName(className);
-                        final Class[] argTypes = new Class[] { String.class };
+                        final Class[] argTypes = new Class[]{String.class};
                         Constructor ctor =
-                            clazz.getDeclaredConstructor(argTypes);
+                                clazz.getDeclaredConstructor(argTypes);
                         methodName = methodName.substring(i + 1);
-                        String[] args = { methodName };
+                        String[] args = {methodName};
                         testCases[testCaseIndex++] =
-                            (TestCase) ctor.newInstance(args);
-                    }
-                    catch (Exception e)
-                    {
+                                (TestCase) ctor.newInstance((Object[]) args);
+                    } catch (Exception e) {
                         testCases = null;
                         break;
                     }
@@ -83,17 +77,13 @@ public class RunTests
             }
 
             // Add the appropriate set of tests to our test suite.
-            if (testCases == null || testCases.length == 0)
-            {
+            if (testCases == null || testCases.length == 0) {
                 // Add default test suites.
                 suite.addTestSuite(SVNAdminTests.class);
                 suite.addTestSuite(BasicTests.class);
-            }
-            else
-            {
+            } else {
                 // Add specific test methods.
-                for (int i = 0; i < testCases.length; i++)
-                {
+                for (int i = 0; i < testCases.length; i++) {
                     suite.addTest(testCases[i]);
                 }
             }
@@ -105,12 +95,10 @@ public class RunTests
      * Main method, will call all tests of all test classes
      * @param args command line arguments
      */
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         processArgs(args);
         TestResult testResult = TestRunner.run(SVNTestSuite.suite());
-        if (testResult.errorCount() > 0 || testResult.failureCount() > 0)
-        {
+        if (testResult.errorCount() > 0 || testResult.failureCount() > 0) {
             System.exit(1);
         }
     }
@@ -122,25 +110,19 @@ public class RunTests
      *
      * @param args The command line arguments to process.
      */
-    private static void processArgs(String[] args)
-    {
-        if (args == null)
+    private static void processArgs(String[] args) {
+        if (args == null) {
             return;
+        }
 
-        for (int i = 0; i < args.length; i++)
-        {
+        for (int i = 0; i < args.length; i++) {
             String arg = args[i];
-            if ("-d".equals(arg))
-            {
-                if (i + 1 < args.length)
-                {
+            if ("-d".equals(arg)) {
+                if (i + 1 < args.length) {
                     SVNTests.rootDirectoryName = args[++i];
                 }
-            }
-            else if ("-u".equals(arg))
-            {
-                if (i + 1 < args.length)
-                {
+            } else if ("-u".equals(arg)) {
+                if (i + 1 < args.length) {
                     SVNTests.rootUrl = args[++i];
                 }
             }
