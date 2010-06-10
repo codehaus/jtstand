@@ -157,6 +157,14 @@ class UsbDevice extends Structure{
         //        print ' '
         //        print num_children
         println ''
+
+        print "  bDeviceClass:         "
+        println 0xff & descriptor.bDeviceClass
+        print "  bDeviceSubClass:      "
+        println 0xff & descriptor.bDeviceSubClass
+        print "  bDeviceProtocol:      "
+        println 0xff & descriptor.bDeviceProtocol
+
         if(config != null){
             Structure.updateStructureByReference(UsbConfigDescriptor, null, config)?.print()
         }
