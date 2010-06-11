@@ -15,17 +15,17 @@
  * blacklist ftdi_sio
 
  * */
-//"USB0::0x0699::0x0401::C000580::INSTR"
-//bus-0/\\.\libusb0-0012--0x0699-0x0401     0699/0401
-//- Manufacturer : Tektronix
-//- Product      : MSO4034
-//- Serial Number: C000580
+//Device: \\.\libusb0-0001--0x0699-0x0401 #1 USB0::0x0699::0x0401::C000580::INSTR Tektronix::MSO4034
+//  bDeviceClass:         0
+//  bDeviceSubClass:      0
+//  bDeviceProtocol:      0
 //  wTotalLength:         39
 //  bNumInterfaces:       1
 //  bConfigurationValue:  1
 //  iConfiguration:       2
-//  bmAttributes:         c0h
+//  bmAttributes:         0xc0
 //  MaxPower:             50
+//Interface:
 //    bInterfaceNumber:   0
 //    bAlternateSetting:  0
 //    bNumEndpoints:      3
@@ -33,20 +33,20 @@
 //    bInterfaceSubClass: 3
 //    bInterfaceProtocol: 1
 //    iInterface:         4
-//      bEndpointAddress: 01h
-//      bmAttributes:     02h
+//      bEndpointAddress: 0x1
+//      bmAttributes:     0x2
 //      wMaxPacketSize:   512
 //      bInterval:        1
 //      bRefresh:         0
 //      bSynchAddress:    0
-//      bEndpointAddress: 82h
-//      bmAttributes:     02h
+//      bEndpointAddress: 0x82
+//      bmAttributes:     0x2
 //      wMaxPacketSize:   512
 //      bInterval:        1
 //      bRefresh:         0
 //      bSynchAddress:    0
-//      bEndpointAddress: 83h
-//      bmAttributes:     03h
+//      bEndpointAddress: 0x83
+//      bmAttributes:     0x3
 //      wMaxPacketSize:   2
 //      bInterval:        2
 //      bRefresh:         0
