@@ -7,6 +7,7 @@ package com.jtstand.usb
 import com.sun.jna.Structure
 import com.sun.jna.Pointer
 import com.sun.jna.Native
+import com.sun.jna.Platform
 
 /**
  *
@@ -14,8 +15,12 @@ import com.sun.jna.Native
  */
 
 class UsbBus extends Structure {
+
     public UsbBus(){
         super()
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
+        }
     }
     /**
      * struct usb_bus *next;
@@ -46,18 +51,36 @@ class UsbBus extends Structure {
         (prev==null)?0:1+Structure.updateStructureByReference(UsbBus, null, prev).getIndex()
     }
 
+    UsbDevice findSerialNumber(String sn){
+        if(devices != null){
+            UsbDevice device=Structure.updateStructureByReference(UsbDevice, null, devices)
+            device = device?.findSerialNumber(sn)
+            if(device != null){
+                return device
+            }
+        }
+        if(next != null){
+            return Structure.updateStructureByReference(UsbBus, null, next).findSerialNumber(sn)
+        }
+        return null;
+    }
+
     def print(){
         println 'Bus: ' + Native.toString(dirname) + '@' + getIndex()
-        //        println this
-        //        if(root_dev != null){
-        //            Structure.updateStructureByReference(UsbDevice, null, root_dev)?.print()
-        //        }
         if(devices != null){
-            Structure.updateStructureByReference(UsbDevice, null, devices)?.print()
+            Structure.updateStructureByReference(UsbDevice, null, devices)?.printDevices()
         }
+    }
+
+    def printBusses(){
+        print()
         if(next!=null){
-            Structure.updateStructureByReference(UsbBus, null, next)?.print()
+            Structure.updateStructureByReference(UsbBus, null, next)?.printBusses()
         }
+    }
+
+    static UsbBus getBusses(){
+        (new Usb()).getBusses()
     }
 }
 

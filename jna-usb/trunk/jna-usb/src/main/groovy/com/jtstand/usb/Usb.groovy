@@ -3,7 +3,7 @@
  * and open the template in the editor.
  *
  * put chmod o+w -R /dev/bus/usb into /etc/init.d/rc shell script!
- * 
+ *
  * modprobe -r ftdi-sio
  *
  * sudo gedit /etc/modprobe.d/blacklist
@@ -81,6 +81,7 @@ class Usb {
     static final byte USB_CLASS_MASS_STORAGE = 8
     static final byte USB_CLASS_HUB = 9
     static final byte USB_CLASS_DATA = 10
+    static final byte USB_CLASS_APP_SPEC = (byte)0xfe
     static final byte USB_CLASS_VENDOR_SPEC = (byte)0xff
     /*
      * Descriptor types
@@ -150,14 +151,17 @@ class Usb {
     static final byte USB_ENDPOINT_OUT = 0x00
     /* Error codes */
     static final int USB_ERROR_BEGIN = 500000
-    
+
     static public NativeLibrary libusb = NativeLibrary.getInstance(Platform.isWindows() ? "libusb0" : "usb-0.1")
 
     Usb(){
         usb_init()
     }
 
-    def getBusses(){
+    UsbBus getBusses(){
+        usb_set_debug(0)
+        usb_find_busses()
+        usb_find_devices()
         return usb_get_busses()
     }
 

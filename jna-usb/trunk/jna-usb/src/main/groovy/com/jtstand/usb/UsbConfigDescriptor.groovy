@@ -59,9 +59,14 @@ class UsbConfigDescriptor extends Structure{
     public int extralen;
 
     UsbConfigDescriptor(){
+        super()
         if(Platform.isWindows()){
             setAlignType(Structure.ALIGN_NONE)
         }
+    }
+
+    UsbInterface[] getInterfaces(){
+        ((bNumInterfaces == 0) || (interf==null)) ? null : Structure.updateStructureByReference(UsbInterface, null, interf)?.toArray(bNumInterfaces)
     }
 
     def print(){
@@ -77,11 +82,8 @@ class UsbConfigDescriptor extends Structure{
         println Integer.toHexString(0xff & bmAttributes)
         print "  MaxPower:             "
         println 0xff & MaxPower
-        if(bNumInterfaces > 0){
-            if(interf!=null){
-                Structure.updateStructureByReference(UsbInterface, null, interf)?.toArray(bNumInterfaces).each({it.print()})
-            }
-        }
+
+        getInterfaces()?.each({it.print()})
     }
 }
 

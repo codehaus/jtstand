@@ -5,6 +5,7 @@
 
 package com.jtstand.usb
 import com.sun.jna.Structure
+import com.sun.jna.Platform
 
 /**
  *
@@ -66,5 +67,12 @@ class UsbDeviceDescriptor extends Structure{
     /**
      * uint8_t bNumConfigurations;
      */
-    public byte bNumConfigurations;	
+    public byte bNumConfigurations;
+
+    UsbDeviceDescriptor(){
+        super()
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
+        }
+    }
 }

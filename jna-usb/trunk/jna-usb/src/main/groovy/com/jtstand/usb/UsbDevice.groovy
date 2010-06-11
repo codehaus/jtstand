@@ -64,6 +64,7 @@ class UsbDevice extends Structure{
     public Pointer children
 
     UsbDevice(){
+        super()
         if(Platform.isWindows()){
             setAlignType(Structure.ALIGN_NONE)
         }
@@ -72,6 +73,10 @@ class UsbDevice extends Structure{
     Pointer open(){
         usb_open(getPointer())
     }
+
+    //    static close(Pointer udev){
+    //        usb_close(udev)
+    //    }
 
     def methodMissing(String name, args) {
         //println "UsbDevice methodMissing: $name, with args: $args"
@@ -114,6 +119,13 @@ class UsbDevice extends Structure{
         return null
     }
 
+    String getSerialNumber(){
+        Pointer udev=open()
+        String sn=(udev==null)?null:getSerialNumber(udev)
+        usb_close(udev)
+        return sn
+    }
+
     String getSerialNumber(Pointer udev){
         if(descriptor.iSerialNumber!=null){
             byte[] sn = new byte[256]
@@ -137,6 +149,16 @@ class UsbDevice extends Structure{
             return '0' + Integer.toHexString(i)
         }
         return Integer.toHexString(i)
+    }
+
+    UsbDevice findSerialNumber(String sn){
+        if(sn.equals(getSerialNumber())){
+            return this
+        }
+        if(next != null){
+            return Structure.updateStructureByReference(UsbDevice, null, next).findSerialNumber(sn)
+        }
+        return null
     }
 
     def print(){
@@ -165,15 +187,17 @@ class UsbDevice extends Structure{
         print "  bDeviceProtocol:      "
         println 0xff & descriptor.bDeviceProtocol
 
-        if(config != null){
-            Structure.updateStructureByReference(UsbConfigDescriptor, null, config)?.print()
-        }
-        //        if(num_children>0){
-        //            print this
-        //            children?.getPointerArray(0, num_children)?.each({Structure.updateStructureByReference(UsbDevice, this, it)?.print()})
-        //        }
-        if(next!=null){
-            Structure.updateStructureByReference(UsbDevice, null, next)?.print()
+        getConfigDescriptor()?.print()
+    }
+
+    UsbConfigDescriptor getConfigDescriptor(){
+        (config==null) ? null : Structure.updateStructureByReference(UsbConfigDescriptor, null, config)
+    }
+
+    def printDevices(){
+        print()
+        if(next != null){
+            Structure.updateStructureByReference(UsbDevice, null, next)?.printDevices()
         }
     }
 

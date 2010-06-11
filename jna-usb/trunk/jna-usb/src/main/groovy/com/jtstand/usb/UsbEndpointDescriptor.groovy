@@ -6,6 +6,7 @@
 package com.jtstand.usb
 import com.sun.jna.Structure
 import com.sun.jna.ptr.ByteByReference
+import com.sun.jna.Platform
 
 /**
  *
@@ -53,13 +54,20 @@ class UsbEndpointDescriptor extends Structure{
      */
     public int extralen;
 
+    UsbEndpointDescriptor(){
+        super()
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
+        }
+    }
+
     def print(){
         print "      bEndpointAddress: 0x"
         println Integer.toHexString(0xff & bEndpointAddress)
         print "      bmAttributes:     0x"
         println Integer.toHexString(0xff & bmAttributes)
         print "      wMaxPacketSize:   "
-        println 0xff & wMaxPacketSize
+        println 0xffff & wMaxPacketSize
         print "      bInterval:        "
         println 0xff & bInterval
         print "      bRefresh:         "

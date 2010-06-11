@@ -64,9 +64,14 @@ class UsbInterfaceDescriptor extends Structure{
     public int extralen
 
     UsbInterfaceDescriptor(){
+        super()
         if(Platform.isWindows()){
             setAlignType(Structure.ALIGN_NONE)
         }
+    }
+
+    UsbEndpointDescriptor[] getUsbEndpointDescriptors(){
+        ((bNumEndpoints==0)||(endpoint == null)) ? null : Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint)?.toArray(bNumEndpoints)
     }
 
     def print(){
@@ -86,19 +91,20 @@ class UsbInterfaceDescriptor extends Structure{
         print "    iInterface:         "
         println 0xff & iInterface
 
-        if(bNumEndpoints > 0){
-            if(endpoint != null){
-                if(bNumEndpoints > 1){
-                    UsbEndpointDescriptor[] descriptors=Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint)?.toArray(bNumEndpoints)
-                    for(int i=0;i<bNumEndpoints;i++){
-                        println 'Endpoint #'+ i
-                        descriptors[i].print()
-                    }
-                }else{
-                    Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint).print()
-                }
-            }
-        }
+        //        if(bNumEndpoints > 0){
+        //            if(endpoint != null){
+        //                if(bNumEndpoints > 1){
+        //                    UsbEndpointDescriptor[] descriptors=Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint)?.toArray(bNumEndpoints)
+        //                    for(int i=0;i<bNumEndpoints;i++){
+        //                        println 'Endpoint #'+ i
+        //                        descriptors[i].print()
+        //                    }
+        //                }else{
+        //                    Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint).print()
+        //                }
+        //            }
+        //        }
+        getUsbEndpointDescriptors()?.each({it.print()})
     }
 }
 

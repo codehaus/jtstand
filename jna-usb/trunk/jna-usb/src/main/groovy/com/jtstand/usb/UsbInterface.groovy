@@ -22,20 +22,32 @@ class UsbInterface extends Structure{
      */
     public int num_altsetting
 
-    def print(){
-        if(num_altsetting > 0){
-            if(altsetting != null){
-                if(num_altsetting > 1){
-                    UsbInterfaceDescriptor[] descriptors=Structure.updateStructureByReference(UsbInterfaceDescriptor, null, altsetting)?.toArray(num_altsetting)
-                    for(int i=0;i<num_altsetting;i++){
-                        println 'altsetting #'+ i
-                        descriptors[i].print()
-                    }
-                }else{
-                    Structure.updateStructureByReference(UsbInterfaceDescriptor, null, altsetting).print()
-                }
-            }
+    UsbInterface(){
+        super()
+        if(Platform.isWindows()){
+            setAlignType(Structure.ALIGN_NONE)
         }
+    }
+
+    UsbInterfaceDescriptor[] getUsbInterfaceDescriptors(){
+        ((num_altsetting==0)||(altsetting==null))?null:Structure.updateStructureByReference(UsbInterfaceDescriptor, null, altsetting)?.toArray(num_altsetting)
+    }
+
+    def print(){
+//        if(num_altsetting > 0){
+//            if(altsetting != null){
+//                if(num_altsetting > 1){
+//                    UsbInterfaceDescriptor[] descriptors=Structure.updateStructureByReference(UsbInterfaceDescriptor, null, altsetting)?.toArray(num_altsetting)
+//                    for(int i=0;i<num_altsetting;i++){
+//                        println 'altsetting #'+ i
+//                        descriptors[i].print()
+//                    }
+//                }else{
+//                    Structure.updateStructureByReference(UsbInterfaceDescriptor, null, altsetting).print()
+//                }
+//            }
+//        }
+        getUsbInterfaceDescriptors()?.each({it.print()})
     }
 }
 
