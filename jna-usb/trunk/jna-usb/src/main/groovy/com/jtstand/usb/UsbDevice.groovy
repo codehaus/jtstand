@@ -120,8 +120,11 @@ class UsbDevice extends Structure{
     }
 
     String getSerialNumber(){
-        Pointer udev=open()
-        String sn=(udev==null)?null:getSerialNumber(udev)
+        Pointer udev = open()
+        if(udev == null){
+            return null;
+        }
+        String sn = getSerialNumber(udev)
         usb_close(udev)
         return sn
     }
