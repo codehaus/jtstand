@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +24,14 @@ public final class IntelHex {
     Memory last = null;
     int extendedAddress = 0;
     boolean endOfFile = false;
+
+    public static byte parseHexByte(String str) {
+        return (byte) Integer.parseInt(str, 16);
+    }
+
+    public static byte parseHexByte(String str, int beginIndex) {
+        return (byte) Integer.parseInt(str.substring(beginIndex, beginIndex + 2), 16);
+    }
 
     //public byte readByte(uint offset)
     //{
@@ -68,10 +78,10 @@ public final class IntelHex {
                 byte sum = (byte) (6 + extAddress + (extAddress >> 8));
                 sum = (byte) (0 - sum);
                 f.format(":02000004");
-                f.format("%04X\n}", extAddress);
+                f.format("%04X", extAddress);
                 f.format("%02X\n", sum);
             }
-            segment.writeMemoryHex(f);
+            segment.write(f);
         }
         f.format(":00000001FF\n");
     }
@@ -84,7 +94,8 @@ public final class IntelHex {
         if (endOfFile) {
             return;
         }
-        String recordType = line.substring(7, 2);
+        System.out.println(line);
+        String recordType = line.substring(7, 9);
         if ("00".equals(recordType)) {
             //Data Records
             //
@@ -191,13 +202,13 @@ public final class IntelHex {
             processLine(line);
         }
         if (startAddress != null) {
-            System.out.println("Start address: " + Integer.toString(startAddress, 16));
+            System.out.println("Start address: 0x" + Integer.toString(startAddress, 16));
         }
         System.out.println("Number of segments: " + memorySegments.size());
         int i = 0;
         for (Memory mem : memorySegments) {
             System.out.print("Segment[" + i + "]:");
-            System.out.print(" Address: " + mem.address);
+            System.out.print(" Address: 0x" + Integer.toString(mem.address, 16));
             System.out.println(" Length: " + mem.data.length);
             i++;
         }
@@ -207,8 +218,8 @@ public final class IntelHex {
         if (!line.startsWith(":02000004")) {
             throw new IllegalArgumentException("Illegal Extended Linear Address Record line received: " + line);
         }
-        int address = Integer.parseInt(line.substring(9, 4), 16);
-        if (0 != (byte) (6 + address + (address >> 8) + Byte.parseByte(line.substring(13, 2), 16))) {
+        int address = Integer.parseInt(line.substring(9, 13), 16);
+        if (0 != (byte) (6 + address + (address >> 8) + parseHexByte(line, 13))) {
             throw new IllegalArgumentException("HexFile Extended Linear Address line checksum error");
         }
         return address << 16;
@@ -218,8 +229,8 @@ public final class IntelHex {
         if (!line.startsWith(":04000005")) {
             throw new IllegalArgumentException("Illegal Extended Linear Address Record line received: " + line);
         }
-        int address = Integer.parseInt(line.substring(9, 8), 16);
-        if (0 != (byte) (9 + address + (address >> 8) + (address >> 16) + (address >> 24) + Byte.parseByte(line.substring(17, 2), 16))) {
+        int address = Integer.parseInt(line.substring(9, 17), 16);
+        if (0 != (byte) (9 + address + (address >> 8) + (address >> 16) + (address >> 24) + parseHexByte(line, 17))) {
             throw new IllegalArgumentException("HexFile Start Address line checksum error");
         }
         return address;
@@ -239,10 +250,10 @@ public final class IntelHex {
         if (!line.startsWith(":")) {
             throw new IllegalArgumentException("HexFile line does not start with colon: " + line);
         }
-        byte length = Byte.parseByte(line.substring(1, 2), 16);
+        byte length = parseHexByte(line, 1);
         byte sum = length;
 
-        int lineAddress = Integer.parseInt(line.substring(3, 4), 16);
+        int lineAddress = Integer.parseInt(line.substring(3, 7), 16);
         sum += (byte) lineAddress;
         sum += (byte) (lineAddress >> 8);
 
@@ -250,17 +261,28 @@ public final class IntelHex {
 
         int i;
         for (i = 0; i < length; i++) {
-            hexLineDataBytes[i] = Byte.parseByte(line.substring(9 + 2 * i, 2), 16);
+            hexLineDataBytes[i] = parseHexByte(line, 9 + 2 * i);
             sum += hexLineDataBytes[i];
         }
 
         //checksum
-        sum += Byte.parseByte(line.substring(9 + 2 * i, 2), 16);
+        sum += parseHexByte(line, 9 + 2 * i);
 
         if (sum != 0) {
             throw new IllegalArgumentException("HexFile Data Record line checksum error");
         }
 
         return new Memory(lineAddress, hexLineDataBytes);
+    }
+
+    public static void main(String[] args) {
+        try {
+            IntelHex hex = new IntelHex("C:\\Projects\\MEDERI\\RTX\\RFM_FW_HUNTSVILLE\\Obj\\RFM_APP.hex");
+            hex.write(new Formatter(System.out));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(IntelHex.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(IntelHex.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

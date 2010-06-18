@@ -34,7 +34,7 @@ public class Memory {
         data = newdata;
     }
 
-    public void writeMemoryHex(Formatter f) {
+    public void write(Formatter f) {
         int i = 0;
         while (i < data.length) {
             f.format(":");
@@ -58,6 +58,6 @@ public class Memory {
 
     public static void main(String[] args) {
         Memory m = new Memory(0x8000000, new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
-        m.writeMemoryHex(new Formatter(System.out));
+        m.write(new Formatter(System.out));
     }
 }
