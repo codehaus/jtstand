@@ -11,6 +11,7 @@ import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,13 +33,15 @@ public class ArmUsartProgrammer {
         this.serialPortString = serialPortString;
         open();
         sp.setRTS(false); //activate System Memory Boot Mode
-        while (!initOK()) {
-            System.out.println("Press Reset button on device and then hit <Enter>!");
+        if (!isPresent()) {
+            System.out.println("Press the reset!");
+            if (!isPresent()) {
+                throw new IllegalStateException("Cannot communicate with target");
+            }
         }
-        close();
     }
 
-    public int read(long time) throws IOException {
+    private int read(long time) throws IOException {
         long timeout = time + System.currentTimeMillis();
         while (System.currentTimeMillis() < timeout) {
             if (sp.getInputStream().available() > 0) {
@@ -48,22 +51,20 @@ public class ArmUsartProgrammer {
         throw new IOException("Timeout");
     }
 
-    private boolean initOK() {
+    private boolean isPresent() {
         int inch;
 
         try {
             sp.getOutputStream().write(new byte[]{0x7f}, 0, 1);
             inch = read(50);
+            if (0x79 == inch) {
+                readId();
+                return true;
+            }
         } catch (IOException e) {
             System.out.println(e);
-            return false;
         }
-        if (0x79 == inch) {
-            doID();
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     private void close() {
@@ -85,7 +86,7 @@ public class ArmUsartProgrammer {
         sp.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
     }
 
-    public void writeUInt5(int num) throws IOException {
+    private void write5(int num) throws IOException {
         byte[] retval = new byte[5];
         retval[0] = (byte) (num >> 24);
         retval[1] = (byte) (num >> 16);
@@ -96,44 +97,44 @@ public class ArmUsartProgrammer {
         sp.getOutputStream().flush();
     }
 
-    public void writeUInt1(int num) throws IOException {
+    private void write1(int num) throws IOException {
         byte[] retval = new byte[1];
         retval[0] = (byte) num;
         sp.getOutputStream().write(retval);
         sp.getOutputStream().flush();
     }
 
-    public boolean doEraseWriteVerifyMemory(IntelHex hexFile) {
-        return doErase() && doWriteMemory(hexFile) && doVerifyMemory(hexFile);
+    public boolean eraseWriteVerify(IntelHex hexFile) {
+        return erase() && write(hexFile) && verify(hexFile);
     }
 
-    public boolean doWriteMemory(IntelHex hexFile) {
+    public boolean write(IntelHex hexFile) {
+        System.out.println(serialPortString + " WRITE...");
         for (Memory mem : hexFile.memorySegments) {
-            if (!doWriteMemory(mem)) {
-                close();
+            if (!write(mem)) {
+                return false;
+            }
+        }
+        System.out.println(serialPortString + " WRITE done.");
+        return true;
+    }
+
+    public boolean verify(IntelHex hexFile) {
+        for (Memory mem : hexFile.memorySegments) {
+            if (!verify(mem)) {
                 return false;
             }
         }
         return true;
     }
 
-    public boolean doVerifyMemory(IntelHex hexFile) {
-        for (Memory mem : hexFile.memorySegments) {
-            if (!doVerifyMemory(mem)) {
-                close();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean doWriteMemory(Memory mem) {
+    private boolean write(Memory mem) {
         int remainingLength = mem.data.length;
         int address = mem.address;
-        System.out.println("Writing memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
+        System.out.println(serialPortString + " Writing memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
         for (int offset = 0; remainingLength > 0;) {
             int length = (remainingLength > 256) ? 256 : remainingLength;
-            if (!doWriteMemory(address, mem.data, offset, length)) {
+            if (!write(address, mem.data, offset, length)) {
                 return false;
             }
             offset += length;
@@ -143,13 +144,13 @@ public class ArmUsartProgrammer {
         return true;
     }
 
-    public boolean doVerifyMemory(Memory mem) {
+    private boolean verify(Memory mem) {
         int remainingLength = mem.data.length;
         int address = mem.address;
-        System.out.println("Verify memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
+        System.out.println(serialPortString + " Verify memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
         for (int offset = 0; remainingLength > 0;) {
             int length = (remainingLength > 256) ? 256 : remainingLength;
-            if (!doVerifyMemory(address, mem.data, offset, length)) {
+            if (!verify(address, mem.data, offset, length)) {
                 return false;
             }
             offset += length;
@@ -159,26 +160,26 @@ public class ArmUsartProgrammer {
         return true;
     }
 
-    public boolean doWriteMemory(int address, byte[] data, int offset, int length) {
+    private boolean write(int address, byte[] data, int offset, int length) {
         try {
             if (length < 1 || length > 256) {
                 throw new IllegalArgumentException("Length should be between 1 and 256 bytes");
             }
-            System.out.println("Writing memory at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(length));
+            System.out.println(serialPortString + " Writing memory at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(length));
             sp.getOutputStream().write(new byte[]{(byte) 0x31, (byte) 0xce});
             sp.getOutputStream().flush();
-            if (ACK == read(25)) {
-                writeUInt5(address);
-                if (ACK == read(25)) {
-                    writeUInt1(length - 1);
+            if (ACK == read(100)) {
+                write5(address);
+                if (ACK == read(100)) {
+                    write1(length - 1);
                     sp.getOutputStream().write(data, offset, length);
                     sp.getOutputStream().flush();
                     int checksum = length - 1;
                     for (int i = 0; i < length; i++) {
                         checksum ^= data[offset + i];
                     }
-                    writeUInt1(checksum);
-                    if (ACK == read(25)) {
+                    write1(checksum);
+                    if (ACK == read(500)) {
                         return true;
                     }
                 }
@@ -189,27 +190,27 @@ public class ArmUsartProgrammer {
         return false;
     }
 
-    public boolean doVerifyMemory(int address, byte[] data, int offset, int length) {
+    private boolean verify(int address, byte[] data, int offset, int length) {
         try {
             if (length < 1 || length > 256) {
                 throw new IllegalArgumentException("Length should be between 1 and 256 bytes");
             }
-            System.out.println("Verify memory at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(length));
+            System.out.println(serialPortString + " Verify memory at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(length));
             sp.getOutputStream().write(new byte[]{(byte) 0x11, (byte) 0xee});
             sp.getOutputStream().flush();
-            if (ACK == read(25)) {
+            if (ACK == read(100)) {
                 //System.out.println("address..");
-                writeUInt5(address);
-                if (ACK == read(25)) {
+                write5(address);
+                if (ACK == read(100)) {
                     //System.out.println("length..");
-                    writeUInt1(length - 1);
-                    writeUInt1((byte) ((length - 1) ^ 255));
-                    if (ACK == read(25)) {
+                    write1(length - 1);
+                    write1((byte) ((length - 1) ^ 255));
+                    if (ACK == read(100)) {
                         for (int i = 0; i < length; i++) {
                             //System.out.println("read..");
-                            byte data_read = (byte) read(25);
+                            byte data_read = (byte) read(100);
                             if (data_read != data[offset + i]) {
-                                System.out.println("Mismatch at address:0x" + Integer.toString(address + i, 16) + " expected:0x" + Integer.toString(data[offset + i], 16) + " received:0x" + Integer.toString(data_read, 16));
+                                System.out.println("Mismatch at address:0x" + Integer.toString(address + i, 16) + " expected:0x" + Integer.toString(0xff & data[offset + i], 16) + " received:0x" + Integer.toString(0xff & data_read, 16));
                                 return false;
                             }
                         }
@@ -224,28 +225,28 @@ public class ArmUsartProgrammer {
         return false;
     }
 
-    public boolean doID() {
+    public boolean readId() {
         try {
             sp.getOutputStream().write(new byte[]{(byte) 0, (byte) 0xff});
             sp.getOutputStream().flush();
-            if (ACK == read(25)) {
-                byte nr = (byte) read(25);
-                System.out.println("Number of bytes:" + nr);
-                version = (byte) read(25);
-                System.out.println("Booloader version: 0x" + Integer.toString(version, 16));
+            if (ACK == read(100)) {
+                byte nr = (byte) read(100);
+                //System.out.println("Number of bytes:" + nr);
+                version = (byte) read(100);
+                System.out.println(serialPortString + " Booloader version: 0x" + Integer.toString(0xff & version, 16));
                 id = new byte[nr];
                 for (int i = 0; i < nr; i++) {
-                    id[i] = (byte) read(25);
+                    id[i] = (byte) read(100);
                 }
-                if (ACK == read(25)) {
-                    System.out.println("ID:");
+                if (ACK == read(100)) {
+                    String msg = serialPortString + " ID:";
                     for (int i = 0; i < nr; i++) {
                         if (i > 0) {
-                            System.out.println(",");
+                            msg += ",";
                         }
-                        System.out.println("0x" + Integer.toString(id[i], 16));
+                        msg += "0x" + Integer.toString(0xff & id[i], 16);
                     }
-                    System.out.println();
+                    System.out.println(msg);
                     return true;
                 }
             }
@@ -255,14 +256,16 @@ public class ArmUsartProgrammer {
         return false;
     }
 
-    public boolean doErase() {
+    public boolean erase() {
+        System.out.println(serialPortString + " ERASE...");
         try {
             sp.getOutputStream().write(new byte[]{(byte) 0x43, (byte) 0xbc});
             sp.getOutputStream().flush();
-            if (ACK == read(25)) {
+            if (ACK == read(100)) {
                 sp.getOutputStream().write(new byte[]{(byte) 0xff, (byte) 0});
                 sp.getOutputStream().flush();
-                if (ACK == read(25)) {
+                if (ACK == read(1000)) {
+                    System.out.println(serialPortString + " ERASE done.");
                     return true;
                 }
             }
@@ -270,5 +273,85 @@ public class ArmUsartProgrammer {
             Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    }
+
+    public static void printUsage() {
+        System.out.println("Usage:");
+        System.out.println("ERASE portlist");
+        System.out.println("or");
+        System.out.println("WRITE filename portlist");
+        System.out.println("where");
+        System.out.println("portlist for example: COM1 COM2 COM3 COM4");
+    }
+
+    public static void main(String[] args) {
+        if (args.length < 2) {
+            printUsage();
+        } else if ("ERASE".equals(args[0].toUpperCase())) {
+            for (int i = 1; i < args.length; i++) {
+                final String port = args[i];
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        ArmUsartProgrammer p = null;
+                        try {
+                            p = new ArmUsartProgrammer(port);
+                            p.erase();
+                        } catch (UnsupportedCommOperationException ex) {
+                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (PortInUseException ex) {
+                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (NoSuchPortException ex) {
+                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                        } finally {
+                            if (p != null) {
+                                p.close();
+                            }
+                        }
+                    }
+                }, port).start();
+            }
+        } else if ("WRITE".equals(args[0].toUpperCase())) {
+            if (args.length < 3) {
+                printUsage();
+            } else {
+                try {
+                    final IntelHex hex = new IntelHex(args[1]);
+                    for (int i = 2; i < args.length; i++) {
+                        final String port = args[i];
+                        new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                ArmUsartProgrammer p = null;
+                                try {
+                                    p = new ArmUsartProgrammer(port);
+                                    p.write(hex);
+                                } catch (UnsupportedCommOperationException ex) {
+                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (PortInUseException ex) {
+                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                                } catch (NoSuchPortException ex) {
+                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                                } finally {
+                                    if (p != null) {
+                                        p.close();
+                                    }
+                                }
+                            }
+                        }, port).start();
+                    }
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        } else {
+            printUsage();
+        }
     }
 }
