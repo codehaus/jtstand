@@ -11,8 +11,9 @@ import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.UnsupportedCommOperationException;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -28,17 +29,13 @@ public class ArmUsartProgrammer {
     SerialPort sp;
     byte version;
     byte[] id;
+    Thread thread;
+    Boolean success = null;
 
     public ArmUsartProgrammer(String serialPortString) throws UnsupportedCommOperationException, PortInUseException, NoSuchPortException {
         this.serialPortString = serialPortString;
         open();
         sp.setRTS(false); //activate System Memory Boot Mode
-        if (!isPresent()) {
-            System.out.println("Press the reset!");
-            if (!isPresent()) {
-                throw new IllegalStateException("Cannot communicate with target");
-            }
-        }
     }
 
     private int read(long time) throws IOException {
@@ -51,20 +48,45 @@ public class ArmUsartProgrammer {
         throw new IOException("Timeout");
     }
 
+    private void flushInput() throws IOException {
+        int a = sp.getInputStream().available();
+        while (a > 0) {
+            sp.getInputStream().skip(a);
+            a = sp.getInputStream().available();
+        }
+    }
+
     private boolean isPresent() {
         int inch;
 
         try {
+            flushInput();
             sp.getOutputStream().write(new byte[]{0x7f}, 0, 1);
+            sp.getOutputStream().flush();
             inch = read(50);
             if (0x79 == inch) {
                 readId();
                 return true;
             }
         } catch (IOException e) {
-            System.out.println(e);
+            //System.out.println(e);
         }
+        System.out.println("Bootloader on " + serialPortString + " is not present");
         return false;
+    }
+
+    public static boolean arePresent(List<ArmUsartProgrammer> programmers) {
+        for (ArmUsartProgrammer programmer : programmers) {
+            if (!programmer.isPresent()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void reset() {
+        System.out.println("Reset the device and hit <Enter>!");
+        System.console().readLine();
     }
 
     private void close() {
@@ -108,14 +130,33 @@ public class ArmUsartProgrammer {
         return erase() && write(hexFile) && verify(hexFile);
     }
 
+    public void writeOffline(final IntelHex hexFile) throws InterruptedException {
+        if (thread != null) {
+            thread.join();
+        }
+        thread = new Thread(
+                new Runnable() {
+
+                    @Override
+                    public void run() {
+                        write(hexFile);
+                    }
+                },
+                serialPortString + " WRITE");
+        thread.start();
+    }
+
     public boolean write(IntelHex hexFile) {
         System.out.println(serialPortString + " WRITE...");
         for (Memory mem : hexFile.memorySegments) {
             if (!write(mem)) {
+                System.out.println(serialPortString + " WRITE failed.");
+                success = false;
                 return false;
             }
         }
         System.out.println(serialPortString + " WRITE done.");
+        success = true;
         return true;
     }
 
@@ -266,12 +307,14 @@ public class ArmUsartProgrammer {
                 sp.getOutputStream().flush();
                 if (ACK == read(1000)) {
                     System.out.println(serialPortString + " ERASE done.");
+                    success = true;
                     return true;
                 }
             }
         } catch (IOException ex) {
             Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        success = false;
         return false;
     }
 
@@ -284,70 +327,56 @@ public class ArmUsartProgrammer {
         System.out.println("portlist for example: COM1 COM2 COM3 COM4");
     }
 
+    public static List<ArmUsartProgrammer> prepareProgrammers(String[] args, int startIndex) throws UnsupportedCommOperationException, PortInUseException, NoSuchPortException {
+        List<ArmUsartProgrammer> programmers = new ArrayList<ArmUsartProgrammer>();
+        for (int i = startIndex; i < args.length; i++) {
+            programmers.add(new ArmUsartProgrammer(args[i]));
+        }
+        if (!arePresent(programmers)) {
+            reset();
+        }
+        if (!arePresent(programmers)) {
+            throw new IllegalStateException("Some Bootloaders are not present even after reset");
+        }
+        return programmers;
+    }
+
     public static void main(String[] args) {
         if (args.length < 2) {
             printUsage();
         } else if ("ERASE".equals(args[0].toUpperCase())) {
-            for (int i = 1; i < args.length; i++) {
-                final String port = args[i];
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        ArmUsartProgrammer p = null;
-                        try {
-                            p = new ArmUsartProgrammer(port);
-                            p.erase();
-                        } catch (UnsupportedCommOperationException ex) {
-                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (PortInUseException ex) {
-                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (NoSuchPortException ex) {
-                            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                        } finally {
-                            if (p != null) {
-                                p.close();
-                            }
-                        }
+            try {
+                List<ArmUsartProgrammer> programmers = prepareProgrammers(args, 1);
+                for (ArmUsartProgrammer p : programmers) {
+                    if (!p.erase()) {
+                        throw new Exception("Erase on " + p.serialPortString + " could not succeed");
                     }
-                }, port).start();
+                }
+                System.exit(0);
+            } catch (Exception ex) {
+                Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                System.exit(1);
             }
         } else if ("WRITE".equals(args[0].toUpperCase())) {
             if (args.length < 3) {
                 printUsage();
             } else {
                 try {
-                    final IntelHex hex = new IntelHex(args[1]);
-                    for (int i = 2; i < args.length; i++) {
-                        final String port = args[i];
-                        new Thread(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                ArmUsartProgrammer p = null;
-                                try {
-                                    p = new ArmUsartProgrammer(port);
-                                    p.write(hex);
-                                } catch (UnsupportedCommOperationException ex) {
-                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (PortInUseException ex) {
-                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                                } catch (NoSuchPortException ex) {
-                                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                                } finally {
-                                    if (p != null) {
-                                        p.close();
-                                    }
-                                }
-                            }
-                        }, port).start();
+                    List<ArmUsartProgrammer> programmers = prepareProgrammers(args, 2);
+                    final IntelHex hexFile = new IntelHex(args[1]);
+                    for (ArmUsartProgrammer p : programmers) {
+                        p.writeOffline(hexFile);
                     }
-                } catch (FileNotFoundException ex) {
+                    for (ArmUsartProgrammer p : programmers) {
+                        p.thread.join();
+                        if (!p.success) {
+                            throw new Exception("Write on " + p.serialPortString + " could not succeed");
+                        }
+                    }
+                    System.exit(0);
+                } catch (Exception ex) {
                     Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                    System.exit(1);
                 }
             }
         } else {
