@@ -76,9 +76,9 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.groovy.maven.runtime</groupId>
-            <artifactId>gmaven-runtime-1.6</artifactId>
-            <version>1.0</version>
+            <groupId>org.codehaus.gmaven.runtime</groupId>
+            <artifactId>gmaven-runtime-1.7</artifactId>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>net.java.dev.jna</groupId>
@@ -90,6 +90,11 @@
             <artifactId>junit</artifactId>
             <version>3.8.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>1.7.3</version>
         </dependency>
     </dependencies>
     <properties>
