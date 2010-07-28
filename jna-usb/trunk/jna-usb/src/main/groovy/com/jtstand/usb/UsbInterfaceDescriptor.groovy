@@ -8,6 +8,8 @@ import com.sun.jna.Structure
 import com.sun.jna.ptr.ByteByReference
 import com.sun.jna.Pointer
 import com.sun.jna.Platform
+import com.sun.jna.Function
+
 /**
  *
  * @author albert_kurucz
@@ -72,6 +74,27 @@ class UsbInterfaceDescriptor extends Structure{
 
     UsbEndpointDescriptor[] getUsbEndpointDescriptors(){
         ((bNumEndpoints==0)||(endpoint == null)) ? null : Structure.updateStructureByReference(UsbEndpointDescriptor, null, endpoint)?.toArray(bNumEndpoints)
+    }
+
+    void open(Pointer handle){
+        int error;
+        if(0 != (error = usb_claim_interface(handle, bInterfaceNumber)))
+        {
+            throw new IllegalStateException("Cannot claim interface (error "+error+")")
+        }
+        if(0 != (error = usb_set_altinterface(handle, bAlternateSetting)))
+        {
+            throw new IllegalStateException("Cannot set alternate setting (error "+error+")")
+        }
+    }
+
+    def methodMissing(String name, args) {
+        //println "UsbDevice methodMissing: $name, with args: $args"
+        Function f = Usb.libusb.getFunction(name)
+        if (f == null) {
+            throw new MissingMethodException(name, getClass(), args)
+        }
+        f.invokeInt(args)
     }
 
     def print(){

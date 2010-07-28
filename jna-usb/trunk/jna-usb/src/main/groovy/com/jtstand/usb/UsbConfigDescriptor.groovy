@@ -8,6 +8,8 @@ import com.sun.jna.Pointer
 import com.sun.jna.ptr.ByteByReference
 import com.sun.jna.Structure
 import com.sun.jna.Platform
+import com.sun.jna.Function
+
 /**
  *
  * @author albert
@@ -63,6 +65,23 @@ class UsbConfigDescriptor extends Structure{
         if(Platform.isWindows()){
             setAlignType(Structure.ALIGN_NONE)
         }
+    }
+
+    void open(Pointer handle){
+        int error;
+        if(0 != (error = usb_set_configuration(handle, bConfigurationValue)))
+        {
+            throw new IllegalStateException("Cannot set configuration (error "+error+")")
+        }
+    }
+
+    def methodMissing(String name, args) {
+        //println "UsbDevice methodMissing: $name, with args: $args"
+        Function f = Usb.libusb.getFunction(name)
+        if (f == null) {
+            throw new MissingMethodException(name, getClass(), args)
+        }
+        f.invokeInt(args)
     }
 
     UsbInterface[] getInterfaces(){
