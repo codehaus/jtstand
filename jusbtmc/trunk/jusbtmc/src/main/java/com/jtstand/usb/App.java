@@ -7,7 +7,8 @@ package com.jtstand.usb;
 public class App {
 
     public static void main(String[] args) {
-        UsbtmcDevice dev = new UsbtmcDevice("C000580");
+        UsbtmcDevice dev = UsbtmcDevice.findSerialNumber("MY49520107");
         dev.device.print();
+        dev.send("*IDN?\n");
     }
 }
