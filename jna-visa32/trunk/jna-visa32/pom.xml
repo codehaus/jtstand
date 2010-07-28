@@ -83,7 +83,7 @@
         <dependency>
             <groupId>net.java.dev.jna</groupId>
             <artifactId>jna</artifactId>
-            <version>3.2.2</version>
+            <version>3.2.7</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -97,6 +97,12 @@
             <version>1.7.3</version>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>javanet</id>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+    </repositories>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

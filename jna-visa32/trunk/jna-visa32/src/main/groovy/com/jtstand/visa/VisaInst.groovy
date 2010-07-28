@@ -17,9 +17,10 @@ class VisaInst {
     boolean loggingEnabled=false;
 
     VisaInst(def base, int sesn){
+        println "VisaInst init..."
         setBase(base)
         setSesn(sesn)
-        //println "VisaInst init..."
+        
         //...
     }
 
@@ -43,6 +44,14 @@ class VisaInst {
         base."$name"
     }
 
+    void writeBytes(byte[] outputString) {
+        IntByReference retCount = new IntByReference()
+        def status = viWrite(sesn, outputString, outputString.size(), retCount)
+        if(status != 0){
+            throw new IllegalStateException("write '$outputString': viWrite ERROR: " + toStatusString(status))
+        }
+    }
+
     void write(String outputString) {
         if(loggingEnabled){
             println "<" + outputString
@@ -54,8 +63,42 @@ class VisaInst {
         }
     }
 
+    void setAttributeInt(int attribute, int value){
+        def status = viSetAttributeInt(sesn, attribute, value)
+        if(status != 0){
+            throw new IllegalStateException("viSetAttributeInt ERROR: " + toStatusString(status))
+        }
+    }
+
+    void setAttributeString(int attribute, String value){
+        def status = viSetAttributeString(sesn, attribute, value)
+        if(status != 0){
+            throw new IllegalStateException("viSetAttributeString ERROR: " + toStatusString(status))
+        }
+    }
+
     String read(){
         read(1024)
+    }
+
+    String readMax(int count, int max){
+        byte[] buff = new byte[count]
+        IntByReference retCount = new IntByReference()
+        int pos=0;
+        while(count>0)
+        {
+            byte[] b=new byte[MAX_READ];
+            def status = viRead((int)sesn, b, Math.min(MAX_READ, count), retCount)
+            if (status != 0 &&
+                status != VI_SUCCESS_TERM_CHAR &&
+                status != VI_SUCCESS_MAX_CNT) {
+                throw new IllegalStateException("viRead ERROR: " + toStatusString(status))
+            }
+            System.arraycopy(b, 0, buff, pos, retCount.getValue());
+            count-=retCount.getValue();
+            pos+=retCound.getValue();
+        }
+        Native.toString(buff)
     }
 
     String read(int count){
