@@ -63,19 +63,12 @@ class VisaInst {
         }
     }
 
-    void setAttributeInt(int attribute, int value){
-        def status = viSetAttributeInt(sesn, attribute, value)
+    void setAttribute(int attribute, int value){
+        def status = viSetAttribute(sesn, attribute, value)
         if(status != 0){
-            throw new IllegalStateException("viSetAttributeInt ERROR: " + toStatusString(status))
+            throw new IllegalStateException("viSetAttribute ERROR: " + toStatusString(status))
         }
-    }
-
-    void setAttributeString(int attribute, String value){
-        def status = viSetAttributeString(sesn, attribute, value)
-        if(status != 0){
-            throw new IllegalStateException("viSetAttributeString ERROR: " + toStatusString(status))
-        }
-    }
+    }    
 
     String read(){
         read(1024)
