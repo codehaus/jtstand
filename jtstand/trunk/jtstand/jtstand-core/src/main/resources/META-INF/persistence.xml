@@ -51,5 +51,11 @@
     <class>com.jtstand.TestTypeProperty</class>
     <class>com.jtstand.TestTypeReference</class>
     <class>com.jtstand.TestTypeSequenceReference</class>
+    <class>com.jtstand.ProductLimit</class>
+    <class>com.jtstand.TestFixtureLimit</class>
+    <class>com.jtstand.TestProjectLimit</class>
+    <class>com.jtstand.TestStationLimit</class>
+    <class>com.jtstand.TestStepLimit</class>
+    <class>com.jtstand.TestTypeLimit</class>
   </persistence-unit>
 </persistence>

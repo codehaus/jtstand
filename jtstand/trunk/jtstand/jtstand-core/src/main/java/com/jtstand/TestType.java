@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-
 import javax.persistence.*;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -39,8 +38,9 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"creator_id", "product_id", "name"}))
-@XmlType(name = "testType", propOrder = {"name", "remark", "properties", "testSequence"})
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = {"creator_id", "product_id", "name"}))
+@XmlType(name = "testType", propOrder = {"name", "remark", "properties", "testLimits", "testSequence"})
 public class TestType extends AbstractProperties implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
@@ -52,6 +52,9 @@ public class TestType extends AbstractProperties implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType")
     @OrderBy("testTypePropertyPosition ASC")
     private List<TestTypeProperty> properties = new ArrayList<TestTypeProperty>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType")
+    @OrderBy("testLimitPosition ASC")
+    private List<TestTypeLimit> testLimits = new ArrayList<TestTypeLimit>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -62,6 +65,36 @@ public class TestType extends AbstractProperties implements Serializable {
     private int testTypePosition;
     @OneToOne(cascade = CascadeType.ALL)
     private TestTypeSequenceReference testSequence;
+    private transient Object propertiesLock = new Object();
+    private transient Object testLimitsLock = new Object();
+
+    private Object readResolve() {
+        propertiesLock = new Object();
+        testLimitsLock = new Object();
+        return this;
+    }
+
+    @XmlElement(name = "limit")
+    public List<TestTypeLimit> getTestLimits() {
+        synchronized (testLimitsLock) {
+            if (testLimits == null) {
+                System.err.println("testLimits is null!");
+            }
+            return testLimits;
+        }
+    }
+
+    public void setTestLimits(List<TestTypeLimit> testLimits) {
+        this.testLimits = testLimits;
+        if (testLimits != null) {
+            for (ListIterator<TestTypeLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                TestTypeLimit testLimit = iterator.next();
+                testLimit.setTestType(this);
+                testLimit.setPosition(index);
+            }
+        }
+    }
 
     @XmlTransient
     public int getPosition() {
@@ -114,7 +147,6 @@ public class TestType extends AbstractProperties implements Serializable {
 //            return new FileRevision(newURI.toString(), revision);
 //        }
 //    }
-
 //    @XmlAttribute
 //    public String getSubversionUrl() {
 //        return subversionUrl;
@@ -148,7 +180,9 @@ public class TestType extends AbstractProperties implements Serializable {
 
     @XmlElement(name = "property")
     public List<TestTypeProperty> getProperties() {
-        return properties;
+        synchronized (propertiesLock) {
+            return properties;
+        }
     }
 
     public void setProperties(List<TestTypeProperty> properties) {

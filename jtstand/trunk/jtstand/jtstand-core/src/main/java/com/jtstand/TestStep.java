@@ -167,7 +167,7 @@ public class TestStep implements Serializable {
     private List<TestStepProperty> properties = new ArrayList<TestStepProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep")
     @OrderBy("testLimitPosition ASC")
-    private List<TestLimit> testLimits = new ArrayList<TestLimit>();
+    private List<TestStepLimit> testLimits = new ArrayList<TestStepLimit>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private StepReference stepReference;
     private int testStepPosition;
@@ -267,6 +267,13 @@ public class TestStep implements Serializable {
     private transient Object propertiesLock = new Object();
     private transient Object stepsLock = new Object();
 
+    private Object readResolve() {
+        testLimitsLock = new Object();
+        propertiesLock = new Object();
+        stepsLock = new Object();
+        return this;
+    }
+
     @XmlTransient
     public Map<String, TestStepNamePath> getNames() {
         return names;
@@ -279,15 +286,8 @@ public class TestStep implements Serializable {
         return getStepReference().getTestStep(tsi);
     }
 
-    private Object readResolve() {
-        testLimitsLock = new Object();
-        propertiesLock = new Object();
-        stepsLock = new Object();
-        return this;
-    }
-
     @XmlElement(name = "limit")
-    public List<TestLimit> getTestLimits() {
+    public List<TestStepLimit> getTestLimits() {
         synchronized (testLimitsLock) {
             if (testLimits == null) {
                 System.err.println("testLimits is null!");
@@ -296,12 +296,12 @@ public class TestStep implements Serializable {
         }
     }
 
-    public void setTestLimits(List<TestLimit> testLimits) {
+    public void setTestLimits(List<TestStepLimit> testLimits) {
         this.testLimits = testLimits;
         if (testLimits != null) {
-            for (ListIterator<TestLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+            for (ListIterator<TestStepLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
                 int index = iterator.nextIndex();
-                TestLimit testLimit = iterator.next();
+                TestStepLimit testLimit = iterator.next();
                 testLimit.setTestStep(this);
                 testLimit.setPosition(index);
             }

@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-
 import javax.persistence.*;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.*;
@@ -34,8 +33,10 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "partNumber", "partRevision"}), @UniqueConstraint(columnNames = {"testproject_id", "partNumber", "partRevision"})})
-@XmlType(name = "productType", propOrder = {"partRevision", "partNumber", "remark", "properties", "testTypes"})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"creator_id", "partNumber", "partRevision"}),
+    @UniqueConstraint(columnNames = {"testproject_id", "partNumber", "partRevision"})})
+@XmlType(name = "productType", propOrder = {"partRevision", "partNumber", "remark", "properties", "testLimits", "testTypes"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class Product extends AbstractProperties implements Serializable {
 
@@ -52,11 +53,46 @@ public class Product extends AbstractProperties implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     @OrderBy("productPropertyPosition ASC")
     private List<ProductProperty> properties = new ArrayList<ProductProperty>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OrderBy("testLimitPosition ASC")
+    private List<ProductLimit> testLimits = new ArrayList<ProductLimit>();
     @ManyToOne
     private TestProject testProject;
     @ManyToOne
     private FileRevision creator;
     private int productPosition;
+    private transient Object testLimitsLock = new Object();
+    private transient Object propertiesLock = new Object();
+    private transient Object testTypesLock = new Object();
+
+    private Object readResolve() {
+        testLimitsLock = new Object();
+        propertiesLock = new Object();
+        testTypesLock = new Object();
+        return this;
+    }
+
+    @XmlElement(name = "limit")
+    public List<ProductLimit> getTestLimits() {
+        synchronized (testLimitsLock) {
+            if (testLimits == null) {
+                System.err.println("testLimits is null!");
+            }
+            return testLimits;
+        }
+    }
+
+    public void setTestLimits(List<ProductLimit> testLimits) {
+        this.testLimits = testLimits;
+        if (testLimits != null) {
+            for (ListIterator<ProductLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                ProductLimit testLimit = iterator.next();
+                testLimit.setProduct(this);
+                testLimit.setPosition(index);
+            }
+        }
+    }
 
     @XmlTransient
     public int getPosition() {
@@ -94,7 +130,9 @@ public class Product extends AbstractProperties implements Serializable {
 
     @XmlElement(name = "testType", required = true, nillable = false)
     public List<TestType> getTestTypes() {
-        return testTypes;
+        synchronized (testTypesLock) {
+            return testTypes;
+        }
     }
 
     public void setTestTypes(List<TestType> testTypes) {
@@ -161,7 +199,9 @@ public class Product extends AbstractProperties implements Serializable {
 
     @XmlElement(name = "property")
     public List<ProductProperty> getProperties() {
-        return properties;
+        synchronized (propertiesLock) {
+            return properties;
+        }
     }
 
     public void setProperties(List<ProductProperty> properties) {

@@ -41,7 +41,7 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testTypes", "fixtures", "initSequence"})
+@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "testTypes", "fixtures", "initSequence"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStation extends AbstractVariables implements Serializable {
 
@@ -56,6 +56,9 @@ public class TestStation extends AbstractVariables implements Serializable {
     @OrderBy("testStationPropertyPosition ASC")
     private List<TestStationProperty> properties = new ArrayList<TestStationProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
+    @OrderBy("testLimitPosition ASC")
+    private List<TestStationLimit> testLimits = new ArrayList<TestStationLimit>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
     @OrderBy("testTypeReferencePosition ASC")
     private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
     @ManyToOne
@@ -69,6 +72,41 @@ public class TestStation extends AbstractVariables implements Serializable {
     private StationInitSequenceReference initSequence;
     private int testStationsPosition;
     private static EntityManagerFactory entityManagerFactory;
+    private transient Object propertiesLock = new Object();
+    private transient Object testTypesLock = new Object();
+    private transient Object testFixturesLock = new Object();
+    private transient Object testLimitsLock = new Object();
+
+    private Object readResolve() {
+        propertiesLock = new Object();
+        testTypesLock = new Object();
+        testFixturesLock = new Object();
+        testLimitsLock = new Object();
+        return this;
+    }
+
+    @XmlElement(name = "limit")
+    public List<TestStationLimit> getTestLimits() {
+        synchronized (testLimitsLock) {
+            if (testLimits == null) {
+                System.err.println("testLimits is null!");
+            }
+            return testLimits;
+        }
+    }
+
+    public void setTestLimits(List<TestStationLimit> testLimits) {
+        this.testLimits = testLimits;
+        if (testLimits != null) {
+            for (ListIterator<TestStationLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                TestStationLimit testLimit = iterator.next();
+                testLimit.setTestStation(this);
+                testLimit.setPosition(index);
+            }
+        }
+    }
+
 //    private Integer rmiPort;
 //
 //    @XmlAttribute
@@ -79,7 +117,6 @@ public class TestStation extends AbstractVariables implements Serializable {
 //    public void setRmiPort(Integer rmiPort) {
 //        this.rmiPort = rmiPort;
 //    }
-
     public EntityManager createEntityManager() {
         EntityManagerFactory theEmf = getEntityManagerFactory();
         if (theEmf == null) {
@@ -178,7 +215,9 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     @XmlElement(name = "testType")
     public List<TestTypeReference> getTestTypes() {
-        return testTypes;
+        synchronized (testTypesLock) {
+            return testTypes;
+        }
     }
 
     public void setTestTypes(List<TestTypeReference> testTypes) {
@@ -213,7 +252,9 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     @XmlElement(name = "property")
     public List<TestStationProperty> getProperties() {
-        return properties;
+        synchronized (propertiesLock) {
+            return properties;
+        }
     }
 
     public void setProperties(List<TestStationProperty> properties) {
@@ -230,7 +271,9 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     @XmlElement(name = "fixture")
     public List<TestFixture> getFixtures() {
-        return fixtures;
+        synchronized (testFixturesLock) {
+            return fixtures;
+        }
     }
 
     public void setFixtures(List<TestFixture> fixtures) {
@@ -316,7 +359,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     @Override
     public Bindings getBindings() {
         if (bindings == null) {
-            bindings =  new SimpleBindings() ;
+            bindings = new SimpleBindings();
             bindings.put("station", this);
         }
         return bindings;

@@ -24,7 +24,7 @@ import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -36,10 +36,26 @@ import java.io.OutputStream;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.CascadeType;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Query;
 import javax.script.ScriptEngineManager;
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
@@ -53,7 +69,7 @@ import javax.script.SimpleBindings;
 @Entity
 @XmlRootElement(name = "testProject")
 //@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
-@XmlType(name = "projectType", propOrder = {"remark", "properties", "authentication", "products", "testStations"})
+@XmlType(name = "projectType", propOrder = {"remark", "properties", "testLimits", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestProject extends AbstractProperties implements Serializable {
 
@@ -216,6 +232,9 @@ public class TestProject extends AbstractProperties implements Serializable {
 //    @OrderBy("testProjectClassPosition ASC")
 //    private List<TestProjectClass> classes = new ArrayList<TestProjectClass>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
+    @OrderBy("testLimitPosition ASC")
+    private List<TestProjectLimit> testLimits = new ArrayList<TestProjectLimit>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
     @OrderBy("productPosition ASC")
     private List<Product> products = new ArrayList<Product>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
@@ -227,16 +246,44 @@ public class TestProject extends AbstractProperties implements Serializable {
     private String pun;
     private String defaultHostName;
 //    private String scope;
-    private transient Object propertiesLock = new Object();
-    private transient Object productsLock = new Object();
-    private transient Object testStationsLock = new Object();
-    private transient Object classesLock = new Object();
-    private transient Object libraryReferencesLock = new Object();
-    private transient Object librariesLock = new Object();
 //    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 //    private List<Library> libraries = new ArrayList<Library>();
 //    private static GroovyClassLoader cl;
     private static ScriptEngineManager manager;
+    private transient Object propertiesLock = new Object();
+    private transient Object productsLock = new Object();
+    private transient Object testStationsLock = new Object();
+    private transient Object testLimitsLock = new Object();
+
+    private Object readResolve() {
+        propertiesLock = new Object();
+        productsLock = new Object();
+        testStationsLock = new Object();
+        testLimitsLock = new Object();
+        return this;
+    }
+
+    @XmlElement(name = "limit")
+    public List<TestProjectLimit> getTestLimits() {
+        synchronized (testLimitsLock) {
+            if (testLimits == null) {
+                System.err.println("testLimits is null!");
+            }
+            return testLimits;
+        }
+    }
+
+    public void setTestLimits(List<TestProjectLimit> testLimits) {
+        this.testLimits = testLimits;
+        if (testLimits != null) {
+            for (ListIterator<TestProjectLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                TestProjectLimit testLimit = iterator.next();
+                testLimit.setTestProject(this);
+                testLimit.setPosition(index);
+            }
+        }
+    }
 
     @XmlTransient
     public Map<String, String> getPeristencePropertiesMap() throws ScriptException {
@@ -257,7 +304,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //            return libraries;
 //        }
 //    }
-
     //@XmlTransient
     public static ScriptEngineManager getScriptEngineManager() {
         if (manager == null) {
@@ -411,7 +457,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //        }
 //        return cl;
 //    }
-
 //    public TestSequence getTestSequence(String use) {
 //        for (TestSequence seq : getSequences()) {
 //            if (use.equals(seq.getName())) {
@@ -420,15 +465,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //        }
 //        throw new IllegalArgumentException("Sequence with name '" + use + "' does not exist");
 //    }
-    private Object readResolve() {
-        propertiesLock = new Object();
-        productsLock = new Object();
-        testStationsLock = new Object();
-        classesLock = new Object();
-        libraryReferencesLock = new Object();
-        librariesLock = new Object();
-        return this;
-    }
 //    public static EntityManager getEntityManager() {
 //        synchronized (emLock) {
 //            if (em == null) {
@@ -452,7 +488,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //            return em;
 //        }
 //    }
-
     @XmlAttribute(required = true)
     public String getName() {
         return name;
@@ -647,7 +682,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //            }
 //        }
 //    }
-
 //    @XmlElement(name = "class")
 //    public List<TestProjectClass> getClasses() {
 //        synchronized (classesLock) {
@@ -666,7 +700,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //            }
 //        }
 //    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -688,7 +721,7 @@ public class TestProject extends AbstractProperties implements Serializable {
 
     @Override
     public String toString() {
-        return TestLimit.class.getCanonicalName() + "[id=" + id + "]";
+        return TestProject.class.getCanonicalName() + "[id=" + id + "]";
     }
 
     @XmlAttribute
@@ -761,9 +794,9 @@ public class TestProject extends AbstractProperties implements Serializable {
         for (TestTypeReference ttr : testTypeReferences) {
             TestType tt = getTestType(ttr);
             if (tt != null) {
-                if ((partNumber == null || partNumber.equals(tt.getProduct().getPartNumber())) &&
-                        (partRevision == null || partRevision.equals(tt.getProduct().getPartRevision())) &&
-                        (testTypeName == null || testTypeName.equals(tt.getName()))) {
+                if ((partNumber == null || partNumber.equals(tt.getProduct().getPartNumber()))
+                        && (partRevision == null || partRevision.equals(tt.getProduct().getPartRevision()))
+                        && (testTypeName == null || testTypeName.equals(tt.getName()))) {
                     if (tt.isSerialNumberOK(sn)) {
                         return true;
                     }
@@ -775,8 +808,8 @@ public class TestProject extends AbstractProperties implements Serializable {
 
     public boolean isSerialNumberOK(String sn, String partNumber, String partRevision, String testTypeName) {
         for (Product product : getProducts()) {
-            if ((partNumber == null || product.getPartNumber().equals(partNumber)) &&
-                    (partRevision == null || product.getPartRevision().equals(partRevision))) {
+            if ((partNumber == null || product.getPartNumber().equals(partNumber))
+                    && (partRevision == null || product.getPartRevision().equals(partRevision))) {
                 for (TestType tt : product.getTestTypes()) {
                     if (testTypeName == null || tt.getName().equals(testTypeName)) {
                         if (tt.isSerialNumberOK(sn)) {

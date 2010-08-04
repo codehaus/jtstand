@@ -18,13 +18,11 @@
  */
 package com.jtstand;
 
-
 import javax.persistence.*;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import javax.script.Bindings;
@@ -35,7 +33,7 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testTypes", "initSequence"})
+@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initSequence"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestFixture extends AbstractVariables implements Serializable {
 
@@ -50,6 +48,9 @@ public class TestFixture extends AbstractVariables implements Serializable {
     @OrderBy("testFixturePropertyPosition ASC")
     private List<TestFixtureProperty> properties = new ArrayList<TestFixtureProperty>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
+    @OrderBy("testLimitPosition ASC")
+    private List<TestFixtureLimit> testLimits = new ArrayList<TestFixtureLimit>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
     @OrderBy("testTypeReferencePosition ASC")
     private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
     @ManyToOne
@@ -60,6 +61,38 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private FixtureInitSequenceReference initSequence;
     private int testFixturePosition;
     private String serialNumber;
+    private transient Object testLimitsLock = new Object();
+    private transient Object propertiesLock = new Object();
+    private transient Object testTypesLock = new Object();
+
+    private Object readResolve() {
+        testLimitsLock = new Object();
+        propertiesLock = new Object();
+        testTypesLock = new Object();
+        return this;
+    }
+
+    @XmlElement(name = "limit")
+    public List<TestFixtureLimit> getTestLimits() {
+        synchronized (testLimitsLock) {
+            if (testLimits == null) {
+                System.err.println("testLimits is null!");
+            }
+            return testLimits;
+        }
+    }
+
+    public void setTestLimits(List<TestFixtureLimit> testLimits) {
+        this.testLimits = testLimits;
+        if (testLimits != null) {
+            for (ListIterator<TestFixtureLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
+                int index = iterator.nextIndex();
+                TestFixtureLimit testLimit = iterator.next();
+                testLimit.setTestFixture(this);
+                testLimit.setPosition(index);
+            }
+        }
+    }
 
     @XmlTransient
     public int getPosition() {
@@ -95,7 +128,6 @@ public class TestFixture extends AbstractVariables implements Serializable {
 //    public boolean isDisabled() {
 //        return disabled != null && disabled;
 //    }
-
     @XmlTransient
     public Long getId() {
         return id;
@@ -103,7 +135,9 @@ public class TestFixture extends AbstractVariables implements Serializable {
 
     @XmlElement(name = "testType")
     public List<TestTypeReference> getTestTypes() {
-        return testTypes;
+        synchronized (testTypesLock) {
+            return testTypes;
+        }
     }
 
     public void setTestTypes(List<TestTypeReference> testTypes) {
@@ -147,7 +181,9 @@ public class TestFixture extends AbstractVariables implements Serializable {
 
     @XmlElement(name = "property")
     public List<TestFixtureProperty> getProperties() {
-        return properties;
+        synchronized (propertiesLock) {
+            return properties;
+        }
     }
 
     public void setProperties(List<TestFixtureProperty> properties) {
@@ -228,7 +264,6 @@ public class TestFixture extends AbstractVariables implements Serializable {
         }
         return bindings;
     }
-
 
     @Override
     public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {

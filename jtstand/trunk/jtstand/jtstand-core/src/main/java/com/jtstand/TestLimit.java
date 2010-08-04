@@ -52,8 +52,6 @@ public class TestLimit implements Serializable {
     private String measurementUnit;
     @ManyToOne
     private FileRevision creator;
-    @ManyToOne
-    private TestStep testStep;
     private int testLimitPosition;
 
     @XmlTransient
@@ -64,18 +62,6 @@ public class TestLimit implements Serializable {
     public void setPosition(int position) {
         this.testLimitPosition = position;
     }
-
-    @XmlTransient
-    public TestStep getTestStep() {
-        return testStep;
-    }
-
-    public void setTestStep(TestStep testStep) {
-        this.testStep = testStep;
-        if (testStep != null) {
-            setCreator(testStep.getRootTestStep().getCreator());
-        }
-    }    
 
     @XmlTransient
     public Long getId() {
@@ -96,7 +82,6 @@ public class TestLimit implements Serializable {
         int hash = 0;
         hash += (creator != null ? creator.hashCode() : 0);
         hash += (name != null ? name.hashCode() : 0);
-        hash += (testStep != null ? testStep.hashCode() : 0);
         return hash;
     }
 
@@ -110,9 +95,6 @@ public class TestLimit implements Serializable {
             return false;
         }
         if ((this.name == null && other.getName() != null) || (this.name != null && !this.name.equals(other.getName()))) {
-            return false;
-        }
-        if ((this.testStep == null && other.getTestStep() != null) || (this.testStep != null && !this.testStep.equals(other.getTestStep()))) {
             return false;
         }
         return true;
@@ -273,8 +255,8 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public boolean isNumericKind() {
-        return lowerSpecifiedLimit != null ||
-                upperSpeficiedLimit != null ||
-                nominal != null;
+        return lowerSpecifiedLimit != null
+                || upperSpeficiedLimit != null
+                || nominal != null;
     }
 }
