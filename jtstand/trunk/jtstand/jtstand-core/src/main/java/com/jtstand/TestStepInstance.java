@@ -44,7 +44,10 @@ import javax.script.ScriptContext;
  *
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}), @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}),
+    @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
+    @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
     public static final long serialVersionUID = 20081114L;
@@ -748,8 +751,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 } else {
 //                    Log.log("Running the children of " + getPath() + " sequentially");
                     for (TestStepInstance child : steps) {
-                        if (child.getRunMode().equals(TestStep.RunMode.SKIP) ||
-                                (loops == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST))) {
+                        if (child.getRunMode().equals(TestStep.RunMode.SKIP)
+                                || (loops == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST))) {
 //                            Log.log("Skipping child:" + child.getName());
                             child.skip();
                         } else {
@@ -979,10 +982,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 }
             }
         }
-        if(getParent()!=null){
+        if (getParent() != null) {
             return getParent().containsProperty(key);
         }
-        if(getTestSequenceInstance()!=null){
+        if (getTestSequenceInstance() != null) {
             return getTestSequenceInstance().containsProperty(key);
         }
         return false;
@@ -1191,10 +1194,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public boolean containsKey(Object key) {
-        return "value".equals(key) ||
-                "step".equals(key) ||
-                localVariablesMap.containsKey(key.toString()) ||
-                containsProperty(key.toString());
+        return "value".equals(key)
+                || "step".equals(key)
+                || localVariablesMap.containsKey(key.toString())
+                || containsProperty(key.toString());
         // null != getVariable(key.toString());
     }
 
@@ -1429,17 +1432,17 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             case LE:
                 return value <= tl.getUpperSpeficiedLimit();
             case GTLT:
-                return value > tl.getLowerSpecifiedLimit() &&
-                        value < tl.getUpperSpeficiedLimit();
+                return value > tl.getLowerSpecifiedLimit()
+                        && value < tl.getUpperSpeficiedLimit();
             case GELE:
-                return value >= tl.getLowerSpecifiedLimit() &&
-                        value <= tl.getUpperSpeficiedLimit();
+                return value >= tl.getLowerSpecifiedLimit()
+                        && value <= tl.getUpperSpeficiedLimit();
             case GELT:
-                return value >= tl.getLowerSpecifiedLimit() &&
-                        value < tl.getUpperSpeficiedLimit();
+                return value >= tl.getLowerSpecifiedLimit()
+                        && value < tl.getUpperSpeficiedLimit();
             case GTLE:
-                return value > tl.getLowerSpecifiedLimit() &&
-                        value <= tl.getUpperSpeficiedLimit();
+                return value > tl.getLowerSpecifiedLimit()
+                        && value <= tl.getUpperSpeficiedLimit();
             case BOOL:
                 return value != 0.0;
 //            default:
@@ -1526,6 +1529,46 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             for (TestLimit limit : seq.getTestSequence().getTestLimits()) {
                 if (useLimit.equals(limit.getName())) {
                     return limit;
+                }
+            }
+            TestFixture testFixture = seq.getTestFixture();
+            if (testFixture != null) {
+                for (TestLimit limit : testFixture.getTestLimits()) {
+                    if (useLimit.equals(limit.getName())) {
+                        return limit;
+                    }
+                }
+            }
+            TestStation testStation = seq.getTestStation();
+            if (testStation != null) {
+                for (TestLimit limit : testStation.getTestLimits()) {
+                    if (useLimit.equals(limit.getName())) {
+                        return limit;
+                    }
+                }
+            }
+            TestType testType = seq.getTestType();
+            if (testType != null) {
+                for (TestLimit limit : testType.getTestLimits()) {
+                    if (useLimit.equals(limit.getName())) {
+                        return limit;
+                    }
+                }
+                Product product = testType.getProduct();
+                if (product != null) {
+                    for (TestLimit limit : product.getTestLimits()) {
+                        if (useLimit.equals(limit.getName())) {
+                            return limit;
+                        }
+                    }
+                }
+            }
+            TestProject testProject = seq.getTestProject();
+            if (testProject != null) {
+                for (TestLimit limit : testProject.getTestLimits()) {
+                    if (useLimit.equals(limit.getName())) {
+                        return limit;
+                    }
                 }
             }
         }
