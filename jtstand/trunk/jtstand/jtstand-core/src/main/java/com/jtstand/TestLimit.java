@@ -18,15 +18,31 @@
  */
 package com.jtstand;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import javax.persistence.Basic;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import org.hibernate.annotations.ForceDiscriminator;
 
 /**
  *
  * @author albert_kurucz
  */
 @Entity
+@ForceDiscriminator
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType(propOrder = {"measurementUnit", "upperSpeficiedLimit", "lowerSpecifiedLimit", "nominal", "comp", "name", "remark"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestLimit implements Serializable {

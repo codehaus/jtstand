@@ -288,10 +288,7 @@ public class TestStep implements Serializable {
 
     @XmlElement(name = "limit")
     public List<TestStepLimit> getTestLimits() {
-        synchronized (testLimitsLock) {
-            if (testLimits == null) {
-                System.err.println("testLimits is null!");
-            }
+        synchronized (testLimitsLock) {            
             return testLimits;
         }
     }
