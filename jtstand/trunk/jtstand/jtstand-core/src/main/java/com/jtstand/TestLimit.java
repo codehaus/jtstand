@@ -97,7 +97,7 @@ public class TestLimit implements Serializable {
     @XmlTransient
     public Long getId() {
         return id;
-    }    
+    }
 
     @XmlTransient
     public FileRevision getCreator() {
@@ -220,11 +220,13 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public String getLslStringWithUnit() {
+        if (!isNumericKind()) {
+            return "";
+        }
         if (measurementUnit != null) {
             return getLslString() + measurementUnit;
-        } else {
-            return getLslString();
         }
+        return getLslString();
     }
 
     @XmlTransient
@@ -258,6 +260,9 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public String getUslStringWithUnit() {
+        if (!isNumericKind()) {
+            return "";
+        }
         if (measurementUnit != null) {
             return getUslString() + measurementUnit;
         } else {
