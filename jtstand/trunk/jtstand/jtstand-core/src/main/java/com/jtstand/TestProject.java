@@ -42,8 +42,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -76,7 +74,7 @@ public class TestProject extends AbstractProperties implements Serializable {
     public static final long serialVersionUID = 20081114L;
     public static final Class<?>[] CLASS_LOADER_CONSTRUCTOR = {ClassLoader.class};
     public static final String TEST_PROJECT = "testProject";
-    private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
+    //private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
     public static final String STR_PERSISTING_POLICY = "PERSISTING_POLICY";
     public static final OutputStream NULL_OUTPUT_STREAM = new OutputStream() {
 

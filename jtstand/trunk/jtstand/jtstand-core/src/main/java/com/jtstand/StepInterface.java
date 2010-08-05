@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-
 import java.util.logging.Logger;
 import javax.script.ScriptException;
 
@@ -47,5 +46,4 @@ public interface StepInterface {
     Logger getLogger();
 
     String getName();
-
 }

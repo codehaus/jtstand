@@ -18,14 +18,26 @@
  */
 package com.jtstand;
 
-import javax.persistence.*;
 import javax.script.ScriptException;
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import org.hibernate.annotations.ForceDiscriminator;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 /**
  *
  * @author albert_kurucz

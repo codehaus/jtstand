@@ -18,9 +18,13 @@
  */
 package com.jtstand;
 
-import javax.persistence.*;
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *

@@ -23,7 +23,6 @@ import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
-import javax.persistence.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -31,13 +30,37 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.script.SimpleBindings;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PersistenceException;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -883,15 +906,15 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public static String printTimeToFileName(Calendar cal) {
-        return Integer.toString(cal.get(Calendar.YEAR)) +
-                TestStepInstance.FORMATTER_2.format(1 + cal.get(Calendar.MONTH)) +
-                TestStepInstance.FORMATTER_2.format(cal.get(Calendar.DAY_OF_MONTH)) +
-                "T" +
-                TestStepInstance.FORMATTER_2.format(cal.get(Calendar.HOUR_OF_DAY)) +
-                TestStepInstance.FORMATTER_2.format(cal.get(Calendar.MINUTE)) +
-                TestStepInstance.FORMATTER_2.format(cal.get(Calendar.SECOND)) +
-                "." +
-                TestStepInstance.FORMATTER_3.format(cal.get(Calendar.MILLISECOND));
+        return Integer.toString(cal.get(Calendar.YEAR))
+                + TestStepInstance.FORMATTER_2.format(1 + cal.get(Calendar.MONTH))
+                + TestStepInstance.FORMATTER_2.format(cal.get(Calendar.DAY_OF_MONTH))
+                + "T"
+                + TestStepInstance.FORMATTER_2.format(cal.get(Calendar.HOUR_OF_DAY))
+                + TestStepInstance.FORMATTER_2.format(cal.get(Calendar.MINUTE))
+                + TestStepInstance.FORMATTER_2.format(cal.get(Calendar.SECOND))
+                + "."
+                + TestStepInstance.FORMATTER_3.format(cal.get(Calendar.MILLISECOND));
     }
 
     public boolean toFile() {
@@ -1062,7 +1085,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public TestStepInstance getChild(List<String> pathList) {
-        if (getTestStepInstance() != null ) {
+        if (getTestStepInstance() != null) {
             return getTestStepInstance().getChild(pathList, 1);
         }
         return null;

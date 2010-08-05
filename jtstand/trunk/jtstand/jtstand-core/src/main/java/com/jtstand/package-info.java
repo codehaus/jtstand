@@ -19,4 +19,3 @@
  
 @javax.xml.bind.annotation.XmlSchema(namespace="http://www.jtstand.com/",elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package com.jtstand;
-
