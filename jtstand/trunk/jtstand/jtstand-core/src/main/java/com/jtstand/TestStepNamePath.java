@@ -119,8 +119,8 @@ public class TestStepNamePath implements Serializable {
     private String stepName;
     @ManyToOne(fetch = FetchType.EAGER)
     private TestStep testStep;
-    @ManyToOne
-    private TestLimit testLimit;
+//    @ManyToOne
+//    private TestLimit testLimit;
     @ManyToOne
     private TestStep calledTestStep;
     private int stepNumber = 0;
@@ -132,7 +132,13 @@ public class TestStepNamePath implements Serializable {
         return stepNumber;
     }
 
-    public TestStepNamePath(TestStep testStep, String name, String path, TestLimit testLimit, TestStep calledTestStep, int stepNumber) {
+    public TestStepNamePath(
+            TestStep testStep,
+            String name,
+            String path,
+            //TestLimit testLimit,
+            TestStep calledTestStep,
+            int stepNumber) {
 //    public TestStepNamePath(TestSequence testSequence, String name, String path) {
         if (!path.endsWith(name)) {
             throw new IllegalArgumentException("Path have to end with name!");
@@ -140,19 +146,19 @@ public class TestStepNamePath implements Serializable {
         this.testStep = testStep;
         this.stepName = name;
         this.stepPath = path;
-        this.testLimit = testLimit;
+//        this.testLimit = testLimit;
         this.calledTestStep = calledTestStep;
         this.stepNumber = stepNumber;
 //        cachePut(this);
     }
 
-    public TestLimit getTestLimit() {
-        return testLimit;
-    }
-
-    public void setTestLimit(TestLimit testLimit) {
-        this.testLimit = testLimit;
-    }
+//    public TestLimit getTestLimit() {
+//        return testLimit;
+//    }
+//
+//    public void setTestLimit(TestLimit testLimit) {
+//        this.testLimit = testLimit;
+//    }
 
     public TestStep getCalledTestStep() {
         return calledTestStep;

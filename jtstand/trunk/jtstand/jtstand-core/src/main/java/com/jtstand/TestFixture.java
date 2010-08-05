@@ -44,10 +44,10 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private String fixtureName;
     private String remark;
     private Boolean disabled;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture", fetch = FetchType.LAZY)
     @OrderBy("testFixturePropertyPosition ASC")
     private List<TestFixtureProperty> properties = new ArrayList<TestFixtureProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestFixtureLimit> testLimits = new ArrayList<TestFixtureLimit>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")

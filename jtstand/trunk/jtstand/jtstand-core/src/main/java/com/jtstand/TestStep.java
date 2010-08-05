@@ -44,7 +44,10 @@ import java.util.logging.Logger;
  * @author Albert Kurucz
  */
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"creator_id", "treelevel", "name"}), @UniqueConstraint(columnNames = {"parent_id", "name"}), @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
+@Table(uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"creator_id", "treelevel", "name"}),
+    @UniqueConstraint(columnNames = {"parent_id", "name"}),
+    @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
 @XmlRootElement(name = "step")
 //@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
@@ -144,7 +147,7 @@ public class TestStep implements Serializable {
             cache.put(fileRevision, testStep);
         }
         testStep.setCreator(fileRevision);
-        LOGGER.log(Level.FINE, "Unmarshalled testStep:" + testStep);
+        //LOGGER.log(Level.FINE, "Unmarshalled testStep:" + testStep);
         return testStep;
     }
     @Id
@@ -165,7 +168,7 @@ public class TestStep implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep", fetch = FetchType.LAZY)
     @OrderBy("testStepPropertyPosition ASC")
     private List<TestStepProperty> properties = new ArrayList<TestStepProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestStepLimit> testLimits = new ArrayList<TestStepLimit>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -288,7 +291,7 @@ public class TestStep implements Serializable {
 
     @XmlElement(name = "limit")
     public List<TestStepLimit> getTestLimits() {
-        synchronized (testLimitsLock) {            
+        synchronized (testLimitsLock) {
             return testLimits;
         }
     }
@@ -299,6 +302,7 @@ public class TestStep implements Serializable {
             for (ListIterator<TestStepLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
                 int index = iterator.nextIndex();
                 TestStepLimit testLimit = iterator.next();
+                System.out.println("setting testStepLimit's testStep...");
                 testLimit.setTestStep(this);
                 testLimit.setPosition(index);
             }
@@ -506,7 +510,7 @@ public class TestStep implements Serializable {
     }
 
     public void setCreator(FileRevision creator) {
-        LOGGER.log(Level.FINE, "setting creator of test step '" + getName() + "' to:" + creator);
+        //LOGGER.log(Level.FINE, "setting creator of test step '" + getName() + "' to:" + creator);
 
         this.creator = creator;
         if (getStepReference() != null) {
@@ -573,4 +577,3 @@ public class TestStep implements Serializable {
         this.parallel = parallel;
     }
 }
-

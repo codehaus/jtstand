@@ -374,9 +374,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         try {
             connect(em);
             em.getTransaction().begin();
-            LOGGER.log(Level.FINE, "Persisting testSequenceInstance...");
             em.persist(this);
-            LOGGER.log(Level.FINE, "Persisting testSequenceInstance, committing Transaction...");
             //em.flush();
             em.getTransaction().commit();
             LOGGER.info("Persisting testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");

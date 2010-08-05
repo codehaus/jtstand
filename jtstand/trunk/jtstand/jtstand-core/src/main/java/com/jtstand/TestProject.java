@@ -204,7 +204,7 @@ public class TestProject extends AbstractProperties implements Serializable {
             testProject = cache.get(fileRevision);
         }
         if (testProject != null) {
-            LOGGER.log(Level.FINE, "Test Project is found in cache!");
+            //Test Project is found in cache!
             return testProject;
         }
         synchronized (JAXB_LOCK) {
@@ -222,7 +222,7 @@ public class TestProject extends AbstractProperties implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private FileRevision creator;
     private String remark;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT, fetch = FetchType.LAZY)
     @OrderBy("testProjectPropertyPosition ASC")
     private List<TestProjectProperty> properties = new ArrayList<TestProjectProperty>();
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
@@ -231,7 +231,7 @@ public class TestProject extends AbstractProperties implements Serializable {
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
 //    @OrderBy("testProjectClassPosition ASC")
 //    private List<TestProjectClass> classes = new ArrayList<TestProjectClass>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT, fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestProjectLimit> testLimits = new ArrayList<TestProjectLimit>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)

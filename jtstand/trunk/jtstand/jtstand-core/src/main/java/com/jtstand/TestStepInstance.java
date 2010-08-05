@@ -236,7 +236,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
             TestStepNamePath ts = names.get(ePath);
             if (ts == null) {
-                ts = new TestStepNamePath(getTestSequenceInstance().getTestSequence(), eName, ePath, evaluateTestLimit(), calledTestStep, names.size() + 1);
+                ts = new TestStepNamePath(
+                        getTestSequenceInstance().getTestSequence(),
+                        eName,
+                        ePath,
+                        //evaluateTestLimit(),
+                        calledTestStep,
+                        names.size() + 1);
             }
             setTestStepNamePath(ts);
         }
@@ -1528,7 +1534,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @Override
     public TestLimit getTestLimit() {
-        return getTestStepNamePath().getTestLimit();
+        return evaluateTestLimit();
+        //return getTestStepNamePath().getTestLimit();
     }
 
     private TestLimit evaluateTestLimit() {

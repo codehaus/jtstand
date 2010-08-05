@@ -19,7 +19,10 @@
 package com.jtstand;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -28,6 +31,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -66,10 +71,20 @@ public class TestLimit implements Serializable {
     private Double targetCPL;
     private Double targetCPU;
     private String measurementUnit;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testLimit", fetch = FetchType.LAZY)
+//    private List<TestStepNamePath> testStepNamePaths = new ArrayList<TestStepNamePath>();
     @ManyToOne
     private FileRevision creator;
     private int testLimitPosition;
 
+//    @XmlTransient
+//    public List<TestStepNamePath> getTestStepNamePaths() {
+//        return testStepNamePaths;
+//    }
+//
+//    public void setTestStepNamePaths(List<TestStepNamePath> testStepNamePaths) {
+//        this.testStepNamePaths = testStepNamePaths;
+//    }
     @XmlTransient
     public int getPosition() {
         return testLimitPosition;
@@ -82,7 +97,7 @@ public class TestLimit implements Serializable {
     @XmlTransient
     public Long getId() {
         return id;
-    }
+    }    
 
     @XmlTransient
     public FileRevision getCreator() {

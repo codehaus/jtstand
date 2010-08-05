@@ -49,10 +49,10 @@ public class TestType extends AbstractProperties implements Serializable {
     private String remark;
     @ManyToOne
     private Product product;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType", fetch = FetchType.LAZY)
     @OrderBy("testTypePropertyPosition ASC")
     private List<TestTypeProperty> properties = new ArrayList<TestTypeProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testType", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestTypeLimit> testLimits = new ArrayList<TestTypeLimit>();
     @Id

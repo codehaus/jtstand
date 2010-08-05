@@ -52,10 +52,10 @@ public class TestStation extends AbstractVariables implements Serializable {
     private Long id;
     private String hostName;
     private String remark;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation", fetch = FetchType.LAZY)
     @OrderBy("testStationPropertyPosition ASC")
     private List<TestStationProperty> properties = new ArrayList<TestStationProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestStationLimit> testLimits = new ArrayList<TestStationLimit>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")

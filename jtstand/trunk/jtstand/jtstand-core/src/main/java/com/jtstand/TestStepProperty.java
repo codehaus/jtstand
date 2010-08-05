@@ -38,7 +38,7 @@ import java.util.logging.Logger;
 public class TestStepProperty extends TestProperty implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-    private static final Logger LOGGER = Logger.getLogger(TestStepProperty.class.getCanonicalName());
+    //private static final Logger LOGGER = Logger.getLogger(TestStepProperty.class.getCanonicalName());
     @ManyToOne
     private TestStep testStep;
     private int testStepPropertyPosition;
@@ -58,7 +58,6 @@ public class TestStepProperty extends TestProperty implements Serializable {
     }
 
     public void setTestStep(TestStep testStep) {
-        LOGGER.log(Level.FINE, "setting up test step property:" + getName());
         this.testStep = testStep;
         if (testStep != null) {
             setCreator(testStep.getRootTestStep().getCreator());

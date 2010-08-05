@@ -50,10 +50,10 @@ public class Product extends AbstractProperties implements Serializable {
     private String partNumber;
     private String partRevision;
     private String remark;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @OrderBy("productPropertyPosition ASC")
     private List<ProductProperty> properties = new ArrayList<ProductProperty>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<ProductLimit> testLimits = new ArrayList<ProductLimit>();
     @ManyToOne
