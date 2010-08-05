@@ -18,6 +18,7 @@
  */
 package com.jtstand.swing;
 
+import com.jtstand.TestLimit;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStepInstance;
 import com.jtstand.TestStepNamePath;
@@ -113,9 +114,8 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
                 TestStepInstance step = baseSequence.getChild(Util.getPathList(name));
                 if (step != null && step.getTestStepNamePath() != null) {
                     return step.getTestStepNamePath().getStepNumber();
-                } else {
-                    return null;
                 }
+                return null;
             case PATH:
                 return name;
             case N:
@@ -129,9 +129,12 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
             case MAXIMUM:
                 return stat.getMax();
             case CP:
-                tsnp = baseSequence.getTestSequence().getNames().get(name);
-                if (tsnp != null && tsnp.getTestLimit() != null) {
-                    return stat.getCP(tsnp.getTestLimit().getLowerSpecifiedLimit(), tsnp.getTestLimit().getUpperSpeficiedLimit());
+                TestStepInstance tsi = baseSequence.getChild(Util.getPathList(name));
+                if (tsi != null) {
+                    TestLimit limit = tsi.getTestLimit();
+                    if (limit != null) {
+                        return stat.getCP(limit.getLowerSpecifiedLimit(), limit.getUpperSpeficiedLimit());
+                    }
                 }
                 return null;
 //            case CPL:
@@ -147,9 +150,12 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
 //                }
 //                return null;
             case CPK:
-                tsnp = baseSequence.getTestSequence().getNames().get(name);
-                if (tsnp != null && tsnp.getTestLimit() != null) {
-                    return stat.getCPK(tsnp.getTestLimit().getLowerSpecifiedLimit(), tsnp.getTestLimit().getUpperSpeficiedLimit());
+                TestStepInstance tsicpk = baseSequence.getChild(Util.getPathList(name));
+                if (tsicpk != null) {
+                    TestLimit limit = tsicpk.getTestLimit();
+                    if (limit != null) {
+                        return stat.getCPK(limit.getLowerSpecifiedLimit(), limit.getUpperSpeficiedLimit());
+                    }
                 }
                 return null;
         }
