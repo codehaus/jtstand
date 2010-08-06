@@ -214,7 +214,7 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public String getLslStringWithUnit() {
-        if (!isNumericKind()) {
+        if (!isNumericKind() || (lowerSpecifiedLimit == null)) {
             return "";
         }
         if (measurementUnit != null) {
@@ -235,7 +235,7 @@ public class TestLimit implements Serializable {
                     return "=true";
             }
         }
-        if (comp == null || lowerSpecifiedLimit == null) {
+        if ((comp == null) || (lowerSpecifiedLimit == null)) {
             return "";
         }
         switch (comp) {
@@ -254,11 +254,11 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public String getUslStringWithUnit() {
-        if (!isNumericKind()) {
+        if (!isNumericKind() || (upperSpeficiedLimit == null)) {
             return "";
         }
         if (measurementUnit != null) {
-            return getUslString() +  "[" + measurementUnit + "]";
+            return getUslString() + "[" + measurementUnit + "]";
         } else {
             return getUslString();
         }
@@ -266,7 +266,7 @@ public class TestLimit implements Serializable {
 
     @XmlTransient
     public String getUslString() {
-        if (comp == null || upperSpeficiedLimit == null) {
+        if ((comp == null) || (upperSpeficiedLimit == null)) {
             return "";
         }
         switch (comp) {
