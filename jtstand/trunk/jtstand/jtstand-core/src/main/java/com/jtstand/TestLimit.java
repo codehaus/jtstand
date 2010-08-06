@@ -185,8 +185,7 @@ public class TestLimit implements Serializable {
         this.measurementUnit = measurementUnit;
     }
 
-//    @XmlAttribute(required=true)
-    @XmlAttribute
+    @XmlAttribute(required = true)
     public String getName() {
         return name;
     }

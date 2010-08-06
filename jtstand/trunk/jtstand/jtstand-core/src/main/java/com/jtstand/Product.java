@@ -131,6 +131,7 @@ public class Product extends AbstractProperties implements Serializable {
     public void setCreator(FileRevision creator) {
         this.creator = creator;
         setProperties(getProperties());
+        setTestLimits(getTestLimits());
         setTestTypes(getTestTypes());
     }
 

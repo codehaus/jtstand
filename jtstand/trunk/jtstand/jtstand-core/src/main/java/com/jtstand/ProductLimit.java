@@ -21,6 +21,8 @@ package com.jtstand;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -31,6 +33,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author albert_kurucz
  */
 @Entity
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = {"product_id", "name"}))
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class ProductLimit extends TestLimit implements Serializable {

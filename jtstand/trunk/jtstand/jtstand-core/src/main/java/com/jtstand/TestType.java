@@ -136,6 +136,7 @@ public class TestType extends AbstractProperties implements Serializable {
     public void setCreator(FileRevision creator) {
         this.creator = creator;
         setProperties(getProperties());
+        setTestLimits(getTestLimits());
         setTestSequence(getTestSequence());
     }
 

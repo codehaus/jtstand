@@ -327,6 +327,7 @@ public class TestStation extends AbstractVariables implements Serializable {
             getInitSequence().setCreator(creator);
         }
         setProperties(getProperties());
+        setTestLimits(getTestLimits());
         setFixtures(getFixtures());
         setTestTypes(getTestTypes());
     }

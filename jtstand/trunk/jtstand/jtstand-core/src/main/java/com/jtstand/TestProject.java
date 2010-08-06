@@ -516,6 +516,7 @@ public class TestProject extends AbstractProperties implements Serializable {
             authentication.setTestProject(this);
         }
         setProperties(getProperties());
+        setTestLimits(getTestLimits());
         setTestStations(getTestStations());
         setProducts(getProducts());
 //        setClasses(getClasses());

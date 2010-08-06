@@ -223,6 +223,7 @@ public class TestFixture extends AbstractVariables implements Serializable {
             getInitSequence().setTestFixture(this);
         }
         setProperties(getProperties());
+        setTestLimits(getTestLimits());
         setTestTypes(getTestTypes());
     }
 
