@@ -218,7 +218,7 @@ public class TestLimit implements Serializable {
             return "";
         }
         if (measurementUnit != null) {
-            return getLslString() + measurementUnit;
+            return getLslString() + "[" + measurementUnit + "]";
         }
         return getLslString();
     }
@@ -258,7 +258,7 @@ public class TestLimit implements Serializable {
             return "";
         }
         if (measurementUnit != null) {
-            return getUslString() + measurementUnit;
+            return getUslString() +  "[" + measurementUnit + "]";
         } else {
             return getUslString();
         }

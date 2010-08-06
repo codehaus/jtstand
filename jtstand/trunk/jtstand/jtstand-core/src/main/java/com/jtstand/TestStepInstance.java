@@ -1658,7 +1658,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         if (valueWithUnit.length() > 0) {
             TestLimit testLimit = getTestLimit();
             if (testLimit != null && testLimit.getMeasurementUnit() != null) {
-                valueWithUnit += testLimit.getMeasurementUnit();
+                valueWithUnit += "[" + testLimit.getMeasurementUnit() + "]";
             }
         }
         //Log.log("Value num:" + valueWithUnit);

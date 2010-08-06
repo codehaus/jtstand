@@ -77,7 +77,7 @@ public class TestStepInstancesRendererDouble extends DefaultTableCellRenderer {
         if (valueWithUnit.length() > 0) {
             TestLimit testLimit = refStep.getTestLimit();
             if (testLimit != null && testLimit.getMeasurementUnit() != null) {
-                valueWithUnit += testLimit.getMeasurementUnit();
+                valueWithUnit += "[" + testLimit.getMeasurementUnit() + "]";
             }
         }
         return valueWithUnit;
