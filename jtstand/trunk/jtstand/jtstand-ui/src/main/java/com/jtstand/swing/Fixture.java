@@ -24,23 +24,59 @@ import com.jtstand.TestSequenceInstance;
 import com.jtstand.query.FixtureInterface;
 import com.jtstand.query.Runner;
 import com.jtstand.statistics.Yield;
+import java.beans.PropertyChangeEvent;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.beans.PropertyChangeListener;
 import java.util.Collection;
 
 /**
  *
  * @author  albert_kurucz
  */
-public class Fixture extends javax.swing.JPanel implements FixtureInterface {
+public class Fixture extends javax.swing.JPanel implements FixtureInterface, PropertyChangeListener {
 
     public static final long serialVersionUID = 20081114L;
     public static final String STR_PASSED_RETEST = "PASSED_RETEST";
     public static final String STR_FAILED_RETEST = "FAILED_RETEST";
     public static final String STR_ABORTED_RETEST = "ABORTED_RETEST";
     public static final String STR_AUTO = "auto";
+    public static final Color runningColor = new Color(51, 153, 255);
+    public static final Color stepbystepColor = new Color(204, 255, 255);
+    public static final Color abortedColor = MainFrame.fDarkBrown;
+    public static final Color failedColor = Color.red;
+    public static final Color passedColor = MainFrame.fDarkGreen;
+    public static final Color stepvystepColor = Color.red;
+    public static final Color interactiveColor = Color.yellow;
+    public static final Color defaultColor = (Color) javax.swing.UIManager.get("JPanel.background");
+
+    public static enum State {
+
+        DISABLED("Disabled"),
+        READY("Ready"),
+        RUNNING("Running"),
+        PASSED("Passed"),
+        FAILED("Failed"),
+        ABORTED("Aborted"),
+        STEPBYSTEP("Step by step"),
+        INTERACTIVE("Interactive");
+        public final String name;
+
+        State(String name) {
+            this.name = name;
+        }
+    }
+    private final Object stateLock = new Object();
+    private State state = null;
+    private Component message = null;
+    private Yield y = new Yield();
+    private TestFixture testFixture;
+    private MainFrame fi;
+    private TestSequenceInstance testSequenceInstance = null;
+    private final Object testSequenceInstanceLock = new Object();
+    private Runner runner;
 
     /** Creates new form Fx */
     public Fixture() {
@@ -82,45 +118,15 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
             }
         }
     }
-    public static final Color runningColor = new Color(51, 153, 255);
-    public static final Color stepbystepColor = new Color(204, 255, 255);
-    public static final Color abortedColor = MainFrame.fDarkBrown;
-    public static final Color failedColor = Color.red;
-    public static final Color passedColor = MainFrame.fDarkGreen;
-    public static final Color stepvystepColor = Color.red;
-    public static final Color interactiveColor = Color.yellow;
-    public static final Color defaultColor = (Color) javax.swing.UIManager.get("JPanel.background");
 
-    public static enum State {
-
-        DISABLED("Disabled"),
-        READY("Ready"),
-        RUNNING("Running"),
-        PASSED("Passed"),
-        FAILED("Failed"),
-        ABORTED("Aborted"),
-        STEPBYSTEP("Step by step"),
-        INTERACTIVE("Interactive");
-        public final String name;
-
-        State(String name) {
-            this.name = name;
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getSource() == testSequenceInstance) {
+            if (evt.getNewValue() instanceof TestSequenceInstance.SequenceStatus) {
+                sequenceStatusChanged((TestSequenceInstance.SequenceStatus) evt.getNewValue());
+            }
         }
     }
-    private final Object stateLock = new Object();
-    private State state = null;
-//    public static final String STR_NEWSEQ = "New Sequence";
-//    public static final String STR_ABORT = "Abort";
-//    public static final String STR_START = "Start";
-//    public static final String STR_FINISH = "Finish";
-    private Component message = null;
-    private Yield y = new Yield();
-    private TestFixture testFixture;
-    private MainFrame fi;
-    //private TestSequenceInstance.SequenceStatus sequenceStatus;
-    private TestSequenceInstance testSequenceInstance = null;
-    private final Object testSequenceInstanceLock = new Object();
-    private Runner runner;
 
     public TestSequenceInstance getTestSequenceInstance() {
         return testSequenceInstance;
@@ -130,6 +136,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
     public void setTestSequenceInstance(TestSequenceInstance testSequenceInstance) {
         synchronized (testSequenceInstanceLock) {
             this.testSequenceInstance = testSequenceInstance;
+            testSequenceInstance.addPropertyChangeListener(this);
         }
     }
 

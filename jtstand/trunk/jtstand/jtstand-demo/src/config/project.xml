@@ -71,6 +71,15 @@
             <testSequence subversionUrl="mutexDemo.xml" revision="402"/>
         </testType>
     </product>
+    <product partNumber="INTERACTIVE_DEMO" partRevision="001">
+        <testType name="DEMO">
+            <testSequence><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Interactive Demo" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+    <script>step.interact('Is the UUT working OK?')</script>
+</testSequence>]]>
+            </testSequence>
+        </testType>
+    </product>
     <testStation hostName="STATION1">
         <remark>This is the stations configuration file for the host: 'STATION1'</remark>
         <property name="persistenceProperties"><![CDATA[
@@ -92,6 +101,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -130,6 +140,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -156,6 +167,7 @@
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <initSequence subversionUrl="init1.xml" revision="400"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
