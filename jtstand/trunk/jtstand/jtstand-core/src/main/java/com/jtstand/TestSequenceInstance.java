@@ -246,7 +246,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         FAILED("Failed"),
         ABORTED("Aborted"),
         STEPBYSTEP("Step by step"),
-        STEPBYSTEP_FINISHED("Finished");
+        STEPBYSTEP_FINISHED("Finished"),
+        INTERACTIVE("Interactive");
         public final String statusString;
 
         SequenceStatus(
@@ -256,6 +257,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
     @Basic(fetch = FetchType.EAGER)
     private SequenceStatus status = SequenceStatus.PENDING;
+    private transient TestStepInstance interactiveTestStepInstance;
+    private transient SequenceStatus originalStatus;
+    private transient final Object interactionLock = new Object();
+    private transient boolean interactionPassed;
 
     public static enum SequenceType {
 
@@ -263,6 +268,35 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
     @Basic(fetch = FetchType.EAGER)
     private SequenceType sequenceType;
+
+    //@XmlTransient
+    public String getInteractionMessage() {
+        return (interactiveTestStepInstance == null) ? null : interactiveTestStepInstance.getInteractionMessage();
+    }
+
+    public boolean interact(TestStepInstance step) throws InterruptedException {
+        System.out.println("Sequence interaction pending...");
+        synchronized (interactionLock) {
+            System.out.println("Sequence interaction starts");
+            if (SequenceStatus.RUNNING == status || SequenceStatus.STEPBYSTEP == status) {
+                originalStatus = status;
+                this.interactiveTestStepInstance = step;
+                setStatus(SequenceStatus.INTERACTIVE);
+                while (this.getStatus() == SequenceStatus.INTERACTIVE) {
+                    Thread.sleep(500);
+                }
+                return interactionPassed;
+            }
+            return false;
+        }
+    }
+
+    public void finishInteraction(boolean interactionPassed) {
+        if (SequenceStatus.INTERACTIVE == status) {
+            setStatus(originalStatus);
+            this.interactionPassed = interactionPassed;
+        }
+    }
 
     public boolean isPersistPerStep() {
         return PersistingPolicy.STEP.equals(persistingPolicy);
@@ -682,6 +716,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setStatus(SequenceStatus status) {
+        System.out.println("Sequence status set to " + status.statusString);
         SequenceStatus oldStatus = this.status;
         this.status = status;
         support.firePropertyChange("status", oldStatus, this.status);

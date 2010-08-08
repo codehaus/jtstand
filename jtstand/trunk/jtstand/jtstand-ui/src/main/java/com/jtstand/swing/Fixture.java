@@ -88,6 +88,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
     public static final Color failedColor = Color.red;
     public static final Color passedColor = MainFrame.fDarkGreen;
     public static final Color stepvystepColor = Color.red;
+    public static final Color interactiveColor = Color.yellow;
     public static final Color defaultColor = (Color) javax.swing.UIManager.get("JPanel.background");
 
     public static enum State {
@@ -98,14 +99,15 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
         PASSED("Passed"),
         FAILED("Failed"),
         ABORTED("Aborted"),
-        STEPBYSTEP("Step by step");
+        STEPBYSTEP("Step by step"),
+        INTERACTIVE("Interactive");
         public final String name;
 
         State(String name) {
             this.name = name;
         }
     }
-    private Object stateLock = new Object();
+    private final Object stateLock = new Object();
     private State state = null;
 //    public static final String STR_NEWSEQ = "New Sequence";
 //    public static final String STR_ABORT = "Abort";
@@ -117,13 +119,14 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
     private MainFrame fi;
     //private TestSequenceInstance.SequenceStatus sequenceStatus;
     private TestSequenceInstance testSequenceInstance = null;
-    private Object testSequenceInstanceLock = new Object();
+    private final Object testSequenceInstanceLock = new Object();
     private Runner runner;
 
     public TestSequenceInstance getTestSequenceInstance() {
         return testSequenceInstance;
     }
 
+    @Override
     public void setTestSequenceInstance(TestSequenceInstance testSequenceInstance) {
         synchronized (testSequenceInstanceLock) {
             this.testSequenceInstance = testSequenceInstance;
@@ -209,91 +212,71 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
             case STEPBYSTEP:
                 setBackground(stepbystepColor);
                 break;
+            case INTERACTIVE:
+                setBackground(interactiveColor);
+                break;
             default:
                 setBackground(defaultColor);
         }
     }
 
     public void update() {
-//        if (getComponents().length > 0) {
-//            removeAll();
-//        }
         boolean initType = testSequenceInstance != null && testSequenceInstance.isInitType();
         switch (state) {
             case READY:
                 runner = null;
                 ((CardLayout) (getLayout())).show(this, "ready");
-//                revalidate();
                 break;
             case RUNNING:
                 ((CardLayout) (getLayout())).show(this, "running");
-//                revalidate();
-//                if (message != null) {
-//                    add(message);
-//                } else {
-//                    add(jButtonAbort);
-//                }
                 break;
             case PASSED:
                 jButtonPassedRetest.setVisible(testSequenceInstance != null && testSequenceInstance.getPropertyBoolean(STR_PASSED_RETEST, false));
                 ((CardLayout) (getLayout())).show(this, "passed");
-//                revalidate();
-//                add(jButtonPassed);
                 break;
             case FAILED:
                 jButtonFailed.setVisible(!initType);
                 jButtonFailedRetest.setVisible(testSequenceInstance != null && testSequenceInstance.getPropertyBoolean(STR_FAILED_RETEST, initType));
                 ((CardLayout) (getLayout())).show(this, "failed");
-//                revalidate();
-//                add(jButtonFailed);
                 break;
             case ABORTED:
                 jButtonAborted.setVisible(!initType);
                 jButtonAbortedRetest.setVisible(testSequenceInstance != null && testSequenceInstance.getPropertyBoolean(STR_ABORTED_RETEST, initType));
                 ((CardLayout) (getLayout())).show(this, "aborted");
-//                revalidate();
-//                add(jButtonAborted);
                 break;
             case STEPBYSTEP:
                 ((CardLayout) (getLayout())).show(this, "stepbystep");
-//                revalidate();
-//                add(jButtonStepByStepStart);
-//                add(jButtonStepByStepFinish);
+                break;
+
+            case INTERACTIVE:
+                messageText.setText(
+                        (testSequenceInstance == null)
+                        ? ""
+                        : testSequenceInstance.getInteractionMessage());
+                ((CardLayout) (getLayout())).show(this, "interactive");
+                System.out.println("Fixture is showing interactive");
                 break;
         }
-//        if (!State.RUNNING.equals(state)) {
-//            runner = null;
-//        }
         setBackground();
         setBorder();
         revalidate();
-    //fi.validateTree();
     }
-//    private void jButtonStepByStepStartActionPerformed(ActionEvent evt) {
-//        if (!state.equals(State.STEPBYSTEP)) {
-//            return;
-//        }
-//        TestSequenceInstance uut = testFixture.getTestSequenceInstance();
-//        if (uut != null) {
-//            fi.startSelectedStep(uut);
-//        }
-//    }
 
     public Runner getNewRunner() {
         runner = new Runner(fi, this);
         return runner;
     }
 
-    public void showMessage(Component message) {
-        this.message = message;
-        update();
-    }
-
-    public void hideMessage() {
-        this.message = null;
-        update();
-    }
-
+//    public void interact(String message) {
+//        messageText.setText(message);
+//
+//        update();
+//    }
+//
+//    public void hideMessage() {
+//        this.message = null;
+//        update();
+//    }
     private boolean confirmAbort() {
         return 0 == javax.swing.JOptionPane.showConfirmDialog(
                 this,
@@ -303,18 +286,21 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
                 javax.swing.JOptionPane.QUESTION_MESSAGE);
     }
 
+    @Override
     public void pass() {
         y.pass();
         setBorder();
     }
 
+    @Override
     public void fail() {
         y.fail();
         setBorder();
     }
 
+    @Override
     public void sequenceStatusChanged(TestSequenceInstance.SequenceStatus sequenceStatus) {
-//        System.out.println("Status changed to " + sequenceStatus.statusString);
+        System.out.println("Sequence status changed to " + sequenceStatus.statusString);
         synchronized (stateLock) {
             if (sequenceStatus != null) {
                 switch (sequenceStatus) {
@@ -334,6 +320,9 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
                         break;
                     case STEPBYSTEP:
                         setState(State.STEPBYSTEP);
+                        break;
+                    case INTERACTIVE:
+                        setState(State.INTERACTIVE);
                         break;
                     default:
                         setState(State.READY);
@@ -367,6 +356,12 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
         jButtonAbortedRetest = new javax.swing.JButton();
         jPanelStepByStep = new javax.swing.JPanel();
         jButtonStepByStepFinish = new javax.swing.JButton();
+        jPanelInteractive = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        messageText = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonPass = new javax.swing.JButton();
+        jButtonFail = new javax.swing.JButton();
 
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -469,6 +464,37 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface {
         jPanelStepByStep.add(jButtonStepByStepFinish);
 
         add(jPanelStepByStep, "stepbystep");
+
+        jPanelInteractive.setBackground(interactiveColor);
+        jPanelInteractive.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        messageText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageText.setText("text");
+        jPanel1.add(messageText, java.awt.BorderLayout.CENTER);
+
+        jPanelInteractive.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        jButtonPass.setText("Pass");
+        jButtonPass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPassActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonPass);
+
+        jButtonFail.setText("Fail");
+        jButtonFail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFailActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonFail);
+
+        jPanelInteractive.add(jPanel2, java.awt.BorderLayout.SOUTH);
+
+        add(jPanelInteractive, "interactive");
     }// </editor-fold>//GEN-END:initComponents
 
 private void jButtonReadyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonReadyActionPerformed
@@ -506,7 +532,6 @@ private void jButtonAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
         if (runner != null) {
             runner.abort();
         }
-    //setState(State.READY);
     }
 }//GEN-LAST:event_jButtonAbortActionPerformed
 
@@ -545,22 +570,46 @@ private void jButtonAbortedRetestActionPerformed(java.awt.event.ActionEvent evt)
         runner.retest();
     }
 }//GEN-LAST:event_jButtonAbortedRetestActionPerformed
+
+private void jButtonPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPassActionPerformed
+    if (!state.equals(State.INTERACTIVE)) {
+        return;
+    }
+    if (testSequenceInstance != null) {
+        testSequenceInstance.finishInteraction(true);
+    }
+}//GEN-LAST:event_jButtonPassActionPerformed
+
+private void jButtonFailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFailActionPerformed
+    if (!state.equals(State.INTERACTIVE)) {
+        return;
+    }
+    if (testSequenceInstance != null) {
+        testSequenceInstance.finishInteraction(false);
+    }
+}//GEN-LAST:event_jButtonFailActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAbort;
     private javax.swing.JButton jButtonAborted;
     private javax.swing.JButton jButtonAbortedRetest;
+    private javax.swing.JButton jButtonFail;
     private javax.swing.JButton jButtonFailed;
     private javax.swing.JButton jButtonFailedRetest;
+    private javax.swing.JButton jButtonPass;
     private javax.swing.JButton jButtonPassed;
     private javax.swing.JButton jButtonPassedRetest;
     private javax.swing.JButton jButtonReady;
     private javax.swing.JButton jButtonStepByStepFinish;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelAborted;
     private javax.swing.JPanel jPanelDisabled;
     private javax.swing.JPanel jPanelFailed;
+    private javax.swing.JPanel jPanelInteractive;
     private javax.swing.JPanel jPanelPassed;
     private javax.swing.JPanel jPanelReady;
     private javax.swing.JPanel jPanelRunning;
     private javax.swing.JPanel jPanelStepByStep;
+    private javax.swing.JLabel messageText;
     // End of variables declaration//GEN-END:variables
 }

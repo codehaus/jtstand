@@ -165,6 +165,18 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         this.testStepInstancePosition = position;
     }
 
+    String getInteractionMessage() {
+        return message;
+    }
+    private transient String message;
+
+    void interact(String message) throws InterruptedException {
+        this.message = message;
+        if (!getTestSequenceInstance().interact(this)) {
+            throw new IllegalStateException("Operator interaction failed");
+        }
+    }
+
     public static enum StepStatus {
 
         PENDING("Pending"),
@@ -176,6 +188,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         ABORTED("Aborted"),
         STEPBYSTEP("Step by step"),
         STEPBYSTEP_FINISHED("Finished");
+        //INTERACTIVE("Interactive");
         public final String statusString;
 
         StepStatus(String statusString) {
