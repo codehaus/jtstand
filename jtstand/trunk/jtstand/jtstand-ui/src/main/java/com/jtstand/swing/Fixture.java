@@ -478,7 +478,6 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
         jPanel1.setLayout(new java.awt.BorderLayout());
 
         messageText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        messageText.setText("text");
         jPanel1.add(messageText, java.awt.BorderLayout.CENTER);
 
         jPanelInteractive.add(jPanel1, java.awt.BorderLayout.CENTER);
@@ -579,6 +578,7 @@ private void jButtonAbortedRetestActionPerformed(java.awt.event.ActionEvent evt)
 }//GEN-LAST:event_jButtonAbortedRetestActionPerformed
 
 private void jButtonPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPassActionPerformed
+    messageText.setText("");
     if (!state.equals(State.INTERACTIVE)) {
         return;
     }
@@ -588,6 +588,7 @@ private void jButtonPassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 }//GEN-LAST:event_jButtonPassActionPerformed
 
 private void jButtonFailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFailActionPerformed
+    messageText.setText("");
     if (!state.equals(State.INTERACTIVE)) {
         return;
     }
