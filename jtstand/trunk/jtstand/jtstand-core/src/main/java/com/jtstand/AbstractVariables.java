@@ -37,7 +37,7 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     private Map<String, Object> variablesMap = new HashMap<String, Object>();
     private transient Map<String, HashSet<Thread>> lockerThreads = new HashMap<String, HashSet<Thread>>();
-    private transient Object variableLock = new Object();
+    private transient final Object variableLock = new Object();
     private transient Thread actualLockerThread;
 
     public void abort(Thread thread) {
@@ -64,11 +64,10 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         }
     }
 
-    private Object readResolve() {
-//        System.out.println("readResolve Variables");
-        variableLock = new Object();
-        return this;
-    }
+//    private Object readResolve() {
+//        variableLock = new Object();
+//        return this;
+//    }
 
     public Object getVariable(String keyString, boolean wait, TestProperty tsp, TestStepInstance step) throws InterruptedException, ScriptException {
         if (wait) {
@@ -80,15 +79,17 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
                 Thread.sleep(1);
             }
         }
-        Object v = getVariable(keyString, tsp, step);
-        if (v != null) {
+        synchronized (variableLock) {
+            Object v = getVariable(keyString, tsp, step);
+            if (v != null) {
+                return v;
+            }
+            v = tsp.getPropertyObject(step);
+            if (v != null) {
+                put(keyString, v);
+            }
             return v;
         }
-        v = tsp.getPropertyObject(step);
-        if (v != null) {
-            put(keyString, v);
-        }
-        return v;
     }
 
     private Object getVariable(String keyString, TestProperty tsp, TestStepInstance step) throws ScriptException, InterruptedException {
