@@ -56,6 +56,12 @@ public class ArmUsartProgrammer {
         }
     }
 
+    public void check() {
+        if (!isPresent()) {
+            throw new IllegalStateException("Check failed");
+        }
+    }
+
     private boolean isPresent() {
         int inch;
 
@@ -89,7 +95,7 @@ public class ArmUsartProgrammer {
         System.console().readLine();
     }
 
-    private void close() {
+    public void close() {
         if (sp != null) {
             sp.close();
         }
