@@ -112,6 +112,7 @@ public class ToDatabase extends Thread {
                         }
                     }
                 }
+                sleep(100);
             } catch (Exception ex) {
                 System.out.println(ex);
             }
