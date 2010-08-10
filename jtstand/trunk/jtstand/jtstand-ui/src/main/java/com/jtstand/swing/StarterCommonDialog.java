@@ -214,10 +214,11 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     private void changeAction() {
         Object pn = starterPanel.jComboBoxPartNumber().getSelectedItem();
         Object rev = starterPanel.jComboBoxPartRev().getSelectedItem();
-        if (pn != null && rev != null) {
+        Object type = starterPanel.jComboBoxTestType().getSelectedItem();
+        if (pn != null && rev != null && type != null) {
             try {
                 for (TestTypeReference pr : testTypeReferences) {
-                    if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev)) {
+                    if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev) && pr.getName().equals(type)) {
                         selectedTestType = pr;
                     }
                 }
