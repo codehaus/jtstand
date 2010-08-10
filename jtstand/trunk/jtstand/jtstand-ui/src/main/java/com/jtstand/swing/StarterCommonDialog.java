@@ -365,7 +365,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                 fixture.setState(Fixture.State.STEPBYSTEP);
             }
         } else {
-            runner.execute(tsi);
+            runner.execute(tsi, false);
         }
         return true;
     }

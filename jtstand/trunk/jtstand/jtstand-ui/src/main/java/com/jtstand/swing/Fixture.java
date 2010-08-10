@@ -94,6 +94,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
 //        init();
     }
 
+    @Override
     public void init() {
 //        Logger.getLogger(getClass().getCanonicalName()).info(getTestFixture().getFixtureName() + " init...");
         if (testFixture.isDisabled() != null && testFixture.isDisabled()) {
@@ -108,7 +109,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
                     if (fi != null) {
                         fi.add(seq);
                     }
-                    getNewRunner().execute(seq);
+                    getNewRunner().execute(seq, true);
                 } catch (Exception ex) {
                     System.out.println("Failed to create a new sequence");
                     System.out.println(ex.getMessage());

@@ -33,4 +33,6 @@ public interface FixtureInterface {
     void pass();
 
     void fail();
+
+    void init();
 }

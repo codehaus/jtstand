@@ -53,6 +53,7 @@ public class Runner extends Thread {
 //    private String testTypeName;
 //    private String productName;
     private TestSequenceInstance.SequenceType sequenceType;
+    private boolean isInit;
 //    private long previouslyUsedMemory = 0L;
 
     public Runner(FrameInterface fi, FixtureInterface fixture) {
@@ -61,7 +62,7 @@ public class Runner extends Thread {
         this.fixture = fixture;
     }
 
-    public void execute(TestSequenceInstance seq) {
+    public void execute(TestSequenceInstance seq, boolean isInit) {
         this.seq = seq;
         serialNumber = seq.getSerialNumber();
         employeeNumber = seq.getEmployeeNumber();
@@ -73,6 +74,7 @@ public class Runner extends Thread {
 //        testTypeName = seq.getTestTypeName();
 //        productName = seq.getProductName();
         sequenceType = seq.getSequenceType();
+        this.isInit = isInit;
         this.start();
     }
 
@@ -140,6 +142,9 @@ public class Runner extends Thread {
         }
         if (fixture != null) {
             fixture.sequenceStatusChanged(seq.getStatus());
+            if (!isInit) {
+                fixture.init();
+            }
         }
         seq = null;
     }
