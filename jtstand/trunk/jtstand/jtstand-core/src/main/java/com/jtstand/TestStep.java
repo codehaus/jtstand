@@ -69,7 +69,6 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"parent_id", "name"}),
     @UniqueConstraint(columnNames = {"testStepPosition", "parent_id"})})
 @XmlRootElement(name = "step")
-//@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "stepClass", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStep implements Serializable {
