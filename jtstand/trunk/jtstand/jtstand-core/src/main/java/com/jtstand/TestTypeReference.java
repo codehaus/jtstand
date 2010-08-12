@@ -174,6 +174,7 @@ public class TestTypeReference implements Serializable {
 
     @Override
     public String toString() {
-        return TestTypeReference.class.getCanonicalName() + "[id=" + id + "]";
+        return partNumber + ":" + partRevision + ":" + name;
+        //return TestTypeReference.class.getCanonicalName() + "[id=" + id + "]";
     }
 }

@@ -160,7 +160,10 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         for (TestTypeReference product : testTypeReferences) {
             if (product.getPartNumber().equals(selectedPartNumber)) {
                 if (testTypeReferences.get(0).getTestStationReally().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), selectedPartNumber, product.getPartRevision(), null, testTypeReferences)) {
-                    partNumberRevisions.add(product.getPartRevision());
+                    String partRevision = product.getPartRevision();
+                    if (!partNumberRevisions.contains(partRevision)) {
+                        partNumberRevisions.add(partRevision);
+                    }
                 }
             }
         }
@@ -211,6 +214,27 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         init(starterPanel, testTypeReferences, selectedTestType);
     }
 
+    private void setSelectedTestType(TestTypeReference selectedTestType) {
+        if (this.selectedTestType != selectedTestType) {
+            System.out.println("selected a new test type: " + selectedTestType);
+            this.selectedTestType = selectedTestType;
+            String cname = getStarterPanelClassName();
+            if (!starterPanel.getClass().getCanonicalName().equals(cname)) {
+                /* starter panel is different for this lately selected product! */
+                initComponents();
+            }
+            if (!isDebugEnabled()) {
+                hideAdvancedPanel();
+            }
+            if (starterPanel.jButtonDebug() != null) {
+                //System.out.println("Setting debug button enabled: " + isDebugEnabled());
+                starterPanel.jButtonDebug().setEnabled(isDebugEnabled());
+            }
+            init(starterPanel, testTypeReferences, selectedTestType);
+            //initTestTypes(starterPanel, testTypeReferences, selectedTestType.getPartNumber(), selectedTestType.getPartNumber(), selectedTestType.getName());
+        }
+    }
+
     private void changeAction() {
         Object pn = starterPanel.jComboBoxPartNumber().getSelectedItem();
         Object rev = starterPanel.jComboBoxPartRev().getSelectedItem();
@@ -219,22 +243,28 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             try {
                 for (TestTypeReference pr : testTypeReferences) {
                     if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev) && pr.getName().equals(type)) {
-                        selectedTestType = pr;
+                        setSelectedTestType(pr);
+                        return;
                     }
                 }
-                String cname = getStarterPanelClassName();
-                if (!starterPanel.getClass().getCanonicalName().equals(cname)) {
-                    /* starter panel is different for this lately selected product! */
-                    initComponents();
+                for (TestTypeReference pr : testTypeReferences) {
+                    if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev)) {
+                        setSelectedTestType(pr);
+                        return;
+                    }
                 }
-                if (!isDebugEnabled()) {
-                    hideAdvancedPanel();
+                for (TestTypeReference pr : testTypeReferences) {
+                    if (pr.getPartNumber().equals(pn) && pr.getName().equals(type)) {
+                        setSelectedTestType(pr);
+                        return;
+                    }
                 }
-                if (starterPanel.jButtonDebug() != null) {
-                    //System.out.println("Setting debug button enabled: " + isDebugEnabled());
-                    starterPanel.jButtonDebug().setEnabled(isDebugEnabled());
+                for (TestTypeReference pr : testTypeReferences) {
+                    if (pr.getPartNumber().equals(pn)) {
+                        setSelectedTestType(pr);
+                        return;
+                    }
                 }
-                initTestTypes(starterPanel, testTypeReferences, pn.toString(), rev.toString(), null);
             } catch (Exception ex) {
                 System.err.println("Exception while changin test type:" + ex.getMessage());
             }
@@ -350,6 +380,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             if (fi != null && !fi.isMemoryEnoughRetry()) {
                 throw new IllegalStateException("Not enough memory to start a new sequence");
             }
+            System.out.println("Creating instance of: " + selectedTestType);
             tsi = new TestSequenceInstance(sn, employeeNumber, selectedTestType);
             if (fi != null) {
                 fi.add(tsi);
@@ -403,6 +434,16 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jComboBoxPartRevActionPerformed(evt);
+                }
+            });
+        }
+
+        if (starterPanel.jComboBoxTestType().getActionListeners().length == 0) {
+            starterPanel.jComboBoxTestType().addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    jComboBoxTestTypeActionPerformed(evt);
                 }
             });
         }
@@ -484,12 +525,22 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         });
     }
 
+    private void jComboBoxTestTypeActionPerformed(ActionEvent evt) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                changeAction();
+            }
+        });
+    }
+
     private void jComboBoxPartNumberActionPerformed(ActionEvent evt) {
-        Object name = starterPanel.jComboBoxPartNumber().getSelectedItem();
-        if (name == null) {
-            return;
-        }
-        initPartRevs(starterPanel, testTypeReferences, name.toString(), null);
+//        Object name = starterPanel.jComboBoxPartNumber().getSelectedItem();
+//        if (name == null) {
+//            return;
+//        }
+//        initPartRevs(starterPanel, testTypeReferences, name.toString(), null);
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
