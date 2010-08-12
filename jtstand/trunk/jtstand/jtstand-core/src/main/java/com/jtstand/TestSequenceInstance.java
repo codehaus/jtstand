@@ -32,7 +32,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -1015,19 +1014,33 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return false;
     }
 
-    public static TestSequenceInstance fromFile(File file) throws IOException, ClassNotFoundException {
+    public static TestSequenceInstance fromFile(File file) {
 //        Log.log("Opening state file: " + file.getPath());
         synchronized (FILE_LOCK) {
-            FileInputStream in = new FileInputStream(file);
-            ObjectInputStream s = new ObjectInputStream(in);
-            TestSequenceInstance tsi = (TestSequenceInstance) s.readObject();
-            s.close();
-//        Log.log("Successfully opened : " + tsi.getFileName());
-            return tsi;
+            FileInputStream in;
+            ObjectInputStream s = null;
+            try {
+                in = new FileInputStream(file);
+                s = new ObjectInputStream(in);
+                TestSequenceInstance tsi = (TestSequenceInstance) s.readObject();
+                System.out.println("Successfully opened : " + tsi.getFileName());
+                return tsi;
+            } catch (Exception ex) {
+                System.out.println("Could not read file:" + file.getName());
+            } finally {
+                if (s != null) {
+                    try {
+                        s.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                return null;
+            }
         }
     }
 
-    public static TestSequenceInstance fromFile(File file, boolean delete) throws IOException, ClassNotFoundException {
+    public static TestSequenceInstance fromFile(File file, boolean delete) {
         TestSequenceInstance tsi = fromFile(file);
         if (delete) {
             file.delete();
@@ -1043,15 +1056,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (filelist.length > 0) {
             for (File file : filelist) {
                 if (file.getName().endsWith(".state")) {
-                    try {
-                        return fromFile(file, delete);
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                    return fromFile(file, delete);
                 }
             }
         }
@@ -1067,14 +1072,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (filelist.length > 0) {
             for (File file : filelist) {
                 if (file.getName().endsWith(".state")) {
-                    try {
+                    TestSequenceInstance seq = fromFile(file, delete);
+                    if (seq != null) {
                         sequences.add(fromFile(file, delete));
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (IOException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
