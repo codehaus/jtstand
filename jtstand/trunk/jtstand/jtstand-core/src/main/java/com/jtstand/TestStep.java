@@ -75,7 +75,6 @@ public class TestStep implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
     public static final String TEST_STEP = "testStep";
-    private static final Logger LOGGER = Logger.getLogger(TestStep.class.getCanonicalName());
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;

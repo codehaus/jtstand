@@ -32,10 +32,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -60,6 +58,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -68,6 +72,10 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
+@XmlRootElement(name = "sequence")
+//@XmlType(name = "testSequenceType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
+@XmlType(name = "testSequenceInstanceType")
+@XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
     public static final long serialVersionUID = 20081114L;
@@ -79,6 +87,52 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;
+    public static final String TEST_SEQUENCE_INSTANCE = "testSequenceInstance";
+    private static final Object jaxbLock = new Object();
+
+    public static TestSequenceInstance unmarshal(File file)
+            throws JAXBException, SVNException {
+        TestSequenceInstance testSequenceInstance = null;
+        synchronized (jaxbLock) {
+            testSequenceInstance = (TestSequenceInstance) getUnmarshaller().unmarshal(file);
+        }
+        System.out.println("Unmarshalled testSequenceInstance:" + testSequenceInstance);
+        return testSequenceInstance;
+    }
+
+    public boolean toFile() {
+        try {
+            toFile(testStation.getSaveDirectory());
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Exception in toFile: " + ex.getMessage());
+        }
+        return false;
+    }
+
+    public void toFile(File saveDirectory) throws JAXBException {
+        if (saveDirectory == null) {
+            return;
+        }
+        synchronized (FILE_LOCK) {
+            long startTime = System.currentTimeMillis();
+            if (saveDirectory.isFile()) {
+                throw new IllegalArgumentException("Output directory is not a directory: a File is specified!");
+            }
+            if (!saveDirectory.isDirectory()) {
+                if (saveDirectory.mkdirs()) {
+                    LOGGER.info("Output directory is created: " + saveDirectory.getPath());
+                } else {
+                    throw new IllegalArgumentException("Output directory does not exist and cannot be created: " + saveDirectory);
+                }
+            }
+            long freeMB = saveDirectory.getFreeSpace() / 1048576L;
+            System.out.println("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
+            String filepath = saveDirectory.getPath() + File.separatorChar + getFileName() + ".xml";
+            File file = new File(filepath);
+            getMarshaller().marshal(this, file);
+        }
+    }
 
     public TestSequenceInstance() {
         super();
@@ -142,6 +196,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
     private transient Object testStepInstanceLock = new Object();
 
+    @XmlTransient
     public SequenceType getSequenceType() {
         return sequenceType;
     }
@@ -191,6 +246,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return "";
     }
 
+    @XmlTransient
     public TestType getTestType() {
         return testType;
     }
@@ -268,7 +324,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @Basic(fetch = FetchType.EAGER)
     private SequenceType sequenceType;
 
-    //@XmlTransient
+    @XmlTransient
     public String getInteractionMessage() {
         return (interactiveTestStepInstance == null) ? null : interactiveTestStepInstance.getInteractionMessage();
     }
@@ -313,6 +369,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return PersistingPolicy.SEQUENCE.equals(getPersistingPolicy());
     }
 
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -473,6 +530,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return getFailureStep().getTestStepInstancePath();
     }
 
+    @XmlTransient
     public TestStepInstance getFailureStep() {
         return failureStep;
     }
@@ -496,6 +554,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testFixture.getFixtureName();
     }
 
+    @XmlTransient
     public TestFixture getTestFixture() {
         return testFixture;
     }
@@ -512,6 +571,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testFixture != null ? testFixture.getFixtureName() : null;
     }
 
+    @XmlTransient
     public TestStation getTestStation() {
         return testStation;
     }
@@ -520,6 +580,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this.testStation = testStation;
     }
 
+    @XmlTransient
     public TestProject getTestProject() {
         return testProject;
     }
@@ -660,6 +721,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        return out;
     }
 
+    @XmlTransient
     public TestStep getTestSequence() {
         return testSequence;
     }
@@ -673,12 +735,13 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         }
     }
 
+    @XmlElement(name="step")
     public TestStepInstance getTestStepInstance() {
         synchronized (testStepInstanceLock) {
             return testStepInstance;
         }
     }
-
+    
     public void setTestStepInstance(TestStepInstance testStepInstance) {
         this.testStepInstance = testStepInstance;
     }
@@ -780,31 +843,38 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         }
     }
 
+    @XmlTransient
     public boolean isAborted() {
         return SequenceStatus.ABORTED.equals(status);
     }
 
+    @XmlTransient
     public boolean isPassed() {
         return SequenceStatus.PASSED.equals(status);
     }
 
+    @XmlTransient
     public boolean isFailed() {
         return SequenceStatus.FAILED.equals(status);
     }
 
+    @XmlTransient
     public boolean isRunning() {
         return SequenceStatus.RUNNING.equals(status);
     }
 
+    @XmlTransient
     public boolean isStepByStep() {
         return SequenceStatus.STEPBYSTEP.equals(status);
     }
 
+    @XmlTransient
     public boolean isSequenceActive() {
         return isRunning() || isStepByStep();
     }
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
         if (bindings == null) {
             bindings = new SimpleBindings();
@@ -929,6 +999,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return null;
     }
 
+    @XmlTransient
     public String getFileName() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(getCreateTime());
@@ -951,80 +1022,64 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 + TestStepInstance.FORMATTER_3.format(cal.get(Calendar.MILLISECOND));
     }
 
-    public boolean toFile() {
-        try {
-            return toFile(testStation.getSaveDirectory());
-        } catch (ScriptException ex) {
-            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return false;
-    }
-
-//    public boolean toFile(Object saveDirectory) {
+//    public boolean toFile() {
+//        try {
+//            return toFile(testStation.getSaveDirectory());
+//        } catch (ScriptException ex) {
+//            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return false;
+//    }
+//    public boolean toFile(File saveDirectory) {
 //        if (saveDirectory == null) {
 //            return false;
 //        }
-//        if (File.class.isAssignableFrom(saveDirectory.getClass())) {
-//            return toFile((File) saveDirectory);
+//        long startTime = System.currentTimeMillis();
+//        if (saveDirectory.isFile()) {
+//            throw new IllegalArgumentException("Output directory is not a directory: a File is specified!");
 //        }
-//        return toFile(new File(saveDirectory.toString()));
+//        if (!saveDirectory.isDirectory()) {
+//            if (saveDirectory.mkdirs()) {
+//                LOGGER.info("Output directory is created: " + saveDirectory.getPath());
+//            } else {
+//                throw new IllegalArgumentException("Output directory does not exist and cannot be created: " + saveDirectory);
+//            }
+//        }
+////        Log.log("Serializing Test Sequence Instance to '" + saveDirectory.toString() + "'...");
+//        long freeMB = saveDirectory.getFreeSpace() / 1048576L;
+//        System.out.println("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
+//        try {
+//            String filepath = saveDirectory.getPath() + File.separatorChar + getFileName() + ".state";
+//            File file = new File(filepath);
+//            synchronized (FILE_LOCK) {
+////            Log.log("Saving sequence instance into file: " + file.getPath());
+//                FileOutputStream fos = new FileOutputStream(file);
+//                ObjectOutputStream s = new ObjectOutputStream(fos);
+//                s.writeObject(this);
+//                //s.writeObject(getLog());
+//                s.flush();
+//                s.close();
+//            }
+////            Log.log("Serializing Test Sequence Instance finished successfully in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//            return true;
+//        } catch (IOException ex1) {
+//            LOGGER.log(Level.SEVERE, "Serializing Test Sequence Instance failed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//            LOGGER.log(Level.SEVERE, ex1.getMessage());
+//            ex1.printStackTrace();
+//        }
+//        return false;
 //    }
-//
-//    public boolean toFile(String saveDirectory) {
-//        return (saveDirectory != null) && toFile(new File(saveDirectory));
-//    }
-//
-    public boolean toFile(File saveDirectory) {
-        if (saveDirectory == null) {
-            return false;
-        }
-        long startTime = System.currentTimeMillis();
-        if (saveDirectory.isFile()) {
-            throw new IllegalArgumentException("Output directory is not a directory: a File is specified!");
-        }
-        if (!saveDirectory.isDirectory()) {
-            if (saveDirectory.mkdirs()) {
-                LOGGER.info("Output directory is created: " + saveDirectory.getPath());
-            } else {
-                throw new IllegalArgumentException("Output directory does not exist and cannot be created: " + saveDirectory);
-            }
-        }
-//        Log.log("Serializing Test Sequence Instance to '" + saveDirectory.toString() + "'...");
-        long freeMB = saveDirectory.getFreeSpace() / 1048576L;
-        System.out.println("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
-        try {
-            String filepath = saveDirectory.getPath() + File.separatorChar + getFileName() + ".state";
-            File file = new File(filepath);
-            synchronized (FILE_LOCK) {
-//            Log.log("Saving sequence instance into file: " + file.getPath());
-                FileOutputStream fos = new FileOutputStream(file);
-                ObjectOutputStream s = new ObjectOutputStream(fos);
-                s.writeObject(this);
-                //s.writeObject(getLog());
-                s.flush();
-                s.close();
-            }
-//            Log.log("Serializing Test Sequence Instance finished successfully in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
-            return true;
-        } catch (IOException ex1) {
-            LOGGER.log(Level.SEVERE, "Serializing Test Sequence Instance failed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
-            LOGGER.log(Level.SEVERE, ex1.getMessage());
-            ex1.printStackTrace();
-        }
-        return false;
-    }
-
     public static TestSequenceInstance fromFile(File file) {
 //        Log.log("Opening state file: " + file.getPath());
         synchronized (FILE_LOCK) {
             FileInputStream in;
             ObjectInputStream s = null;
-            TestSequenceInstance tsi=null;
+            TestSequenceInstance tsi = null;
             try {
                 in = new FileInputStream(file);
                 s = new ObjectInputStream(in);
                 tsi = (TestSequenceInstance) s.readObject();
-                System.out.println("Successfully opened : " + tsi.getFileName());                
+                System.out.println("Successfully opened : " + tsi.getFileName());
             } catch (Exception ex) {
                 System.out.println("Could not read file:" + file.getName());
             } finally {
@@ -1086,6 +1141,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return TestStepInstance.getDateWith24Clock(getStarted());
     }
 
+    @XmlTransient
     public Calendar getStarted() {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(getCreateTime());
@@ -1104,6 +1160,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return (fTime == null) ? getCreateTime() - System.currentTimeMillis() : fTime - getCreateTime();
     }
 
+    @XmlTransient
     public String getStatusString() {
         if (getStatus() == null) {
             return "";

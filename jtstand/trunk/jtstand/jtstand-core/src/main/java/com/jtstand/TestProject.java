@@ -93,7 +93,7 @@ public class TestProject extends AbstractProperties implements Serializable {
     }
 //    public TestProject() {
 //    }
-    public static String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/schema1.xsd";
+    public static String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd";
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;

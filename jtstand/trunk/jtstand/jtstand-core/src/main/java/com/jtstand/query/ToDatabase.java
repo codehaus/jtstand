@@ -69,46 +69,48 @@ public class ToDatabase extends Thread {
                             LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
                         } else {
                             try {
-                                long startTime = System.currentTimeMillis();
-                                System.out.println("Processing file: " + file.getName());
-                                TestSequenceInstance seq = TestSequenceInstance.fromFile(file);
-                                if (seq == null) {
-                                    System.out.println("Output file cannot be Unmarshalled");
-                                } else {
-                                    EntityManagerFactory emf = seq.getTestStation().getEntityManagerFactory();
-                                    if (emf == null) {
-                                        System.out.println("Entity Manager Factory cannot be obtained");
+                                if (file.getName().endsWith(".state")) {
+                                    long startTime = System.currentTimeMillis();
+                                    System.out.println("Processing file: " + file.getName());
+                                    TestSequenceInstance seq = TestSequenceInstance.fromFile(file);
+                                    if (seq == null) {
+                                        System.out.println("Output file cannot be Unmarshalled");
                                     } else {
-                                        EntityManager em = emf.createEntityManager();
-                                        if (em == null) {
-                                            System.out.println("Entity Manager cannot be obtained");
+                                        EntityManagerFactory emf = seq.getTestStation().getEntityManagerFactory();
+                                        if (emf == null) {
+                                            System.out.println("Entity Manager Factory cannot be obtained");
                                         } else {
-                                            seq.connect(em);
-                                            if (seq.merge(em)) {
-//                                                Log.log("Output file successfully persisted : " + file.getName());
-                                                if (model != null) {
-                                                    System.out.println("Replace...");
-                                                    model.replace(seq.getCreateTime(), seq.getHostName());
-                                                }
-                                                if (file.delete()) {
-                                                    LOGGER.fine("Output file successfully deleted : " + file.getName());
-                                                    num++;
-                                                    System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
-                                                    System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
-                                                } else {
-                                                    LOGGER.log(Level.SEVERE, "Output file cannot be deleted : " + file.getName());
-                                                }
+                                            EntityManager em = emf.createEntityManager();
+                                            if (em == null) {
+                                                System.out.println("Entity Manager cannot be obtained");
                                             } else {
-                                                LOGGER.log(Level.SEVERE, "Output file cannot be persisted : " + file.getName());
+                                                seq.connect(em);
+                                                if (seq.merge(em)) {
+//                                                Log.log("Output file successfully persisted : " + file.getName());
+                                                    if (model != null) {
+                                                        System.out.println("Replace...");
+                                                        model.replace(seq.getCreateTime(), seq.getHostName());
+                                                    }
+                                                    if (file.delete()) {
+                                                        LOGGER.fine("Output file successfully deleted : " + file.getName());
+                                                        num++;
+                                                        System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+                                                        System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
+                                                    } else {
+                                                        LOGGER.log(Level.SEVERE, "Output file cannot be deleted : " + file.getName());
+                                                    }
+                                                } else {
+                                                    LOGGER.log(Level.SEVERE, "Output file cannot be persisted : " + file.getName());
+                                                }
+                                                em.close();
                                             }
-                                            em.close();
                                         }
                                     }
                                 }
                             } catch (Exception ex) {
                                 LOGGER.log(Level.SEVERE, "Exception : " + ex);
 //                                    aborted = true;
-                                }
+                            }
                         }
                     }
                 }

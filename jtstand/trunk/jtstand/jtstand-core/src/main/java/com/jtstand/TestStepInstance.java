@@ -58,6 +58,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  *
@@ -69,6 +76,9 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(columnNames = {"parent_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
+//@XmlRootElement(name = "step")
+@XmlType(name = "testStepInstanceType")
+@XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
     public static final long serialVersionUID = 20081114L;
@@ -109,6 +119,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //    private transient Object stepObject;
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
+    @XmlTransient
     public Logger getLogger() {
         return LOGGER;
     }
@@ -124,10 +135,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return str;
     }
 
+    @XmlAttribute
+    @Override
     public String getName() {
         return getTestStepNamePath().getStepName();
     }
 
+    @XmlTransient
     public String getTestStepInstancePath() {
         return getTestStepNamePath().getStepPath();
     }
@@ -151,12 +165,14 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return (parent == null) ? eName : parent.evaluatePath() + "." + eName;
     }
 
+    @XmlTransient
     public List<String> getPathList() {
         List<String> retval = (parent == null) ? new ArrayList<String>() : parent.getPathList();
         retval.add(getName());
         return retval;
     }
 
+    @XmlTransient
     public int getPosition() {
         return testStepInstancePosition;
     }
@@ -202,11 +218,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return (startTime == null) ? null : ((finishTime == null) ? System.currentTimeMillis() : finishTime) - startTime;
     }
 
+    @XmlTransient
     public String getElapsedString() {
         Long ela = getElapsed();
         return (ela == null) ? "" : ela.toString() + "ms";
     }
 
+    @XmlTransient
     public Long getId() {
         return id;
     }
@@ -293,6 +311,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
+    @XmlTransient
     public TestStepNamePath getTestStepNamePath() {
         return testStepNamePath;
     }
@@ -315,6 +334,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
+    @XmlTransient
     public TestStep getCalledTestStep() {
         return calledTestStep;
     }
@@ -333,6 +353,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
+    @XmlTransient
     public TestStep getTestStep() {
         return testStep;
     }
@@ -390,6 +411,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return getName();
     }
 
+    @XmlTransient
     public TestSequenceInstance getTestSequenceInstance() {
         return testSequenceInstance;
     }
@@ -444,6 +466,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         computeValueWithUnit();
     }
 
+    @XmlElement(name = "step")
     public List<TestStepInstance> getSteps() {
         return steps;
     }
@@ -469,6 +492,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
+    @XmlTransient
     public TestStepInstance getParent() {
         synchronized (parentLock) {
             return parent;
@@ -935,6 +959,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
         return this;
     }
@@ -991,6 +1016,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return getParent() != null && getParent().isThreadInFamily(t);
     }
 
+    @XmlTransient
     public Thread getThisThread() {
         return thisThread;
     }
@@ -1391,6 +1417,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     @Override
+    @XmlTransient
     public Object getValue() {
 //        return value;
         if (getValueNumber() != null) {
@@ -1645,6 +1672,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return getTestStep().getSteps().size() == 0;
     }
 
+    @XmlTransient
     public String getValueWithUnit() {
         if (valueWithUnit == null) {
             computeValueWithUnit();
@@ -1677,6 +1705,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         //Log.log("Value num:" + valueWithUnit);
     }
 
+    @XmlTransient
     public String getLslWithUnit() {
         if (lslWithUnit == null) {
             computeLslWithUnit();
@@ -1689,6 +1718,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         lslWithUnit = (testLimit != null) ? testLimit.getLslStringWithUnit() : "";
     }
 
+    @XmlTransient
     public String getUslWithUnit() {
         if (uslWithUnit == null) {
             computeUslWithUnit();
@@ -1701,10 +1731,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         uslWithUnit = (testLimit != null) ? testLimit.getUslStringWithUnit() : "";
     }
 
+    @XmlTransient
     public String getLoopsString() {
         return Long.toString(loops);
     }
 
+    @XmlTransient
     public Calendar getStarted() {
         if (startTime == null) {
             return null;
@@ -1714,6 +1746,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return cal;
     }
 
+    @XmlTransient
     public String getStartedStringMs() {
         if (startTime == null) {
             return "";
@@ -1721,6 +1754,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return get24ClockMs(getStarted());
     }
 
+    @XmlTransient
     public Calendar getFinished() {
         if (finishTime == null) {
             return null;
@@ -1730,6 +1764,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return cal;
     }
 
+    @XmlTransient
     public String getFinishedStringMs() {
         if (finishTime == null) {
             return "";
@@ -1737,6 +1772,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return get24ClockMs(getFinished());
     }
 
+    @XmlTransient
     public String getStatusString() {
         if (status == null) {
             return "";
