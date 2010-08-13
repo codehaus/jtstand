@@ -1019,12 +1019,12 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         synchronized (FILE_LOCK) {
             FileInputStream in;
             ObjectInputStream s = null;
+            TestSequenceInstance tsi=null;
             try {
                 in = new FileInputStream(file);
                 s = new ObjectInputStream(in);
-                TestSequenceInstance tsi = (TestSequenceInstance) s.readObject();
-                System.out.println("Successfully opened : " + tsi.getFileName());
-                return tsi;
+                tsi = (TestSequenceInstance) s.readObject();
+                System.out.println("Successfully opened : " + tsi.getFileName());                
             } catch (Exception ex) {
                 System.out.println("Could not read file:" + file.getName());
             } finally {
@@ -1035,8 +1035,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                         Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                return null;
             }
+            return tsi;
         }
     }
 
