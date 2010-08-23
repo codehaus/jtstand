@@ -142,9 +142,9 @@ public class Runner extends Thread {
         }
         if (fixture != null) {
             fixture.sequenceStatusChanged(seq.getStatus());
-            if (!isInit) {
-                fixture.init();
-            }
+//            if (!isInit) {
+//                fixture.init();
+//            }
         }
         seq = null;
     }

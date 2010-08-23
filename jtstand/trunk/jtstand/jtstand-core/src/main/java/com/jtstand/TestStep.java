@@ -180,6 +180,7 @@ public class TestStep implements Serializable {
     private String message;
     private String remark;
     private Boolean parallel;
+    private Boolean cleanup;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent")
     @OrderBy("testStepPosition ASC")
     private List<TestStep> steps = new ArrayList<TestStep>();
@@ -593,5 +594,14 @@ public class TestStep implements Serializable {
 
     public void setParallel(Boolean parallel) {
         this.parallel = parallel;
+    }
+
+    @XmlAttribute
+    public Boolean getCleanup() {
+        return cleanup;
+    }
+
+    public void setCleanup(Boolean cleanup) {
+        this.cleanup = cleanup;
     }
 }

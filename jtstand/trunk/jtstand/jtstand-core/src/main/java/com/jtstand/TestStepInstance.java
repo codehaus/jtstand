@@ -531,6 +531,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return getCalledTestStep() != null && getCalledTestStep().getParallel() != null && getCalledTestStep().getParallel();
     }
 
+    public boolean isCleanup() {
+        if (getTestStep().getCleanup() != null) {
+            return getTestStep().getCleanup();
+        }
+        return getCalledTestStep() != null && getCalledTestStep().getCleanup() != null && getCalledTestStep().getCleanup();
+    }
+
     private long getPreSleep() {
         if (getTestStep().getPreSleep() != null) {
             return getTestStep().getPreSleep();
@@ -807,29 +814,26 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                     }
                 } else {
 //                    Log.log("Running the children of " + getPath() + " sequentially");
+                    boolean childFailed = false;
                     for (TestStepInstance child : steps) {
                         if (child.getRunMode().equals(TestStep.RunMode.SKIP)
                                 || (loops == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST))) {
-//                            Log.log("Skipping child:" + child.getName());
                             child.skip();
                         } else {
-
-//                            Thread t = (new Thread(group, child));
-//                            t.start();
-//                            t.join();
-
-                            child.run();
-
+                            if (child.isCleanup() || !childFailed) {
+                                child.run();
+                            }
                             if (child.isFailed() && !child.getFailAction().equals(TestStep.FailAction.NEXT_TEST)) {
-//                                Log.log("Child failed:" + child.getName() + " Value:" + child.getValue());
-                                setStatus(StepStatus.FAILED);
-                                break;
+                                childFailed = true;
                             }
                         }
                         if (child.isAborted()) {
                             abort();
                             return;
                         }
+                    }
+                    if(childFailed){
+                        setStatus(StepStatus.FAILED);
                     }
                 }
             }
