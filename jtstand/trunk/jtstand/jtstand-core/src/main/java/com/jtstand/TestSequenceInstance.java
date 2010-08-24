@@ -73,8 +73,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
 @XmlRootElement(name = "sequence")
-//@XmlType(name = "testSequenceType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
-@XmlType(name = "testSequenceInstanceType")
+@XmlType(name = "testSequenceInstanceType", propOrder = {"serialNumber", "status", "failureCode", "employeeNumber", "hostName", "fixtureName", "createTime", "partNumber", "partRevision", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
@@ -205,14 +204,17 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this.sequenceType = sequenceType;
     }
 
+    @XmlTransient
     public boolean isInitType() {
         return TestSequenceInstance.SequenceType.FIXTURE_SETUP.equals(getSequenceType()) || TestSequenceInstance.SequenceType.STATION_SETUP.equals(getSequenceType());
     }
 
+    @XmlTransient
     public String getTestTypeName() {
         return getTestType() != null ? getTestType().getName() : isInitType() ? STR_INIT : "";
     }
 
+    @XmlTransient
     public String getProductName() {
         if (getTestType() != null && getTestType().getProduct() != null) {
             return getTestType().getProduct().getPartNumberWithRevision();
@@ -226,6 +228,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return "";
     }
 
+    @XmlElement(name = "partNumber")
     public String getPartNumber() {
         if (getTestType() != null && getTestType().getProduct() != null) {
             return getTestType().getProduct().getPartNumber();
@@ -239,6 +242,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return "";
     }
 
+    @XmlElement(name = "partRevision")
     public String getPartRevision() {
         if (getTestType() != null && getTestType().getProduct() != null) {
             return getTestType().getProduct().getPartRevision();
@@ -357,6 +361,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return PersistingPolicy.STEP.equals(persistingPolicy);
     }
 
+    @XmlTransient
     private PersistingPolicy getPersistingPolicy() {
         return persistingPolicy;
     }
@@ -563,10 +568,12 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this.testFixture = testFixture;
     }
 
+    @XmlElement(name = "station")
     public String getHostName() {
         return testStation != null ? testStation.getHostName() : null;
     }
 
+    @XmlElement(name = "fixture")
     public String getFixtureName() {
         return testFixture != null ? testFixture.getFixtureName() : null;
     }
@@ -735,13 +742,13 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         }
     }
 
-    @XmlElement(name="step")
+    @XmlElement(name = "step")
     public TestStepInstance getTestStepInstance() {
         synchronized (testStepInstanceLock) {
             return testStepInstance;
         }
     }
-    
+
     public void setTestStepInstance(TestStepInstance testStepInstance) {
         this.testStepInstance = testStepInstance;
     }

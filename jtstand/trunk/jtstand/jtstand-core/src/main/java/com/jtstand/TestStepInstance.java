@@ -76,7 +76,7 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 //@XmlRootElement(name = "step")
-@XmlType(name = "testStepInstanceType")
+@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startTime", "finishTime", "valueNumber", "valueString", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
@@ -97,7 +97,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     private TestSequenceInstance testSequenceInstance;
     private Long startTime;
     private Long finishTime;
-    private long loops = 0;
+    private Long loops = null;
     @ManyToOne(fetch = FetchType.LAZY)
     private TestStepInstance parent;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "parent", fetch = FetchType.LAZY)
@@ -439,11 +439,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         this.finishTime = finishTime;
     }
 
-    public long getLoops() {
+    public Long getLoops() {
         return loops;
     }
 
-    public void setLoops(long loops) {
+    public void setLoops(Long loops) {
         this.loops = loops;
     }
 
@@ -628,7 +628,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //        Log.log(getTestStepInstancePath() + " started at " + getStartedStringMs());
         setFinishTime(null);
         setStatus(StepStatus.RUNNING);
-        setLoops(0);
+        setLoops(null);
         try {
             String locks = getLocks();
             if (locks != null) {
@@ -767,7 +767,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             Thread.sleep(getPreSleep());
         }
         do {
-            loops += 1;
+            if (loops == null) {
+                loops = 1L;
+            } else {
+                loops += 1;
+            }
             if (loops > 1 && getLoopSleep() > 0) {
                 Thread.sleep(getLoopSleep());
             }
@@ -780,7 +784,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //                    Log.log("Running the children of " + getPath() + " parallel");
                     List<Thread> threads = new ArrayList<Thread>();
                     for (TestStepInstance child : steps) {
-                        if (child.getRunMode().equals(TestStep.RunMode.SKIP) || loops == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST)) {
+                        if (child.getRunMode().equals(TestStep.RunMode.SKIP) || loops != null && loops.longValue() == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST)) {
                             //Log.log("skipping child:" + child.getName());
                             child.skip();
                         } else {
@@ -817,7 +821,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                     boolean childFailed = false;
                     for (TestStepInstance child : steps) {
                         if (child.getRunMode().equals(TestStep.RunMode.SKIP)
-                                || (loops == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST))) {
+                                || (loops != null && loops.longValue() == 1 && child.getRunMode().equals(TestStep.RunMode.SKIP_FIRST))) {
                             child.skip();
                         } else {
                             if (child.isCleanup() || !childFailed) {
@@ -832,7 +836,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                             return;
                         }
                     }
-                    if(childFailed){
+                    if (childFailed) {
                         setStatus(StepStatus.FAILED);
                     }
                 }
@@ -873,7 +877,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 checkValuePassed(getValue());
 //                setStatus(isValuePassed(getValue()) ? StepStatus.PASSED : StepStatus.FAILED);
             }
-        } while (loops < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.LOOP)));
+        } while (loops.longValue() < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.LOOP)));
         if (getTestSequenceInstance().isAborted()) {
             return;
         }
@@ -1736,7 +1740,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @XmlTransient
     public String getLoopsString() {
-        return Long.toString(loops);
+        return loops == null ? "" : loops.toString();
     }
 
     @XmlTransient
