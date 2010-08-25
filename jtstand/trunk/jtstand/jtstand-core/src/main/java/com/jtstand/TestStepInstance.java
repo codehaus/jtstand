@@ -33,6 +33,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -76,7 +77,7 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 //@XmlRootElement(name = "step")
-@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startTime", "finishTime", "valueNumber", "valueString", "steps"})
+@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
@@ -422,6 +423,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
+    @XmlElement(name = "startTime")
+    public Date getStartDate() {
+        return startTime == null ? null : new Date(startTime);
+    }
+
+    @XmlTransient
     public Long getStartTime() {
         return startTime;
     }
@@ -431,6 +438,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         nanoTime = System.nanoTime();
     }
 
+    @XmlElement(name = "finishTime")
+    public Date getFinishDate() {
+        return finishTime == null ? null : new Date(finishTime);
+    }
+
+    @XmlTransient
     public Long getFinishTime() {
         return finishTime;
     }

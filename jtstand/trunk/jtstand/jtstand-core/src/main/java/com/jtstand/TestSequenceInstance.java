@@ -39,6 +39,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,7 +74,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
 @XmlRootElement(name = "sequence")
-@XmlType(name = "testSequenceInstanceType", propOrder = {"serialNumber", "status", "failureCode", "employeeNumber", "hostName", "fixtureName", "createTime", "partNumber", "partRevision", "testStepInstance"})
+@XmlType(name = "testSequenceInstanceType", propOrder = {"serialNumber", "status", "failureCode", "employeeNumber", "projectUrl", "projectRevision", "hostName", "fixtureName", "partNumber", "partRevision", "testTypeName", "createDate", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
@@ -209,7 +210,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return TestSequenceInstance.SequenceType.FIXTURE_SETUP.equals(getSequenceType()) || TestSequenceInstance.SequenceType.STATION_SETUP.equals(getSequenceType());
     }
 
-    @XmlTransient
+    @XmlElement(name = "testType")
     public String getTestTypeName() {
         return getTestType() != null ? getTestType().getName() : isInitType() ? STR_INIT : "";
     }
@@ -585,6 +586,16 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestStation(TestStation testStation) {
         this.testStation = testStation;
+    }
+
+    @XmlElement(name = "projectUrl")
+    public String getProjectUrl() {
+        return testProject == null ? null : testProject.getCreator().getSubversionUrl();
+    }
+
+    @XmlElement(name = "projectRevision")
+    public Long getProjectRevision() {
+        return testProject == null ? null : testProject.getCreator().getRevision();
     }
 
     @XmlTransient
@@ -1175,6 +1186,12 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return getStatus().statusString;
     }
 
+    @XmlElement(name="createTime")
+    public Date getCreateDate(){
+        return new Date(createTime);
+    }
+
+    @XmlTransient
     public long getCreateTime() {
         return createTime;
     }
