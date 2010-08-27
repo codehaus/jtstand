@@ -74,7 +74,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
 @XmlRootElement(name = "sequence")
-@XmlType(name = "testSequenceInstanceType", propOrder = {"serialNumber", "status", "failureCode", "employeeNumber", "projectUrl", "projectRevision", "hostName", "fixtureName", "partNumber", "partRevision", "testTypeName", "createDate", "testStepInstance"})
+@XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "status", "failureCode", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
@@ -211,6 +211,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     @XmlElement(name = "testType")
+    public TestTypeReference getTestTypeReference() {
+        return new TestTypeReference(getPartNumber(), getPartRevision(), getTestTypeName());
+    }
+
+    @XmlTransient
     public String getTestTypeName() {
         return getTestType() != null ? getTestType().getName() : isInitType() ? STR_INIT : "";
     }
@@ -229,7 +234,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return "";
     }
 
-    @XmlElement(name = "partNumber")
+    //@XmlElement(name = "partNumber")
+    @XmlTransient
     public String getPartNumber() {
         if (getTestType() != null && getTestType().getProduct() != null) {
             return getTestType().getProduct().getPartNumber();
@@ -243,7 +249,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return "";
     }
 
-    @XmlElement(name = "partRevision")
+    //@XmlElement(name = "partRevision")
+    @XmlTransient
     public String getPartRevision() {
         if (getTestType() != null && getTestType().getProduct() != null) {
             return getTestType().getProduct().getPartRevision();
@@ -588,14 +595,18 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this.testStation = testStation;
     }
 
-    @XmlElement(name = "projectUrl")
-    public String getProjectUrl() {
-        return testProject == null ? null : testProject.getCreator().getSubversionUrl();
-    }
-
-    @XmlElement(name = "projectRevision")
-    public Long getProjectRevision() {
-        return testProject == null ? null : testProject.getCreator().getRevision();
+//    @XmlElement(name = "projectUrl")
+//    public String getProjectUrl() {
+//        return testProject == null ? null : testProject.getCreator().getSubversionUrl();
+//    }
+//
+//    @XmlElement(name = "projectRevision")
+//    public Long getProjectRevision() {
+//        return testProject == null ? null : testProject.getCreator().getRevision();
+//    }
+    @XmlElement(name = "projectFile")
+    public FileRevision getTestProjectFileRevision() {
+        return testProject == null ? null : testProject.getCreator();
     }
 
     @XmlTransient
@@ -1186,8 +1197,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return getStatus().statusString;
     }
 
-    @XmlElement(name="createTime")
-    public Date getCreateDate(){
+    @XmlElement(name = "createTime")
+    public Date getCreateDate() {
         return new Date(createTime);
     }
 

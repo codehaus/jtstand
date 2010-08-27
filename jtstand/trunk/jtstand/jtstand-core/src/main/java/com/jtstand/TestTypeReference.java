@@ -35,7 +35,7 @@ import java.io.Serializable;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "productReferenceType", propOrder = {"partRevision", "partNumber"})
+@XmlType(name = "productReferenceType", propOrder = {"name", "partRevision", "partNumber"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestTypeReference implements Serializable {
 
@@ -53,6 +53,17 @@ public class TestTypeReference implements Serializable {
     @ManyToOne
     private FileRevision creator;
     private int testTypeReferencePosition;
+
+    public TestTypeReference() {
+        super();
+    }
+
+    public TestTypeReference(String partNumber, String partRevision, String name) {
+        super();
+        this.partNumber = partNumber;
+        this.partRevision = partRevision;
+        this.name = name;
+    }
 
     @XmlTransient
     public int getPosition() {
