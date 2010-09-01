@@ -197,6 +197,7 @@ public class TestProject extends AbstractProperties implements Serializable {
 //    }
     public static TestProject unmarshal(FileRevision fileRevision)
             throws JAXBException, SAXException, SVNException {
+        System.out.println("unmarshalling: "+fileRevision);
         TestProject testProject;
         synchronized (CACHE_LOCK) {
             testProject = cache.get(fileRevision);

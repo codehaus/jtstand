@@ -1002,6 +1002,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 }
             }
         } else {
+            System.out.println("Getting property:'" + keyString + "'...");
             System.err.println("getPropertyObject : testStep is null!");
         }
         if (getCalledTestStep() != null) {

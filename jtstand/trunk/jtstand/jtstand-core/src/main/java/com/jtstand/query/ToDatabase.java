@@ -69,8 +69,8 @@ public class ToDatabase extends Thread {
                             LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
                         } else {
                             try {
+                                long startTime = System.currentTimeMillis();
                                 if (file.getName().endsWith(".state")) {
-                                    long startTime = System.currentTimeMillis();
                                     System.out.println("Processing file: " + file.getName());
                                     TestSequenceInstance seq = TestSequenceInstance.fromFile(file);
                                     if (seq == null) {
@@ -106,9 +106,13 @@ public class ToDatabase extends Thread {
                                             }
                                         }
                                     }
+                                } else if (file.getName().endsWith(".xml")) {
+                                    System.out.println("Processing file: " + file.getName());
+                                    TestSequenceInstance seq = TestSequenceInstance.unmarshal(file);
+                                    file.delete();
                                 }
                             } catch (Exception ex) {
-                                LOGGER.log(Level.SEVERE, "Exception : " + ex);
+                                LOGGER.log(Level.SEVERE, "Exception: " + ex);
 //                                    aborted = true;
                             }
                         }

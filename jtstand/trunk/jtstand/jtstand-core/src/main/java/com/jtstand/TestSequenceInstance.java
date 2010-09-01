@@ -609,6 +609,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testProject == null ? null : testProject.getCreator();
     }
 
+    public void setTestProjectFileRevision(FileRevision testProjectFileRevision) throws JAXBException, SAXException, SVNException {
+        setTestProject(TestProject.unmarshal(testProjectFileRevision));
+    }
+
     @XmlTransient
     public TestProject getTestProject() {
         return testProject;
@@ -1200,6 +1204,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @XmlElement(name = "createTime")
     public Date getCreateDate() {
         return new Date(createTime);
+    }
+
+    public void setCreateDate(Date createDate) {
+        setCreateTime(createDate.getTime());
     }
 
     @XmlTransient
