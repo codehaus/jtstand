@@ -18,7 +18,7 @@
  */
 package com.jtstand.swing;
 
-import com.jtstand.FixtureInitSequenceReference;
+import com.jtstand.InitTypeReference;
 import com.jtstand.TestFixture;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.query.FixtureInterface;
@@ -100,12 +100,10 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
         if (testFixture.isDisabled() != null && testFixture.isDisabled()) {
             setState(State.DISABLED);
         } else {
-            FixtureInitSequenceReference initSequence = testFixture.getInitSequence();
-            if (initSequence != null) {
+            InitTypeReference initTypeReference = testFixture.getInitTypeReference();
+            if (initTypeReference != null) {
                 try {
-                    TestSequenceInstance seq = new TestSequenceInstance(TestSequenceInstance.SequenceType.FIXTURE_SETUP, testFixture.getSerialNumber(), STR_AUTO, initSequence.getTestSequence(), null, testFixture, testFixture.getTestStation(), testFixture.getTestStation().getTestProject());
-//                    seq.setProductName(STR_FIXTURE);
-//                    seq.setTestTypeName(STR_INIT);
+                    TestSequenceInstance seq = new TestSequenceInstance(TestSequenceInstance.SequenceType.FIXTURE_SETUP, testFixture.getSerialNumber(), STR_AUTO, initTypeReference);
                     if (fi != null) {
                         fi.add(seq);
                     }

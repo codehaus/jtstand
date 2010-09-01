@@ -18,6 +18,7 @@
  */
 package com.jtstand;
 
+import java.net.UnknownHostException;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
@@ -213,6 +214,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @XmlElement(name = "testType")
     public TestTypeReference getTestTypeReference() {
         return new TestTypeReference(getPartNumber(), getPartRevision(), getTestTypeName());
+    }
+
+    public void setTestTypeReference(TestTypeReference testTypeReference){
+        setTestType(testProject.getTestType(testTypeReference));
     }
 
     @XmlTransient
@@ -581,9 +586,17 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testStation != null ? testStation.getHostName() : null;
     }
 
+    public void setHostName(String hostName) throws UnknownHostException {
+        setTestStation(testProject.getTestStationOrDefault(hostName));
+    }
+
     @XmlElement(name = "fixture")
     public String getFixtureName() {
         return testFixture != null ? testFixture.getFixtureName() : null;
+    }
+
+    public void setFixtureName(String fixtureName) {
+        setTestFixture(testStation.getTestFixture(fixtureName));
     }
 
     @XmlTransient
@@ -641,6 +654,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     public TestSequenceInstance(String serialNumber, String employeeNumber, TestTypeReference testTypeReference)
             throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
         this(SequenceType.NORMAL, serialNumber, employeeNumber, testTypeReference, (testTypeReference.getTestFixture() != null ? testTypeReference.getTestFixture().getTestStation() : testTypeReference.getTestStation()));
+    }
+
+    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestTypeReference testTypeReference)
+            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
+        this(sequenceType, serialNumber, employeeNumber, testTypeReference, (testTypeReference.getTestFixture() != null ? testTypeReference.getTestFixture().getTestStation() : testTypeReference.getTestStation()));
     }
 
     private TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestTypeReference testTypeReference, TestStation testStation)
@@ -777,6 +795,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestStepInstance(TestStepInstance testStepInstance) {
         this.testStepInstance = testStepInstance;
+        if(testStepInstance.getTestStep()==null){
+            System.out.println("testStep is not set yet");
+        }
     }
 
     @Override

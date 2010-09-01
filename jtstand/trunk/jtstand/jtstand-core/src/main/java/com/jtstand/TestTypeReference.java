@@ -29,6 +29,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import org.hibernate.annotations.ForceDiscriminator;
 
 /**
  *
@@ -37,6 +40,8 @@ import java.io.Serializable;
 @Entity
 @XmlType(name = "productReferenceType", propOrder = {"name", "partRevision", "partNumber"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
+@ForceDiscriminator
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 public class TestTypeReference implements Serializable {
 
     public static final long serialVersionUID = 20081114L;

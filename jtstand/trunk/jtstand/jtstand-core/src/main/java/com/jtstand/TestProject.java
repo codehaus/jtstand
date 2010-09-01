@@ -571,8 +571,8 @@ public class TestProject extends AbstractProperties implements Serializable {
         }
     }
 
-    public TestType getTestType(TestTypeReference testType) {
-        return getProduct(testType).getTestType(testType.getName());
+    public TestType getTestType(TestTypeReference testTypeReference) {
+        return getProduct(testTypeReference).getTestType(testTypeReference.getName());
     }
 
     public Product getProduct(TestTypeReference testType) {

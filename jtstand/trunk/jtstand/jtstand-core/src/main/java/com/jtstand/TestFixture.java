@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlType;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initSequence"})
+//@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initSequence"})
+@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initTypeReference"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestFixture extends AbstractVariables implements Serializable {
 
@@ -71,8 +72,9 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private TestStation testStation;
     @ManyToOne
     private FileRevision creator;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private FixtureInitSequenceReference initSequence;
+    //@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //private FixtureInitSequenceReference initSequence;
+    private InitTypeReference initTypeReference;
     private int testFixturePosition;
     private String serialNumber;
     private transient Object testLimitsLock = new Object();
@@ -117,16 +119,24 @@ public class TestFixture extends AbstractVariables implements Serializable {
         this.testFixturePosition = position;
     }
 
-    @XmlElement(name = "initSequence")
-    public FixtureInitSequenceReference getInitSequence() {
-        return initSequence;
+//    @XmlElement(name = "initSequence")
+//    public FixtureInitSequenceReference getInitSequence() {
+//        return initSequence;
+//    }
+//
+//    public void setInitSequence(FixtureInitSequenceReference initSequence) {
+//        this.initSequence = initSequence;
+//        if (initSequence != null) {
+//            initSequence.setCreator(getCreator());
+//        }
+//    }
+    @XmlElement(name = "initType")
+    public InitTypeReference getInitTypeReference() {
+        return initTypeReference;
     }
 
-    public void setInitSequence(FixtureInitSequenceReference initSequence) {
-        this.initSequence = initSequence;
-        if (initSequence != null) {
-            initSequence.setCreator(getCreator());
-        }
+    public void setInitTypeReference(InitTypeReference initTypeReference) {
+        this.initTypeReference = initTypeReference;
     }
 
     @XmlAttribute
@@ -219,12 +229,15 @@ public class TestFixture extends AbstractVariables implements Serializable {
 
     public void setCreator(FileRevision creator) {
         this.creator = creator;
-        if (getInitSequence() != null) {
-            getInitSequence().setTestFixture(this);
-        }
+//        if (getInitSequence() != null) {
+//            getInitSequence().setTestFixture(this);
+//        }
         setProperties(getProperties());
         setTestLimits(getTestLimits());
         setTestTypes(getTestTypes());
+        if (getInitTypeReference() != null) {
+            getInitTypeReference().setTestFixture(this);
+        }
     }
 
     @XmlTransient
