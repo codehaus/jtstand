@@ -26,7 +26,7 @@
     <step name="demo step 1" useLimit="the 1st step's limit">
         <remark>This is the 1st real step</remark>
         <property name="SIGMA">1.0</property>
-        <script subversionUrl="testrandom.gs" revision="332"/>
+        <script subversionUrl="testrandom.gs" revision="276"/>
     </step>
 </step>
 
