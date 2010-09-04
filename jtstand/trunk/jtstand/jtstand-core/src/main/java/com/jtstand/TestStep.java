@@ -151,6 +151,9 @@ public class TestStep implements Serializable {
     public static TestStep unmarshal(FileRevision fileRevision)
             throws JAXBException, SVNException {
         TestStep testStep = null;
+
+        System.out.println("unmarshalling:" + fileRevision);
+
         synchronized (cacheLock) {
             testStep = cache.get(fileRevision);
         }

@@ -77,7 +77,7 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 //@XmlRootElement(name = "step")
-@XmlType(name = "testStepInstanceType", propOrder = {"testStepFileRevision", "status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps"})
+@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps", "testStepFileRevision"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
@@ -138,6 +138,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @XmlElement(name = "sequenceFile")
     public FileRevision getTestStepFileRevision() {
         return calledTestStep != null ? calledTestStep.getCreator() : parent == null ? testStep.getCreator() : null;
+    }
+
+    public void setTestStepFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+        setTestStep(TestStep.unmarshal(fileRevision));
     }
 
     @XmlAttribute
