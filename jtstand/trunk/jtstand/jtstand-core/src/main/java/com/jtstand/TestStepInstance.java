@@ -141,6 +141,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     public void setTestStepFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+        System.out.println("Setting up file revision of test step:" + fileRevision);
         setTestStep(TestStep.unmarshal(fileRevision));
     }
 
@@ -371,7 +372,17 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         this.testStep = testStep;
         if (testStep != null) {
             setPosition(testStep.getPosition());
-            if (testStep.getSteps().size() > 0) {
+            if (testStep.getStepReference() != null) {
+                calledTestStep = testStep.getCalledTestStep(this);
+                if (steps.size() != calledTestStep.getSteps().size()) {
+                    throw new IllegalArgumentException("childrens size mismatch");
+                } else {
+                    Iterator<TestStep> it = calledTestStep.getSteps().iterator();
+                    for (TestStepInstance tsi : steps) {
+                        tsi.setTestStep(it.next());
+                    }
+                }
+            } else {
                 if (steps.size() != testStep.getSteps().size()) {
                     throw new IllegalArgumentException("childrens size mismatch");
                 } else {
@@ -1697,9 +1708,9 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     public boolean isLeaf() {
         if (getCalledTestStep() != null) {
-            return getCalledTestStep().getSteps().size() == 0;
+            return getCalledTestStep().getSteps().isEmpty();
         }
-        return getTestStep().getSteps().size() == 0;
+        return getTestStep().getSteps().isEmpty();
     }
 
     @XmlTransient

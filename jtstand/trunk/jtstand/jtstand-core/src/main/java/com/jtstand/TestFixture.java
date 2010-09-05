@@ -72,7 +72,7 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private TestStation testStation;
     @ManyToOne
     private FileRevision creator;
-    //@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //private FixtureInitSequenceReference initSequence;
     private InitTypeReference initTypeReference;
     private int testFixturePosition;
