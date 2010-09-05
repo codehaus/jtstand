@@ -89,7 +89,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private TestStep testStep;
 //    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
@@ -141,7 +141,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     public void setTestStepFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        System.out.println("Setting up file revision of test step:" + fileRevision);
+        //System.out.println("Setting up file revision of test step:" + fileRevision);
         setTestStep(TestStep.unmarshal(fileRevision));
     }
 
@@ -286,6 +286,28 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             } else {
                 return null;
             }
+        }
+    }
+
+    public void initNames() {
+        String eName = evaluateName();
+        if (getTestStepNamePath() == null || !eName.equals(getName())) {
+            String ePath = evaluatePath(eName);
+            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
+            TestStepNamePath ts = names.get(ePath);
+            if (ts == null) {
+                ts = new TestStepNamePath(
+                        getTestSequenceInstance().getTestSequence(),
+                        eName,
+                        ePath,
+                        //evaluateTestLimit(),
+                        calledTestStep,
+                        names.size() + 1);
+            }
+            setTestStepNamePath(ts);
+        }
+        for (TestStepInstance child : steps) {
+            child.initNames();
         }
     }
 
@@ -439,6 +461,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     public void setTestSequenceInstance(TestSequenceInstance testSequenceInstance) {
         this.testSequenceInstance = testSequenceInstance;
         for (TestStepInstance child : steps) {
+            child.setParent(this);
             child.setTestSequenceInstance(testSequenceInstance);
         }
     }
@@ -446,6 +469,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @XmlElement(name = "startTime")
     public Date getStartDate() {
         return startTime == null ? null : new Date(startTime);
+    }
+
+    public void setStartDate(Date date){
+        setStartTime(date.getTime());
     }
 
     @XmlTransient
@@ -461,6 +488,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @XmlElement(name = "finishTime")
     public Date getFinishDate() {
         return finishTime == null ? null : new Date(finishTime);
+    }
+
+    public void setFinishDate(Date date){
+        setFinishTime(date.getTime());
     }
 
     @XmlTransient
@@ -486,7 +517,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     public void setValueString(String valueString) {
         this.valueString = valueString;
-        computeValueWithUnit();
+//        computeValueWithUnit();
     }
 
     public Double getValueNumber() {
@@ -495,7 +526,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     public void setValueNumber(Double valueNumber) {
         this.valueNumber = valueNumber;
-        computeValueWithUnit();
+//        computeValueWithUnit();
     }
 
     @XmlElement(name = "step")
@@ -1017,8 +1048,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 }
             }
         } else {
-            System.out.println("Getting property:'" + keyString + "'...");
-            System.err.println("getPropertyObject : testStep is null!");
+            System.err.println("testStep is null, while getting property:'" + keyString + "'!");
         }
         if (getCalledTestStep() != null) {
             for (TestProperty tsp : getCalledTestStep().getProperties()) {
@@ -1715,9 +1745,9 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     @XmlTransient
     public String getValueWithUnit() {
-        if (valueWithUnit == null) {
+        //if (valueWithUnit == null) {
             computeValueWithUnit();
-        }
+        //}
         return valueWithUnit;
     }
 

@@ -78,7 +78,7 @@ public class TestStep implements Serializable {
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;
-    private static Object jaxbLock = new Object();
+    private static final Object jaxbLock = new Object();
 
     private static JAXBContext getJAXBContext()
             throws JAXBException {
@@ -152,19 +152,19 @@ public class TestStep implements Serializable {
             throws JAXBException, SVNException {
         TestStep testStep = null;
 
-        System.out.println("unmarshalling:" + fileRevision);
+        //System.out.println("unmarshalling:" + fileRevision);
 
         synchronized (cacheLock) {
             testStep = cache.get(fileRevision);
-        }
-        if (testStep != null) {
+
+            if (testStep != null) {
 //            Log.log("Test Step is found in cache!");
-            return testStep;
-        }
-        synchronized (jaxbLock) {
-            testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller());
-        }
-        synchronized (cacheLock) {
+                return testStep;
+            }
+            synchronized (jaxbLock) {
+                testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller());
+            }
+
             cache.put(fileRevision, testStep);
         }
         testStep.setCreator(fileRevision);

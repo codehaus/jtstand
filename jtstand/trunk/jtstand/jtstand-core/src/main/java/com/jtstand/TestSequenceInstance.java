@@ -43,7 +43,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Basic;
@@ -75,7 +74,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
 @XmlRootElement(name = "sequence")
-@XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "testSequenceFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "status", "failureCode", "testStepInstance"})
+@XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "testSequenceFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "finishDate", "status", "failureCode", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
@@ -192,7 +191,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private TestStepInstance failureStep;
     private transient ThreadGroup group = new ThreadGroup(toString());
     private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
-    private transient ConcurrentHashMap<FileRevision, TestStep> testSteps = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
+//    private transient ConcurrentHashMap<FileRevision, TestStep> testSteps = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
     public transient EntityManager em;
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
     private transient Object testStepInstanceLock = new Object();
@@ -277,15 +276,14 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return this;
     }
 
-    public TestStep putTestStep(FileRevision creator, TestStep testStep) {
-        return testSteps.put(creator, testStep);
-    }
-
-    public TestStep getTestStep(Object creator) {
-        //TODO - this is a little messy!
-        return testSteps.get(creator);
-    }
-
+//    public TestStep putTestStep(FileRevision creator, TestStep testStep) {
+//        return testSteps.put(creator, testStep);
+//    }
+//
+//    public TestStep getTestStep(Object creator) {
+//        //TODO - this is a little messy!
+//        return testSteps.get(creator);
+//    }
     public static enum PersistingPolicy {
 
         NEVER,
@@ -404,10 +402,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
-                System.out.println("Connecting testProject...");
+                //System.out.println("Connecting testProject...");
                 setTestProject(tp);
             } else {
-                System.out.println("Unable to connect testProject");
+                //System.out.println("Unable to connect testProject");
             }
         }
 ////        System.out.println("Connecting libraries...");
@@ -430,25 +428,26 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        getTestProject().getLibraries().removeAll(toRemove);
 //        System.out.println("adding...");
 //        getTestProject().getLibraries().addAll(toAdd);
-        if (getTestSequence() != null && getTestSequence().getId() == null) {
+        TestStep testStep = getTestSequence();
+        if (testStep != null && testStep.getId() == null) {
             TestStep ts = TestStep.query(em, getTestSequence().getCreator());
             if (ts != null) {
-                System.out.println("Connecting testSequence...");
+                //System.out.println("Connecting testStep '" + testStep.getName() + "'...");
                 setTestSequence(ts);
             } else {
-                System.out.println("Unable to connect testSequence");
+                //System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
             }
         }
         for (TestStepInstance tsi : this) {
-//            Log.log("step: " + tsi.getName());
+            //System.out.println("step: " + tsi.getName());
             TestStep calledTestStep = tsi.getCalledTestStep();
             if (calledTestStep != null && calledTestStep.getId() == null) {
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
-                    System.out.println("Connecting testStep '" + ts.getName() + "'...");
+                    //System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
                     tsi.setCalledTestStep(ts);
                 } else {
-                    System.out.println("Unable to connect testStep");
+                    //System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
                 }
             }
         }
@@ -632,7 +631,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        System.out.println("Setting up file revision of test step:" + fileRevision);
+        // System.out.println("Setting up file revision of test step:" + fileRevision);
         setTestSequence(TestStep.unmarshal(fileRevision));
     }
 
@@ -806,8 +805,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     public void setTestStepInstance(TestStepInstance testStepInstance) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStepInstance = testStepInstance;
         if (testStepInstance != null) {
-            System.out.println("setTestStepInstance:");
             testStepInstance.setTestSequenceInstance(this);
+            testStepInstance.initNames();
         }
     }
 
@@ -851,7 +850,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void finish() {
         dispose();
-        finishTime = System.currentTimeMillis();
+        setFinishTime(System.currentTimeMillis());
         if (isRunning()) {
             switch (testStepInstance.getStatus()) {
                 case PASSED:
@@ -1216,8 +1215,22 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //    public Long getStartTime() {
 //        return getCreateTime();
 //    }
+    @XmlElement(name = "finishTime")
+    public Date getFinishDate() {
+        return new Date(finishTime);
+    }
+
+    public void setFinishDate(Date date) {
+        setFinishTime(date.getTime());
+    }
+
+    @XmlTransient
     public Long getFinishTime() {
         return finishTime;
+    }
+
+    public void setFinishTime(Long finishTime) {
+        this.finishTime = finishTime;
     }
 
     public Long getElapsed() {
