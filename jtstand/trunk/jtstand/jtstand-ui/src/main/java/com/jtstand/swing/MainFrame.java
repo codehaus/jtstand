@@ -263,8 +263,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (starterDialog != null) {
             starterDialog.dispose();
         }
-        if (fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() != null &&
-                fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator() == null) {
+        if (fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() != null
+                && fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator() == null) {
             login = new Login(frame, true, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication());
             if (fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator() == null) {
                 return;
@@ -354,7 +354,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         }
         getFrame();
-        toDatabase = new ToDatabase(getTestStation().getSaveDirectory(), this);
+        toDatabase = new ToDatabase(getTestStation().getSaveDirectory(), getTestStation().getSavedDirectory(), getTestStation().getSavedErrorDirectory(), this);
     }
     private JFrame frame;
 
@@ -844,7 +844,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             Util.packColumnsWidthFixedFirst(jTable, 9);
             jTable.setName("Sequences");
             jTable.setAutoCreateRowSorter(true);
-            jTable.getRowSorter().addRowSorterListener(new RowSorterListener(){
+            jTable.getRowSorter().addRowSorterListener(new RowSorterListener() {
 
                 @Override
                 public void sorterChanged(RowSorterEvent e) {
@@ -1218,8 +1218,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     }
 
     public boolean canExpand(TestStepInstance tsi) {
-        for (int row = 0; row <
-                jXTreeTable.getRowCount(); row++) {
+        for (int row = 0; row
+                < jXTreeTable.getRowCount(); row++) {
             if (jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()) instanceof TestStepInstance) {
                 if (((TestStepInstance) jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal())).getTestStepInstancePath().equals(tsi.getTestStepInstancePath())) {
                     jXTreeTable.expandPath(jXTreeTable.getPathForRow(row));
@@ -1235,8 +1235,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public void selectStep(TestStepInstance selectedStep) {
         expand(selectedStep.getPathList());
 
-        for (int row = 0; row <
-                jXTreeTable.getRowCount(); row++) {
+        for (int row = 0; row
+                < jXTreeTable.getRowCount(); row++) {
             if (jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()) instanceof TestStepInstance) {
                 if (((TestStepInstance) jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal())).getTestStepInstancePath().equals(selectedStep.getTestStepInstancePath())) {
                     //System.out.println(JXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()));
@@ -1348,8 +1348,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 });
             }
-        } else if (getTestStation().getTestProject().getAuthentication() != null &&
-                evt.getPropertyName().equals(Authentication.OPERATOR_PROPERTY)) {
+        } else if (getTestStation().getTestProject().getAuthentication() != null
+                && evt.getPropertyName().equals(Authentication.OPERATOR_PROPERTY)) {
 //            System.out.println("Property '" + evt.getPropertyName() + "' changed to " + evt.getNewValue());
             if (evt.getNewValue() == null) {
                 operatorLabel.setText("Operator is logged off. ");
@@ -2081,9 +2081,9 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         int col = jXTreeTable.columnAtPoint(e.getPoint());
         if (col >= 0) {
             int modelCol = jXTreeTable.convertColumnIndexToModel(col);
-            if (modelCol == TestSequenceInstanceModel.SequenceColumn.STEPSTATUS.ordinal() &&
-                    tsi.isFailed() &&
-                    tsi.equals(tsi.getTestSequenceInstance().getFailureStep())) {
+            if (modelCol == TestSequenceInstanceModel.SequenceColumn.STEPSTATUS.ordinal()
+                    && tsi.isFailed()
+                    && tsi.equals(tsi.getTestSequenceInstance().getFailureStep())) {
                 return tsi.getTestSequenceInstance().getFailureCode();
             }
         }
