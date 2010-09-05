@@ -19,8 +19,6 @@
 package com.jtstand.query;
 
 import com.jtstand.TestSequenceInstance;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -28,9 +26,7 @@ import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -40,12 +36,16 @@ public class ToDatabase extends Thread {
 
     private static final Logger LOGGER = Logger.getLogger(ToDatabase.class.getCanonicalName());
     private File saveDirectory;
+    private File savedDirectory;
+    private File savedErrorDirectory;
     private boolean aborted = false;
     private FrameInterface model;
 
-    public ToDatabase(File saveDirectory, FrameInterface model) {
+    public ToDatabase(File saveDirectory, File savedDirectory, File savedErrorDirectory, FrameInterface model) {
         super();
         this.saveDirectory = saveDirectory;
+        this.savedDirectory = savedDirectory;
+        this.savedErrorDirectory = savedErrorDirectory;
         this.model = model;
         setDaemon(true);
         setPriority(MIN_PRIORITY);
@@ -63,10 +63,11 @@ public class ToDatabase extends Thread {
         if (!file.canWrite()) {
             LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
         } else {
-            if (file.getName().endsWith(".state")) {
-                System.out.println("Processing file: " + file.getName());
-                seq = TestSequenceInstance.fromFile(file);
-            } else if (file.getName().endsWith(".xml")) {
+//            if (file.getName().endsWith(".state")) {
+//                System.out.println("Processing file: " + file.getName());
+//                seq = TestSequenceInstance.fromFile(file);
+//            } else
+            if (file.getName().endsWith(".xml")) {
                 System.out.println("Processing file: " + file.getName());
                 seq = TestSequenceInstance.unmarshal(file);
             }
@@ -89,21 +90,22 @@ public class ToDatabase extends Thread {
                                 System.out.println("Replace...");
                                 model.replace(seq.getCreateTime(), seq.getHostName());
                             }
-                            if (file.delete()) {
-                                LOGGER.fine("Output file successfully deleted : " + file.getName());
+                            if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {
+                                System.out.println("Output file successfully moved to: " + file.getName());
                                 num++;
                                 System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
                                 System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
                             } else {
-                                LOGGER.log(Level.SEVERE, "Output file cannot be deleted : " + file.getName());
+                                System.out.println("Output file cannot be moved: " + file.getName());
                             }
                         } else {
-                            LOGGER.log(Level.SEVERE, "Output file cannot be persisted : " + file.getName());
+                            LOGGER.log(Level.SEVERE, "Output file cannot be persisted: " + file.getName());
                         }
                         em.close();
                     } catch (Exception ex) {
                         Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                        file.renameTo(new File(file.getPath() + ".error"));
+                        //file.renameTo(new File(file.getPath() + ".error"));
+                        file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()));
                     }
                 }
             }

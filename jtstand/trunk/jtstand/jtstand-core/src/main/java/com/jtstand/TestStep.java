@@ -78,7 +78,7 @@ public class TestStep implements Serializable {
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;
-    private static final Object jaxbLock = new Object();
+    private static final Object JAXB_LOCK = new Object();
 
     private static JAXBContext getJAXBContext()
             throws JAXBException {
@@ -126,8 +126,6 @@ public class TestStep implements Serializable {
             return null;
         }
     }
-    private static transient ConcurrentHashMap<FileRevision, TestStep> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
-    private static transient Object cacheLock = new Object();
 
 //    public static TestStep query(FileRevision creator) {
 ////        Log.log("Query Test Step:" + creator);
@@ -150,26 +148,14 @@ public class TestStep implements Serializable {
 //    }
     public static TestStep unmarshal(FileRevision fileRevision)
             throws JAXBException, SVNException {
-        TestStep testStep = null;
 
         //System.out.println("unmarshalling:" + fileRevision);
-
-        synchronized (cacheLock) {
-            testStep = cache.get(fileRevision);
-
-            if (testStep != null) {
-//            Log.log("Test Step is found in cache!");
-                return testStep;
-            }
-            synchronized (jaxbLock) {
-                testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller());
-            }
-
-            cache.put(fileRevision, testStep);
+        synchronized (JAXB_LOCK) {
+            TestStep testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller());
+            testStep.setCreator(fileRevision);
+            return testStep;
         }
-        testStep.setCreator(fileRevision);
         //LOGGER.log(Level.FINE, "Unmarshalled testStep:" + testStep);
-        return testStep;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

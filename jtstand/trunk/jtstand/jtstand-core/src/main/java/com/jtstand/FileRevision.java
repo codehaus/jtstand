@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
@@ -168,10 +169,20 @@ public class FileRevision implements Serializable {
     public void setFile(File file) {
         this.file = file;
     }
+    private final static transient ConcurrentHashMap<FileRevision, Object> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
+    private final static transient Object CACHE_LOCK = new Object();
 
     public Object unmarshal(Unmarshaller un)
             throws SVNException, JAXBException {
-        return un.unmarshal(getInputStream());
+        synchronized (CACHE_LOCK) {
+            Object object = cache.get(this);
+            if (object != null) {
+                return object;
+            }
+            object = un.unmarshal(getInputStream());
+            cache.put(this, object);
+            return object;
+        }
     }
 
 //    public String getText() throws SVNException, IOException {

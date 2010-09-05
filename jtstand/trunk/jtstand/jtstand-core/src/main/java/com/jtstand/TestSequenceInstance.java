@@ -805,6 +805,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     public void setTestStepInstance(TestStepInstance testStepInstance) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStepInstance = testStepInstance;
         if (testStepInstance != null) {
+            testStepInstance.setTestStep(getTestSequence());
             testStepInstance.setTestSequenceInstance(this);
             testStepInstance.initNames();
         }
@@ -1133,73 +1134,73 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        }
 //        return false;
 //    }
-    public static TestSequenceInstance fromFile(File file) {
-//        Log.log("Opening state file: " + file.getPath());
-        synchronized (FILE_LOCK) {
-            FileInputStream in;
-            ObjectInputStream s = null;
-            TestSequenceInstance tsi = null;
-            try {
-                in = new FileInputStream(file);
-                s = new ObjectInputStream(in);
-                tsi = (TestSequenceInstance) s.readObject();
-                System.out.println("Successfully opened : " + tsi.getFileName());
-            } catch (Exception ex) {
-                System.out.println("Could not read file:" + file.getName());
-            } finally {
-                if (s != null) {
-                    try {
-                        s.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-            return tsi;
-        }
-    }
 
-    public static TestSequenceInstance fromFile(File file, boolean delete) {
-        TestSequenceInstance tsi = fromFile(file);
-        if (delete) {
-            file.delete();
-        }
-        return tsi;
-    }
+//    public static TestSequenceInstance fromFile(File file) {
+//        synchronized (FILE_LOCK) {
+//            FileInputStream in;
+//            ObjectInputStream s = null;
+//            TestSequenceInstance tsi = null;
+//            try {
+//                in = new FileInputStream(file);
+//                s = new ObjectInputStream(in);
+//                tsi = (TestSequenceInstance) s.readObject();
+//                System.out.println("Successfully opened : " + tsi.getFileName());
+//            } catch (Exception ex) {
+//                System.out.println("Could not read file:" + file.getName());
+//            } finally {
+//                if (s != null) {
+//                    try {
+//                        s.close();
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//            }
+//            return tsi;
+//        }
+//    }
 
-    public static TestSequenceInstance getInstance(File saveDirectory, boolean delete) {
-        if (!saveDirectory.isDirectory()) {
-            throw new IllegalArgumentException("specified file is not a directory: " + saveDirectory);
-        }
-        File[] filelist = saveDirectory.listFiles();
-        if (filelist.length > 0) {
-            for (File file : filelist) {
-                if (file.getName().endsWith(".state")) {
-                    return fromFile(file, delete);
-                }
-            }
-        }
-        return null;
-    }
+//    public static TestSequenceInstance fromFile(File file, boolean delete) {
+//        TestSequenceInstance tsi = fromFile(file);
+//        if (delete) {
+//            file.delete();
+//        }
+//        return tsi;
+//    }
 
-    public static List<TestSequenceInstance> getInstances(File saveDirectory, boolean delete) {
-        if (!saveDirectory.isDirectory()) {
-            throw new IllegalArgumentException("specified file is not a directory:" + saveDirectory);
-        }
-        List<TestSequenceInstance> sequences = Collections.synchronizedList(new ArrayList<TestSequenceInstance>());
-        File[] filelist = saveDirectory.listFiles();
-        if (filelist.length > 0) {
-            for (File file : filelist) {
-                if (file.getName().endsWith(".state")) {
-                    TestSequenceInstance seq = fromFile(file, delete);
-                    if (seq != null) {
-                        sequences.add(fromFile(file, delete));
-                    }
-                }
-            }
-        }
-        return sequences;
-    }
+//    public static TestSequenceInstance getInstance(File saveDirectory, boolean delete) {
+//        if (!saveDirectory.isDirectory()) {
+//            throw new IllegalArgumentException("specified file is not a directory: " + saveDirectory);
+//        }
+//        File[] filelist = saveDirectory.listFiles();
+//        if (filelist.length > 0) {
+//            for (File file : filelist) {
+//                if (file.getName().endsWith(".state")) {
+//                    return fromFile(file, delete);
+//                }
+//            }
+//        }
+//        return null;
+//    }
+//
+//    public static List<TestSequenceInstance> getInstances(File saveDirectory, boolean delete) {
+//        if (!saveDirectory.isDirectory()) {
+//            throw new IllegalArgumentException("specified file is not a directory:" + saveDirectory);
+//        }
+//        List<TestSequenceInstance> sequences = Collections.synchronizedList(new ArrayList<TestSequenceInstance>());
+//        File[] filelist = saveDirectory.listFiles();
+//        if (filelist.length > 0) {
+//            for (File file : filelist) {
+//                if (file.getName().endsWith(".state")) {
+//                    TestSequenceInstance seq = fromFile(file, delete);
+//                    if (seq != null) {
+//                        sequences.add(fromFile(file, delete));
+//                    }
+//                }
+//            }
+//        }
+//        return sequences;
+//    }
 
     public String getStartedString() {
         return TestStepInstance.getDateWith24Clock(getStarted());

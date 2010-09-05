@@ -35,7 +35,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.Persistence;import javax.xml.bind.annotation.XmlAccessType;
+import javax.persistence.Persistence;
+import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -691,33 +692,53 @@ public class TestStation extends AbstractVariables implements Serializable {
         return userHome;
     }
     public static final String STR_SAVE_DIRECTORY = "jtstand.saveDirectory";
+    public static final String STR_SAVE_DIRECTORY_DEFAULT = "save";
+
+    public static final String STR_SAVED_DIRECTORY = "jtstand.savedDirectory";
+    public static final String STR_SAVED_DIRECTORY_DEFAULT = "saved";
+
+    public static final String STR_SAVED_ERROR_DIRECTORY = "jtstand.savedErrorDirectory";
+    public static final String STR_SAVED_ERROR_DIRECTORY_DEFAULT = "error";
+
+    public File getDirectoryParameter(String parameterName, String defaultDirectoryName) throws ScriptException {
+        File directory;
+        Object o = getPropertyObject(parameterName);
+        if (o != null) {
+            if (File.class.isAssignableFrom(o.getClass())) {
+                directory = (File) o;
+            } else {
+                directory = new File(o.toString());
+            }
+        } else {
+            directory = new File(getUserHome() + File.separator + ".jtstand" + File.separator + defaultDirectoryName);
+        }
+        if (directory.isFile()) {
+            throw new IllegalArgumentException("Directory is not a directory: a File is specified!");
+        }
+        if (!directory.isDirectory()) {
+            if (directory.mkdirs()) {
+                LOGGER.info("Directory is created: " + directory.getPath());
+            } else {
+                throw new IllegalArgumentException("Directory does not exist and cannot be created: " + directory.getPath());
+            }
+        }
+        if (!directory.canWrite()) {
+            throw new IllegalArgumentException("Directory does not exist and cannot be written: " + directory.getPath());
+        }
+        return directory;
+    }
 
     @XmlTransient
     public File getSaveDirectory() throws ScriptException {
-        File saveDirectory;
-        Object o = getPropertyObject(STR_SAVE_DIRECTORY);
-        if (o != null) {
-            if (File.class.isAssignableFrom(o.getClass())) {
-                saveDirectory = (File) o;
-            } else {
-                saveDirectory = new File(o.toString());
-            }
-        } else {
-            saveDirectory = new File(getUserHome() + File.separator + ".jtstand" + File.separator + "save");
-        }
-        if (saveDirectory.isFile()) {
-            throw new IllegalArgumentException("Output directory is not a directory: a File is specified!");
-        }
-        if (!saveDirectory.isDirectory()) {
-            if (saveDirectory.mkdirs()) {
-                LOGGER.info("Output directory is created: " + saveDirectory.getPath());
-            } else {
-                throw new IllegalArgumentException("Output directory does not exist and cannot be created: " + saveDirectory.getPath());
-            }
-        }
-        if (!saveDirectory.canWrite()) {
-            throw new IllegalArgumentException("Output directory does not exist and cannot be written: " + saveDirectory.getPath());
-        }
-        return saveDirectory;
+        return getDirectoryParameter(STR_SAVE_DIRECTORY, STR_SAVE_DIRECTORY_DEFAULT);
+    }
+
+    @XmlTransient
+    public File getSavedDirectory() throws ScriptException {
+        return getDirectoryParameter(STR_SAVED_DIRECTORY, STR_SAVED_DIRECTORY_DEFAULT);
+    }
+    @XmlTransient
+    public File getSavedErrorDirectory() throws ScriptException {
+        return getDirectoryParameter(STR_SAVED_ERROR_DIRECTORY, STR_SAVED_ERROR_DIRECTORY_DEFAULT);
     }
 }

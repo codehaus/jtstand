@@ -35,7 +35,8 @@ import javax.persistence.UniqueConstraint;
  * @author albert_kurucz
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
+@Table(uniqueConstraints =
+@UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
 public class TestStepNamePath implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
@@ -44,7 +45,6 @@ public class TestStepNamePath implements Serializable {
 
     public TestStepNamePath() {
     }
-
 //    static TestStepNamePath cacheGet(TestSequence testSequence, String path) {
 //        synchronized (cacheLock) {
 //            ConcurrentHashMap<String, TestStepNamePath> cache2 = cache.get(testSequence);
@@ -54,7 +54,6 @@ public class TestStepNamePath implements Serializable {
 //        }
 //        return null;
 //    }
-
 //    static TestStepNamePath cachePut(TestStepNamePath testStepNamePath) {
 //        synchronized (cacheLock) {
 //            ConcurrentHashMap<String, TestStepNamePath> cache2 = cache.get(testStepNamePath.getTestSequence());
@@ -65,7 +64,6 @@ public class TestStepNamePath implements Serializable {
 //            return cache2.put(testStepNamePath.getStepPath(), testStepNamePath);
 //        }
 //    }
-
 //    static TestStepNamePath query(EntityManager em, TestStepNamePath testStepNamePath) {
 //        if (em == null) {
 //            return null;
@@ -101,7 +99,6 @@ public class TestStepNamePath implements Serializable {
 //        }
 //        return null;
 //    }
-
 //    static TestStepNamePath query(TestSequence testSequence, String path) {
 ////        Log.log("Query TestStepNamePath: '" + path + "'");
 //        TestStepNamePath ts = null;
@@ -136,7 +133,6 @@ public class TestStepNamePath implements Serializable {
 
 //    public TestStepNamePath() {
 //    }
-
     public int getStepNumber() {
         return stepNumber;
     }
@@ -158,6 +154,9 @@ public class TestStepNamePath implements Serializable {
 //        this.testLimit = testLimit;
         this.calledTestStep = calledTestStep;
         this.stepNumber = stepNumber;
+//        if (stepNumber == 1112) {
+//            throw new IllegalArgumentException("1112"); //TBD remove this!
+//        }
 //        cachePut(this);
     }
 
@@ -168,7 +167,6 @@ public class TestStepNamePath implements Serializable {
 //    public void setTestLimit(TestLimit testLimit) {
 //        this.testLimit = testLimit;
 //    }
-
     public TestStep getCalledTestStep() {
         return calledTestStep;
     }

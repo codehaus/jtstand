@@ -77,7 +77,7 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"testsequenceinstance_id", "teststepnamepath_id"}),
     @UniqueConstraint(columnNames = {"testStepInstancePosition", "parent_id"})})
 //@XmlRootElement(name = "step")
-@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps", "testStepFileRevision"})
+@XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
 
@@ -135,15 +135,15 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return str;
     }
 
-    @XmlElement(name = "sequenceFile")
-    public FileRevision getTestStepFileRevision() {
-        return calledTestStep != null ? calledTestStep.getCreator() : parent == null ? testStep.getCreator() : null;
-    }
-
-    public void setTestStepFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        //System.out.println("Setting up file revision of test step:" + fileRevision);
-        setTestStep(TestStep.unmarshal(fileRevision));
-    }
+//    @XmlElement(name = "calledTestStepFile")
+//    public FileRevision getCalledTestStepFileRevision() {
+//        return calledTestStep == null ? null: calledTestStep.getCreator();
+//    }
+//
+//    public void setCalledTestStepFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+//        //System.out.println("Setting up file revision of test step:" + fileRevision);
+//        setTestStep(TestStep.unmarshal(fileRevision));
+//    }
 
     @XmlAttribute
     @Override
@@ -291,11 +291,19 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     public void initNames() {
         String eName = evaluateName();
+        //System.out.println("Evaluated name: '" + eName + "'");
         if (getTestStepNamePath() == null || !eName.equals(getName())) {
             String ePath = evaluatePath(eName);
+            //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
             Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
             TestStepNamePath ts = names.get(ePath);
             if (ts == null) {
+//                if (names.size() == 1111) { //TBD remove this!
+//                    System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
+//                    for (String s : names.keySet()) {
+//                        System.out.println("'" + s + "'");
+//                    }
+//                }
                 ts = new TestStepNamePath(
                         getTestSequenceInstance().getTestSequence(),
                         eName,
@@ -471,7 +479,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return startTime == null ? null : new Date(startTime);
     }
 
-    public void setStartDate(Date date){
+    public void setStartDate(Date date) {
         setStartTime(date.getTime());
     }
 
@@ -490,7 +498,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return finishTime == null ? null : new Date(finishTime);
     }
 
-    public void setFinishDate(Date date){
+    public void setFinishDate(Date date) {
         setFinishTime(date.getTime());
     }
 
@@ -1746,7 +1754,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @XmlTransient
     public String getValueWithUnit() {
         //if (valueWithUnit == null) {
-            computeValueWithUnit();
+        computeValueWithUnit();
         //}
         return valueWithUnit;
     }

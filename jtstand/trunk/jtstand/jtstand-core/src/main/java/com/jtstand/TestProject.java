@@ -173,8 +173,6 @@ public class TestProject extends AbstractProperties implements Serializable {
             return null;
         }
     }
-    private static transient ConcurrentHashMap<FileRevision, TestProject> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestProject>();
-    final private static transient Object CACHE_LOCK = new Object();
 
 //    public static TestProject query(FileRevision creator) {
 ////        Log.log("Query TestProject: " + creator);
@@ -198,22 +196,11 @@ public class TestProject extends AbstractProperties implements Serializable {
     public static TestProject unmarshal(FileRevision fileRevision)
             throws JAXBException, SAXException, SVNException {
         //System.out.println("unmarshalling: "+fileRevision);
-        TestProject testProject;
-        synchronized (CACHE_LOCK) {
-            testProject = cache.get(fileRevision);
-        }
-        if (testProject != null) {
-            //Test Project is found in cache!
+        synchronized (JAXB_LOCK) {
+            TestProject testProject = (TestProject) fileRevision.unmarshal(getUnmarshaller());
+            testProject.setCreator(fileRevision);
             return testProject;
         }
-        synchronized (JAXB_LOCK) {
-            testProject = (TestProject) fileRevision.unmarshal(getUnmarshaller());
-        }
-        synchronized (CACHE_LOCK) {
-            cache.put(fileRevision, testProject);
-        }
-        testProject.setCreator(fileRevision);
-        return testProject;
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
