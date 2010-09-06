@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.codehaus.jtstand</groupId>
         <artifactId>jtstand</artifactId>
-        <version>1.0</version>
+        <version>0.99-SNAPSHOT</version>
     </parent>
     <artifactId>jtstand-core</artifactId>
     <packaging>jar</packaging>
@@ -86,7 +86,7 @@
                         <configuration>
                             <tasks>
                                 <taskdef name="schemagen" classname="com.sun.tools.jxc.SchemaGenTask">
-                                    <classpath refid="maven.compile.classpath" />
+                                    <classpath refid="maven.compile.classpath"/>
                                 </taskdef>
                                 <mkdir dir="${project.build.directory}/schema-src" />
                                 <copy todir="${project.build.directory}/schema-src">
@@ -94,10 +94,10 @@
                                         <include name="com/jtstand/*.java" />
                                     </fileset>
                                 </copy>
-                                <mkdir dir="${project.build.directory}/schema" />
+                                <mkdir dir="${project.build.directory}/schema"/>
                                 <schemagen srcdir="${project.build.directory}/schema-src" destdir="${project.build.directory}/schema">
                                     <schema namespace="http://www.jtstand.com/" file="${jtstand.schemaFileName}" />
-                                    <classpath refid="maven.compile.classpath" />
+                                    <classpath refid="maven.compile.classpath"/>
                                 </schemagen>
                             </tasks>
                         </configuration>
