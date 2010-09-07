@@ -464,8 +464,8 @@ public class TestStation extends AbstractVariables implements Serializable {
     public Driver getDriver() throws ScriptException {
         String driverClass = getPeristencePropertiesMap().get("hibernate.connection.driver_class");
         if (driverClass == null) {
-//            return Driver.derby;
-            return Driver.h2;
+            return Driver.derby;
+//            return Driver.h2;
         }
         Driver[] drivers = Driver.values();
         for (int i = 0; i < drivers.length; i++) {
@@ -693,10 +693,8 @@ public class TestStation extends AbstractVariables implements Serializable {
     }
     public static final String STR_SAVE_DIRECTORY = "jtstand.saveDirectory";
     public static final String STR_SAVE_DIRECTORY_DEFAULT = "save";
-
     public static final String STR_SAVED_DIRECTORY = "jtstand.savedDirectory";
     public static final String STR_SAVED_DIRECTORY_DEFAULT = "saved";
-
     public static final String STR_SAVED_ERROR_DIRECTORY = "jtstand.savedErrorDirectory";
     public static final String STR_SAVED_ERROR_DIRECTORY_DEFAULT = "error";
 
@@ -737,6 +735,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     public File getSavedDirectory() throws ScriptException {
         return getDirectoryParameter(STR_SAVED_DIRECTORY, STR_SAVED_DIRECTORY_DEFAULT);
     }
+
     @XmlTransient
     public File getSavedErrorDirectory() throws ScriptException {
         return getDirectoryParameter(STR_SAVED_ERROR_DIRECTORY, STR_SAVED_ERROR_DIRECTORY_DEFAULT);
