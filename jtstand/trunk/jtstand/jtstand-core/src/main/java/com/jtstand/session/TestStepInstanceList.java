@@ -98,7 +98,7 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
         seq.getTestSequence().getNames().size();
         LOGGER.info("TestSequenceInstance is found in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
 
-        String queryString = "select ts from TestStepNamePath ts where ts.testStep.id = " + seq.getTestSequence().getId() + " and ts.stepPath = '" + path + "'";
+        String queryString = "select ts from TestStepNamePath ts where ts.testStep.id = " + seq.getTestSequence().getId() + " and ts.stepPath like '" + path + "'";
         List<TestStepNamePath> tsnpList = (List<TestStepNamePath>) (new GeneralQuery(em, queryString, 1)).query();
         if (tsnpList == null || tsnpList.size() != 1) {
             System.out.println("Not found TestStepNamePath with testStep.id: " + seq.getTestSequence().getId() + " stepPath: " + path);
