@@ -217,11 +217,11 @@
         </plugins>
     </build>
     <dependencies>
-        <dependency>
+        <!--dependency>
             <groupId>org.codehaus.groovy.maven.runtime</groupId>
             <artifactId>gmaven-runtime-1.6</artifactId>
             <version>1.0</version>
-        </dependency>
+        </dependency-->
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
             <artifactId>jtstand-ui</artifactId>

@@ -49,6 +49,8 @@ public class TestTypeSequenceReference extends FileRevisionReference implements 
             ts.setCreator(getCreator());
             return ts;
         }
+//        String filePath=getTestType().getCreator().getFile() == null ? null : getTestType().getCreator().getFile().getPath();
+//        System.out.println("test sequence file: " + filePath);
         return TestStep.unmarshal(getFileRevision(getTestType().getCreator()));
     }
 

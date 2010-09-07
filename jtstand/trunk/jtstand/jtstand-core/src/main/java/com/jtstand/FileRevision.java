@@ -26,6 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -67,6 +68,17 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 public class FileRevision implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
+
+    public static FileRevision getFileRevision(String subversionUrl, Long revision) {
+        Enumeration<FileRevision> fileRevisions = cache.keys();
+        while (fileRevisions.hasMoreElements()) {
+            FileRevision fileRevision = fileRevisions.nextElement();
+            if (fileRevision.getSubversionUrl().equals(subversionUrl) && fileRevision.getRevision().equals(revision)) {
+                return fileRevision;
+            }
+        }
+        return new FileRevision(subversionUrl, revision);
+    }
     private String subversionUrl;
     private Long revision;
     private transient File file;

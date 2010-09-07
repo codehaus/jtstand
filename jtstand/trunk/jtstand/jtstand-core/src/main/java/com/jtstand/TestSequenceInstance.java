@@ -460,9 +460,13 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         try {
             em.getTransaction().begin();
             LOGGER.fine("Merging testSequenceInstance...");
+//            String filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
+//            System.out.println("project file path before:" + filePath);
             em.merge(this);
             LOGGER.fine("Merging testSequenceInstance, committing Transaction...");
             em.getTransaction().commit();
+//            filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
+//            System.out.println("project file path after:" + filePath);
             System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (PersistenceException ex) {
@@ -621,8 +625,8 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testProject == null ? null : testProject.getCreator();
     }
 
-    public void setTestProjectFileRevision(FileRevision testProjectFileRevision) throws JAXBException, SAXException, SVNException {
-        setTestProject(TestProject.unmarshal(testProjectFileRevision));
+    public void setTestProjectFileRevision(FileRevision fileRevision) throws JAXBException, SAXException, SVNException {
+        setTestProject(TestProject.unmarshal(FileRevision.getFileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision())));
     }
 
     @XmlElement(name = "sequenceFile")
@@ -632,7 +636,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         // System.out.println("Setting up file revision of test step:" + fileRevision);
-        setTestSequence(TestStep.unmarshal(fileRevision));
+        setTestSequence(TestStep.unmarshal(FileRevision.getFileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision())));
     }
 
     @XmlTransient
@@ -1134,7 +1138,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        }
 //        return false;
 //    }
-
 //    public static TestSequenceInstance fromFile(File file) {
 //        synchronized (FILE_LOCK) {
 //            FileInputStream in;
@@ -1159,7 +1162,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //            return tsi;
 //        }
 //    }
-
 //    public static TestSequenceInstance fromFile(File file, boolean delete) {
 //        TestSequenceInstance tsi = fromFile(file);
 //        if (delete) {
@@ -1167,7 +1169,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        }
 //        return tsi;
 //    }
-
 //    public static TestSequenceInstance getInstance(File saveDirectory, boolean delete) {
 //        if (!saveDirectory.isDirectory()) {
 //            throw new IllegalArgumentException("specified file is not a directory: " + saveDirectory);
@@ -1201,7 +1202,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        }
 //        return sequences;
 //    }
-
     public String getStartedString() {
         return TestStepInstance.getDateWith24Clock(getStarted());
     }
