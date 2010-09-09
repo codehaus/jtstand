@@ -80,12 +80,6 @@ public class StepReference extends FileRevisionReference implements Serializable
         if (step.getParent() != null) {
             step.getParent().checkLoop(creator);
         }
-//        TestStep calledStep = step.getTestSequenceInstance().getTestStep(creator);
-//        if (calledStep == null) {
-//            calledStep = TestStep.unmarshal(creator);
-//            step.getTestSequenceInstance().putTestStep(creator, calledStep);
-//        }
-//        return calledStep;
-        return TestStep.unmarshal(creator);
+        return TestStep.unmarshal(creator, true);
     }
 }

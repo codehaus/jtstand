@@ -91,7 +91,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     private Long id;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private TestStep testStep;
-//    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     private TestStep calledTestStep;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -114,21 +113,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     private transient String valueWithUnit = null;
     private transient String lslWithUnit = null;
     private transient String uslWithUnit = null;
-//    private transient Object thisThreadLock = new Object();
-    private transient Object parentLock = new Object();
-//    private transient Object stepObject;
+    private transient final Object parentLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
     @XmlTransient
     public Logger getLogger() {
         return LOGGER;
-    }
-    //@Override
-
-    private Object readResolve() {
-//        thisThreadLock = new Object();
-        parentLock = new Object();
-        return this;
     }
 
     public String evaluate(String str) {
@@ -144,7 +134,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //        //System.out.println("Setting up file revision of test step:" + fileRevision);
 //        setTestStep(TestStep.unmarshal(fileRevision));
 //    }
-
     @XmlAttribute
     @Override
     public String getName() {

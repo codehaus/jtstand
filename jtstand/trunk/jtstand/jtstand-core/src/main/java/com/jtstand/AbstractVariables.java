@@ -64,11 +64,6 @@ abstract public class AbstractVariables extends AbstractProperties implements Se
         }
     }
 
-//    private Object readResolve() {
-//        variableLock = new Object();
-//        return this;
-//    }
-
     public Object getVariable(String keyString, boolean wait, TestProperty tsp, TestStepInstance step) throws InterruptedException, ScriptException {
         if (wait) {
             while (true) {

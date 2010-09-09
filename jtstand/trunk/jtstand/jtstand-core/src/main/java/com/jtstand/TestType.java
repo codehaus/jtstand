@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-
 import javax.script.ScriptException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,21 +68,13 @@ public class TestType extends AbstractProperties implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//    private String subversionUrl;
-//    private Long revision;
     @ManyToOne
     private FileRevision creator;
     private int testTypePosition;
     @OneToOne(cascade = CascadeType.ALL)
     private TestTypeSequenceReference testSequence;
-    private transient Object propertiesLock = new Object();
-    private transient Object testLimitsLock = new Object();
-
-    private Object readResolve() {
-        propertiesLock = new Object();
-        testLimitsLock = new Object();
-        return this;
-    }
+    private transient final Object propertiesLock = new Object();
+    private transient final Object testLimitsLock = new Object();
 
     @XmlElement(name = "limit")
     public List<TestTypeLimit> getTestLimits() {
@@ -145,42 +136,6 @@ public class TestType extends AbstractProperties implements Serializable {
         return id;
     }
 
-//    public FileRevision getNormal(FileRevision creator) throws URISyntaxException {
-//        if (revision == null || revision < 1) {
-//            throw new IllegalArgumentException("Cannot normalize revision number:" + revision);
-//        }
-//        URI creatorURI = new URI(creator.getSubversionUrl());
-//        URI newURI = creatorURI.resolve(subversionUrl);
-//        String str = creatorURI.toString();
-//        URI relativeURI = (new URI(str.substring(0, str.lastIndexOf("/")))).relativize(newURI);
-//        if (!relativeURI.isAbsolute() && creator.getFile() != null) {
-//            return new FileRevision(newURI.toString(), revision, new File(creator.getFile().toURI().resolve(relativeURI)));
-//        } else {
-//            return new FileRevision(newURI.toString(), revision);
-//        }
-//    }
-//    @XmlAttribute
-//    public String getSubversionUrl() {
-//        return subversionUrl;
-//    }
-//
-//    public void setSubversionUrl(String subversionUrl) {
-//        this.subversionUrl = subversionUrl;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "com.jtstand.FileRevision[id=" + id + ", url=" + subversionUrl + ", rev=" + revision + "]";
-//    }
-//
-//    @XmlAttribute
-//    public Long getRevision() {
-//        return revision;
-//    }
-//
-//    public void setRevision(Long revision) {
-//        this.revision = revision;
-//    }
     @XmlElement
     public String getRemark() {
         return remark;
@@ -234,8 +189,6 @@ public class TestType extends AbstractProperties implements Serializable {
     public int hashCode() {
         int hash = 0;
         hash += (creator != null ? creator.hashCode() : 0);
-//        hash += (subversionUrl != null ? subversionUrl.hashCode() : 0);
-//        hash += (revision != null ? revision.hashCode() : 0);
         hash += (name != null ? name.hashCode() : 0);
         hash += (product != null ? product.hashCode() : 0);
         return hash;
@@ -253,12 +206,6 @@ public class TestType extends AbstractProperties implements Serializable {
         if ((this.creator == null && other.getCreator() != null) || (this.creator != null && !this.creator.equals(other.getCreator()))) {
             return false;
         }
-//        if ((this.subversionUrl == null && other.getSubversionUrl() != null) || (this.subversionUrl != null && !this.subversionUrl.equals(other.getSubversionUrl()))) {
-//            return false;
-//        }
-//        if ((this.revision == null && other.getRevision() != null) || (this.revision != null && !this.revision.equals(other.getRevision()))) {
-//            return false;
-//        }
         if ((this.name == null && other.getName() != null) || (this.name != null && !this.name.equals(other.getName()))) {
             return false;
         }

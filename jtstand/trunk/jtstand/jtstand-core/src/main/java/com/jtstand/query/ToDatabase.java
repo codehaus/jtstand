@@ -63,10 +63,6 @@ public class ToDatabase extends Thread {
         if (!file.canWrite()) {
             LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
         } else {
-//            if (file.getName().endsWith(".state")) {
-//                System.out.println("Processing file: " + file.getName());
-//                seq = TestSequenceInstance.fromFile(file);
-//            } else
             if (file.getName().endsWith(".xml")) {
                 System.out.println("Processing file: " + file.getName());
                 seq = TestSequenceInstance.unmarshal(file);
@@ -116,7 +112,6 @@ public class ToDatabase extends Thread {
     public void run() {
         System.out.println("Processing output directory '" + saveDirectory.toString() + "' started...");
         while (!aborted) {
-//            System.out.println("toDatabase checking directory: " + saveDirectory.toString());
             try {
                 if (!saveDirectory.canRead()) {
                     throw new IllegalArgumentException("Output directory does not exist and cannot be read: " + saveDirectory);

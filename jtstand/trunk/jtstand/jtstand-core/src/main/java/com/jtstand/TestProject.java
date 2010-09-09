@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -193,11 +192,11 @@ public class TestProject extends AbstractProperties implements Serializable {
 //        }
 //        return testProject;
 //    }
-    public static TestProject unmarshal(FileRevision fileRevision)
+    public static TestProject unmarshal(FileRevision fileRevision, boolean useCache)
             throws JAXBException, SAXException, SVNException {
         //System.out.println("unmarshalling: "+fileRevision);
         synchronized (JAXB_LOCK) {
-            TestProject testProject = (TestProject) fileRevision.unmarshal(getUnmarshaller());
+            TestProject testProject = (TestProject) fileRevision.unmarshal(getUnmarshaller(), useCache);
             testProject.setCreator(fileRevision);
             return testProject;
         }
@@ -236,18 +235,10 @@ public class TestProject extends AbstractProperties implements Serializable {
 //    private List<Library> libraries = new ArrayList<Library>();
 //    private static GroovyClassLoader cl;
     private static ScriptEngineManager manager;
-    private transient Object propertiesLock = new Object();
-    private transient Object productsLock = new Object();
-    private transient Object testStationsLock = new Object();
-    private transient Object testLimitsLock = new Object();
-
-    private Object readResolve() {
-        propertiesLock = new Object();
-        productsLock = new Object();
-        testStationsLock = new Object();
-        testLimitsLock = new Object();
-        return this;
-    }
+    private transient final Object propertiesLock = new Object();
+    private transient final Object productsLock = new Object();
+    private transient final Object testStationsLock = new Object();
+    private transient final Object testLimitsLock = new Object();
 
     @XmlElement(name = "limit")
     public List<TestProjectLimit> getTestLimits() {

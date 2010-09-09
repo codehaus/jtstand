@@ -32,7 +32,6 @@
     <class>com.jtstand.Product</class>
     <class>com.jtstand.ProductLimit</class>
     <class>com.jtstand.ProductProperty</class>
-    <class>com.jtstand.StationInitSequenceReference</class>
     <class>com.jtstand.StepReference</class>
     <class>com.jtstand.TestFixture</class>
     <class>com.jtstand.TestFixtureLimit</class>

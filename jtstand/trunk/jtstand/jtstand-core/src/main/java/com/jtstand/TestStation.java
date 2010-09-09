@@ -33,7 +33,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -58,7 +57,7 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "testTypes", "fixtures", "initSequence"})
+@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "testTypes", "fixtures"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStation extends AbstractVariables implements Serializable {
 
@@ -85,22 +84,12 @@ public class TestStation extends AbstractVariables implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
     @OrderBy("testFixturePosition ASC")
     private List<TestFixture> fixtures = new ArrayList<TestFixture>();
-    @OneToOne(cascade = CascadeType.ALL)
-    private StationInitSequenceReference initSequence;
     private int testStationsPosition;
     private static EntityManagerFactory entityManagerFactory;
-    private transient Object propertiesLock = new Object();
-    private transient Object testTypesLock = new Object();
-    private transient Object testFixturesLock = new Object();
-    private transient Object testLimitsLock = new Object();
-
-    private Object readResolve() {
-        propertiesLock = new Object();
-        testTypesLock = new Object();
-        testFixturesLock = new Object();
-        testLimitsLock = new Object();
-        return this;
-    }
+    private transient final Object propertiesLock = new Object();
+    private transient final Object testTypesLock = new Object();
+    private transient final Object testFixturesLock = new Object();
+    private transient final Object testLimitsLock = new Object();
 
     @XmlElement(name = "limit")
     public List<TestStationLimit> getTestLimits() {
@@ -213,18 +202,6 @@ public class TestStation extends AbstractVariables implements Serializable {
         this.testStationsPosition = position;
     }
 
-    @XmlElement(name = "initSequence")
-    public StationInitSequenceReference getInitSequence() {
-        return initSequence;
-    }
-
-    public void setInitSequence(StationInitSequenceReference initSequence) {
-        this.initSequence = initSequence;
-        if (initSequence != null) {
-            initSequence.setCreator(getCreator());
-        }
-    }
-
     @XmlTransient
     public Long getId() {
         return id;
@@ -324,9 +301,6 @@ public class TestStation extends AbstractVariables implements Serializable {
 
     public void setCreator(FileRevision creator) {
         this.creator = creator;
-        if (getInitSequence() != null) {
-            getInitSequence().setCreator(creator);
-        }
         setProperties(getProperties());
         setTestLimits(getTestLimits());
         setFixtures(getFixtures());

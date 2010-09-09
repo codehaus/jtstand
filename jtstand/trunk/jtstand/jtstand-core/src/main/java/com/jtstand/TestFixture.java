@@ -77,16 +77,9 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private InitTypeReference initTypeReference;
     private int testFixturePosition;
     private String serialNumber;
-    private transient Object testLimitsLock = new Object();
-    private transient Object propertiesLock = new Object();
-    private transient Object testTypesLock = new Object();
-
-    private Object readResolve() {
-        testLimitsLock = new Object();
-        propertiesLock = new Object();
-        testTypesLock = new Object();
-        return this;
-    }
+    private transient final Object testLimitsLock = new Object();
+    private transient final Object propertiesLock = new Object();
+    private transient final Object testTypesLock = new Object();
 
     @XmlElement(name = "limit")
     public List<TestFixtureLimit> getTestLimits() {

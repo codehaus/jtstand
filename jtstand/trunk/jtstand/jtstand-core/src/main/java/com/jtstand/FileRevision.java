@@ -68,17 +68,16 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 public class FileRevision implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-
-    public static FileRevision getFileRevision(String subversionUrl, Long revision) {
-        Enumeration<FileRevision> fileRevisions = cache.keys();
-        while (fileRevisions.hasMoreElements()) {
-            FileRevision fileRevision = fileRevisions.nextElement();
-            if (fileRevision.getSubversionUrl().equals(subversionUrl) && fileRevision.getRevision().equals(revision)) {
-                return fileRevision;
-            }
-        }
-        return new FileRevision(subversionUrl, revision);
-    }
+//    public static FileRevision getFileRevision(String subversionUrl, Long revision) {
+//        Enumeration<FileRevision> fileRevisions = cache.keys();
+//        while (fileRevisions.hasMoreElements()) {
+//            FileRevision fileRevision = fileRevisions.nextElement();
+//            if (fileRevision.getSubversionUrl().equals(subversionUrl) && fileRevision.getRevision().equals(revision)) {
+//                return fileRevision;
+//            }
+//        }
+//        return new FileRevision(subversionUrl, revision);
+//    }
     private String subversionUrl;
     private Long revision;
     private transient File file;
@@ -184,32 +183,27 @@ public class FileRevision implements Serializable {
     private final static transient ConcurrentHashMap<FileRevision, Object> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
     private final static transient Object CACHE_LOCK = new Object();
 
-    public Object unmarshal(Unmarshaller un)
+    public Object unmarshal(Unmarshaller un, boolean useCache)
             throws SVNException, JAXBException {
-        synchronized (CACHE_LOCK) {
-            Object object = cache.get(this);
-            if (object != null) {
+        if (useCache) {
+            synchronized (CACHE_LOCK) {
+                Object object = cache.get(this);
+                if (object != null) {
+                    return object;
+                }
+                object = un.unmarshal(getInputStream());
+                cache.put(this, object);
                 return object;
             }
-            object = un.unmarshal(getInputStream());
-            cache.put(this, object);
-            return object;
+        } else {
+            return un.unmarshal(getInputStream());
         }
     }
 
-//    public String getText() throws SVNException, IOException {
-//        InputStream in = getInputStream();
-//        StringBuffer out = new StringBuffer();
-//        byte[] b = new byte[4096];
-//        for (int n; (n = in.read(b)) != -1;) {
-//            out.append(new String(b, 0, n));
-//        }
-//        return out.toString();
-//    }
     public String getText(String charsetName) throws SVNException, IOException {
 //        System.out.println("Reading file...");
         InputStream in = getInputStream();
-        StringBuffer out = new StringBuffer();
+        StringBuilder out = new StringBuilder();
         byte[] b = new byte[4096];
         for (int n; (n = in.read(b)) != -1;) {
             if (charsetName == null) {

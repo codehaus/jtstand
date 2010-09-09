@@ -107,7 +107,7 @@ public class Main {
         }
         System.out.println("Project file requested revision: " + revision);
         try {
-            new MainFrame(TestProject.unmarshal(new FileRevision(projectLocation, (long) revision)).getTestStationOrDefault(station));
+            new MainFrame(TestProject.unmarshal(new FileRevision(projectLocation, (long) revision), true).getTestStationOrDefault(station));
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "IOException", ex);
         } catch (JAXBException ex) {
@@ -214,7 +214,7 @@ public class Main {
 
     private static void setupLibrary() {
         DAVRepositoryFactory.setup(); //For using over http:// and https://
-    //SVNRepositoryFactoryImpl.setup(); //For using over svn:// and svn+xxx://
-    //FSRepositoryFactory.setup(); //For using over file:///
+        //SVNRepositoryFactoryImpl.setup(); //For using over svn:// and svn+xxx://
+        //FSRepositoryFactory.setup(); //For using over file:///
     }
 }

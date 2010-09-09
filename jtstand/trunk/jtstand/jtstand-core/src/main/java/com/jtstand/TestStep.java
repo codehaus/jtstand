@@ -146,12 +146,12 @@ public class TestStep implements Serializable {
 //        }
 //        return testStep;
 //    }
-    public static TestStep unmarshal(FileRevision fileRevision)
+    public static TestStep unmarshal(FileRevision fileRevision, boolean useCache)
             throws JAXBException, SVNException {
 
         //System.out.println("unmarshalling:" + fileRevision);
         synchronized (JAXB_LOCK) {
-            TestStep testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller());
+            TestStep testStep = (TestStep) fileRevision.unmarshal(getUnmarshaller(), useCache);
             testStep.setCreator(fileRevision);
             return testStep;
         }
@@ -274,16 +274,9 @@ public class TestStep implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_STEP, fetch = FetchType.EAGER)
     @MapKey(name = "stepPath")
     private Map<String, TestStepNamePath> names = new HashMap<String, TestStepNamePath>();
-    private transient Object testLimitsLock = new Object();
-    private transient Object propertiesLock = new Object();
-    private transient Object stepsLock = new Object();
-
-    private Object readResolve() {
-        testLimitsLock = new Object();
-        propertiesLock = new Object();
-        stepsLock = new Object();
-        return this;
-    }
+    private transient final Object testLimitsLock = new Object();
+    private transient final Object propertiesLock = new Object();
+    private transient final Object stepsLock = new Object();
 
     @XmlTransient
     public Map<String, TestStepNamePath> getNames() {

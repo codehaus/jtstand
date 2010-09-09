@@ -76,16 +76,9 @@ public class Product extends AbstractProperties implements Serializable {
     @ManyToOne
     private FileRevision creator;
     private int productPosition;
-    private transient Object testLimitsLock = new Object();
-    private transient Object propertiesLock = new Object();
-    private transient Object testTypesLock = new Object();
-
-    private Object readResolve() {
-        testLimitsLock = new Object();
-        propertiesLock = new Object();
-        testTypesLock = new Object();
-        return this;
-    }
+    private transient final Object testLimitsLock = new Object();
+    private transient final Object propertiesLock = new Object();
+    private transient final Object testTypesLock = new Object();
 
     @XmlElement(name = "limit")
     public List<ProductLimit> getTestLimits() {

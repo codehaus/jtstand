@@ -194,7 +194,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //    private transient ConcurrentHashMap<FileRevision, TestStep> testSteps = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
     public transient EntityManager em;
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
-    private transient Object testStepInstanceLock = new Object();
+    private transient final Object testStepInstanceLock = new Object();
 
     @XmlTransient
     public SequenceType getSequenceType() {
@@ -271,19 +271,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         this.testType = testType;
     }
 
-    private Object readResolve() {
-        testStepInstanceLock = new Object();
-        return this;
-    }
-
-//    public TestStep putTestStep(FileRevision creator, TestStep testStep) {
-//        return testSteps.put(creator, testStep);
-//    }
-//
-//    public TestStep getTestStep(Object creator) {
-//        //TODO - this is a little messy!
-//        return testSteps.get(creator);
-//    }
     public static enum PersistingPolicy {
 
         NEVER,
@@ -625,8 +612,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testProject == null ? null : testProject.getCreator();
     }
 
-    public void setTestProjectFileRevision(FileRevision fileRevision) throws JAXBException, SAXException, SVNException {
-        setTestProject(TestProject.unmarshal(FileRevision.getFileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision())));
+    public void setTestProjectFileRevision(FileRevision fileRevision) throws JAXBException, SAXException, SVNException, CloneNotSupportedException {
+        setTestProject(
+                TestProject.unmarshal(
+                new FileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision()),
+                false));
     }
 
     @XmlElement(name = "sequenceFile")
@@ -636,7 +626,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         // System.out.println("Setting up file revision of test step:" + fileRevision);
-        setTestSequence(TestStep.unmarshal(FileRevision.getFileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision())));
+        setTestSequence(
+                TestStep.unmarshal(
+                new FileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision()),
+                false));
     }
 
     @XmlTransient
