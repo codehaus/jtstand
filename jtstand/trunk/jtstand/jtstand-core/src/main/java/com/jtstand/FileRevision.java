@@ -162,7 +162,15 @@ public class FileRevision implements Serializable {
             if (revision == 0) {
                 this.revision = -1L;
             }
-            this.subversionUrl = subversionUrlorFilePath;
+            subversionUrl = subversionUrlorFilePath;
+            Enumeration<FileRevision> keys = cache.keys();
+            while (keys.hasMoreElements()) {
+                FileRevision fr = keys.nextElement();
+                if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
+                    file = fr.file;
+                    break;
+                }
+            }
         }
     }
 
@@ -294,6 +302,10 @@ public class FileRevision implements Serializable {
 
     @Override
     public String toString() {
-        return getSubversionUrl() + "@" + getRevision();
+        String retval = getSubversionUrl() + "@" + getRevision();
+        if (file != null) {
+            retval += "@" + file.getPath();
+        }
+        return retval;
     }
 }
