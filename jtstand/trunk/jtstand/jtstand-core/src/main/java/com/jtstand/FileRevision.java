@@ -26,6 +26,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -107,6 +111,49 @@ public class FileRevision implements Serializable {
             return fr;
         } catch (Exception ex) {
             return null;
+        }
+    }
+
+    FileRevision(String subversionUrl, Long revision, FileRevision filer) throws URISyntaxException {
+        this.revision = revision;
+        this.subversionUrl = subversionUrl;
+
+        // try to find this file revision from cache first
+        // if found, adjust file parameter if cached one
+        Enumeration<FileRevision> keys = cache.keys();
+        while (keys.hasMoreElements()) {
+            FileRevision fr = keys.nextElement();
+            if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
+                file = fr.file;
+                return;
+            }
+        }
+
+
+
+        // try to use the filer as hint to set file parameter
+        if (filer != null) {
+            File file = filer.getFile();
+            if (file != null && file.isFile()) {
+                System.out.println("Filer's Path: '" + file.getAbsolutePath() + "' revision: '" + revision + "'");
+                SVNClientManager cm = SVNClientManager.newInstance();
+                try {
+                    //SVNStatus svns = cm.getStatusClient().doStatus(file, false);
+                    //SVNURL filerURL = svns.getURL(); //
+                    URI filerURI = URI.create(filer.subversionUrl);
+                    System.out.println("filerURI:" + filerURI);
+                    URI uri = new URI(subversionUrl);
+                    System.out.println("uri:" + uri);
+
+                    URI relative = filerURI.relativize(uri);
+                    System.out.println("Relative path:" + relative);
+                    //TBD
+
+
+                } catch (Exception ex) {
+                    System.out.println("Exception while checking current revision of local file: " + ex);
+                }
+            }
         }
     }
 

@@ -354,7 +354,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         }
         getFrame();
-        toDatabase = new ToDatabase(getTestStation().getSaveDirectory(), getTestStation().getSavedDirectory(), getTestStation().getSavedErrorDirectory(), this);
+        toDatabase = new ToDatabase(getTestStation(), this);
     }
     private JFrame frame;
 

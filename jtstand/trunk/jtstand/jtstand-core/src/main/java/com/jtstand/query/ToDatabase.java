@@ -19,14 +19,16 @@
 package com.jtstand.query;
 
 import com.jtstand.TestSequenceInstance;
+import com.jtstand.TestStation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
-import org.tmatesoft.svn.core.SVNException;
+import javax.script.ScriptException;
 
 /**
  *
@@ -40,13 +42,29 @@ public class ToDatabase extends Thread {
     private File savedErrorDirectory;
     private boolean aborted = false;
     private FrameInterface model;
+    private Set<File> ignoredFiles = new HashSet<File>();
+    private TestStation testStation;
+    private transient int num = 0;
 
-    public ToDatabase(File saveDirectory, File savedDirectory, File savedErrorDirectory, FrameInterface model) {
+    public ToDatabase(TestStation testStation, FrameInterface model) throws ScriptException {
         super();
-        this.saveDirectory = saveDirectory;
-        this.savedDirectory = savedDirectory;
-        this.savedErrorDirectory = savedErrorDirectory;
+        this.testStation = testStation;
+        saveDirectory = testStation.getSaveDirectory();
+        savedDirectory = testStation.getSavedDirectory();
+        savedErrorDirectory = testStation.getSavedErrorDirectory();
         this.model = model;
+        if (saveDirectory == null) {
+            System.out.println("Save directory is not defined");
+            return;
+        }
+        if (savedDirectory == null) {
+            System.out.println("Saved directory is not defined");
+            return;
+        }
+        if (savedErrorDirectory == null) {
+            System.out.println("Saved error directory is not defined");
+            return;
+        }
         setDaemon(true);
         setPriority(MIN_PRIORITY);
         start();
@@ -56,29 +74,33 @@ public class ToDatabase extends Thread {
         aborted = true;
         this.join();
     }
-    private int num = 0;
 
-    public void saveSequenceFileToDatabase(File file) throws JAXBException, SVNException {
-        TestSequenceInstance seq = null;
-        if (!file.canWrite()) {
-            LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
-        } else {
-            if (file.getName().endsWith(".xml")) {
-                System.out.println("Processing file: " + file.getName());
-                seq = TestSequenceInstance.unmarshal(file);
-            }
+    public void saveSequenceFileToDatabase(File file) {
+        EntityManagerFactory emf;
+        EntityManager em = null;
+        if (ignoredFiles.contains(file)) {
+            return;
         }
-        if (seq != null) {
-            long startTime = System.currentTimeMillis();
-            EntityManagerFactory emf = seq.getTestStation().getEntityManagerFactory();
-            if (emf == null) {
-                System.out.println("Entity Manager Factory cannot be obtained");
+        try {
+            TestSequenceInstance seq = null;
+            if (!file.canWrite()) {
+                LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
             } else {
-                EntityManager em = emf.createEntityManager();
-                if (em == null) {
-                    System.out.println("Entity Manager cannot be obtained");
+                if (file.getName().endsWith(".xml")) {
+                    System.out.println("Processing file: " + file.getName());
+                    seq = TestSequenceInstance.unmarshal(file);
+                }
+            }
+            if (seq != null) {
+                long startTime = System.currentTimeMillis();
+                emf = seq.getTestStation().getEntityManagerFactory();
+                if (emf == null) {
+                    System.out.println("Entity Manager Factory cannot be obtained");
                 } else {
-                    try {
+                    em = emf.createEntityManager();
+                    if (em == null) {
+                        System.out.println("Entity Manager cannot be obtained");
+                    } else {
                         seq.connect(em);
                         if (seq.merge(em)) {
                             //                                                Log.log("Output file successfully persisted : " + file.getName());
@@ -93,17 +115,26 @@ public class ToDatabase extends Thread {
                                 System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
                             } else {
                                 System.out.println("Output file cannot be moved: " + file.getName());
+                                ignoredFiles.add(file);
                             }
                         } else {
                             LOGGER.log(Level.SEVERE, "Output file cannot be persisted: " + file.getName());
                         }
-                        em.close();
-                    } catch (Exception ex) {
-                        Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
-                        //file.renameTo(new File(file.getPath() + ".error"));
-                        file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()));
                     }
                 }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {
+                System.out.println("Output file successfully moved to: " + file.getName());
+            } else {
+                System.out.println("Output file cannot be moved: " + file.getName());
+                ignoredFiles.add(file);
+            }
+        } finally {
+            if (em != null) {
+                em.close();
             }
         }
     }
@@ -111,22 +142,21 @@ public class ToDatabase extends Thread {
     @Override
     public void run() {
         System.out.println("Processing output directory '" + saveDirectory.toString() + "' started...");
-        while (!aborted) {
-            try {
+        try {
+            while (!aborted) {
                 if (!saveDirectory.canRead()) {
                     throw new IllegalArgumentException("Output directory does not exist and cannot be read: " + saveDirectory);
                 }
                 File[] files = saveDirectory.listFiles();
-                if (files.length > 0) {
-                    for (int i = 0; !aborted && i < files.length; i++) {
-                        saveSequenceFileToDatabase(files[i]);
-                    }
+                for (int i = 0; !aborted && i < files.length; i++) {
+                    saveSequenceFileToDatabase(files[i]);
                 }
-                sleep(2500);
-            } catch (Exception ex) {
-                System.out.println(ex);
-                ex.printStackTrace();
+                if (!aborted) {
+                    sleep(2500);
+                }
             }
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -70,7 +70,7 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"createtime", "finishtime", "teststation_id", "testfixture_id", "serialnumber", "employeenumber", "testsequence_id", "testtype_id", "testproject_id", "failurecode", "failurestep_id"}))
 @XmlRootElement(name = "sequence")
-@XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "testSequenceFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "finishDate", "status", "failureCode", "testStepInstance"})
+@XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "finishDate", "status", "failureCode", "testSequenceFileRevision", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
 
@@ -385,10 +385,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
-                //System.out.println("Connecting testProject...");
+                System.out.println("Connecting testProject...");
                 setTestProject(tp);
             } else {
-                //System.out.println("Unable to connect testProject");
+                System.out.println("Unable to connect testProject");
             }
         }
 ////        System.out.println("Connecting libraries...");
@@ -415,10 +415,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (testStep != null && testStep.getId() == null) {
             TestStep ts = TestStep.query(em, getTestSequence().getCreator());
             if (ts != null) {
-                //System.out.println("Connecting testStep '" + testStep.getName() + "'...");
+                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
                 setTestSequence(ts);
             } else {
-                //System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
+                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
             }
         }
         for (TestStepInstance tsi : this) {
@@ -427,10 +427,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (calledTestStep != null && calledTestStep.getId() == null) {
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
-                    //System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
+                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
                     tsi.setCalledTestStep(ts);
                 } else {
-                    //System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
+                    System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
                 }
             }
         }
@@ -621,10 +621,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        // System.out.println("Setting up file revision of test step:" + fileRevision);
         setTestSequence(
                 TestStep.unmarshal(
-                new FileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision()),
+                new FileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision(), testStation.getTestProject().getCreator()),
                 false));
     }
 
