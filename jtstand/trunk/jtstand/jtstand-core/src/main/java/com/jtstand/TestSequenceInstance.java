@@ -622,8 +622,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         setTestSequence(
-                TestStep.unmarshal(
-                new FileRevision(fileRevision.getSubversionUrl(), fileRevision.getRevision(), testStation.getTestProject().getCreator()),
+                TestStep.unmarshal(testStation.getTestProject().getCreator().resolve(fileRevision.getSubversionUrl(), fileRevision.getRevision()),
                 false));
     }
 

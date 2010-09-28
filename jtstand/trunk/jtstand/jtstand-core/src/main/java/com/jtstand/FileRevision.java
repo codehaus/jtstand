@@ -114,47 +114,41 @@ public class FileRevision implements Serializable {
         }
     }
 
-    FileRevision(String subversionUrl, Long revision, FileRevision filer) throws URISyntaxException {
-        this.revision = revision;
-        this.subversionUrl = subversionUrl;
-
-        // try to find this file revision from cache first
-        // if found, adjust file parameter if cached one
+    FileRevision resolve(String subversionUrl, Long revision) {
         Enumeration<FileRevision> keys = cache.keys();
         while (keys.hasMoreElements()) {
             FileRevision fr = keys.nextElement();
             if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
-                file = fr.file;
-                return;
+                return new FileRevision(subversionUrl, revision, fr.file);
             }
         }
+        if (file != null) {
+            try {
+                File parentFile = file.getParentFile();
+                System.out.println("Path of Filer's parent: '" + parentFile.getAbsolutePath());
 
+                URI filerURI = URI.create(subversionUrl);
+                System.out.println("filerURI:" + filerURI);
 
+                URI parentURI = filerURI.resolve(".");
+                System.out.println("parentURI:" + parentURI);
 
-        // try to use the filer as hint to set file parameter
-        if (filer != null) {
-            File file = filer.getFile();
-            if (file != null && file.isFile()) {
-                System.out.println("Filer's Path: '" + file.getAbsolutePath() + "' revision: '" + revision + "'");
-                SVNClientManager cm = SVNClientManager.newInstance();
-                try {
-                    //SVNStatus svns = cm.getStatusClient().doStatus(file, false);
-                    //SVNURL filerURL = svns.getURL(); //
-                    URI filerURI = URI.create(filer.subversionUrl);
-                    System.out.println("filerURI:" + filerURI);
-                    URI uri = new URI(subversionUrl);
-                    System.out.println("uri:" + uri);
+                URI uri = new URI(subversionUrl);
+                System.out.println("uri:" + uri);
 
-                    URI relative = filerURI.relativize(uri);
-                    System.out.println("Relative path:" + relative);
-                    //TBD
+                URI relative = parentURI.relativize(uri);
+                System.out.println("Relative path:" + relative);
 
+                File f = new File(parentFile.getPath() + File.separator + relative.toString());
+                System.out.println("Resolved file path:" + f.getPath());
 
-                } catch (Exception ex) {
-                    System.out.println("Exception while checking current revision of local file: " + ex);
-                }
+                return new FileRevision(subversionUrl, revision, f);
+                //TBD
+            } catch (Exception ex) {
+                System.out.println("Exception while checking current revision of local file: " + ex);
             }
         }
+        return new FileRevision(subversionUrl, revision);
     }
 
 //    public static FileRevision query(final FileRevision creator) {
