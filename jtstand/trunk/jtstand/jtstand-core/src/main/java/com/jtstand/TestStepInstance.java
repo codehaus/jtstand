@@ -1701,7 +1701,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                 }
             }
         }
-        throw new IllegalArgumentException("Specified limit is not found:" + useLimit);
+//        throw new IllegalArgumentException("Specified limit is not found:" + useLimit);
+        return null;
     }
 
     @Override
