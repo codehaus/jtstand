@@ -18,7 +18,7 @@
  */
 package com.jtstand.swing;
 
-import com.jtstand.InitTypeReference;
+import com.jtstand.FixtureInitTestTypeReference;
 import com.jtstand.TestFixture;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.query.FixtureInterface;
@@ -100,7 +100,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
         if (testFixture.isDisabled() != null && testFixture.isDisabled()) {
             setState(State.DISABLED);
         } else {
-            InitTypeReference initTypeReference = testFixture.getInitTypeReference();
+            FixtureInitTestTypeReference initTypeReference = testFixture.getInitTypeReference();
             if (initTypeReference != null) {
                 try {
                     TestSequenceInstance seq = new TestSequenceInstance(TestSequenceInstance.SequenceType.FIXTURE_SETUP, testFixture.getSerialNumber(), STR_AUTO, initTypeReference);
@@ -306,7 +306,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
 
     @Override
     public void sequenceStatusChanged(TestSequenceInstance.SequenceStatus sequenceStatus) {
-        System.out.println("Sequence status changed to " + sequenceStatus.statusString);
+//        System.out.println("Sequence status changed to " + sequenceStatus.statusString);
         synchronized (stateLock) {
             if (sequenceStatus != null) {
                 switch (sequenceStatus) {

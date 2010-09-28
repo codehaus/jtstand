@@ -18,6 +18,7 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
+
 <step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="DemoRandom" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
     <property name="DECIMAL_FORMAT" value="0.000"/>
     <limit name="the 1st step's limit" comp="GELE" lsl="-2.0" usl="4.0" unit="V">

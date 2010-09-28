@@ -411,6 +411,24 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //        getTestProject().getLibraries().removeAll(toRemove);
 //        System.out.println("adding...");
 //        getTestProject().getLibraries().addAll(toAdd);
+
+        TestStep testStep = getTestSequence();
+        if (testStep != null && testStep.getId() == null) {
+            TestStep ts = TestStep.query(em, getTestSequence().getCreator());
+            if (ts != null) {
+                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
+                setTestSequence(ts);
+            } else {
+                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
+
+//                em.getTransaction().begin();
+//                System.out.println("Merging testStep...");
+//                em.merge(testStep);
+//                System.out.println("Merging testStep, committing Transaction...");
+//                em.getTransaction().commit();
+            }
+        }
+
         for (TestStepInstance tsi : this) {
             //System.out.println("step: " + tsi.getName());
             TestStep calledTestStep = tsi.getCalledTestStep();
@@ -422,32 +440,14 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 } else {
                     System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
 
-                    em.getTransaction().begin();
-                    System.out.println("Merging calledTestStep...");
-                    em.merge(calledTestStep);
-                    System.out.println("Merging calledTestStep, committing Transaction...");
-                    em.getTransaction().commit();
+//                    em.getTransaction().begin();
+//                    System.out.println("Merging calledTestStep...");
+//                    em.merge(calledTestStep);
+//                    System.out.println("Merging calledTestStep, committing Transaction...");
+//                    em.getTransaction().commit();
                 }
             }
         }
-
-        TestStep testStep = getTestSequence();
-        if (testStep != null && testStep.getId() == null) {
-            TestStep ts = TestStep.query(em, getTestSequence().getCreator());
-            if (ts != null) {
-                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
-                setTestSequence(ts);
-            } else {
-                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
-
-                em.getTransaction().begin();
-                System.out.println("Merging testStep...");
-                em.merge(testStep);
-                System.out.println("Merging testStep, committing Transaction...");
-                em.getTransaction().commit();
-            }
-        }
-
         System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
     }
 
@@ -669,18 +669,21 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
 //        this(SequenceType.NORMAL, serialNumber, employeeNumber, testTypeReference, (testTypeReference.getTestFixture() != null ? testTypeReference.getTestFixture().getTestStation() : testTypeReference.getTestStation()));
 //    }
+    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, FixtureTestTypeReference testTypeReference)
+            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
+        this(sequenceType, serialNumber, employeeNumber, testTypeReference.getTestFixture().getTestStation().getTestProject().getTestType(testTypeReference), testTypeReference.getTestFixture(), testTypeReference.getTestFixture().getTestStation(), testTypeReference.getTestFixture().getTestStation().getTestProject());
+    }
 
-//    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestTypeReference testTypeReference)
-//            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
-//        this(sequenceType, serialNumber, employeeNumber, testTypeReference, (testTypeReference.getTestFixture() != null ? testTypeReference.getTestFixture().getTestStation() : testTypeReference.getTestStation()));
-//    }
+    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, FixtureInitTestTypeReference testTypeReference)
+            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
+        this(sequenceType, serialNumber, employeeNumber, testTypeReference.getTestFixture().getTestStation().getTestProject().getTestType(testTypeReference), testTypeReference.getTestFixture(), testTypeReference.getTestFixture().getTestStation(), testTypeReference.getTestFixture().getTestStation().getTestProject());
+    }
 
 //    private TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestTypeReference testTypeReference, TestStation testStation)
 //            throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
 //        this(sequenceType, serialNumber, employeeNumber, testStation.getTestProject().getTestType(testTypeReference), testTypeReference.getTestFixture(), testStation, testStation.getTestProject());
 //    }
-
-    public TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestType testType, TestFixture testFixture, TestStation testStation, TestProject testProject)
+    private TestSequenceInstance(SequenceType sequenceType, String serialNumber, String employeeNumber, TestType testType, TestFixture testFixture, TestStation testStation, TestProject testProject)
             throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException {
         this(sequenceType, serialNumber, employeeNumber, testType.getTestSequence().getTestSequence(), testType, testFixture, testStation, testProject);
     }
@@ -848,7 +851,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setStatus(SequenceStatus status) {
-        System.out.println("Sequence status set to " + status.statusString);
+//        System.out.println("Sequence status set to " + status.statusString);
         SequenceStatus oldStatus = this.status;
         this.status = status;
         support.firePropertyChange("status", oldStatus, this.status);

@@ -20,13 +20,13 @@ package com.jtstand.swing;
 
 import com.jtstand.AbstractProperties;
 //import com.jtstand.PropertiesInterface;
+import com.jtstand.FixtureTestTypeReference;
 import com.jtstand.Product;
 import com.jtstand.TestFixture;
 import com.jtstand.TestProject;
 import com.jtstand.TestProperty;
 import com.jtstand.TestStation;
 import com.jtstand.TestType;
-import com.jtstand.TestTypeReference;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
@@ -59,9 +59,9 @@ public class StarterProperties extends AbstractProperties {
         if (bindings != null) {
             bindings.put("starter", si);
         }
-        TestTypeReference ttr = si.getTestType();
-        if (ttr != null && ttr.getTestStation() != null && ttr.getTestStation().getTestProject() != null) {
-            TestType testType = ttr.getTestStation().getTestProject().getTestType(ttr);
+        FixtureTestTypeReference ttr = si.getTestType();
+        if (ttr != null && ttr.getTestFixture() != null && ttr.getTestFixture().getTestStation() != null && ttr.getTestFixture().getTestStation().getTestProject() != null) {
+            TestType testType = ttr.getTestFixture().getTestStation().getTestProject().getTestType(ttr);
             if (testType != null) {
                 if (bindings != null) {
                     bindings.put("testType", testType);

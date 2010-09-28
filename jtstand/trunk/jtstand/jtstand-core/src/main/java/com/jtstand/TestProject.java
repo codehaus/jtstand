@@ -768,7 +768,7 @@ public class TestProject extends AbstractProperties implements Serializable {
         return null;
     }
 
-    public boolean isSerialNumberOK(String sn, String partNumber, String partRevision, String testTypeName, List<TestTypeReference> testTypeReferences) {
+    public boolean isSerialNumberOK(String sn, String partNumber, String partRevision, String testTypeName, List<FixtureTestTypeReference> testTypeReferences) {
         for (TestTypeReference ttr : testTypeReferences) {
             TestType tt = getTestType(ttr);
             if (tt != null) {

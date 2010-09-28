@@ -18,10 +18,10 @@
  */
 package com.jtstand.swing;
 
+import com.jtstand.FixtureTestTypeReference;
 import com.jtstand.TestFixture;
 import com.jtstand.TestProject;
 import com.jtstand.TestStation;
-import com.jtstand.TestTypeReference;
 
 /**
  *
@@ -37,5 +37,5 @@ public interface StarterInterface {
 
     public TestFixture getTestFixture();
 
-    public TestTypeReference getTestType();
+    public FixtureTestTypeReference getTestType();
 }

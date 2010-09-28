@@ -19,6 +19,7 @@
 package com.jtstand.swing;
 
 import com.jtstand.*;
+import com.jtstand.TestSequenceInstance.SequenceType;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.Runner;
 
@@ -42,8 +43,8 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     public static final String STR_SERIAL_NUMBER_CRITERIA = "SERIAL_NUMBER_CRITERIA";
     public static final String STR_SN_TO_TEST_TYPE = "SN_TO_TEST_TYPE";
     public static final Class<?>[] emptyContructor = {};
-    private List<TestTypeReference> testTypeReferences;
-    private TestTypeReference selectedTestType;
+    private List<FixtureTestTypeReference> testTypeReferences;
+    private FixtureTestTypeReference selectedTestType;
     private String employeeNumber;
     private TestFixture testFixture;
     private TestStation testStation;
@@ -74,13 +75,16 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         this.fi = fi;
         this.fixture = fixture;
 
-        if (testFixture != null && testFixture.getTestTypes().size() > 0) {
-            testTypeReferences = testFixture.getTestTypes();
-        } else {
-            if (testStation != null && testStation.getTestTypes().size() > 0) {
-                testTypeReferences = testStation.getTestTypes();
-            }
-        }
+//        if (testFixture != null && testFixture.getTestTypes().size() > 0) {
+//            testTypeReferences = testFixture.getTestTypes();
+//        } else {
+//            if (testStation != null && testStation.getTestTypes().size() > 0) {
+//                testTypeReferences = testStation.getTestTypes();
+//            }
+//        }
+
+        testTypeReferences = testFixture.getTestTypes();
+
         if (testTypeReferences == null || testTypeReferences.size() == 0) {
             throw new IllegalArgumentException("Products list is empty");
         }
@@ -122,7 +126,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         return properties.getPropertyBoolean(STR_DEBUG_ENABLED, false);
     }
 
-    public static void initPartNumbers(AbstractStarterPanel starter, List<TestTypeReference> testTypeReferences, String selectedPartNumber) {
+    public static void initPartNumbers(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, String selectedPartNumber) {
 //        JTextField jTextFieldSN = starter.jTextFieldSN();
         JComboBox jComboBoxPartNumber = starter.jComboBoxPartNumber();
         if (jComboBoxPartNumber.getItemCount() > 0) {
@@ -135,7 +139,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         for (TestTypeReference product : testTypeReferences) {
             String partNumber = product.getPartNumber();
             if (!partNumbers.contains(partNumber)) {
-                if (testTypeReferences.get(0).getTestStationReally().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), partNumber, null, null, testTypeReferences)) {
+                if (testTypeReferences.get(0).getTestFixture().getTestStation().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), partNumber, null, null, testTypeReferences)) {
                     partNumbers.add(partNumber);
                 }
             }
@@ -148,7 +152,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
     }
 
-    public static void initPartRevs(AbstractStarterPanel starter, List<TestTypeReference> testTypeReferences, String selectedPartNumber, String selectedPartRev) {
+    public static void initPartRevs(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, String selectedPartNumber, String selectedPartRev) {
         JComboBox jComboBoxPartRev = starter.jComboBoxPartRev();
         if (jComboBoxPartRev.getItemCount() > 0) {
             jComboBoxPartRev.removeAllItems();
@@ -159,7 +163,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         List<String> partNumberRevisions = new ArrayList<String>();
         for (TestTypeReference product : testTypeReferences) {
             if (product.getPartNumber().equals(selectedPartNumber)) {
-                if (testTypeReferences.get(0).getTestStationReally().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), selectedPartNumber, product.getPartRevision(), null, testTypeReferences)) {
+                if (testTypeReferences.get(0).getTestFixture().getTestStation().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), selectedPartNumber, product.getPartRevision(), null, testTypeReferences)) {
                     String partRevision = product.getPartRevision();
                     if (!partNumberRevisions.contains(partRevision)) {
                         partNumberRevisions.add(partRevision);
@@ -175,7 +179,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
     }
 
-    public static void initTestTypes(AbstractStarterPanel starter, List<TestTypeReference> testTypeReferences, String selectedPartNumber, String selectedPartRev, String selectedTestType) {
+    public static void initTestTypes(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, String selectedPartNumber, String selectedPartRev, String selectedTestType) {
         JComboBox jComboBoxTestType = starter.jComboBoxTestType();
         if (jComboBoxTestType.getItemCount() > 0) {
             jComboBoxTestType.removeAllItems();
@@ -186,7 +190,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         List<String> testTypes = new ArrayList<String>();
         for (TestTypeReference testTypeReference : testTypeReferences) {
             if (testTypeReference.getPartNumber().equals(selectedPartNumber) && testTypeReference.getPartRevision().equals(selectedPartRev)) {
-                if (testTypeReferences.get(0).getTestStationReally().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), selectedPartNumber, selectedPartRev, testTypeReference.getName(), testTypeReferences)) {
+                if (testTypeReferences.get(0).getTestFixture().getTestStation().getTestProject().isSerialNumberOK(starter.jTextFieldSN().getText(), selectedPartNumber, selectedPartRev, testTypeReference.getName(), testTypeReferences)) {
                     testTypes.add(testTypeReference.getName());
                 }
             }
@@ -199,7 +203,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
     }
 
-    public static void init(AbstractStarterPanel starter, List<TestTypeReference> testTypeReferences, TestTypeReference selectedTestType) {
+    public static void init(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, TestTypeReference selectedTestType) {
         initPartNumbers(starter, testTypeReferences, selectedTestType == null ? null : selectedTestType.getPartNumber());
         String partNumber = starter.jComboBoxPartNumber().getSelectedItem() == null ? null : starter.jComboBoxPartNumber().getSelectedItem().toString();
         if (partNumber != null) {
@@ -214,7 +218,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         init(starterPanel, testTypeReferences, selectedTestType);
     }
 
-    private void setSelectedTestType(TestTypeReference selectedTestType) {
+    private void setSelectedTestType(FixtureTestTypeReference selectedTestType) {
         if (this.selectedTestType != selectedTestType) {
             System.out.println("selected a new test type: " + selectedTestType);
             this.selectedTestType = selectedTestType;
@@ -241,25 +245,25 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         Object type = starterPanel.jComboBoxTestType().getSelectedItem();
         if (pn != null && rev != null && type != null) {
             try {
-                for (TestTypeReference pr : testTypeReferences) {
+                for (FixtureTestTypeReference pr : testTypeReferences) {
                     if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev) && pr.getName().equals(type)) {
                         setSelectedTestType(pr);
                         return;
                     }
                 }
-                for (TestTypeReference pr : testTypeReferences) {
+                for (FixtureTestTypeReference pr : testTypeReferences) {
                     if (pr.getPartNumber().equals(pn) && pr.getPartRevision().equals(rev)) {
                         setSelectedTestType(pr);
                         return;
                     }
                 }
-                for (TestTypeReference pr : testTypeReferences) {
+                for (FixtureTestTypeReference pr : testTypeReferences) {
                     if (pr.getPartNumber().equals(pn) && pr.getName().equals(type)) {
                         setSelectedTestType(pr);
                         return;
                     }
                 }
-                for (TestTypeReference pr : testTypeReferences) {
+                for (FixtureTestTypeReference pr : testTypeReferences) {
                     if (pr.getPartNumber().equals(pn)) {
                         setSelectedTestType(pr);
                         return;
@@ -381,7 +385,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                 throw new IllegalStateException("Not enough memory to start a new sequence");
             }
             System.out.println("Creating instance of: " + selectedTestType);
-            tsi = new TestSequenceInstance(sn, employeeNumber, selectedTestType);
+            tsi = new TestSequenceInstance(SequenceType.NORMAL, sn, employeeNumber, selectedTestType);
             if (fi != null) {
                 fi.add(tsi);
             }
@@ -719,7 +723,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     }
 
     @Override
-    public TestTypeReference getTestType() {
+    public FixtureTestTypeReference getTestType() {
         return selectedTestType;
     }
 
