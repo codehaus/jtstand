@@ -52,10 +52,6 @@ public class TestTypeReference implements Serializable {
     private String partRevision;
     private String name;
     @ManyToOne
-    private TestStation testStation;
-    @ManyToOne
-    private TestFixture testFixture;
-    @ManyToOne
     private FileRevision creator;
     private int testTypeReferencePosition;
 
@@ -93,35 +89,6 @@ public class TestTypeReference implements Serializable {
         this.creator = creator;
     }
 
-    @XmlTransient
-    public TestStation getTestStation() {
-        return testStation;
-    }
-
-    public void setTestStation(TestStation testStation) {
-        this.testStation = testStation;
-        if (testStation != null) {
-            setCreator(testStation.getCreator());
-        }
-    }
-
-    @XmlTransient
-    public TestFixture getTestFixture() {
-        return testFixture;
-    }
-
-    public void setTestFixture(TestFixture testFixture) {
-        this.testFixture = testFixture;
-        if (testFixture != null) {
-            this.setCreator(testFixture.getCreator());
-        }
-    }
-
-    @XmlTransient
-    public TestStation getTestStationReally() {
-        return getTestFixture() == null ? getTestStation() : getTestFixture().getTestStation();
-    }
-
     @XmlAttribute(required = true)
     public String getPartNumber() {
         return partNumber;
@@ -156,8 +123,6 @@ public class TestTypeReference implements Serializable {
         hash += partNumber == null ? 0 : partNumber.hashCode();
         hash += partRevision == null ? 0 : partRevision.hashCode();
         hash += name == null ? 0 : name.hashCode();
-        hash += testStation == null ? 0 : testStation.hashCode();
-        hash += testFixture == null ? 0 : testFixture.hashCode();
         return hash;
     }
 
@@ -179,18 +144,11 @@ public class TestTypeReference implements Serializable {
         if ((this.name == null && other.getName() != null) || (this.name != null && !this.name.equals(other.getName()))) {
             return false;
         }
-        if ((this.testStation == null && other.getTestStation() != null) || (this.testStation != null && !this.testStation.equals(other.getTestStation()))) {
-            return false;
-        }
-        if ((this.testFixture == null && other.getTestFixture() != null) || (this.testFixture != null && !this.testFixture.equals(other.getTestFixture()))) {
-            return false;
-        }
         return true;
     }
 
     @Override
     public String toString() {
         return partNumber + ":" + partRevision + ":" + name;
-        //return TestTypeReference.class.getCanonicalName() + "[id=" + id + "]";
     }
 }

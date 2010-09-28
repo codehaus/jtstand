@@ -71,7 +71,7 @@ public class TestType extends AbstractProperties implements Serializable {
     @ManyToOne
     private FileRevision creator;
     private int testTypePosition;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "testType")
     private TestTypeSequenceReference testSequence;
     private transient final Object propertiesLock = new Object();
     private transient final Object testLimitsLock = new Object();

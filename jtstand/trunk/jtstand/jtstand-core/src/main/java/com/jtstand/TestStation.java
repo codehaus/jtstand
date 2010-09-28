@@ -57,7 +57,7 @@ import javax.script.SimpleBindings;
  * @author albert_kurucz
  */
 @Entity
-@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "testTypes", "fixtures"})
+@XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "fixtures"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStation extends AbstractVariables implements Serializable {
 
@@ -74,9 +74,9 @@ public class TestStation extends AbstractVariables implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestStationLimit> testLimits = new ArrayList<TestStationLimit>();
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
-    @OrderBy("testTypeReferencePosition ASC")
-    private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
+//    @OrderBy("testTypeReferencePosition ASC")
+//    private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
     @ManyToOne
     private FileRevision creator;
     @ManyToOne
@@ -87,7 +87,7 @@ public class TestStation extends AbstractVariables implements Serializable {
     private int testStationsPosition;
     private static EntityManagerFactory entityManagerFactory;
     private transient final Object propertiesLock = new Object();
-    private transient final Object testTypesLock = new Object();
+//    private transient final Object testTypesLock = new Object();
     private transient final Object testFixturesLock = new Object();
     private transient final Object testLimitsLock = new Object();
 
@@ -207,24 +207,24 @@ public class TestStation extends AbstractVariables implements Serializable {
         return id;
     }
 
-    @XmlElement(name = "testType")
-    public List<TestTypeReference> getTestTypes() {
-        synchronized (testTypesLock) {
-            return testTypes;
-        }
-    }
-
-    public void setTestTypes(List<TestTypeReference> testTypes) {
-        this.testTypes = testTypes;
-        if (testTypes != null) {
-            for (ListIterator<TestTypeReference> iterator = testTypes.listIterator(); iterator.hasNext();) {
-                int index = iterator.nextIndex();
-                TestTypeReference testTypeReference = iterator.next();
-                testTypeReference.setTestStation(this);
-                testTypeReference.setPosition(index);
-            }
-        }
-    }
+//    @XmlElement(name = "testType")
+//    public List<TestTypeReference> getTestTypes() {
+//        synchronized (testTypesLock) {
+//            return testTypes;
+//        }
+//    }
+//
+//    public void setTestTypes(List<TestTypeReference> testTypes) {
+//        this.testTypes = testTypes;
+//        if (testTypes != null) {
+//            for (ListIterator<TestTypeReference> iterator = testTypes.listIterator(); iterator.hasNext();) {
+//                int index = iterator.nextIndex();
+//                TestTypeReference testTypeReference = iterator.next();
+//                testTypeReference.setTestStation(this);
+//                testTypeReference.setPosition(index);
+//            }
+//        }
+//    }
 
     @XmlAttribute
     public String getHostName() {
@@ -304,7 +304,7 @@ public class TestStation extends AbstractVariables implements Serializable {
         setProperties(getProperties());
         setTestLimits(getTestLimits());
         setFixtures(getFixtures());
-        setTestTypes(getTestTypes());
+//        setTestTypes(getTestTypes());
     }
 
     @XmlTransient

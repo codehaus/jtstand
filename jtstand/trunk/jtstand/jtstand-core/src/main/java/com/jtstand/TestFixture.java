@@ -67,14 +67,13 @@ public class TestFixture extends AbstractVariables implements Serializable {
     private List<TestFixtureLimit> testLimits = new ArrayList<TestFixtureLimit>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testFixture")
     @OrderBy("testTypeReferencePosition ASC")
-    private List<TestTypeReference> testTypes = new ArrayList<TestTypeReference>();
+    private List<FixtureTestTypeReference> testTypes = new ArrayList<FixtureTestTypeReference>();
     @ManyToOne
     private TestStation testStation;
     @ManyToOne
     private FileRevision creator;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //private FixtureInitSequenceReference initSequence;
-    private InitTypeReference initTypeReference;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "testFixture", fetch = FetchType.LAZY)
+    private FixtureInitTestTypeReference initTypeReference;
     private int testFixturePosition;
     private String serialNumber;
     private transient final Object testLimitsLock = new Object();
@@ -124,11 +123,11 @@ public class TestFixture extends AbstractVariables implements Serializable {
 //        }
 //    }
     @XmlElement(name = "initType")
-    public InitTypeReference getInitTypeReference() {
+    public FixtureInitTestTypeReference getInitTypeReference() {
         return initTypeReference;
     }
 
-    public void setInitTypeReference(InitTypeReference initTypeReference) {
+    public void setInitTypeReference(FixtureInitTestTypeReference initTypeReference) {
         this.initTypeReference = initTypeReference;
     }
 
@@ -151,18 +150,18 @@ public class TestFixture extends AbstractVariables implements Serializable {
     }
 
     @XmlElement(name = "testType")
-    public List<TestTypeReference> getTestTypes() {
+    public List<FixtureTestTypeReference> getTestTypes() {
         synchronized (testTypesLock) {
             return testTypes;
         }
     }
 
-    public void setTestTypes(List<TestTypeReference> testTypes) {
+    public void setTestTypes(List<FixtureTestTypeReference> testTypes) {
         this.testTypes = testTypes;
         if (testTypes != null) {
-            for (ListIterator<TestTypeReference> iterator = testTypes.listIterator(); iterator.hasNext();) {
+            for (ListIterator<FixtureTestTypeReference> iterator = testTypes.listIterator(); iterator.hasNext();) {
                 int index = iterator.nextIndex();
-                TestTypeReference testTypeReference = iterator.next();
+                FixtureTestTypeReference testTypeReference = iterator.next();
                 testTypeReference.setTestFixture(this);
                 testTypeReference.setPosition(index);
             }

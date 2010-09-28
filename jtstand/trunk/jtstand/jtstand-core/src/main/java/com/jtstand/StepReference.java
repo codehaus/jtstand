@@ -38,7 +38,7 @@ import java.net.URISyntaxException;
 public class StepReference extends FileRevisionReference implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-    @OneToOne(mappedBy = "stepReference")
+    @OneToOne
     private TestStep testStep;
 
     @XmlTransient

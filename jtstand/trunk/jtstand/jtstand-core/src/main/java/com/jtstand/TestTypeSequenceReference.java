@@ -39,7 +39,7 @@ import java.net.URISyntaxException;
 public class TestTypeSequenceReference extends FileRevisionReference implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-    @OneToOne(mappedBy = "testSequence")
+    @OneToOne
     private TestType testType;
 
     @XmlTransient

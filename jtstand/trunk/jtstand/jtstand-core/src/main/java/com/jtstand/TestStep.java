@@ -179,14 +179,14 @@ public class TestStep implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStep", fetch = FetchType.LAZY)
     @OrderBy("testLimitPosition ASC")
     private List<TestStepLimit> testLimits = new ArrayList<TestStepLimit>();
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "testStep")
     private StepReference stepReference;
     private int testStepPosition;
     /* root is on level zero */
     private int treeLevel;
     //private String treePath;
     private String locks;
-    @OneToOne(mappedBy = "testStep", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "testStep")
     private TestStepScript script;
 
     @XmlElement

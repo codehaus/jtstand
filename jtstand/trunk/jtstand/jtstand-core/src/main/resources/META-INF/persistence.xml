@@ -25,7 +25,8 @@
     <class>com.jtstand.DomainUserList</class>
     <class>com.jtstand.FileRevision</class>
     <class>com.jtstand.FileRevisionReference</class>
-    <class>com.jtstand.InitTypeReference</class>
+    <class>com.jtstand.FixtureInitTestTypeReference</class>
+    <class>com.jtstand.FixtureTestTypeReference</class>
     <class>com.jtstand.LocalUser</class>
     <class>com.jtstand.LocalUserList</class>
     <class>com.jtstand.Operator</class>

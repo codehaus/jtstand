@@ -103,6 +103,7 @@ public class ToDatabase extends Thread {
                     } else {
                         seq.connect(em);
                         if (seq.merge(em)) {
+                        //if (seq.persist(em)) {
                             //                                                Log.log("Output file successfully persisted : " + file.getName());
                             if (model != null) {
                                 System.out.println("Replace...");
