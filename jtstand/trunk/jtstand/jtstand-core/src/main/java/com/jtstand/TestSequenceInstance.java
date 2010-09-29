@@ -126,7 +126,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             System.out.println("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
             String filepath = saveDirectory.getPath() + File.separatorChar + getFileName() + ".xml";
             File file = new File(filepath);
-            getMarshaller().marshal(this, file);
+            synchronized (jaxbLock) {
+                getMarshaller().marshal(this, file);
+            }
         }
     }
 
