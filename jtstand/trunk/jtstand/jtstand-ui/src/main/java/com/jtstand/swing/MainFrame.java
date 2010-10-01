@@ -1120,6 +1120,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 canExpandFailed(selectedSequence.getTestStepInstance());
             } else if (selectedSequence.getTestStepInstance().isRunning()) {
                 canExpandRunning(selectedSequence.getTestStepInstance());
+            } else if (selectedSequence.getTestStepInstance().isAborted()) {
+                canExpandAborted(selectedSequence.getTestStepInstance());
             }
         }
     }
@@ -1135,6 +1137,33 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                             for (TestStepInstance child : tsi.getSteps()) {
                                 if (child.isFailed()) {
                                     canExpandFailed(child);
+                                    return;
+                                }
+                            }
+                        }
+                        jXTreeTable.setRowSelectionInterval(row, row);
+//                    jXTreeTable.scrollRectToVisible(jXTreeTable.getCellRect(row, 0, false));
+                        Util.scrollToCenter(jXTreeTable, row, 0);
+                        selectedStep = tsi;
+                        return;
+                    }
+                }
+            }
+        }
+        System.out.println("could not expand:" + tsi);
+    }
+
+    public void canExpandAborted(TestStepInstance tsi) {
+        if (jXTreeTable != null) {
+            for (int row = 0; row < jXTreeTable.getRowCount(); row++) {
+                if (jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()) instanceof TestStepInstance) {
+                    if (((TestStepInstance) jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal())).getTestStepInstancePath().equals(tsi.getTestStepInstancePath())) {
+                        jXTreeTable.expandPath(jXTreeTable.getPathForRow(row));
+//                    System.out.println("expanded:" + tsi);
+                        if (!tsi.isLeaf()) {
+                            for (TestStepInstance child : tsi.getSteps()) {
+                                if (child.isAborted()) {
+                                    canExpandAborted(child);
                                     return;
                                 }
                             }
@@ -1887,7 +1916,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                         if (SequencesColumn.STATUS.ordinal() == tableClickedColumn) {
                             expandFailedOrRunning();
                         }
-
                     }
                 }
                 if (jXTreeTable != null) {
@@ -1905,7 +1933,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                                             expandFailedOrRunning();
                                         } else {
                                             // neither running, nor failed
-                                            jXTreeTable.expandRow(treeClickedRow);
+                                            if (jXTreeTable.isExpanded(treeClickedRow)) {
+                                                jXTreeTable.collapseRow(treeClickedRow);
+                                            } else {
+                                                jXTreeTable.expandRow(treeClickedRow);
+                                            }
                                         }
                                     }
                                 }
