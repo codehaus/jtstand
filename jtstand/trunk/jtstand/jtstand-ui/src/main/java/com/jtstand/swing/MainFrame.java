@@ -30,6 +30,7 @@ import com.jtstand.TestStepInstance;
 import com.jtstand.TestStepScript;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.ToDatabase;
+import com.jtstand.swing.TestSequenceInstanceModel.SequenceColumn;
 import javax.script.ScriptException;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
@@ -53,6 +54,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1109,12 +1111,16 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         jXTreeTable.requestFocus();
     }
 
-    public void expandFailed() {
+    public void expandFailedOrRunning() {
         if (selectedSequence == null) {
             return;
         }
-        if (selectedSequence.getTestStepInstance() != null && selectedSequence.getTestStepInstance().isFailed()) {
-            canExpandFailed(selectedSequence.getTestStepInstance());
+        if (selectedSequence.getTestStepInstance() != null) {
+            if (selectedSequence.getTestStepInstance().isFailed()) {
+                canExpandFailed(selectedSequence.getTestStepInstance());
+            } else if (selectedSequence.getTestStepInstance().isRunning()) {
+                canExpandRunning(selectedSequence.getTestStepInstance());
+            }
         }
     }
 
@@ -1145,6 +1151,35 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         System.out.println("could not expand:" + tsi);
     }
 
+    public void canExpandRunning(TestStepInstance tsi) {
+        if (jXTreeTable != null) {
+            for (int row = 0; row < jXTreeTable.getRowCount(); row++) {
+                if (jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()) instanceof TestStepInstance) {
+                    if (((TestStepInstance) jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal())).getTestStepInstancePath().equals(tsi.getTestStepInstancePath())) {
+                        jXTreeTable.expandPath(jXTreeTable.getPathForRow(row));
+//                    System.out.println("expanded:" + tsi);
+                        if (!tsi.isLeaf()) {
+                            List<TestStepInstance> children = tsi.getSteps();
+                            ListIterator<TestStepInstance> li = children.listIterator(children.size());
+                            while (li.hasPrevious()) {
+                                TestStepInstance child = li.previous();
+                                if (child.isRunning()) {
+                                    canExpandRunning(child);
+                                    return;
+                                }
+                            }
+                        }
+                        jXTreeTable.setRowSelectionInterval(row, row);
+//                    jXTreeTable.scrollRectToVisible(jXTreeTable.getCellRect(row, 0, false));
+                        Util.scrollToCenter(jXTreeTable, row, 0);
+                        selectedStep = tsi;
+                        return;
+                    }
+                }
+            }
+        }
+        System.out.println("could not expand:" + tsi);
+    }
 //    public boolean expand(TestStepInstance tsi) {
 //        List<String> pathList = tsi.getPathList();
 //        System.out.println("getting tree path for:");
@@ -1172,6 +1207,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //        }
 //        return true;
 //    }
+
     private TestStepInstance getRoot(String name) {
         Object root = jXTreeTable.getTreeTableModel().getRoot();
         if (!jXTreeTable.getTreeTableModel().isLeaf(root)) {
@@ -1849,7 +1885,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                         int tableClickedColumn = jTable.columnAtPoint(p);
 //                        System.out.println("tableClickedColumn: " + tableClickedColumn);
                         if (SequencesColumn.STATUS.ordinal() == tableClickedColumn) {
-                            expandFailed();
+                            expandFailedOrRunning();
                         }
 
                     }
@@ -1859,9 +1895,20 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     if (treeClickedRow >= 0) {
                         int treeClickedColumn = jXTreeTable.columnAtPoint(p);
                         if (treeClickedColumn >= 0) {
-//                            System.out.println("Row: " + treeClickedRow + " Column: " + treeClickedColumn);
                             if (TestSequenceInstanceModel.SequenceColumn.STEPSTATUS.ordinal() == treeClickedColumn) {
-                                expandFailed();
+                                Object o = jXTreeTable.getModel().getValueAt(treeClickedRow, SequenceColumn.NAME.ordinal());
+                                if (o != null) {
+                                    System.out.println("Row: " + treeClickedRow + " Column: " + treeClickedColumn + " Object:" + o);
+                                    if (o instanceof TestStepInstance) {
+                                        TestStepInstance clickedStep = (TestStepInstance) o;
+                                        if (clickedStep.isFailed() || clickedStep.isRunning()) {
+                                            expandFailedOrRunning();
+                                        } else {
+                                            // neither running, nor failed
+                                            jXTreeTable.expandRow(treeClickedRow);
+                                        }
+                                    }
+                                }
                             }
                             if (TestSequenceInstanceModel.SequenceColumn.NAME.ordinal() == treeClickedColumn) {
                                 toggleStep();
