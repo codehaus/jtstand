@@ -281,20 +281,28 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     public void initNames() {
         String eName = evaluateName();
         //System.out.println("Evaluated name: '" + eName + "'");
-        String ePath = evaluatePath(eName);
-        //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
-        Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
-        TestStepNamePath ts = names.get(ePath);
-        if (ts == null) {
-            ts = new TestStepNamePath(
-                    getTestSequenceInstance().getTestSequence(),
-                    eName,
-                    ePath,
-                    //evaluateTestLimit(),
-                    calledTestStep,
-                    names.size() + 1);
+        if (getTestStepNamePath() == null || !eName.equals(getName())) {
+            String ePath = evaluatePath(eName);
+            //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
+            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
+            TestStepNamePath ts = names.get(ePath);
+            if (ts == null) {
+//                if (names.size() == 1111) { //TBD remove this!
+//                    System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
+//                    for (String s : names.keySet()) {
+//                        System.out.println("'" + s + "'");
+//                    }
+//                }
+                ts = new TestStepNamePath(
+                        getTestSequenceInstance().getTestSequence(),
+                        eName,
+                        ePath,
+                        //evaluateTestLimit(),
+                        calledTestStep,
+                        names.size() + 1);
+            }
+            setTestStepNamePath(ts);
         }
-        setTestStepNamePath(ts);
         for (TestStepInstance child : steps) {
             child.initNames();
         }
@@ -453,7 +461,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             child.setParent(this);
             child.setTestSequenceInstance(testSequenceInstance);
         }
-        initNames();
     }
 
     @XmlElement(name = "startTime")
