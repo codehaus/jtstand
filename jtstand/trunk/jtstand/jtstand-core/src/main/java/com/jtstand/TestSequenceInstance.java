@@ -796,13 +796,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return testSequence;
     }
 
-    public void setTestSequence(TestStep newValue) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        testSequence = newValue;
-        //... This must be much more complicated!
-        if (testStepInstance != null) {
-            testStepInstance.setTestStep(testSequence);
-            testStepInstance.setNames(newValue.getNames());
-        }
+    public void setTestSequence(TestStep testSequence) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+        this.testSequence = testSequence;
+        setTestStepInstance(getTestStepInstance());
     }
 
     @XmlElement(name = "step")
@@ -817,7 +813,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (testStepInstance != null) {
             testStepInstance.setTestStep(getTestSequence());
             testStepInstance.setTestSequenceInstance(this);
-            testStepInstance.initNames();
         }
     }
 
