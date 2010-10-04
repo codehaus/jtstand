@@ -248,6 +248,16 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         init(testStep);
     }
 
+    public TestStepInstance previous() {
+        TestStepInstance p = getParent();
+        return (p == null) ? null : p.previous(this);
+    }
+
+    public TestStepInstance previous(TestStepInstance child) {
+        int pos = getSteps().indexOf(child) - 1;
+        return (pos >= 0) ? getSteps().get(pos) : this;
+    }
+
     public TestStepInstance next() {
 //        System.out.println("Getting next of " + getTestStepInstancePath());
         List<TestStepInstance> children = this.getSteps();
@@ -278,58 +288,52 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-    public void initNames() {
-        String eName = evaluateName();
-        //System.out.println("Evaluated name: '" + eName + "'");
-        if (getTestStepNamePath() == null || !eName.equals(getName())) {
-            String ePath = evaluatePath(eName);
-            //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
-            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
-            TestStepNamePath ts = names.get(ePath);
-            if (ts == null) {
-//                if (names.size() == 1111) { //TBD remove this!
-//                    System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
-//                    for (String s : names.keySet()) {
-//                        System.out.println("'" + s + "'");
-//                    }
-//                }
-                ts = new TestStepNamePath(
-                        getTestSequenceInstance().getTestSequence(),
-                        eName,
-                        ePath,
-                        //evaluateTestLimit(),
-                        calledTestStep,
-                        names.size() + 1);
-            }
-            setTestStepNamePath(ts);
-        }
-        for (TestStepInstance child : steps) {
-            child.initNames();
-        }
-    }
+//    public void initNames() {
+//        String eName = evaluateName();
+//        //System.out.println("Evaluated name: '" + eName + "'");
+//        if (getTestStepNamePath() == null || !eName.equals(getName())) {
+//            String ePath = evaluatePath(eName);
+//            //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
+//            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
+//            TestStepNamePath ts = names.get(ePath);
+//            if (ts == null) {
+//                ts = new TestStepNamePath(
+//                        getTestSequenceInstance().getTestSequence(),
+//                        eName,
+//                        ePath,
+//                        //evaluateTestLimit(),
+//                        calledTestStep,
+//                        names.size() + 1);
+//            }
+//            setTestStepNamePath(ts);
+//        }
+//        for (TestStepInstance child : steps) {
+//            child.initNames();
+//        }
+//    }
 
     private void init(TestStep testStep)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStep = testStep;
         setPosition(testStep.getPosition());
         this.calledTestStep = testStep.getCalledTestStep(this);
-
-        String eName = evaluateName();
-        if (getTestStepNamePath() == null || !eName.equals(getName())) {
-            String ePath = evaluatePath(eName);
-            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
-            TestStepNamePath ts = names.get(ePath);
-            if (ts == null) {
-                ts = new TestStepNamePath(
-                        getTestSequenceInstance().getTestSequence(),
-                        eName,
-                        ePath,
-                        //evaluateTestLimit(),
-                        calledTestStep,
-                        names.size() + 1);
-            }
-            setTestStepNamePath(ts);
-        }
+        updateTestStepNamePath();
+//        String eName = evaluateName();
+//        if (getTestStepNamePath() == null || !eName.equals(getName())) {
+//            String ePath = evaluatePath(eName);
+//            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
+//            TestStepNamePath ts = names.get(ePath);
+//            if (ts == null) {
+//                ts = new TestStepNamePath(
+//                        getTestSequenceInstance().getTestSequence(),
+//                        eName,
+//                        ePath,
+//                        //evaluateTestLimit(),
+//                        calledTestStep,
+//                        names.size() + 1);
+//            }
+//            setTestStepNamePath(ts);
+//        }
 
         initChildren(getCalledTestStep() != null ? getCalledTestStep() : getTestStep());
     }
@@ -387,10 +391,42 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return testStep;
     }
 
+    private int evaluateStepNumber() {
+        TestStepInstance prev = previous();
+        return (prev == null) ? 1 : prev.evaluateStepNumber() + 1;
+    }
+
+    private void updateTestStepNamePath() {
+        TestSequenceInstance seq = getTestSequenceInstance();
+        if (seq != null) {
+            TestStep seqts = seq.getTestSequence();
+            if (seqts != null) {
+                String eName = evaluateName();
+                String ePath = evaluatePath(eName);
+                int stepNumber = evaluateStepNumber();
+                //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
+                Map<String, TestStepNamePath> names = seqts.getNames();
+                TestStepNamePath ts = names.get(ePath);
+                if (ts == null) {
+                    ts = new TestStepNamePath(
+                            getTestSequenceInstance().getTestSequence(),
+                            eName,
+                            ePath,
+                            //evaluateTestLimit(),
+                            calledTestStep,
+                            stepNumber);
+                }
+                setTestStepNamePath(ts);
+            }
+        }
+    }
+
     public void setTestStep(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStep = testStep;
         if (testStep != null) {
             setPosition(testStep.getPosition());
+            updateTestStepNamePath();
+
             if (testStep.getStepReference() != null) {
                 calledTestStep = testStep.getCalledTestStep(this);
                 if (steps.size() != calledTestStep.getSteps().size()) {

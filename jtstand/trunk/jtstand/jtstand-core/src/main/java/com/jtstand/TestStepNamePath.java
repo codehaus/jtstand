@@ -123,7 +123,7 @@ public class TestStepNamePath implements Serializable {
     @Column(length = 2147483647)
     private String stepPath;
     private String stepName;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private TestStep testStep;
 //    @ManyToOne
 //    private TestLimit testLimit;

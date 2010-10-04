@@ -815,9 +815,9 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     public void setTestStepInstance(TestStepInstance testStepInstance) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStepInstance = testStepInstance;
         if (testStepInstance != null) {
-            testStepInstance.setTestStep(getTestSequence());
             testStepInstance.setTestSequenceInstance(this);
-            testStepInstance.initNames();
+            testStepInstance.setTestStep(getTestSequence());
+//            testStepInstance.initNames();
         }
     }
 
