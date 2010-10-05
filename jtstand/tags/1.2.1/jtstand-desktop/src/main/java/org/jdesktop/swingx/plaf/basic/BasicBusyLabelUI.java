@@ -1,0 +1,67 @@
+/*
+ * Copyright (c) 2009 Albert Kurucz.
+ *
+ * This file, BasicBusyLabelUI.java is part of JTStand.
+ *
+ * JTStand is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * JTStand is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with JTStand.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package org.jdesktop.swingx.plaf.basic;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Shape;
+
+import javax.swing.JComponent;
+import javax.swing.UIManager;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicLabelUI;
+
+import org.jdesktop.swingx.JXBusyLabel;
+import org.jdesktop.swingx.painter.BusyPainter;
+import org.jdesktop.swingx.plaf.BusyLabelUI;
+import org.jdesktop.swingx.plaf.UIManagerExt;
+
+/**
+ * Base implementation of the <code>JXBusyLabel</code> UI.
+ *
+ * @author rah003
+ */
+public class BasicBusyLabelUI extends BasicLabelUI implements BusyLabelUI {
+    
+    /** Creates a new instance of BasicBusyLabelUI */
+    public BasicBusyLabelUI(JXBusyLabel lbl) {
+    }
+    
+  public static ComponentUI createUI(JComponent c) {
+    return new BasicBusyLabelUI((JXBusyLabel)c);
+  }
+
+    public BusyPainter getBusyPainter(final Dimension dim) {
+        BusyPainter p = new BusyPainter() {
+            @Override
+            protected void init(Shape point, Shape trajectory, Color b, Color h) {
+                super.init(dim == null ? UIManagerExt.getShape("JXBusyLabel.pointShape") : getScaledDefaultPoint(dim.height), 
+                        dim == null ? UIManagerExt.getShape("JXBusyLabel.trajectoryShape") : getScaledDefaultTrajectory(dim.height),
+                        UIManagerExt.getSafeColor("JXBusyLabel.baseColor", Color.LIGHT_GRAY),
+                        UIManagerExt.getSafeColor("JXBusyLabel.highlightColor", Color.BLACK));
+            }
+        };
+        return p;
+    }
+
+    public int getDelay() {
+        return UIManager.getInt("JXBusyLabel.delay");
+    }
+
+
+}
