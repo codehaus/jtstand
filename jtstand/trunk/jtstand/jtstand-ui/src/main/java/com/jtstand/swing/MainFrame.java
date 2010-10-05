@@ -1132,7 +1132,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 if (jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal()) instanceof TestStepInstance) {
                     if (((TestStepInstance) jXTreeTable.getValueAt(row, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal())).getTestStepInstancePath().equals(tsi.getTestStepInstancePath())) {
                         jXTreeTable.expandPath(jXTreeTable.getPathForRow(row));
-//                    System.out.println("expanded:" + tsi);
+//                        System.out.println("expanded:" + tsi);
                         if (!tsi.isLeaf()) {
                             for (TestStepInstance child : tsi.getSteps()) {
                                 if (child.isFailed()) {
@@ -1902,10 +1902,10 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public void mouseClicked(MouseEvent e) {
 //        System.out.println("click count: " + e.getClickCount());
         if (e.getClickCount() == 2) {
-
             Point p = e.getPoint();
+            Object s = e.getSource();
             if (p != null) {
-                if (jTable != null) {
+                if (jTable != null && s.equals(jTable)) {
                     int tableClickedRow = jTable.rowAtPoint(p);
                     if (tableClickedRow >= 0) {
 //                        System.out.println("tableClickedRow: " + tableClickedRow);
@@ -1918,7 +1918,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                         }
                     }
                 }
-                if (jXTreeTable != null) {
+                if (jXTreeTable != null && s.equals(jXTreeTable)) {
                     int treeClickedRow = jXTreeTable.rowAtPoint(p);
                     if (treeClickedRow >= 0) {
                         int treeClickedColumn = jXTreeTable.columnAtPoint(p);
@@ -1948,7 +1948,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                             if (selectedStep != null && queryDialog != null && queryDialog.isVisible()) {
                                 queryDialog.requestFocus();
                             }
-
                         }
                     }
                 }
