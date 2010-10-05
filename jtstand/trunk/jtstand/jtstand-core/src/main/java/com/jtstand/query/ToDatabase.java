@@ -110,7 +110,7 @@ public class ToDatabase extends Thread {
                                 model.replace(seq.getCreateTime(), seq.getHostName());
                             }
                             if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {
-                                System.out.println("Output file successfully moved to: " + file.getName());
+//                                System.out.println("Output file successfully moved to: " + file.getName());
                                 num++;
                                 System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
                                 System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
@@ -128,7 +128,7 @@ public class ToDatabase extends Thread {
             Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {
-                System.out.println("Output file successfully moved to: " + file.getName());
+//                System.out.println("Output file successfully moved to: " + file.getName());
             } else {
                 System.out.println("Output file cannot be moved: " + file.getName());
                 ignoredFiles.add(file);

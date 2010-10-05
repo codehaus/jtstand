@@ -356,7 +356,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         for (TestStep child : testStep.getSteps()) {
             TestStepInstance tsi = new TestStepInstance(child, this);
             steps.add(tsi);
-            System.out.println("added #" + tsi.getTestStepNamePath().getStepNumber() + " : " + tsi);
+//            System.out.println("added #" + tsi.getTestStepNamePath().getStepNumber() + " : " + tsi);
         }
     }
 
@@ -413,7 +413,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             return tsnp.getStepNumber();
         }
         TestStepInstance prev = previous();
-        System.out.println("previous of '" + this + "' is '" + prev + "'");
+//        System.out.println("previous of '" + this + "' is '" + prev + "'");
         return (prev == null) ? 1 : prev.evaluateStepNumber() + 1;
     }
 
@@ -1400,7 +1400,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //    }
     @Override
     public Object get(Object key) {
-        System.out.println("get of Bindings is called with key: '" + key + "'...");
+//        System.out.println("get of Bindings is called with key: '" + key + "'...");
         if ("$type$".equals(key)) {
             return getClass().getName();
         }

@@ -266,7 +266,7 @@ public class FileRevision implements Serializable {
 
     private InputStream getInputStream() throws SVNException {
         if (file != null && file.isFile()) {
-            System.out.println("Path: '" + file.getAbsolutePath() + "' revision: '" + revision + "'");
+//            System.out.println("Path: '" + file.getAbsolutePath() + "' revision: '" + revision + "'");
             SVNClientManager cm = SVNClientManager.newInstance();
             try {
                 SVNStatus svns = cm.getStatusClient().doStatus(file, false);

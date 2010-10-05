@@ -387,11 +387,12 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
-                System.out.println("Connecting testProject...");
+//                System.out.println("Connecting testProject...");
                 setTestProject(tp);
-            } else {
-                System.out.println("Unable to connect testProject");
             }
+//            else {
+//                System.out.println("Unable to connect testProject");
+//            }
         }
 ////        System.out.println("Connecting libraries...");
 //        List<Library> toAdd = new ArrayList<Library>();
@@ -418,17 +419,18 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (testStep != null && testStep.getId() == null) {
             TestStep ts = TestStep.query(em, getTestSequence().getCreator());
             if (ts != null) {
-                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
+//                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
                 setTestSequence(ts);
-            } else {
-                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
+            }
+//            else {
+//                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
 
 //                em.getTransaction().begin();
 //                System.out.println("Merging testStep...");
 //                em.merge(testStep);
 //                System.out.println("Merging testStep, committing Transaction...");
 //                em.getTransaction().commit();
-            }
+//            }
         }
 
         for (TestStepInstance tsi : this) {
@@ -437,17 +439,18 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (calledTestStep != null && calledTestStep.getId() == null) {
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
-                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
+//                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
                     tsi.setCalledTestStep(ts);
-                } else {
-                    System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
+                }
+//                else {
+//                    System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
 
 //                    em.getTransaction().begin();
 //                    System.out.println("Merging calledTestStep...");
 //                    em.merge(calledTestStep);
 //                    System.out.println("Merging calledTestStep, committing Transaction...");
 //                    em.getTransaction().commit();
-                }
+//                }
             }
         }
         System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
