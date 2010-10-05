@@ -269,8 +269,11 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     public TestStepInstance previous(TestStepInstance child) {
         List<TestStepInstance> children = getSteps();
-        int pos = children.indexOf(child) - 1;
-        return (pos >= 0) ? children.get(pos).tail() : this;
+        int pos = children.indexOf(child);
+        if (pos < 0) {
+            pos = children.size();
+        }
+        return (pos > 0) ? children.get(pos - 1).tail() : this;
     }
 
     public TestStepInstance next() {
@@ -351,7 +354,9 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 
     private void initChildren(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         for (TestStep child : testStep.getSteps()) {
-            steps.add(new TestStepInstance(child, this));
+            TestStepInstance tsi = new TestStepInstance(child, this);
+            steps.add(tsi);
+            System.out.println("added #" + tsi.getTestStepNamePath().getStepNumber() + " : " + tsi);
         }
     }
 
