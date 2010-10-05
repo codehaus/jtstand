@@ -137,7 +137,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     @XmlAttribute
     @Override
     public String getName() {
-        return getTestStepNamePath().getStepName();
+        TestStepNamePath tsnp = getTestStepNamePath();
+        return (tsnp == null) ? evaluateName() : tsnp.getStepName();
     }
 
     @XmlTransient
@@ -146,6 +147,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     public String evaluateName() {
+        TestStepNamePath tsnp = getTestStepNamePath();
+        if (tsnp != null) {
+            return tsnp.getStepName();
+        }
         return evaluate(getTestStep().getName());
     }
 
@@ -157,6 +162,10 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     private String evaluatePath() {
+        TestStepNamePath tsnp = getTestStepNamePath();
+        if (tsnp != null) {
+            return tsnp.getStepPath();
+        }
         return evaluatePath(evaluateName());
     }
 
@@ -253,25 +262,28 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         return (p == null) ? null : p.previous(this);
     }
 
+    public TestStepInstance tail() {
+        List<TestStepInstance> children = getSteps();
+        return (children.size() == 0) ? this : children.get(children.size() - 1).tail();
+    }
+
     public TestStepInstance previous(TestStepInstance child) {
-        int pos = getSteps().indexOf(child) - 1;
-        return (pos >= 0) ? getSteps().get(pos) : this;
+        List<TestStepInstance> children = getSteps();
+        int pos = children.indexOf(child) - 1;
+        return (pos >= 0) ? children.get(pos).tail() : this;
     }
 
     public TestStepInstance next() {
 //        System.out.println("Getting next of " + getTestStepInstancePath());
-        List<TestStepInstance> children = this.getSteps();
+        List<TestStepInstance> children = getSteps();
         if (children == null) {
             throw new IllegalStateException("Children of " + getTestStepInstancePath() + " is null!");
         }
         if (!children.isEmpty()) {
             return children.get(0);
         } else {
-            if (getParent() != null) {
-                return getParent().next(this);
-            } else {
-                return null;
-            }
+            TestStepInstance p = getParent();
+            return (p == null) ? null : p.next(this);
         }
     }
 
@@ -311,7 +323,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //            child.initNames();
 //        }
 //    }
-
     private void init(TestStep testStep)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStep = testStep;
@@ -392,7 +403,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     private int evaluateStepNumber() {
+        TestStepNamePath tsnp = getTestStepNamePath();
+        if (tsnp != null) {
+            return tsnp.getStepNumber();
+        }
         TestStepInstance prev = previous();
+        System.out.println("previous of '" + this + "' is '" + prev + "'");
         return (prev == null) ? 1 : prev.evaluateStepNumber() + 1;
     }
 
