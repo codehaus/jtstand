@@ -30,7 +30,7 @@
     <property name="DEBUG_ENABLED" value="true"/>
     <property name="ON_PASS">class Passer extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has passed';} } ; new Passer()</property>
     <property name="ON_FAIL">class Failer extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has failed';} } ; new Failer()</property>
-    <property name="ON_ABORT">class Aborter extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has failed';} } ; new Aborter()</property>
+    <property name="ON_ABORT">class Aborter extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has been aborted';} } ; new Aborter()</property>
     <property name="ON_FINISH">class Finisher extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Finished testing ' + seq.getSerialNumber(); } } ; new Finisher()</property>
     <authentication>
         <domainUsers>
