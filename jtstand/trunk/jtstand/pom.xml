@@ -205,11 +205,6 @@
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-desktop</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-editor</artifactId>
                 <version>${project.version}</version>
             </dependency>
