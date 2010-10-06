@@ -28,6 +28,7 @@
     </property>
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
+    <property name="ON_FINISH">new Class Finisher extends AbstractTestSequenceProcessor { process(TestSequenceInstance seq){ println 'Finished testing ' + seq.getSerialNumber() } }</property>
     <authentication>
         <domainUsers>
             <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
