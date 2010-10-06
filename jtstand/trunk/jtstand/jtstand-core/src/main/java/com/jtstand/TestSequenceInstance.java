@@ -78,6 +78,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     public static final String STR_FIXTURE = "fixture";
     public static final String STR_STATION = "station";
     public static final String STR_INIT = "init";
+    public static final String STR_ON_PASS = "ON_PASS";
+    public static final String STR_ON_FAIL = "ON_FAIL";
+    public static final String STR_ON_ABORT = "ON_ABORT";
+    public static final String STR_ON_FINISH = "ON_FINISH";
     public static final Object FILE_LOCK = new Object();
     private static final Logger LOGGER = Logger.getLogger(TestSequenceInstance.class.getCanonicalName());
     private static JAXBContext jc;
@@ -869,12 +873,36 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             switch (testStepInstance.getStatus()) {
                 case PASSED:
                     setStatus(SequenceStatus.PASSED);
+                    try {
+                        Object o = getPropertyObject(STR_ON_PASS);
+                        if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                            ((AbstractTestSequenceInstanceProcessor) o).process(this);
+                        }
+                    } catch (ScriptException ex) {
+                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;
                 case FAILED:
+                    try {
+                        Object o = getPropertyObject(STR_ON_FAIL);
+                        if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                            ((AbstractTestSequenceInstanceProcessor) o).process(this);
+                        }
+                    } catch (ScriptException ex) {
+                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     setStatus(SequenceStatus.FAILED);
                     break;
                 case ABORTED:
                 case PENDING:
+                    try {
+                        Object o = getPropertyObject(STR_ON_ABORT);
+                        if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                            ((AbstractTestSequenceInstanceProcessor) o).process(this);
+                        }
+                    } catch (ScriptException ex) {
+                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     setStatus(SequenceStatus.ABORTED);
                     break;
                 case STEPBYSTEP_FINISHED:
@@ -910,11 +938,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             };
             t.start();
         }
-        Object o;
         try {
-            o = getPropertyObject("ON_FINISH");
-            if (o instanceof TestSequenceInstanceProcessor) {
-                ((TestSequenceInstanceProcessor)o).process(this);
+            Object o = getPropertyObject(STR_ON_FINISH);
+            if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                ((AbstractTestSequenceInstanceProcessor) o).process(this);
             }
         } catch (ScriptException ex) {
             Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
