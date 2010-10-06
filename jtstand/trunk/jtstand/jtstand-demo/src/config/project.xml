@@ -28,7 +28,7 @@
     </property>
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
-    <property name="ON_FINISH">class Finisher extends AbstractTestSequenceInstanceProcessor { void process(TestSequenceInstance seq) { println 'Finished testing ' + seq.getSerialNumber() } } ; new Finisher()</property>
+    <property name="ON_FINISH">class Finisher extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(TestSequenceInstance seq) { println 'Finished testing ' + seq.getSerialNumber() } } ; new Finisher()</property>
     <authentication>
         <domainUsers>
             <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
