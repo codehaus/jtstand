@@ -910,6 +910,15 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             };
             t.start();
         }
+        Object o;
+        try {
+            o = getPropertyObject("ON_FINISH");
+            if (o instanceof TestSequenceInstanceProcessor) {
+                ((TestSequenceInstanceProcessor)o).process(this);
+            }
+        } catch (ScriptException ex) {
+            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void abort() {
