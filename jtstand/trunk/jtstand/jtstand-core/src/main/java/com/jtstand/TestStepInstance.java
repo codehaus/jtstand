@@ -745,7 +745,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         setStartTime(sTime);
 //        Log.log(getTestStepInstancePath() + " started at " + getStartedStringMs());
         setFinishTime(null);
-        setStatus(StepStatus.RUNNING);
         setLoops(null);
         try {
             String locks = getLocks();
@@ -871,7 +870,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-    private void run1() throws Exception {
+    private void run1() throws InterruptedException {
+        String failureCode = null;
         TestStep.RunMode runMode = getRunMode();
         if (runMode != null && runMode.equals(TestStep.RunMode.SKIP)) {
             skip();
@@ -879,12 +879,13 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
         if (getTestStep().getMessage() != null) {
             LOGGER.info(getTestStep().getMessage());
-            //... improve!
+            //TBD improve this!
         }
         if (getPreSleep() > 0) {
             Thread.sleep(getPreSleep());
         }
         do {
+            setStatus(StepStatus.RUNNING);
             if (loops == null) {
                 loops = 1L;
             } else {
@@ -986,18 +987,27 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
 //                }
 //            }
             if (isRunning() && getScript() != null) {
-                getScript().execute(this);
-                if (getTestSequenceInstance().isAborted()) {
-                    return;
+                try {
+                    getScript().execute(this);
+                    if (getTestSequenceInstance().isAborted()) {
+                        return;
+                    }
+                    checkValuePassed(getValue());
+                } catch (Throwable ex) {
+                    failureCode = ex.getMessage();
+                    System.out.println("failureCode: " + failureCode);
+                    if (!isAborted()) {
+                        setStatus(StepStatus.FAILED);
+                    }
                 }
-            }
-            if (runMode.equals(TestStep.RunMode.NORMAL)) {
-                checkValuePassed(getValue());
-//                setStatus(isValuePassed(getValue()) ? StepStatus.PASSED : StepStatus.FAILED);
             }
         } while (loops.longValue() < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.LOOP)));
         if (getTestSequenceInstance().isAborted()) {
             return;
+        }
+        if (status.equals(StepStatus.FAILED)) {
+            getTestSequenceInstance().setFailureCode(failureCode);
+            getTestSequenceInstance().setFailureStep(this);
         }
         switch (runMode) {
             case FORCE_PASS:
@@ -1009,7 +1019,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             default:
                 break;
         }
-
         if (getPostSleep() > 0) {
             Thread.sleep(getPostSleep());
         }
