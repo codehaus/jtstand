@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, project.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<testProject name="Demo" pun="HIBERNATE" defaultHostName="DEFAULTSTATION" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <property name="persistenceProperties"><![CDATA[
+        [
+        'hibernate.cache.provider_class' : 'org.hibernate.cache.NoCacheProvider',
+        'hibernate.show_sql' : 'false'
+        ]
+        ]]>
+    </property>
+    <property name="PERSISTING_POLICY" value="SEQUENCE"/>
+    <property name="DEBUG_ENABLED" value="true"/>
+    <property name="ON_PASS">class Passer extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has passed';} } ; new Passer()</property>
+    <property name="ON_FAIL">class Failer extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has failed';} } ; new Failer()</property>
+    <property name="ON_ABORT">class Aborter extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has been aborted';} } ; new Aborter()</property>
+    <property name="ON_FINISH">class Finisher extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Finished testing ' + seq.getSerialNumber(); } } ; new Finisher()</property>
+    <authentication>
+        <domainUsers>
+            <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
+        </domainUsers>
+        <localUsers>
+            <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+        </localUsers>
+    </authentication>
+    <product partNumber="RANDOM" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO1" >
+            <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
+        </testType>
+        <testType name="DEMO2">
+            <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
+        </testType>
+    </product>
+    <product partNumber="HEAVY_RANDOM" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO" >
+            <testSequence subversionUrl="heavyRandom.xml" revision="626"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOMBREAK" partRevision="A01">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO">
+            <testSequence subversionUrl="demoSequence.xml" revision="597"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOMBREAK" partRevision="A02">
+        <remark>another random</remark>
+        <property name="DEBUG_ENABLED" value="false"/>
+        <testType name="DEMO">
+            <testSequence subversionUrl="demoSequence.xml" revision="597"/>
+        </testType>
+    </product>
+    <product partNumber="MUTEX_DEMO" partRevision="A01">
+        <testType name="DEMO">
+            <testSequence subversionUrl="mutexDemo.xml" revision="402"/>
+        </testType>
+    </product>
+    <product partNumber="INTERACTIVE_DEMO" partRevision="001">
+        <testType name="DEMO">
+            <testSequence><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Interactive Demo" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+    <script>step.interact('Is the UUT working OK?')</script>
+</step>]]>
+            </testSequence>
+        </testType>
+    </product>
+    <product partNumber="fixture" partRevision="1">
+        <testType name="init1">
+            <testSequence subversionUrl="init1.xml" revision="400"/>
+        </testType>
+        <testType name="init2">
+            <testSequence subversionUrl="init2.xml" revision="400"/>
+        </testType>
+    </product>
+    <testStation hostName="STATION1">
+        <remark>This is the stations configuration file for the host: 'STATION1'</remark>
+        <property name="persistenceProperties"><![CDATA[
+            [
+            'hibernate.dialect' : 'org.hibernate.dialect.PostgreSQLDialect',
+            'hibernate.connection.driver_class' : 'org.postgresql.Driver',
+            'hibernate.connection.username' : 'dbuser',
+            'hibernate.connection.password' : 'password',
+            'hibernate.connection.url' : 'jdbc:postgresql://localhost/jtfw'
+            ]
+            ]]>
+        </property>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="1" name="init1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="2" name="init1"/>
+        </fixture>
+    </testStation>
+    <testStation hostName="MYSTATION">
+        <remark>This is the configuration for the host: 'MYSTATION'</remark>
+        <property name="persistenceProperties"><![CDATA[
+            [
+            'hibernate.connection.driver_class' : 'com.mysql.jdbc.Driver',
+            'hibernate.connection.username' : 'dbuser',
+            'hibernate.connection.password' : 'password',
+            'hibernate.connection.url' : 'jdbc:mysql://localhost:3306/jtfw',
+            'hibernate.connection.provider_class' : 'org.hibernate.connection.C3P0ConnectionProvider',
+            'hibernate.c3p0.max_size' : '100',
+            'hibernate.c3p0.idleConnectionTestPeriod' : '300'
+            ]
+            ]]>
+        </property>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="1" name="init1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="1" name="init2"/>
+        </fixture>
+    </testStation>
+    <testStation hostName="DEFAULTSTATION">
+        <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
+        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_GAP" value="4"/>
+        <fixture fixtureName="FX1" serialNumber="FX1">
+            <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="1" name="init1"/>
+        </fixture>
+        <fixture fixtureName="FX2" serialNumber="FX2">
+            <property name="UUT_PORT" mutex="true" value="ASRL8::INSTR"/>
+            <property name="PASSED_RETEST" value="true"/>
+            <property name="FAILED_RETEST" value="true"/>
+            <property name="ABORTED_RETEST" value="true"/>
+            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
+            <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
+            <initType partNumber="fixture" partRevision="1" name="init2"/>
+        </fixture>
+    </testStation>
+</testProject>
