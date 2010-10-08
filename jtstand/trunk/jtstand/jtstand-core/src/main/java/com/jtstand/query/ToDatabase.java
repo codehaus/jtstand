@@ -103,8 +103,6 @@ public class ToDatabase extends Thread {
                     } else {
                         seq.connect(em);
                         if (seq.merge(em)) {
-                        //if (seq.persist(em)) {
-                            //                                                Log.log("Output file successfully persisted : " + file.getName());
                             if (model != null) {
                                 System.out.println("Replace...");
                                 model.replace(seq.getCreateTime(), seq.getHostName());
@@ -124,7 +122,7 @@ public class ToDatabase extends Thread {
                     }
                 }
             }
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {

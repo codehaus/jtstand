@@ -44,17 +44,17 @@
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="626"/>
         </testType>
         <testType name="DEMO2">
             <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="402"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="626"/>
         </testType>
     </product>
     <product partNumber="HEAVY_RANDOM" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="heavyRandom.xml" revision="626"/>
+            <testSequence subversionUrl="heavyRandom.xml" revision="402"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">

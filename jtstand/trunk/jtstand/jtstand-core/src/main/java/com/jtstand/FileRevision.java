@@ -26,10 +26,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -305,14 +302,17 @@ public class FileRevision implements Serializable {
             throw new IllegalArgumentException("Specified file with URL: '" + subversionUrl + "' is a directory");
         }
 
-        //Map fileProperties = new HashMap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         SVNProperties props = new SVNProperties();
         repository.getFile(filePath, revision, props, baos);
         Long rev = Long.parseLong(props.getStringValue(SVNProperty.COMMITTED_REVISION));
         if (!rev.equals(revision)) {
-            System.out.println("Changing revision from: '" + revision + "' to: '" + rev + "'...");
-            revision = rev;
+            if (-1 == revision) {
+                System.out.println("Changing revision from: '" + revision + "' to: '" + rev + "'...");
+                revision = rev;
+            } else {
+                throw new IllegalArgumentException("Expected revision: " + revision + " found revision: " + rev);
+            }
         }
         repository.closeSession();
         return new ByteArrayInputStream(baos.toByteArray());
