@@ -225,7 +225,6 @@ public class TestStation extends AbstractVariables implements Serializable {
 //            }
 //        }
 //    }
-
     @XmlAttribute
     public String getHostName() {
         return hostName;
@@ -438,8 +437,8 @@ public class TestStation extends AbstractVariables implements Serializable {
     public Driver getDriver() throws ScriptException {
         String driverClass = getPeristencePropertiesMap().get("hibernate.connection.driver_class");
         if (driverClass == null) {
-            return Driver.derby;
-//            return Driver.h2;
+//            return Driver.derby;
+            return Driver.h2;
         }
         Driver[] drivers = Driver.values();
         for (int i = 0; i < drivers.length; i++) {

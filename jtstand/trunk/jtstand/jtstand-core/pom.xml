@@ -236,7 +236,8 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.2.126</version>
+            <!--version>1.2.126</version-->
+            <version>1.2.143</version>
         </dependency>
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
