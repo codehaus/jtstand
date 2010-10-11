@@ -283,11 +283,11 @@ public class TestStep implements Serializable {
         return names;
     }
 
-    public TestStep getCalledTestStep(TestStepInstance tsi) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
+    public TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
         if (getStepReference() == null) {
             return null;
         }
-        return getStepReference().getTestStep(tsi);
+        return getStepReference().getTestStep(tsi, useCache);
     }
 
     @XmlElement(name = "limit")

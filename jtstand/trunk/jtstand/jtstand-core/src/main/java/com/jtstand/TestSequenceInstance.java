@@ -384,7 +384,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         return new TestSequenceInstanceIterator(this);
     }
 
-    public void connect(EntityManager em)
+    private void connect(EntityManager em)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         long startTime = System.currentTimeMillis();
         System.out.println("Connect...");
@@ -397,6 +397,10 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //            else {
 //                System.out.println("Unable to connect testProject");
 //            }
+        }
+        FileRevision c = getTestProject().getCreator();
+        if (c.getSubversionUrl() == null || c.getRevision() == null) {
+            System.err.println("Corrupt creator of testProject");
         }
 ////        System.out.println("Connecting libraries...");
 //        List<Library> toAdd = new ArrayList<Library>();
@@ -423,18 +427,14 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (testStep != null && testStep.getId() == null) {
             TestStep ts = TestStep.query(em, getTestSequence().getCreator());
             if (ts != null) {
-//                System.out.println("Connecting testStep '" + testStep.getName() + "'...");
-                setTestSequence(ts);
+//                System.out.println("Connecting testStep '" + testStep.getName() + "'...");                
+                setTestSequenceNoCache(ts);
             }
-//            else {
-//                System.out.println("Unable to connect testStep '" + testStep.getName() + "'");
+        }
 
-//                em.getTransaction().begin();
-//                System.out.println("Merging testStep...");
-//                em.merge(testStep);
-//                System.out.println("Merging testStep, committing Transaction...");
-//                em.getTransaction().commit();
-//            }
+        c = getTestSequence().getCreator();
+        if (c.getSubversionUrl() == null || c.getRevision() == null) {
+            System.err.println("Corrupt creator of testSequence");
         }
 
         for (TestStepInstance tsi : this) {
@@ -444,17 +444,15 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
                 TestStep ts = TestStep.query(em, calledTestStep.getCreator());
                 if (ts != null) {
 //                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
+                    ts.getCreator();
                     tsi.setCalledTestStep(ts);
                 }
-//                else {
-//                    System.out.println("Unable to connect calledTestStep '" + calledTestStep.getName() + "'");
-
-//                    em.getTransaction().begin();
-//                    System.out.println("Merging calledTestStep...");
-//                    em.merge(calledTestStep);
-//                    System.out.println("Merging calledTestStep, committing Transaction...");
-//                    em.getTransaction().commit();
-//                }
+            }
+            if (tsi.getCalledTestStep() != null) {
+                c = tsi.getCalledTestStep().getCreator();
+                if (c.getSubversionUrl() == null || c.getRevision() == null) {
+                    System.err.println("Corrupt creator of test step: " + tsi.getTestStepInstancePath());
+                }
             }
         }
         System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
@@ -462,29 +460,32 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public boolean merge(EntityManager em) {
         long startTransaction = System.currentTimeMillis();
-        System.out.println("Merge...");
-        try {
-            em.getTransaction().begin();
-            System.out.println("Merging testSequenceInstance...");
+        synchronized (jaxbLock) {
+            System.out.println("Merge...");
+            try {
+                connect(em);
+                em.getTransaction().begin();
+                System.out.println("Merging testSequenceInstance...");
 //            String filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path before:" + filePath);
-            em.merge(this);
-            System.out.println("Merging testSequenceInstance, committing Transaction...");
-            em.getTransaction().commit();
+                em.merge(this);
+                System.out.println("Merging testSequenceInstance, committing Transaction...");
+                em.getTransaction().commit();
 //            filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path after:" + filePath);
-            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
-            return true;
-        } catch (PersistenceException ex) {
-            LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
-            ex.printStackTrace();
-            if (em.getTransaction().isActive()) {
-                LOGGER.info("Merging is going to roll back the transaction...");
-                em.getTransaction().rollback();
-                LOGGER.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+                System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+                return true;
+            } catch (Exception ex) {
+                LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
+                ex.printStackTrace();
+                if (em.getTransaction().isActive()) {
+                    LOGGER.info("Merging is going to roll back the transaction...");
+                    em.getTransaction().rollback();
+                    LOGGER.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+                }
             }
+            return false;
         }
-        return false;
     }
 
     public void persistOrSerialize(final EntityManager em) {
@@ -596,7 +597,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setHostName(String hostName) throws UnknownHostException {
-        setTestStation(testProject.getTestStationOrDefault(hostName));
+        setTestStation(testProject.getTestStation(hostName));
     }
 
     @XmlElement(name = "fixture")
@@ -644,7 +645,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     }
 
     public void setTestSequenceFileRevision(FileRevision fileRevision) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        setTestSequence(
+        setTestSequenceNoCache(
                 TestStep.unmarshal(testStation.getTestProject().getCreator().resolve(fileRevision.getSubversionUrl(), fileRevision.getRevision()),
                 false));
     }
@@ -805,10 +806,17 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public void setTestSequence(TestStep newValue) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         testSequence = newValue;
-        //... This must be much more complicated!
         if (testStepInstance != null) {
             testStepInstance.setTestStep(testSequence);
-            testStepInstance.setNames(newValue.getNames());
+//            testStepInstance.setNames(newValue.getNames());
+        }
+    }
+
+    public void setTestSequenceNoCache(TestStep newValue) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+        testSequence = newValue;
+        if (testStepInstance != null) {
+            testStepInstance.setTestStepNoCache(testSequence);
+//            testStepInstance.setNames(newValue.getNames());
         }
     }
 
@@ -824,13 +832,11 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         if (testStepInstance != null) {
             testStepInstance.setTestSequenceInstance(this);
             testStepInstance.setTestStep(getTestSequence());
-//            testStepInstance.initNames();
         }
     }
 
     @Override
     public void run() {
-//        logger.info("running the sequence...");
         Thread.currentThread().setName(toString());
         setStatus(SequenceStatus.RUNNING);
         if (isPersistPerStep()) {

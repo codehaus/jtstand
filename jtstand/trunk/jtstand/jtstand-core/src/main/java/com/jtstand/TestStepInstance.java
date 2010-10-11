@@ -303,52 +303,12 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-//    public void initNames() {
-//        String eName = evaluateName();
-//        //System.out.println("Evaluated name: '" + eName + "'");
-//        if (getTestStepNamePath() == null || !eName.equals(getName())) {
-//            String ePath = evaluatePath(eName);
-//            //System.out.println("Evaluated name: '" + eName + "'" + " path: '" + ePath + "'");
-//            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
-//            TestStepNamePath ts = names.get(ePath);
-//            if (ts == null) {
-//                ts = new TestStepNamePath(
-//                        getTestSequenceInstance().getTestSequence(),
-//                        eName,
-//                        ePath,
-//                        //evaluateTestLimit(),
-//                        calledTestStep,
-//                        names.size() + 1);
-//            }
-//            setTestStepNamePath(ts);
-//        }
-//        for (TestStepInstance child : steps) {
-//            child.initNames();
-//        }
-//    }
     private void init(TestStep testStep)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         this.testStep = testStep;
         setPosition(testStep.getPosition());
-        this.calledTestStep = testStep.getCalledTestStep(this);
+        this.calledTestStep = testStep.getCalledTestStep(this, true);
         updateTestStepNamePath();
-//        String eName = evaluateName();
-//        if (getTestStepNamePath() == null || !eName.equals(getName())) {
-//            String ePath = evaluatePath(eName);
-//            Map<String, TestStepNamePath> names = getTestSequenceInstance().getTestSequence().getNames();
-//            TestStepNamePath ts = names.get(ePath);
-//            if (ts == null) {
-//                ts = new TestStepNamePath(
-//                        getTestSequenceInstance().getTestSequence(),
-//                        eName,
-//                        ePath,
-//                        //evaluateTestLimit(),
-//                        calledTestStep,
-//                        names.size() + 1);
-//            }
-//            setTestStepNamePath(ts);
-//        }
-
         initChildren(getCalledTestStep() != null ? getCalledTestStep() : getTestStep());
     }
 
@@ -356,7 +316,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         for (TestStep child : testStep.getSteps()) {
             TestStepInstance tsi = new TestStepInstance(child, this);
             steps.add(tsi);
-//            System.out.println("added #" + tsi.getTestStepNamePath().getStepNumber() + " : " + tsi);
         }
     }
 
@@ -449,7 +408,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             updateTestStepNamePath();
 
             if (testStep.getStepReference() != null) {
-                calledTestStep = testStep.getCalledTestStep(this);
+                calledTestStep = testStep.getCalledTestStep(this, true);
                 if (steps.size() != calledTestStep.getSteps().size()) {
                     throw new IllegalArgumentException("childrens size mismatch");
                 } else {
@@ -465,6 +424,35 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
                     Iterator<TestStep> it = testStep.getSteps().iterator();
                     for (TestStepInstance tsi : steps) {
                         tsi.setTestStep(it.next());
+                    }
+                }
+            }
+        }
+    }
+
+    public void setTestStepNoCache(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+        this.testStep = testStep;
+        if (testStep != null) {
+            setPosition(testStep.getPosition());
+            updateTestStepNamePath();
+
+            if (testStep.getStepReference() != null) {
+                calledTestStep = testStep.getCalledTestStep(this, false);
+                if (steps.size() != calledTestStep.getSteps().size()) {
+                    throw new IllegalArgumentException("childrens size mismatch");
+                } else {
+                    Iterator<TestStep> it = calledTestStep.getSteps().iterator();
+                    for (TestStepInstance tsi : steps) {
+                        tsi.setTestStepNoCache(it.next());
+                    }
+                }
+            } else {
+                if (steps.size() != testStep.getSteps().size()) {
+                    throw new IllegalArgumentException("childrens size mismatch");
+                } else {
+                    Iterator<TestStep> it = testStep.getSteps().iterator();
+                    for (TestStepInstance tsi : steps) {
+                        tsi.setTestStepNoCache(it.next());
                     }
                 }
             }
@@ -516,7 +504,6 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         this.testSequenceInstance = testSequenceInstance;
         for (TestStepInstance child : steps) {
             child.setParent(this);
-            child.setTestSequenceInstance(testSequenceInstance);
         }
     }
 

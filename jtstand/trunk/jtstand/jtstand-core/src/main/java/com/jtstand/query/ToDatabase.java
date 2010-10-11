@@ -87,7 +87,7 @@ public class ToDatabase extends Thread {
                 LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
             } else {
                 if (file.getName().endsWith(".xml")) {
-                    System.out.println("Processing file: " + file.getName());
+                    System.out.println("Processing file: " + file.getPath());
                     seq = TestSequenceInstance.unmarshal(file);
                 }
             }
@@ -101,7 +101,7 @@ public class ToDatabase extends Thread {
                     if (em == null) {
                         System.out.println("Entity Manager cannot be obtained");
                     } else {
-                        seq.connect(em);
+//                        seq.connect(em);
                         if (seq.merge(em)) {
                             if (model != null) {
                                 System.out.println("Replace...");

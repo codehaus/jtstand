@@ -639,7 +639,7 @@ public class TestProject extends AbstractProperties implements Serializable {
                 }
             }
         }
-        return null;
+        throw new IllegalArgumentException("Station configuration cannot be found for host: " + host);
     }
 
 //    @XmlElement(name = "library")

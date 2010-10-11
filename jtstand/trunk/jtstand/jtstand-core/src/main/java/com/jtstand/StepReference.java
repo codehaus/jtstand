@@ -75,11 +75,11 @@ public class StepReference extends FileRevisionReference implements Serializable
         return true;
     }
 
-    public TestStep getTestStep(TestStepInstance step) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
+    public TestStep getTestStep(TestStepInstance step, boolean useCache) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
         FileRevision creator = testStep.getStepReference().getFileRevision(testStep.getCreator());
         if (step.getParent() != null) {
             step.getParent().checkLoop(creator);
         }
-        return TestStep.unmarshal(creator, true);
+        return TestStep.unmarshal(creator, useCache);
     }
 }
