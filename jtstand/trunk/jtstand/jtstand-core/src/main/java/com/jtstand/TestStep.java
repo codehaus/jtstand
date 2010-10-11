@@ -303,7 +303,7 @@ public class TestStep implements Serializable {
             for (ListIterator<TestStepLimit> iterator = testLimits.listIterator(); iterator.hasNext();) {
                 int index = iterator.nextIndex();
                 TestStepLimit testLimit = iterator.next();
-                System.out.println("setting testStepLimit's testStep...");
+//                System.out.println("setting testStepLimit's testStep...");
                 testLimit.setTestStep(this);
                 testLimit.setPosition(index);
             }

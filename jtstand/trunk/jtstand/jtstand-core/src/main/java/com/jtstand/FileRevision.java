@@ -89,6 +89,26 @@ public class FileRevision implements Serializable {
     public FileRevision() {
     }
 
+    public FileRevision(String subversionUrl, Long revision) {
+        this.subversionUrl = subversionUrl;
+        this.revision = revision;
+        Enumeration<FileRevision> keys = cache.keys();
+        while (keys.hasMoreElements()) {
+            FileRevision fr = keys.nextElement();
+            if (fr.subversionUrl.equals(subversionUrl)
+                    && fr.revision.equals(revision)) {
+                file = fr.file;
+                break;
+            }
+        }
+    }
+
+    public FileRevision(String subversionUrl, Long revision, File file) {
+        this.subversionUrl = subversionUrl;
+        this.revision = revision;
+        this.file = file;
+    }
+
     public static FileRevision query(EntityManager em, FileRevision creator) {
         if (em == null) {
             return null;
@@ -140,7 +160,6 @@ public class FileRevision implements Serializable {
                 System.out.println("Resolved file path:" + f.getPath());
 
                 return new FileRevision(subversionUrl, revision, f);
-                //TBD
             } catch (Exception ex) {
                 System.out.println("Exception while checking current revision of local file: " + ex);
             }
@@ -174,10 +193,7 @@ public class FileRevision implements Serializable {
         this.revision = revision;
     }
 
-//    public FileRevision() {
-//    }
-    public FileRevision(String subversionUrlorFilePath, Long revision) {
-        this.revision = revision;
+    public static FileRevision createFromUrlOrFile(String subversionUrlorFilePath, long revision) {
         File checkfile = new File(subversionUrlorFilePath);
         if (checkfile.isFile()) {
             SVNClientManager cm = SVNClientManager.newInstance();
@@ -185,37 +201,28 @@ public class FileRevision implements Serializable {
                 SVNStatus svns = cm.getStatusClient().doStatus(checkfile, false);
                 long currentRevision = svns.getCommittedRevision().getNumber();
                 if (revision == 0) {
-                    this.revision = currentRevision;
+                    revision = currentRevision;
                 }
                 System.out.println("URL of the file: " + svns.getURL());
                 System.out.println("Current revision of the file: " + Long.toString(currentRevision));
-                file = checkfile;
-                this.subversionUrl = svns.getURL().toString();
+                return new FileRevision(svns.getURL().toString(), revision, checkfile);
             } catch (SVNException ex) {
                 Logger.getLogger(FileRevision.class.getName()).log(Level.SEVERE, null, ex);
                 ex.printStackTrace();
                 System.exit(1);
             }
-        } else {
-            if (revision == 0) {
-                this.revision = -1L;
-            }
-            subversionUrl = subversionUrlorFilePath;
-            Enumeration<FileRevision> keys = cache.keys();
-            while (keys.hasMoreElements()) {
-                FileRevision fr = keys.nextElement();
-                if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
-                    file = fr.file;
-                    break;
-                }
+        }
+        if (revision == 0) {
+            revision = -1L;
+        }
+        Enumeration<FileRevision> keys = cache.keys();
+        while (keys.hasMoreElements()) {
+            FileRevision fr = keys.nextElement();
+            if (fr.subversionUrl.equals(subversionUrlorFilePath) && fr.revision.equals(revision)) {
+                return fr;
             }
         }
-    }
-
-    public FileRevision(String subversionUrl, Long revision, File file) {
-        this.subversionUrl = subversionUrl;
-        this.revision = revision;
-        this.file = file;
+        return new FileRevision(subversionUrlorFilePath, revision);
     }
 
     @XmlTransient
