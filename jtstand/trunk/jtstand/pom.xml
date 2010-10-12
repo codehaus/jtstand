@@ -223,6 +223,11 @@
                 <artifactId>jtstand-admin-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-smtp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <modules>
@@ -233,6 +238,7 @@
         <module>jtstand-ui</module>
         <module>jtstand-demo</module>
         <module>jtstand-admin-ui</module>
+        <module>jtstand-smtp</module>
     </modules>
     <distributionManagement>
         <!--repository>
