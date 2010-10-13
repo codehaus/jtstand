@@ -9,7 +9,6 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-admin-ui</artifactId>
     <name>jtstand-admin-ui</name>
-    <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
