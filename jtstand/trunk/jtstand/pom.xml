@@ -124,7 +124,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>2.0</version>
+                <version>3.0-beta-2</version>
                 <configuration>
                     <inputEncoding>UTF-8</inputEncoding>
                     <stagingDirectory>./target/staging</stagingDirectory>
@@ -274,7 +274,7 @@
     <properties>
         <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
         <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
-        <jtstand.schemaNameSpace>${url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
+        <jtstand.schemaNameSpace>${project.url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
         <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

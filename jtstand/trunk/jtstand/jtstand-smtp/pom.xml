@@ -7,7 +7,7 @@
         <groupId>org.codehaus.jtstand</groupId>
         <version>1.2.5-SNAPSHOT</version>
     </parent>
-    <groupId>com.jtstand</groupId>
+    <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-smtp</artifactId>
     <name>jtstand-smtp</name>
     <version>1.2.5-SNAPSHOT</version>
