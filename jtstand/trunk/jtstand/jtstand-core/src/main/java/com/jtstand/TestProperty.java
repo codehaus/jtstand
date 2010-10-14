@@ -25,7 +25,6 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
-import org.hibernate.annotations.ForceDiscriminator;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,12 +37,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
+import org.hibernate.annotations.DiscriminatorOptions;
 /**
  *
  * @author albert_kurucz
  */
 @Entity
-@ForceDiscriminator
+@DiscriminatorOptions(force=true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)

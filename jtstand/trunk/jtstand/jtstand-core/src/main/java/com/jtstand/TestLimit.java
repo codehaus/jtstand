@@ -34,14 +34,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.hibernate.annotations.ForceDiscriminator;
+import org.hibernate.annotations.DiscriminatorOptions;
 
 /**
  *
  * @author albert_kurucz
  */
 @Entity
-@ForceDiscriminator
+@DiscriminatorOptions(force=true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType(propOrder = {"measurementUnit", "upperSpeficiedLimit", "lowerSpecifiedLimit", "nominal", "comp", "name", "remark"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)

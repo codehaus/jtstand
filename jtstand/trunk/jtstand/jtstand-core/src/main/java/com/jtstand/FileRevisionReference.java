@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import org.hibernate.annotations.ForceDiscriminator;
 import org.tmatesoft.svn.core.SVNException;
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +39,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
+import org.hibernate.annotations.DiscriminatorOptions;
 
 
 /**
@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlValue;
 @Entity
 @XmlType(propOrder = {"revision", "subversionUrl"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-@ForceDiscriminator
+@DiscriminatorOptions(force=true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 public class FileRevisionReference implements Serializable {
 
