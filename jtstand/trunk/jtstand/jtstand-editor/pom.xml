@@ -23,7 +23,7 @@
     <parent>
         <artifactId>jtstand</artifactId>
         <groupId>org.codehaus.jtstand</groupId>
-        <version>1.2.6</version>
+        <version>1.2.7-SNAPSHOT</version>
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-editor</artifactId>
