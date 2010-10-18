@@ -69,16 +69,8 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 public class FileRevision implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-//    public static FileRevision getFileRevision(String subversionUrl, Long revision) {
-//        Enumeration<FileRevision> fileRevisions = cache.keys();
-//        while (fileRevisions.hasMoreElements()) {
-//            FileRevision fileRevision = fileRevisions.nextElement();
-//            if (fileRevision.getSubversionUrl().equals(subversionUrl) && fileRevision.getRevision().equals(revision)) {
-//                return fileRevision;
-//            }
-//        }
-//        return new FileRevision(subversionUrl, revision);
-//    }
+    private static final ConcurrentHashMap<FileRevision, Object> FILE_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
+    private static final Object FILE_CACHE_LOCK = new Object();
     private String subversionUrl;
     private Long revision;
     private transient File file;
@@ -92,13 +84,15 @@ public class FileRevision implements Serializable {
     public FileRevision(String subversionUrl, Long revision) {
         this.subversionUrl = subversionUrl;
         this.revision = revision;
-        Enumeration<FileRevision> keys = cache.keys();
-        while (keys.hasMoreElements()) {
-            FileRevision fr = keys.nextElement();
-            if (fr.subversionUrl.equals(subversionUrl)
-                    && fr.revision.equals(revision)) {
-                file = fr.file;
-                break;
+        synchronized (FILE_CACHE_LOCK) {
+            Enumeration<FileRevision> keys = FILE_CACHE.keys();
+            while (keys.hasMoreElements()) {
+                FileRevision fr = keys.nextElement();
+                if (fr.subversionUrl.equals(subversionUrl)
+                        && fr.revision.equals(revision)) {
+                    file = fr.file;
+                    break;
+                }
             }
         }
     }
@@ -132,11 +126,13 @@ public class FileRevision implements Serializable {
     }
 
     FileRevision resolve(String subversionUrl, Long revision) {
-        Enumeration<FileRevision> keys = cache.keys();
-        while (keys.hasMoreElements()) {
-            FileRevision fr = keys.nextElement();
-            if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
-                return new FileRevision(subversionUrl, revision, fr.file);
+        synchronized (FILE_CACHE_LOCK) {
+            Enumeration<FileRevision> keys = FILE_CACHE.keys();
+            while (keys.hasMoreElements()) {
+                FileRevision fr = keys.nextElement();
+                if (fr.subversionUrl.equals(subversionUrl) && fr.revision.equals(revision)) {
+                    return new FileRevision(subversionUrl, revision, fr.file);
+                }
             }
         }
         if (file != null) {
@@ -215,11 +211,13 @@ public class FileRevision implements Serializable {
         if (revision == 0) {
             revision = -1L;
         }
-        Enumeration<FileRevision> keys = cache.keys();
-        while (keys.hasMoreElements()) {
-            FileRevision fr = keys.nextElement();
-            if (fr.subversionUrl.equals(subversionUrlorFilePath) && fr.revision.equals(revision)) {
-                return fr;
+        synchronized (FILE_CACHE_LOCK) {
+            Enumeration<FileRevision> keys = FILE_CACHE.keys();
+            while (keys.hasMoreElements()) {
+                FileRevision fr = keys.nextElement();
+                if (fr.subversionUrl.equals(subversionUrlorFilePath) && fr.revision.equals(revision)) {
+                    return fr;
+                }
             }
         }
         return new FileRevision(subversionUrlorFilePath, revision);
@@ -233,19 +231,17 @@ public class FileRevision implements Serializable {
     public void setFile(File file) {
         this.file = file;
     }
-    private final static transient ConcurrentHashMap<FileRevision, Object> cache = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
-    private final static transient Object CACHE_LOCK = new Object();
 
     public Object unmarshal(Unmarshaller un, boolean useCache)
             throws SVNException, JAXBException {
         if (useCache) {
-            synchronized (CACHE_LOCK) {
-                Object object = cache.get(this);
+            synchronized (FILE_CACHE_LOCK) {
+                Object object = FILE_CACHE.get(this);
                 if (object != null) {
                     return object;
                 }
                 object = un.unmarshal(getInputStream());
-                cache.put(this, object);
+                FILE_CACHE.put(this, object);
                 return object;
             }
         } else {

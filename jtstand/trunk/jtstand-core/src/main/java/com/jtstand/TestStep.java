@@ -283,7 +283,7 @@ public class TestStep implements Serializable {
         return names;
     }
 
-    public TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, IOException, JAXBException, ParserConfigurationException, SAXException, SVNException {
+    public TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException{
         if (getStepReference() == null) {
             return null;
         }

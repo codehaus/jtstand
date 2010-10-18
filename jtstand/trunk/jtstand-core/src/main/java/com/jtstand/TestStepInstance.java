@@ -303,13 +303,19 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-    private void init(TestStep testStep)
-            throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
+    private void init(TestStep testStep) throws URISyntaxException, JAXBException, SVNException, IOException, ParserConfigurationException, SAXException
+             {
         this.testStep = testStep;
         setPosition(testStep.getPosition());
-        this.calledTestStep = testStep.getCalledTestStep(this, true);
+//        this.calledTestStep = testStep.getCalledTestStep(this, true);
+        this.calledTestStep = getCalledTestStep(true);
         updateTestStepNamePath();
         initChildren(getCalledTestStep() != null ? getCalledTestStep() : getTestStep());
+    }
+
+    private TestStep getCalledTestStep(boolean useCache) throws URISyntaxException, JAXBException, SVNException {
+//        return (testStep.getStepReference() == null) ? null : testSequenceInstance.getTestStep(testStep.getStepReference(), useCache);
+        return testStep.getCalledTestStep(this, useCache);
     }
 
     private void initChildren(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
@@ -407,10 +413,15 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             setPosition(testStep.getPosition());
             updateTestStepNamePath();
 
+//            if (getParent() != null) {
+//                getParent().checkLoop(testStep.getCreator());
+//            }
+
             if (testStep.getStepReference() != null) {
-                calledTestStep = testStep.getCalledTestStep(this, true);
+//                calledTestStep = testStep.getCalledTestStep(this, true);
+                calledTestStep = getCalledTestStep(true);
                 if (steps.size() != calledTestStep.getSteps().size()) {
-                    throw new IllegalArgumentException("childrens size mismatch");
+                    throw new IllegalArgumentException("Childrens of '" + getTestStepInstancePath() + "' size mismatch. Expected:" + steps.size() + " Received:" + calledTestStep.getSteps().size());
                 } else {
                     Iterator<TestStep> it = calledTestStep.getSteps().iterator();
                     for (TestStepInstance tsi : steps) {
@@ -437,7 +448,8 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
             updateTestStepNamePath();
 
             if (testStep.getStepReference() != null) {
-                calledTestStep = testStep.getCalledTestStep(this, false);
+                //calledTestStep = testStep.getCalledTestStep(this, false);
+                calledTestStep = getCalledTestStep(false);
                 if (steps.size() != calledTestStep.getSteps().size()) {
                     throw new IllegalArgumentException("childrens size mismatch");
                 } else {

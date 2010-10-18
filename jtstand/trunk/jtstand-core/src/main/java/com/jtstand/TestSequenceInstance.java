@@ -39,6 +39,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Basic;
@@ -52,7 +54,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -183,7 +184,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     @ManyToOne(fetch = FetchType.LAZY)
     private TestType testType;
 //    private Product product;
-//    private String testType;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private TestProject testProject;
     private long createTime;
@@ -193,10 +193,29 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private TestStepInstance failureStep;
     private transient ThreadGroup group = new ThreadGroup(toString());
     private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
-//    private transient ConcurrentHashMap<FileRevision, TestStep> testSteps = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
     public transient EntityManager em;
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
     private transient final Object testStepInstanceLock = new Object();
+    private transient final ConcurrentHashMap<FileRevision, TestStep> TEST_STEP_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
+    private transient final Object TEST_STEP_CACHE_LOCK = new Object();
+
+    public TestStep getTestStep(StepReference ref, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
+
+        synchronized (TEST_STEP_CACHE_LOCK) {
+            Iterator<Entry<FileRevision, TestStep>> iter = TEST_STEP_CACHE.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<FileRevision, TestStep> entry = iter.next();
+                FileRevision fr = entry.getKey();
+                if (fr.getSubversionUrl().equals(ref.getSubversionUrl()) && fr.getRevision().equals(ref.getRevision())) {
+                    return entry.getValue();
+                }
+            }
+            TestStep ts = ref.getTestStep();
+            FileRevision creator = ts.getStepReference().getFileRevision(ts.getCreator());
+//            FileRevision creator = ref.getFileRevision(ref.getCreator());
+            return TEST_STEP_CACHE.put(creator, TestStep.unmarshal(creator, useCache));
+        }
+    }
 
     @XmlTransient
     public SequenceType getSequenceType() {
