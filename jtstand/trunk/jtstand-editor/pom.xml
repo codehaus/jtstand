@@ -31,13 +31,5 @@
     <name>jtstand-editor</name>
     <description>jtstand-editor is a syntax highlighting text editor, derived from rsyntaxtextarea</description>
     <url>http://jtstand.codehaus.org/jtstand-editor/</url>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
 
