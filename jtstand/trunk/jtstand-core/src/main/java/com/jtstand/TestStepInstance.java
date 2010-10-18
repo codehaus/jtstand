@@ -303,19 +303,16 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
         }
     }
 
-    private void init(TestStep testStep) throws URISyntaxException, JAXBException, SVNException, IOException, ParserConfigurationException, SAXException
-             {
+    private void init(TestStep testStep) throws URISyntaxException, JAXBException, SVNException, IOException, ParserConfigurationException, SAXException {
         this.testStep = testStep;
         setPosition(testStep.getPosition());
-//        this.calledTestStep = testStep.getCalledTestStep(this, true);
         this.calledTestStep = getCalledTestStep(true);
         updateTestStepNamePath();
         initChildren(getCalledTestStep() != null ? getCalledTestStep() : getTestStep());
     }
 
     private TestStep getCalledTestStep(boolean useCache) throws URISyntaxException, JAXBException, SVNException {
-//        return (testStep.getStepReference() == null) ? null : testSequenceInstance.getTestStep(testStep.getStepReference(), useCache);
-        return testStep.getCalledTestStep(this, useCache);
+        return testSequenceInstance.getCalledTestStep(this, useCache);
     }
 
     private void initChildren(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
