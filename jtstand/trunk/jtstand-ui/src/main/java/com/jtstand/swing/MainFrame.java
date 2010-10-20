@@ -1884,7 +1884,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         contextMenu.add(aboutMenu);
     }
 
-    private static void setClipboardContents(String s) {
+    public static void setClipboardContents(String s) {
         StringSelection selection = new StringSelection(s);
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
                 selection, selection);

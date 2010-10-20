@@ -19,6 +19,7 @@
 package com.jtstand.swing;
 
 import com.jtstand.Authentication;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -36,7 +37,7 @@ public class Login extends javax.swing.JDialog {
         initComponents();
         jPasswordField.setEnabled(at.isPassword());
         jTextFieldUser.requestFocus();
-        CountDownLogin cd = new CountDownLogin(this, 60);
+        //CountDownLogin cd = new CountDownLogin(this, 60);
         setMinimumSize(this.getSize());
         Util.centerOnParent(this);
         this.setVisible(true);
@@ -151,95 +152,27 @@ public class Login extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    public static void setClipboard(String str) {
-//        StringSelection ss = new StringSelection(str);
-//        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
-//    }
-
-//    public static void tryToLogin(GTFrame gtframe, AuthenticationType at, String username, String password, boolean toClipboard)
-//            throws Exception {
-//        if (at.getMode().equals(com.sanminasci.gts.gtstand.AuthenticationModeType.ANY_EMPLOYEE)) {
-//            gtframe.loggedIn(username, username);
-//            return;
-//        }
-//        String encpw = null;
-//        if (at.getMode().equals(com.sanminasci.gts.gtstand.AuthenticationModeType.PASSWORD)) {
-//            encpw = encryptString(password);
-//            System.out.println(java.util.ResourceBundle.getBundle("GTStand").getString("Encrypted_password:") + encpw);
-//            if (toClipboard) {
-//                String locuser = "<LocUser Name=\"" +
-//                        username +
-//                        "\" Password=\"" +
-//                        encpw +
-//                        "\" EmpNumber=\"" +
-//                        username +
-//                        "\"/>";
-//                setClipboard(locuser);
-//            }
-//        }
-//        for (Iterator<DomUserType> it = at.getDomUserList().iterator(); it.hasNext();) {
-//            DomUserType domuser = it.next();
-//            if (domuser.getName().equalsIgnoreCase(username) || domuser.getEmpNumber().toString().equals(username)) {
-//                if (at.getMode().equals(com.sanminasci.gts.gtstand.AuthenticationModeType.NO_PASSWORD) ||
-//                        domainAuthenticated(domuser, String.valueOf(password))) {
-//                    gtframe.loggedIn(domuser.getEmpNumber().toString(), domuser.getName());
-//                    return;
-//                }
-//            }
-//        }
-//        for (Iterator<LocUserType> it = at.getLocUserList().iterator(); it.hasNext();) {
-//            LocUserType locuser = it.next();
-//            if (locuser.getName().equalsIgnoreCase(username) || locuser.getEmpNumber().toString().equals(username)) {
-//                try {
-//                    if (at.getMode().equals(com.sanminasci.gts.gtstand.AuthenticationModeType.NO_PASSWORD) || locuser.getPassword().equals(encpw)) {
-//                        gtframe.loggedIn(locuser.getEmpNumber().toString(), locuser.getName());
-//                        return;
-//                    }
-//                } catch (Exception ex1) {
-//                    System.err.println("Exception:" + ex1.getMessage());
-//                }
-//            }
-//        }
-//    }
     private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
         try {
-            /* trim the username */
-            jTextFieldUser.setText(jTextFieldUser.getText().trim());
-            if (jTextFieldUser.getText().length() == 0) {
-                return;
+            if (ActionEvent.CTRL_MASK == (evt.getModifiers() & ActionEvent.CTRL_MASK)) {
+                // if the CTRL was pushed, do not try to logon
+                // just provide encrypted password string on clipboard
+                MainFrame.setClipboardContents(encryptString(String.valueOf(jPasswordField.getPassword())));
+            } else {
+                /* trim the username */
+                jTextFieldUser.setText(jTextFieldUser.getText().trim());
+                if (jTextFieldUser.getText().length() == 0) {
+                    return;
+                }
+                at.login(jTextFieldUser.getText(), String.valueOf(jPasswordField.getPassword()));
+                this.dispose();
             }
-            //boolean toClipboard = evt.CTRL_MASK == (evt.getModifiers() & evt.CTRL_MASK);
-            at.login(jTextFieldUser.getText(), String.valueOf(jPasswordField.getPassword()));
-            this.dispose();
-        //tryToLogin(gtframe, at, jTextFieldUser.getText(), String.valueOf(jPasswordField.getPassword()), toClipboard);
         } catch (Exception ex) {
             System.out.println("Exception:" + ex.getMessage());
         }
         jTextFieldUser.requestFocus();
     }//GEN-LAST:event_jButtonLoginActionPerformed
-//    public static boolean domainAuthenticated(DomUserType domuser, String password) {
-//        try {
-//            UniAddress dc = null;
-//            String dcstr = System.getProperty("domainController");
-//            if (dcstr == null) {
-//                NbtAddress nbt = NbtAddress.getByName(domuser.getDomain(), 0x1d, null);
-//                dc = new UniAddress(nbt);
-//            } else {
-//                dc = new UniAddress(InetAddress.getByName(dcstr));
-//            }
-//            //172.18.76.247
-//            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication(domuser.getDomain(), domuser.getName(), password);
-//            SmbSession.logon(dc, auth);
-//            return true;
-//        } catch (java.net.UnknownHostException ex1) {
-//            System.err.println("UnknownHostException:" + ex1.getMessage());
-//        } catch (jcifs.smb.SmbException ex2) {
-//            System.err.println("SmbException:" + ex2.getMessage());
-//        } catch (Exception ex) {
-//            System.err.println("Exception:" + ex.getMessage());
-//        }
-//        return false;
-//    }
+
     private void jButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButtonCancelActionPerformed
@@ -251,6 +184,7 @@ public class Login extends javax.swing.JDialog {
                         jPasswordField.setText("");
                         jPasswordField.requestFocus();
     }//GEN-LAST:event_jTextFieldUserActionPerformed
+
     public static String encryptString(String x) throws Exception {
         return byteArrayToHexString(encrypt(x));
     }
@@ -264,7 +198,7 @@ public class Login extends javax.swing.JDialog {
     }
 
     public static String byteArrayToHexString(byte[] b) {
-        StringBuffer sb = new StringBuffer(b.length * 2);
+        StringBuilder sb = new StringBuilder(b.length * 2);
         for (int i = 0; i < b.length; i++) {
             int v = b[i] & 0xff;
             if (v < 16) {
@@ -292,61 +226,34 @@ public class Login extends javax.swing.JDialog {
 
     public void cancel() {
         jButtonCancel.doClick();
-    }//    public static void main(String[] args) {
-//        String wins = Config.getProperty("jcifs.netbios.wins");
-//        if (wins == null) {
-//            Config.setProperty("jcifs.netbios.wins", "143.116.28.143");
-//        }
-//        System.out.println("WINS address:" + NbtAddress.getWINSAddress().getHostAddress());
+    }
+}
+//class CountDownLogin extends Thread {
 //
-//        NbtAddress nbt = null;
-////        try{
-////            NtlmChallenge nc=SmbSession.getChallengeForDomain();
-////            if(nc!=null){
-////                UniAddress ua=nc.dc;
-////                if(ua!=null){
-////                    System.out.println("Domain Address:"+ua.getHostAddress());
-////                }
-////            }
-////        }catch(java.net.UnknownHostException ex){
-////            System.err.println("UnknownHostException:"+ex.getMessage());
-////        }catch(SmbException ex2){
-////            System.out.println("SmbException:"+ex2.getMessage());
-////        }
+//    Login gtn = null;
+//    int cnt = 0;
+//
+//    public CountDownLogin(Login gtn, int cnt) {
+//        this.gtn = gtn;
+//        this.cnt = cnt;
+//        this.start();
+//    }
+//
+//    @Override
+//    public void run() {
 //        try {
-//            nbt = NbtAddress.getByName("am", 0x1d, null);
-//            System.out.println("NBT address:" + nbt.getHostAddress());
-//        } catch (java.net.UnknownHostException ex) {
-//            System.err.println("UnknownHostException:" + ex.getMessage());
+//            while (cnt != 0) {
+//                gtn.tick(cnt);
+//                sleep(1000);
+//                cnt--;
+//            }
+//            gtn.tick(0);
+//            sleep(200); //to allow to read
+//
+//            gtn.cancel();
+//        } catch (InterruptedException ex) {
+//            //do nothing if interrupted
 //        }
 //    }
-}
+//}
 
-class CountDownLogin extends Thread {
-
-    Login gtn = null;
-    int cnt = 0;
-
-    public CountDownLogin(Login gtn, int cnt) {
-        this.gtn = gtn;
-        this.cnt = cnt;
-        this.start();
-    }
-
-    @Override
-    public void run() {
-        try {
-            while (cnt != 0) {
-                gtn.tick(cnt);
-                sleep(1000);
-                cnt--;
-            }
-            gtn.tick(0);
-            sleep(200); //to allow to read
-
-            gtn.cancel();
-        } catch (InterruptedException ex) {
-            //do nothing if interrupted
-        }
-    }
-}
