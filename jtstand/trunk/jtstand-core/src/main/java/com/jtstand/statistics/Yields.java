@@ -18,7 +18,8 @@
  */
 package com.jtstand.statistics;
 
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -26,9 +27,9 @@ import java.util.Hashtable;
  */
 public class Yields {
 
-    private Hashtable<String, Yield> yieldMap = new Hashtable<String, Yield>();
+    private Map<String, Yield> yieldMap = new HashMap<String, Yield>();
 
-    public Hashtable<String, Yield> getYields() {
+    public Map<String, Yield> getYields() {
         return yieldMap;
     }
 

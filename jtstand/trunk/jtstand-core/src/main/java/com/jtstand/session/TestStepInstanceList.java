@@ -37,7 +37,7 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
 
     public static final long serialVersionUID = 20081114L;
     private static final Logger LOGGER = Logger.getLogger(TestStepInstanceList.class.getCanonicalName());
-    private EntityManager em;
+    private transient EntityManager em;
     protected final Object lock = new Object();
 
     public TestStepInstanceList(EntityManager em) {
@@ -122,7 +122,6 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
             if (em.isOpen()) {
                 em.close();
             }
-            em = null;
         }
         super.finalize();
     }

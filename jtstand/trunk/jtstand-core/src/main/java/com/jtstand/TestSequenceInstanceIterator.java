@@ -26,22 +26,18 @@ import java.util.Iterator;
  */
 public class TestSequenceInstanceIterator implements Iterator<TestStepInstance> {
 
-    private TestSequenceInstance tsi;
     private TestStepInstance current;
 
     public TestSequenceInstanceIterator() {
     }
 
     public TestSequenceInstanceIterator(TestSequenceInstance tsi) {
-//            System.out.println("TestSequenceInstanceIterator init...");
         if (tsi == null) {
             throw new IllegalArgumentException("TestSequenceInstance parameter is null!");
         }
         tsi.getTestStepInstance();
-//            System.out.println(".");
-        this.tsi = tsi;
         current = tsi.getTestStepInstance();
-   }
+    }
 
     @Override
     public TestStepInstance next() {

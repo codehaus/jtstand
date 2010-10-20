@@ -122,10 +122,10 @@ public class DomainUserList implements Serializable {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof Authentication)) {
+        if (!(object instanceof DomainUserList)) {
             return false;
         }
-        Authentication other = (Authentication) object;
+        DomainUserList other = (DomainUserList) object;
         if ((this.creator == null && other.getCreator() != null) || (this.creator != null && !this.creator.equals(other.getCreator()))) {
             return false;
         }

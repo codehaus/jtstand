@@ -50,11 +50,7 @@ public class Runner extends Thread {
     private TestProject testProject;
     private TestType testType;
     private TestStep testSequence;
-//    private String testTypeName;
-//    private String productName;
     private TestSequenceInstance.SequenceType sequenceType;
-    private boolean isInit;
-//    private long previouslyUsedMemory = 0L;
 
     public Runner(FrameInterface fi, FixtureInterface fixture) {
         super();
@@ -62,7 +58,7 @@ public class Runner extends Thread {
         this.fixture = fixture;
     }
 
-    public void execute(TestSequenceInstance seq, boolean isInit) {
+    public void execute(TestSequenceInstance seq) {
         this.seq = seq;
         serialNumber = seq.getSerialNumber();
         employeeNumber = seq.getEmployeeNumber();
@@ -71,10 +67,7 @@ public class Runner extends Thread {
         testStation = seq.getTestStation();
         testProject = seq.getTestProject();
         testSequence = seq.getTestSequence();
-//        testTypeName = seq.getTestTypeName();
-//        productName = seq.getProductName();
         sequenceType = seq.getSequenceType();
-        this.isInit = isInit;
         this.start();
     }
 

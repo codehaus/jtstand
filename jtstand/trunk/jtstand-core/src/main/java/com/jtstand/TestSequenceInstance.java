@@ -116,7 +116,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             return;
         }
         synchronized (FILE_LOCK) {
-            long startTime = System.currentTimeMillis();
+//            long startTime = System.currentTimeMillis();
             if (saveDirectory.isFile()) {
                 throw new IllegalArgumentException("Output directory is not a directory: a File is specified!");
             }
@@ -1386,7 +1386,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
             if (em.isOpen()) {
                 em.close();
             }
-            em = null;
         }
         super.finalize();
     }

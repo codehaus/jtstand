@@ -107,7 +107,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
                     if (fi != null) {
                         fi.add(seq);
                     }
-                    getNewRunner().execute(seq, true);
+                    getNewRunner().execute(seq);
                 } catch (Exception ex) {
                     System.out.println("Failed to create a new sequence");
                     System.out.println(ex.getMessage());

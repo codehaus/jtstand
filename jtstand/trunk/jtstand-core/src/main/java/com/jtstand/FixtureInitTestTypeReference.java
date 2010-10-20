@@ -39,7 +39,7 @@ public class FixtureInitTestTypeReference extends TestTypeReference {
 
     @Override
     public boolean equals(Object object) {
-        if (!(object instanceof TestStepProperty)) {
+        if (!(object instanceof FixtureInitTestTypeReference)) {
             return false;
         }
         FixtureInitTestTypeReference other = (FixtureInitTestTypeReference) object;

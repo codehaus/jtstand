@@ -92,7 +92,7 @@ public class TestProject extends AbstractProperties implements Serializable {
     }
 //    public TestProject() {
 //    }
-    public static String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd";
+    public static final String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd";
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;
@@ -107,6 +107,7 @@ public class TestProject extends AbstractProperties implements Serializable {
 //        }
 //        return emf;
 //    }
+
     private static JAXBContext getJAXBContext()
             throws JAXBException {
         if (jc == null) {
