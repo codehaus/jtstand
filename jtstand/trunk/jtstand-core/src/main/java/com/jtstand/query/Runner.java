@@ -68,6 +68,7 @@ public class Runner extends Thread {
         testProject = seq.getTestProject();
         testSequence = seq.getTestSequence();
         sequenceType = seq.getSequenceType();
+        fi.selectSequence(seq);
         this.start();
     }
 
