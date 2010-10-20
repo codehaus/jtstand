@@ -54,7 +54,7 @@ public class Authentication implements Serializable {
     @OneToOne
     private TestProject testProject;
     private transient String operator;
-    private transient PropertyChangeSupport support = new PropertyChangeSupport(this);
+    private transient PropertyChangeSupport support;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "authentication")
     private DomainUserList domainUserList;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "authentication")
@@ -85,11 +85,16 @@ public class Authentication implements Serializable {
     }
 
     public void addPropertyChangeListener(PropertyChangeListener l) {
+        if (support == null) {
+            support = new PropertyChangeSupport(this);
+        }
         support.addPropertyChangeListener(l);
     }
 
     public void removePropertyChangeListener(PropertyChangeListener l) {
-        support.removePropertyChangeListener(l);
+        if (support != null) {
+            support.removePropertyChangeListener(l);
+        }
     }
 
     @XmlTransient
@@ -178,7 +183,9 @@ public class Authentication implements Serializable {
                 System.out.println("Operator '" + oldOperator + "' is logging out.");
             }
             this.operator = operator;
-            support.firePropertyChange(OPERATOR_PROPERTY, oldOperator, this.operator);
+            if (support != null) {
+                support.firePropertyChange(OPERATOR_PROPERTY, oldOperator, this.operator);
+            }
         }
     }
 
