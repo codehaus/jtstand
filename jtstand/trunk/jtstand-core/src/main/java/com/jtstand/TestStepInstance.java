@@ -312,7 +312,7 @@ public class TestStepInstance extends AbstractVariables implements Serializable,
     }
 
     private TestStep getCalledTestStep(boolean useCache) throws URISyntaxException, JAXBException, SVNException {
-        return testSequenceInstance.getCalledTestStep(this, useCache);
+        return testSequenceInstance.getCalledTestStep(getTestStep().getStepReference(), useCache);
     }
 
     private void initChildren(TestStep testStep) throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {

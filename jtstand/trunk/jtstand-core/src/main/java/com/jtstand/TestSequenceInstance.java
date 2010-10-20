@@ -199,7 +199,7 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
     private transient final ConcurrentHashMap<FileRevision, TestStep> TEST_STEP_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
     private transient final Object TEST_STEP_CACHE_LOCK = new Object();
 
-    public TestStep getTestStep(StepReference ref, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
+    public TestStep getCalledTestStep(StepReference ref, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
         if (ref == null) {
             return null;
         }
@@ -220,25 +220,25 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
         }
     }
 
-    TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
-        StepReference ref = tsi.getTestStep().getStepReference();
-        if (ref == null) {
-            return null;
-        }
-        synchronized (TEST_STEP_CACHE_LOCK) {
-            Iterator<Entry<FileRevision, TestStep>> iter = TEST_STEP_CACHE.entrySet().iterator();
-            while (iter.hasNext()) {
-                Entry<FileRevision, TestStep> entry = iter.next();
-                FileRevision fr = entry.getKey();
-                if (fr.getSubversionUrl().equals(ref.getSubversionUrl()) && fr.getRevision().equals(ref.getRevision())) {
-                    return entry.getValue();
-                }
-            }
-            TestStep ts = tsi.getTestStep().getCalledTestStep(tsi, useCache);
-            TEST_STEP_CACHE.put(ts.getCreator(), ts);
-            return ts;
-        }
-    }
+//    TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
+//        StepReference ref = tsi.getTestStep().getStepReference();
+//        if (ref == null) {
+//            return null;
+//        }
+//        synchronized (TEST_STEP_CACHE_LOCK) {
+//            Iterator<Entry<FileRevision, TestStep>> iter = TEST_STEP_CACHE.entrySet().iterator();
+//            while (iter.hasNext()) {
+//                Entry<FileRevision, TestStep> entry = iter.next();
+//                FileRevision fr = entry.getKey();
+//                if (fr.getSubversionUrl().equals(ref.getSubversionUrl()) && fr.getRevision().equals(ref.getRevision())) {
+//                    return entry.getValue();
+//                }
+//            }
+//            TestStep ts = tsi.getTestStep().getCalledTestStep(tsi, useCache);
+//            TEST_STEP_CACHE.put(ts.getCreator(), ts);
+//            return ts;
+//        }
+//    }
 
     @XmlTransient
     public SequenceType getSequenceType() {
