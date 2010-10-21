@@ -239,7 +239,6 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 //            return ts;
 //        }
 //    }
-
     @XmlTransient
     public SequenceType getSequenceType() {
         return sequenceType;
@@ -502,32 +501,32 @@ public class TestSequenceInstance extends AbstractVariables implements Serializa
 
     public boolean merge(EntityManager em) {
         long startTransaction = System.currentTimeMillis();
-        synchronized (jaxbLock) {
-            System.out.println("Merge...");
-            try {
-                connect(em);
-                em.getTransaction().begin();
-                System.out.println("Merging testSequenceInstance...");
+//        synchronized (jaxbLock) {
+        System.out.println("Merge...");
+        try {
+            connect(em);
+            em.getTransaction().begin();
+            System.out.println("Merging testSequenceInstance...");
 //            String filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path before:" + filePath);
-                em.merge(this);
-                System.out.println("Merging testSequenceInstance, committing Transaction...");
-                em.getTransaction().commit();
+            em.merge(this);
+            System.out.println("Merging testSequenceInstance, committing Transaction...");
+            em.getTransaction().commit();
 //            filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path after:" + filePath);
-                System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
-                return true;
-            } catch (Exception ex) {
-                LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
-                ex.printStackTrace();
-                if (em.getTransaction().isActive()) {
-                    LOGGER.info("Merging is going to roll back the transaction...");
-                    em.getTransaction().rollback();
-                    LOGGER.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
-                }
+            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+            return true;
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
+            ex.printStackTrace();
+            if (em.getTransaction().isActive()) {
+                LOGGER.info("Merging is going to roll back the transaction...");
+                em.getTransaction().rollback();
+                LOGGER.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             }
-            return false;
         }
+        return false;
+//        }
     }
 
     public void persistOrSerialize(final EntityManager em) {
