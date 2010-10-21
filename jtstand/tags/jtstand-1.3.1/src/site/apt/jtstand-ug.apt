@@ -1,0 +1,446 @@
+JTStand User's Guide
+
+* What is JTStand
+
+  JTStand is a free scripting environment for data collection,
+an open source software, written in Java.\
+It helps you to develop and execute Sequences
+and to store and analyze the Results.
+  
+  Every step of a Sequence may have a Script to execute.
+Because JTStand executes the scripts through
+the {{{http://jcp.org/en/jsr/detail?id=223}JSR223}} interface,
+a JSR223 engine needs to be available for the scripting language,
+which is selected for the step.
+Some examples for scripting languages with JSR223 support:
+  * Groovy
+  * Jython
+  * JRuby
+  * JavaScript.
+
+  With access to Java and number of great scripting languages,
+everything is given already to develop and execute
+sequences and store the resuls, but it is easier to use a framework
+(like JTStand) for the some tasks than writing it all from scratch.
+
+  JTStand provides help for managing version control of the configurations,
+provides a simple but effective GUI for executing the sequences,
+JTstand stores the result in a database without any extra programming,
+and manages the reports.
+
+  JTStand is like CSS for the web developer.
+Nice web pages can be created without CSS,
+but with CSS nicely structured
+web pages can be created which are easier to maintain and that
+saves you from a lot of hard work.
+
+* Applications
+
+  JTStand focuses on hardware and system testing rather than software tests.
+What is the difference between Software and Hardware testing?
+
+*--+--+
+|| Software test || Hardware test |
+*--+--+
+| Each different revision number represents a different entity. The software-under-test may or may not have a serial number. If it has a serial number, the test should ignore it. | Each different hardware-under-test entity must have a unique serial number (or another form of unique ID). The hardware under test may or may not have a revision code. |
+*--+--+
+| Any modification (fix or add-on) made to the software under test will bring it to the next revision | Modifications (fixes or additions) to the hardware under test may or may not bring the hardware to a different revision |
+*--+--+
+| After modification of the software under test, you test a new software revision (a new entity), this is not exactly a retest. You retest software entity only if the test was modified. |	After modification of either the hardware under test of the test system you retest the same entity. You may want to retest the hardware even if it was not modified, because parameters of the hardware may change by aging or by change in the environment (ambient temperature). |
+*--+--+
+| You typically test the latest revision of a software. You don't have to be able to test obsoleted revisions. | You may have to test different revisions at the same time. You have to be prepared to test any hardware revisions which are currently manufactured and revisions which have ever been manufactured (in case of a recall). |
+*--+--+
+| Pass/Fail results only | Pass/Fail results mixed with numeric results, where limits need to be maintained. |
+*--+--+
+Software Test vs Hardware Test
+
+
+* Definitions
+
+** Sequence
+
+  * Every Sequence refers to a single Step, which Step may have child Steps, and the childs may have more child Steps, creating a tree structure of descendants, similar to the directory structure of a file system. There will be no restriction neither for the number of child Steps nor for the deepness of the tree. Capacity of the hardware or the JVM will be the only limiting factor.
+
+  * Every Step may contain a Script, and the Script of the Step may refer to a ScriptEngine, which ScriptEngine will be called to evaluate the Script, when the Step is executed. If ScriptEngine is not specified, JTStand shall call the Groovy ScriptEngine by default.
+
+  * Steps shall be executed in this order:
+
+    * First execute the Step's children or child if there are any
+
+    * Then execute the Step's Script of the Step if there is one defined. If exception occured, set the state to failed.
+
+    * Finally if there was no exception caused by the Script, examine the Step's Limit if there is Limit selected. Set the Step's state accordingly.
+
+  * Steps may exists without having neither any children nor any script. These Steps are prototypes for future developments. Prototypes shall always pass.
+
+  * The Script of a Step shall set the Result value of the Step, which Result can be one of the following types:
+
+    * Numeric value
+
+    * String value
+
+    * null (Result not set)
+
+  * A Step is allowed to have no Limit selected, even if it produces a non-null Result value. This means that any value is accepted.
+
+  * If a limit is selected for a Step, the null Result shall not be accepted (out of limit).
+
+  * A Step may have multiple definitions of Properties to be referred to by it's descendants by name.
+
+  * If a Property is referenced at a Step, JTStand shall search for the Property in this order:
+
+    * the Step
+
+    * Step of the Step File referenced by that Step, if any
+
+    * Ancestor of that Step (from parent Step to Sequence)
+
+    * Test Type
+
+    * Product
+
+    * Fixture (if it exist)
+
+    * Station
+
+    * Project
+
+  * A Step may have multiple definitions of Limits to be referred to by it's descendants by name.
+
+  * If a Limit is referred by a Step, JTStand shall search for the Limit in this order:
+
+    * Step where the Limit Reference resides
+
+    * Step in the Step File referred by the Step, if any
+
+    * Ancestors of the Step (from parent Step to Sequence)
+
+    * Test Type
+
+    * Product
+
+    * Project
+
+  * There is a difference between limit and property resolution: Stations/Fixtures cannot define limits, but properties only.
+
+  * A Step may share Objects with other Steps using shared Variables
+
+  * Results of Steps are persistent (stored in the result database), but Variables are not. Variables are deleted when the Sequence is completed.
+
+  * A Step's State shall be
+
+    * Pending, before it is executed
+
+    * Running, while it executes
+
+    * Passed/Failed/Aborted after it has been executed.
+
+  * A Step shall Fail if
+
+    * it has a Limit set and the Step's Result is out of that Limit. The null Result is out of limit.
+
+    * Exception has occurred during the execution of the Step's code.
+
+  * A Step shall Pass if it has not failed and it has not been aborted (by the operator or by another Step) while it was executed.
+
+  * The Step's code shall not set the State of the Step. The Sequencer, which executes the Sequence/Steps will set the State regarding the Result/Limit/Exception conditions.
+
+  * A (caller) Step may refer to a (called) Step definition file by Subversion URL and revision number.
+
+  * Properties of the caller Step shall have precedence over the called Step's properties.
+
+** Project
+
+  * A Project defines Products which can be referred by part number and on optional part revision.
+
+  * A Product may specify one or more Test Types by name
+
+  * Each Test Type of a Product specifies a Sequence, by Subversion URL and revision number
+
+  * A Project specifies Stations which can be referred by host name.
+
+  * Each Station in a Project specifies one or more Fixture by name and serial number.
+
+  * Each Station in a Project may specify a list of TestTypes that can be tested on them.
+
+  * Each Fixtures of a Station may specify a list of TestTypes that can be tested on them.
+
+  * Fixtures, without a list of TestTypes inherit the list of TestTypes from the Station.
+
+  * Fixtures, without a TestType list without and inherited TestType list will be disabled
+
+    * Disabled Fixtures will be shown on the GUI, but they will not be able to execute a Sequence
+
+  * A Project may specify properties for the Project, Products, TestTypes, Stations and Fixtures, which can be accessed by the Steps' code when executed.
+
+  * A Project may specify Authentication
+
+  * A Project may specify Classes.
+
+  * A Project may refer to Libraries, by Subversion URL and revision number
+
+** Script
+
+  * Scripts of JTStand may refer to Classes defined outside of JTStand if the class is in the Class Path.
+
+  * Text of the Script can be stored directly or indirectly in a File.
+
+* Configuration Files
+
+ JTStand shall use only two different types of configuration files: {{Project}} and {{Step}}.
+
+ The configuration files' format will be XML. JTStand shall use JAXB, the Java XML Binding library to access configuration files. When a configuration file is loaded, Java objects are automatically created from the XML files by the JAXB "Unmarshalling" process.
+
+ A single {{{http://en.wikipedia.org/wiki/XML_schema} XML schema}} file shall be provided with JTStand. The schema file can be used to validate any of the four configuration types. It is highly recommended to use a validating XML editor, for example {{{http://www.jedit.org/}jEdit}} or {{{http://xml-copy-editor.sourceforge.net/}XML Copy Editor}}.
+
+* Functions
+
+  JTStand has two major functions:
+
+  * Administration of Sequences by the {{Administrator}}
+
+  * Execution of Sequences by the {{Sequencer}}
+
+** {Administrator}
+
+  Tasks of administration part:
+
+  * Create new Projects/Sequences/Steps
+
+  * Modify configuration of Projects/Sequences/Steps
+
+  * Present the results from the database
+
+  * Create/initialize/cleanup/remove the database
+
+ Project, Sequence and Step files, that are stored on a Subversion server in XML files can be modified without any Administrator GUI. These files can be checked out as port of a NetBeans project and after the configuration files are edited, checked and validated to the XSD schema file and finally the configuration files can be committed to the version control server using NetBeans built in Subversion client.
+
+ An Administrator GUI will be developed, which could check out selected configuration files from the Subversion server, and allow editing and commits.
+
+** {Sequencer}
+
+ Tasks of the sequencer:
+
+  * Load the Project configuration when the Sequencer starts, where the Project is selected by a command line argument.
+
+  * Load the Sequence/Step configuration when it is requested to be executed from the GUI
+
+  * Execute the Steps of the selected Sequence regarding all the modifiers (loop settings, etc) that are present in the Step's configuration
+
+  * Save the results in the database. Sequencer should allow two modes of database operation:
+
+    * Save the results only after the execution of Sequence is completed.
+
+    * Save the results of the Sequence before execution is started (each Step pending) and update each Step when they are completed. Finally, update the Sequence status in the database when the Sequence completes.
+
+  * Present a GUI, which allows the Operator to
+
+    * authenticate (Login/Logout)
+
+    * select a Product and Start the Sequence
+
+    * present a list of running and recently finished Sequences. The list of Sequences should be presented in a table component with columns:
+
+      * Serial Number
+
+      * Part Number
+
+      * Location
+
+      * Operator
+
+      * Start time
+
+      * Elapsed time
+
+      * State
+
+    * navigate on the tree of Steps of the selected Sequence, which should be presented in a tree-table component with columns:
+
+      * Name
+
+      * Result (if not null)
+
+      * Limits (if any)
+
+      * Loop counter (if loop is setup)
+
+      * Start time (if started)
+
+      * Elapsed time (if started)
+
+      * State (Pending/Running/Passed/Failed/Aborted)
+
+    * download Sequences from the database to the recent Sequences list
+
+  The Sequencer can be started on Stations that are configured in the Project file.
+
+  Project file also specifies:
+
+  * Products, which can be tested on each Fixture of every Station.
+
+  * Test Types, which are available for each Product
+
+  * Sequences to execute for each Test Type
+
+  The Sequencer can execute Sequences on multiple fixtures simultaneously on the test station. In a fixture-less configuration the number of simultaneously executed Sequences is not limited.
+
+   The Sequencer receives input through
+
+  * Command line arguments
+
+  * Version controlled configuration files, which files can be accessed from
+
+    * directly from the Version Control Server or
+
+    * {{{http://en.wikipedia.org/wiki/Revision_control#Common_vocabulary}working copies}}
+
+  * Operator actions through the GUI
+
+ The Sequencer provides output through
+
+  * GUI (Tables and Charts)
+
+  * Results written to a relational Database
+
+ The Sequencer receives the location of the Project file and the optional revision as command line arguments.
+
+  * If the project location argument points to a file path and the local file is in revision control (a working copy) and it's revision matches the specified, then the sequencer will use the specified file from the path.
+
+  * If the specified path points to a file, which is not in revision control, then the Sequencer will display an error message and exit.
+
+  * If file path is specified but it's revision does not match the specified revision or a Subversion URL is specified as the project file location (not a local file), then the sequencer checks out the file from the subversion server. The sequencer will not update the working copy of any file.
+
+ Arguments of the Sequencer:
+ (Each argument is optional)
++---
+[location] [-r revision] [-h host] [-t title]
+
+ location : The location of the project configuration file,
+            which can be either a
+            - URL of a project file on a Subversion server or
+            - Path to a local file which is a "working copy"
+              of file from a Subversion server
+            Default: file path at "./config/project.xml",
+              relative to the actual working directory
+ revision : The revision of the project configuration file,
+            where '-1' means the most up-to-date (HEAD) revision.
+            Default: -1
+ host     : Selects a workstation from the project config
+            Default: the real host name of the station
+ title    : Window title of the Sequencer
+            Default: "projectName@projectRev on hostName"
++---
+
+ The Project file specifies the Products for the Stations and optionally for the Fixtures that they can execute.
+ Each Product in the Project refers to a Sequence file by URL and Revision number. When a Sequence is started, the Sequencer acquires the Sequence definition from a Revision Control System.
+
+  * If a "working copy" of the version controlled file is available and it's revision matches, then the Sequencer will use the working copy
+
+  * Checkout the specified file from the Revision Control Server
+
+ Sequence files may refer to Step files by their URL and Revision number. If two Sequences share a common part, then the common part needs to be placed into a shared Step file. If there is no need for sharing any part of the Sequence, then the Sequence file may specify every Step of the Sequence without referring to any external Step files.
+
+* Revision Control
+
+ Why do we need Revision control in a test framework?
+
+ In most of the test frameworks the tests are specified by a large set of different configuration files. Limits and other parameters and test methods are changed frequently. Maintaining changes and consistency is an extremely difficult task. Test engineers are having hard time to answer even this simple, but typical questions:
+
+ * Which revisions of the test is running on which station at this moment?
+
+ * What revision was used on this specific workstation a week ago at a certain time?
+
+ * What was changed in the configuration between the current and that previous version which was still working at that specific time?
+
+ Because version control is integrated part of JTStand, these questions are easy to answer. The result data from every run includes which version of the project and which version of the test is that a result of.
+
+ Revision control in JTStand is based on having Projects, Libraries, Sequences, and Steps files stored by a Subversion repository.
+
+ The same Subversion repository should be used for every file of a project, if possible. Multiple different Subversion repositories may be used for a project if required.
+
+ The Sequencer (the consumer of the configuration files) shall receive the project file's location and revision as command line arguments or environment variables. Project configuration file shall refer to Library and Sequence files by their URL and revision. Sequences and Steps may refer to Step files by URL and revision.
+
+ How does the JTStand sequencer know which version of the test have to be used at the moment and how does it have access to that version?
+
+ When the sequencer is started on a test station, arguments or environment variables will specify for the sequencer which project and optionally it can also specify which revision of the project to start with. The project is specified by a URL to a project configuration file, which file resides on a version control server (which is a Subversion server now, but support for other version control systems will come later). Revision parameter is used with project files only if there are problems with the latest configuration. This will create an easy way to go back to a previous configuration. If revision is not specified (normally), then the latest available project configuration revision will be used, what is available on the version control server (Head).
+
+ Project configuration file defines Products identified by product part number and optional product revision. Each Product will have it specified which Sequence to use for that Product by specifying the URL and revision of Sequence files, which files are also stored on a version control server.
+
+ A Sequence shall have 3 steps: Setup, Main and Cleanup. Every Step may contain one or more Steps, creating a tree structure. Steps can also be added from Step files, where these files are referred by URL and revision.
+
+ Sequence and Step files when referenced, they must have the revision specified with the URL, unlike Project files where the revision is optional. This is how JTStand will know which revision of the Sequence must be used at any given time when a test type is executed.
+
+* Database
+
+ The Sequencer shall use a database to store Sequence Instances (Results) together with the Sequence definitions (which are acquired from the version control server) if a database connection is configured for the Project or Station.
+ No programming is necessary to save the results. After the connection is configured and the Database is installed, the process is fully automatic.
+ The Sequencer can operate with or without a database. There are two cases of operation without a database:
+
+  * It is possible to create a configuration for the Sequencer without setting up a database at all.
+
+  * It is possible to operate the Sequencer with a database configured but the Sequencer unable to connect to the database. It may fail to connect, because? the network connection or the database server is down. In this case the results are temporarily stored in local files and they are automatically uploaded to the database when the connection is restored.
+
+ The database connection is configured within the Project properties and optionally within the Station properties. Stations of the same Project may share the same Database and Multiple Projects may share the same Database too.
+ If the Station does not have permanent network connection to the Project's database, then a Database server should be setup on the Station (if memory and CPU resources allows).
+ If a Station operates a database that is different from the Project's, then data migration procedures should be created to transfer the Station's data to the Project's database. Purpose of this data migration is to make comparisons between Stations possible. (The statistical analysis tool is able to connect to one database only).
+
+  * Automatic migration procedure may be created to be used at times when network connection is up.
+
+  * Manual migrate procedure may be created in case when a Station cannot even have a temporary network connection.
+
+ Both the automatic and manual data migration should be able to operate while the Station executes a Sequence/Sequences.
+
+* Reports
+
+ JTStand writes the results into a Database. But I need report files!
+ JTStand can also generate report files. Report generators supporting different formats are added to JTStand as software plug-ins. JTStand offers even more: reports can be generated offline, from Sequences that are brought back from a database. Some other frameworks are able to generate report from a Sequence only at the time when the Sequence finished and it still in the memory (because they are not able to bring the Sequence back).
+
+* Parametric Statistics
+
+ Parametric statistics can be accessed from both the Sequencer and from the :
+ Select a Sequence
+ Select one or more Steps in the Sequence
+ Right click and select the Statistics from the pop-up menu.
+
+ Numeric results will be presented on time-line and distribution charts.
+ Yield, Average, Sigma, CP and CPK will be presented in a table.
+ Parametric Statistics is performed on a set of Step Instances, where the Step Instances produce numeric results.
+ If Parametric Statistics was started from the Sequencer, the Step instances are selected from the Sequencer's current Sequence instances list.
+ If Parametric Statistics was started from the Administrator, the Step instances are selected by a query to the Database. Query should allow selecting:
+
+  * Sequence start-time from and to
+
+  * Stations
+
+  * Fixtures
+
+  * Products (part number and revision)
+
+  * Set of Serial Numbers. (It should be allowed to import/export the set of Serial Numbers from/to a text file. Text file format should be as simple as one Serial Number per line, without a header or any other extra.)
+
+* Security
+
+** Securing the configuration files
+
+  Content of the configuration files can be protected by setting up user accounts on the Subversion server. Transfer can be secured by allowing only secure protocols to access the Subversion server, such as:
+
+  * WebDAV over https, or
+
+  * SVN over SSH
+
+  Backup of the Subversion server is required.
+
+** Securing the Database of test Results
+
+  Database security cannot be setup by user accounts, because anyone who has access to the project's configuration file, can see the user account's name and password, which user account has write access to the database. Database (SQL) server administrator should setup access restrictions based on clients' IP addresses. Write access should be given only to the stations that execute sequences and upload the sequence results to the database.
+
+  Backup of the Database server is required.
+
+* Instrument Control
+
+  A driver sub-project will be developed, which will allow JTStand sequences to communicate with instruments by calling VISA functions. Project will have the name JTVisa.
+
+Table of Contents
+
+%{toc|section=0}
