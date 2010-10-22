@@ -1,24 +1,42 @@
 JTStand Features
 
-    * Simple, it uses only 3 different file types for the configuration,
-      where each file has a well defined syntax, defined and verifiable by
-      a provided XML schema
+    * Simple
 
-          * Sequence
+        * You need to provide only a single
+          configuration file, the Project file, which is in XML format.
 
-          * Step
+        * There are only 3 different file types used by JTStand and each one is
+          in XML format and they are defined and verifiable by the provided XSD schema.
 
-          * Project          
+              * Project (Input)
 
-    * Revision_Control of the configurations
+              * Sequence (Input)
 
-          * Revision control client is built into JTStand
+              * Sequence Instance (Output)
+
+
+    * Revision control
+
+          * Subversion client (SVNKIT) is built into JTStand.
+            JTStand can check out input files directly from your Subversion server.
+
+          * Optionally JTStand can also use a working copy on the local drive.
 
     * Programmable
 
-          * Use all the features object oriented languages
+          * JTStand sequences can use all the features of modern object oriented languages
 
-          * Use any JSR223 compatible scripting language
+          * Use any of the JSR223 compatible scripting languages
+
+                  * Groovy
+
+                  * JavaScript (Rhino)
+
+                  * Jython
+
+                  * JRuby
+
+                  * ...
 
     * Extensible. JTStand extensions can be created to
 
@@ -42,13 +60,16 @@ JTStand Features
 
     * Database
 
-          * No database programming required the Results database is automatically generated
+          * No database programming required.
+            The Results are saved into the database automatically by JTStand.
 
-          * The Results of the Sequences which are backed up to a Database include the full context of every Sequence: Sources of Scripts and Classes used by the Steps of the Sequence and the Project configuration, not only the data what is acquired by executing the Sequence
+          * Related Project configuration and Sequence definitions are also saved,
+            not only the data what is acquired by executing a Sequence Instance.
 
-          * No redundant data is stored
+          * No redundant data is stored in the database.
 
-          * No database installation is required, because of the built in derby database engine
+          * No database installation is required,
+            because of the built in Derby database engine
 
     * Analysis
 

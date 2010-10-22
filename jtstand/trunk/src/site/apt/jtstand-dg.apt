@@ -38,7 +38,7 @@ for example if you want join the developers.
 
  JTStand is mostly written in Java.
  Java sources of JTStand can be compiled
-using Sun's {{{http://java.sun.com/javase/downloads/index.jsp}JDK 6}} or
+using Oracle's {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}JDK 6}} or
 {{{http://openjdk.java.net/}OpenJDK 6}}.
  User Interface is using {{{http://en.wikipedia.org/wiki/Swing_%28Java%29}Swing}} and also uses {{{https://swingx.dev.java.net/}swingx}}, which is an extension of Swing.
 
@@ -53,7 +53,7 @@ using Sun's {{{http://java.sun.com/javase/downloads/index.jsp}JDK 6}} or
 *--+--+--+
 || <<Tool>> || <<Description>> || <<Used in JTStand to>> ||
 *--+--+--+
-| {{{http://java.sun.com/javase/downloads/index.jsp}JDK6}} | Java SE Development Kit | Compile Java code.  The developer will use utilize this through different NetBeans features. |
+| {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}JDK6}} | Java SE Development Kit | Compile Java code.  The developer will use utilize this through different NetBeans features. |
 *--+--+--+
 | {{{http://www.netbeans.org/}NetBeans}} | "The only IDE you need!" | Edit Java sources and XML files  Compile, Build, Debug, and profile Java code |
 *--+--+--+
@@ -87,9 +87,9 @@ Compatible Databases
 
 * Development Policy
 
-  * Do not invent the wheel
+  * Do not reinvent the wheel
 
-    * Use the best technology what is available.
+    * Use the technology what is available.
 
     * Learn how to use it more effectively.
 
@@ -103,9 +103,9 @@ Compatible Databases
 
   * Not enough that it works, maintain the {{{http://en.wikipedia.org/wiki/Source_code}sources}}!
 
-    * Use auto-formatting tools for maintaining the nice look
+    * Use auto-formatting tools for maintaining the nice look. Alt-Shift-F in Netbeans.
 
-    * Use {{{http://en.wikipedia.org/wiki/Refactor}refactoring}} tools for maintaining the readability and a logical structure
+    * Use {{{http://en.wikipedia.org/wiki/Refactor}refactoring}} for maintaining the readability and a logical structure.
 
   * The most important feature of the User Interface is usability.
     Usability is what helps the operator focusing on the task, without forcing him/her to think.
@@ -127,29 +127,24 @@ Compatible Databases
 
   Install JDK6 or OpenJDK 6.
 
-  JTStand is built by Maven.
-If you are interested in learning Maven,
-read the {{{http://www.sonatype.com/book}book}} first.
-If your IDE does not include Maven,
-or you prefer using a text editor instead of an IDE,
-install {{{http://maven.apache.org/}Maven}}.
-Currently JTStand is built using Maven version 2.2.0.
-When JTStand will require a newer version of Maven,
-that will be indicated in the project's POM under <prerequisites><maven>.
+  JTStand is built by {{{http://maven.apache.org/download.html/}Maven}}.
+Find {{{http://www.sonatype.com/book}books about Maven}} and
+{{{http://maven.apache.org/download.html/}download Maven}}.
+Currently JTStand is built using Maven version 3.0.
 
   JTStand sources are stored on a Subversion server,
 install a {{{http://subversion.tigris.org/}Subversion client}},
 if you want to check out the development version.
 JTStand's Subversion URL:
-http://svn.codehaus.org/jtstand/jtstand/trunk/jtstand
+http://svn.codehaus.org/jtstand/jtstand/trunk
 
 ** Build
 
   JTStand developers recommend using {{{http://www.netbeans.org/}NetBeans}},
-version 6.7.1 or newer. This IDE includes Maven.
-You can use NetBeans to check out JTStand from Subvesion:
+version 6.9.1 or newer. This IDE includes Maven.
+You can use NetBeans to check out JTStand from Subversion:
 Choose Team/Subversion/Checkout menu, and on the form,
-set Repository URL to http://svn.codehaus.org/jtstand/jtstand/trunk/jtstand.
+set Repository URL to http://svn.codehaus.org/jtstand/jtstand/trunk.
 After the project is checked out, using the File/ProjectOpen menu,
 locate this checked out jtstand directory and open the Maven project.
 NetBeans will show some warning abount missing dependencies.
@@ -162,14 +157,15 @@ Just cd to the directory which contains the parent POM, and mvn<Enter>.
 
   First time, when you build JTStand,
 Maven will try to download some dependencies.
-At this time, Internet connectivity (access to the Maven Central Repository)
-is required. Later the project can be rebuilt offline.
+At this time, Internet connectivity is required.
+Later the project can be rebuilt offline.
 
 ** Running
 
-  If you are using NetBeans, right-click on the jtstand-demo module of jtstand and select Set as Main Project
-from the NetBeans context menu. If the build was successfull Run Main Project
-(the big green play button) will start the demo.
+  If you are using NetBeans, right-click on the jtstand-demo module of jtstand
+and select Set as Main Project from the NetBeans context menu.
+If the build was successful Run the Main Project (jtstand-demo)
+with the big green play button).
 
   Without IDE support, the options are:
 
