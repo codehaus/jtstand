@@ -39,8 +39,6 @@ public class TestStepNamePath {
 
 //    private static transient ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>> cache = new ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>>();
 //    private static transient Object cacheLock = new Object();
-    public TestStepNamePath() {
-    }
 //    static TestStepNamePath cacheGet(TestSequence testSequence, String path) {
 //        synchronized (cacheLock) {
 //            ConcurrentHashMap<String, TestStepNamePath> cache2 = cache.get(testSequence);
@@ -127,10 +125,11 @@ public class TestStepNamePath {
     private TestStep calledTestStep;
     private int stepNumber = 0;
 
-//    public TestStepNamePath() {
-//    }
     public int getStepNumber() {
         return stepNumber;
+    }
+
+    public TestStepNamePath() {
     }
 
     public TestStepNamePath(

@@ -218,6 +218,33 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
         }
     }
 
+    public TestStep getConnectedTestStep(EntityManager em, TestStep testStep) throws URISyntaxException, JAXBException, SVNException {
+        if (testStep == null || testStep.getId() != null) {
+            return testStep;
+        }
+        FileRevision creator = testStep.getCreator();
+        synchronized (TEST_STEP_CACHE_LOCK) {
+            Iterator<Entry<FileRevision, TestStep>> iter = TEST_STEP_CACHE.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<FileRevision, TestStep> entry = iter.next();
+                FileRevision fr = entry.getKey();
+                if (fr.getSubversionUrl().equals(creator.getSubversionUrl()) && fr.getRevision().equals(creator.getRevision())) {
+                    TestStep v = entry.getValue();
+                    if (v.getId() != null) {
+                        return v;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            TestStep ts = TestStep.query(em, creator);
+            if (ts != null) {
+                TEST_STEP_CACHE.put(ts.getCreator(), ts);
+            }
+            return ts;
+        }
+    }
+
 //    TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
 //        StepReference ref = tsi.getTestStep().getStepReference();
 //        if (ref == null) {
@@ -480,10 +507,9 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
             //System.out.println("step: " + tsi.getName());
             TestStep calledTestStep = tsi.getCalledTestStep();
             if (calledTestStep != null && calledTestStep.getId() == null) {
-                TestStep ts = TestStep.query(em, calledTestStep.getCreator());
+                TestStep ts = getConnectedTestStep(em, calledTestStep);
                 if (ts != null) {
-//                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
-                    ts.getCreator();
+                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
                     tsi.setCalledTestStep(ts);
                 }
             }
