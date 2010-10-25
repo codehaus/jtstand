@@ -25,7 +25,6 @@ import org.xml.sax.SAXException;
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
@@ -79,9 +78,8 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlRootElement(name = "step")
 @XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStepInstance extends AbstractVariables implements Serializable, Runnable, StepInterface, Bindings {
+public class TestStepInstance extends AbstractVariables implements Runnable, StepInterface, Bindings {
 
-    public static final long serialVersionUID = 20081114L;
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     public static final String STR_DECIMAL_FORMAT = "DECIMAL_FORMAT";
     public static final Class<?>[] STEP_INTERFACE_CONSTRUCTOR = {StepInterface.class};

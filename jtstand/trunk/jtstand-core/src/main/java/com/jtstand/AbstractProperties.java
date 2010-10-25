@@ -19,14 +19,13 @@
 package com.jtstand;
 
 import javax.script.Bindings;
-import java.io.Serializable;
 import javax.script.ScriptException;
 
 /**
  *
  * @author albert_kurucz
  */
-abstract public class AbstractProperties implements Serializable {
+abstract public class AbstractProperties {
 
     public Boolean getPropertyBoolean(String keyString, boolean defaultValue) {
         //System.out.println("Getting "+keyString+" as Boolean...");

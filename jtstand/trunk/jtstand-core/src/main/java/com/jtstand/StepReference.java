@@ -19,15 +19,11 @@
 package com.jtstand;
 
 import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 
 /**
@@ -35,9 +31,8 @@ import java.net.URISyntaxException;
  * @author albert_kurucz
  */
 @Entity
-public class StepReference extends FileRevisionReference implements Serializable {
+public class StepReference extends FileRevisionReference {
 
-    public static final long serialVersionUID = 20081114L;
     @OneToOne
     private TestStep testStep;
 
@@ -75,7 +70,7 @@ public class StepReference extends FileRevisionReference implements Serializable
         return true;
     }
 
-    public TestStep getTestStep(TestStepInstance step, boolean useCache) throws URISyntaxException, JAXBException, SVNException{
+    public TestStep getTestStep(TestStepInstance step, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
         FileRevision creator = testStep.getStepReference().getFileRevision(testStep.getCreator());
         if (step.getParent() != null) {
             step.getParent().checkLoop(creator);

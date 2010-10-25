@@ -20,7 +20,6 @@ package com.jtstand;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,9 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class Authentication implements Serializable {
+public class Authentication {
 
-    public static final long serialVersionUID = 20081114L;
     public static final String OPERATOR_PROPERTY = "operator";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

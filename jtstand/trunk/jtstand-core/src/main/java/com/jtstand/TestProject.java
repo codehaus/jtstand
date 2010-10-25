@@ -18,12 +18,9 @@
  */
 package com.jtstand;
 
-//import groovy.lang.GroovyClassLoader;
 import javax.script.ScriptException;
-//import org.codehaus.groovy.control.CompilationFailedException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
-
 import javax.persistence.Entity;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -33,7 +30,6 @@ import javax.xml.bind.annotation.*;
 import javax.xml.validation.Schema;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -56,8 +52,6 @@ import javax.persistence.Query;
 import javax.script.ScriptEngineManager;
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
-//import org.hibernate.ejb.Ejb3Configuration;
-//import org.hibernate.cache.HashtableCacheProvider;
 
 /**
  *
@@ -68,9 +62,8 @@ import javax.script.SimpleBindings;
 //@XmlType(name = "projectType", propOrder = {"remark", "classes", "libraryReferences", "properties", "authentication", "products", "testStations"})
 @XmlType(name = "projectType", propOrder = {"remark", "properties", "testLimits", "authentication", "products", "testStations"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestProject extends AbstractProperties implements Serializable {
+public class TestProject extends AbstractProperties {
 
-    public static final long serialVersionUID = 20081114L;
     public static final Class<?>[] CLASS_LOADER_CONSTRUCTOR = {ClassLoader.class};
     public static final String TEST_PROJECT = "testProject";
     //private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
@@ -107,7 +100,6 @@ public class TestProject extends AbstractProperties implements Serializable {
 //        }
 //        return emf;
 //    }
-
     private static JAXBContext getJAXBContext()
             throws JAXBException {
         if (jc == null) {

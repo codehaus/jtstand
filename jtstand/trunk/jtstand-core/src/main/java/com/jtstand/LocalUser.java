@@ -22,7 +22,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -38,9 +37,8 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class LocalUser extends Operator implements Serializable {
+public class LocalUser extends Operator {
 
-    public static final long serialVersionUID = 20081114L;
     private String realName;
     private String password;
     private int localUserPosition;

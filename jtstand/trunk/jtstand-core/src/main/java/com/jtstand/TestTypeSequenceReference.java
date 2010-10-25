@@ -28,7 +28,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 
 /**
@@ -36,9 +35,8 @@ import java.net.URISyntaxException;
  * @author albert_kurucz
  */
 @Entity
-public class TestTypeSequenceReference extends FileRevisionReference implements Serializable {
+public class TestTypeSequenceReference extends FileRevisionReference {
 
-    public static final long serialVersionUID = 20081114L;
     @OneToOne
     private TestType testType;
 

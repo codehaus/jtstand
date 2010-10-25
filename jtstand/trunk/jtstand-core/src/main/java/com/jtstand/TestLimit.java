@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -41,13 +40,11 @@ import org.hibernate.annotations.DiscriminatorOptions;
  * @author albert_kurucz
  */
 @Entity
-@DiscriminatorOptions(force=true)
+@DiscriminatorOptions(force = true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType(propOrder = {"measurementUnit", "upperSpeficiedLimit", "lowerSpecifiedLimit", "nominal", "comp", "name", "remark"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestLimit implements Serializable {
-
-    public static final long serialVersionUID = 20081114L;
+public class TestLimit {
 
     public static enum Comp {
 

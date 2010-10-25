@@ -33,7 +33,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,9 +72,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "sequence")
 @XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "finishDate", "status", "failureCode", "testSequenceFileRevision", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestSequenceInstance extends AbstractVariables implements Serializable, Runnable, Iterable<TestStepInstance> {
+public class TestSequenceInstance extends AbstractVariables implements Runnable, Iterable<TestStepInstance> {
 
-    public static final long serialVersionUID = 20081114L;
     public static final String STR_FIXTURE = "fixture";
     public static final String STR_STATION = "station";
     public static final String STR_INIT = "init";

@@ -20,7 +20,6 @@ package com.jtstand;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -44,9 +43,8 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class DomainUserList implements Serializable {
+public class DomainUserList {
 
-    public static final long serialVersionUID = 20081114L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

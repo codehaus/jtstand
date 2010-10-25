@@ -19,7 +19,6 @@
 package com.jtstand;
 
 import javax.script.ScriptException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -50,9 +49,8 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initSequence"})
 @XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initTypeReference"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestFixture extends AbstractVariables implements Serializable {
+public class TestFixture extends AbstractVariables {
 
-    public static final long serialVersionUID = 20081114L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

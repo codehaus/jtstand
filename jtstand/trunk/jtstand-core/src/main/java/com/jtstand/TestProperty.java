@@ -19,7 +19,6 @@
 package com.jtstand;
 
 import javax.script.ScriptException;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -38,18 +37,18 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import org.hibernate.annotations.DiscriminatorOptions;
+
 /**
  *
  * @author albert_kurucz
  */
 @Entity
-@DiscriminatorOptions(force=true)
+@DiscriminatorOptions(force = true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestProperty implements Serializable {
+public class TestProperty {
 
-    public static final long serialVersionUID = 20081114L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

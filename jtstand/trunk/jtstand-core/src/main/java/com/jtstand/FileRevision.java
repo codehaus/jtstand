@@ -25,7 +25,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
@@ -66,9 +65,8 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 @UniqueConstraint(columnNames = {"subversionurl", "revision"}))
 @XmlType(propOrder = {"revision", "subversionUrl"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class FileRevision implements Serializable {
+public class FileRevision {
 
-    public static final long serialVersionUID = 20081114L;
     private static final ConcurrentHashMap<FileRevision, Object> FILE_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
     private static final Object FILE_CACHE_LOCK = new Object();
     private String subversionUrl;

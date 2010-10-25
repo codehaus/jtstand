@@ -42,7 +42,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.io.File;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -59,9 +58,8 @@ import javax.script.SimpleBindings;
 @Entity
 @XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "fixtures"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStation extends AbstractVariables implements Serializable {
+public class TestStation extends AbstractVariables {
 
-    public static final long serialVersionUID = 20081114L;
     private static final Logger LOGGER = Logger.getLogger(TestStation.class.getCanonicalName());
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

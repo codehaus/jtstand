@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,7 +31,7 @@ import javax.script.ScriptException;
  *
  * @author albert_kurucz
  */
-abstract public class AbstractVariables extends AbstractProperties implements Serializable {
+abstract public class AbstractVariables extends AbstractProperties {
 
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     private Map<String, Object> variablesMap = new HashMap<String, Object>();

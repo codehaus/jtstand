@@ -26,7 +26,6 @@ import javax.persistence.OneToOne;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
-import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
@@ -39,9 +38,8 @@ import org.tmatesoft.svn.core.SVNException;
  * @author albert_kurucz
  */
 @Entity
-public class TestStepScript extends FileRevisionReference implements Serializable {
+public class TestStepScript extends FileRevisionReference {
 
-    private static final long serialVersionUID = 1L;
     @OneToOne
     private TestStep testStep;
     private String interpreter;

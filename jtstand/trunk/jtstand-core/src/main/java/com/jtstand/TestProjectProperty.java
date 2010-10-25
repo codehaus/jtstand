@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -34,10 +33,10 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints =
-@UniqueConstraint(columnNames = {"testproject_id", "name"}))@XmlType
+@UniqueConstraint(columnNames = {"testproject_id", "name"}))
+@XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestProjectProperty extends TestProperty implements Serializable {
-    public static final long serialVersionUID = 20081114L;
+public class TestProjectProperty extends TestProperty {
 
     @ManyToOne
     private TestProject testProject;

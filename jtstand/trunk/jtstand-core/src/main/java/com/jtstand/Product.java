@@ -19,7 +19,6 @@
 package com.jtstand;
 
 import javax.script.ScriptException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -53,9 +52,8 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"testproject_id", "partNumber", "partRevision"})})
 @XmlType(name = "productType", propOrder = {"partRevision", "partNumber", "remark", "properties", "testLimits", "testTypes"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class Product extends AbstractProperties implements Serializable {
+public class Product extends AbstractProperties {
 
-    public static final long serialVersionUID = 20081114L;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     @OrderBy("testTypePosition ASC")
     private List<TestType> testTypes = new ArrayList<TestType>();

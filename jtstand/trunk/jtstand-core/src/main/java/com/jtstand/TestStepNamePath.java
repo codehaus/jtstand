@@ -19,12 +19,10 @@
 package com.jtstand;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -37,12 +35,10 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
-public class TestStepNamePath implements Serializable {
+public class TestStepNamePath {
 
-    public static final long serialVersionUID = 20081114L;
 //    private static transient ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>> cache = new ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>>();
 //    private static transient Object cacheLock = new Object();
-
     public TestStepNamePath() {
     }
 //    static TestStepNamePath cacheGet(TestSequence testSequence, String path) {

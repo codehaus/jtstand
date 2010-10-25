@@ -19,23 +19,17 @@
 package com.jtstand;
 
 import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.Serializable;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -71,9 +65,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "step")
 @XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStep implements Serializable {
+public class TestStep {
 
-    public static final long serialVersionUID = 20081114L;
     public static final String TEST_STEP = "testStep";
     private static JAXBContext jc;
     private static Marshaller m;
@@ -283,7 +276,7 @@ public class TestStep implements Serializable {
         return names;
     }
 
-    public TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException{
+    public TestStep getCalledTestStep(TestStepInstance tsi, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
         if (getStepReference() == null) {
             return null;
         }

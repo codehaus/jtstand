@@ -26,14 +26,12 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.io.Serializable;
 import java.util.Hashtable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-
 
 /**
  *
@@ -42,9 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @Entity
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class DomainUser extends Operator implements Serializable {
+public class DomainUser extends Operator {
 
-    public static final long serialVersionUID = 20081114L;
     private String domainName;
     @ManyToOne
     private DomainUserList domainUserList;

@@ -19,7 +19,6 @@
 package com.jtstand;
 
 import javax.script.ScriptException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -51,9 +50,8 @@ import javax.xml.bind.annotation.XmlType;
 @Table(uniqueConstraints =
 @UniqueConstraint(columnNames = {"creator_id", "product_id", "name"}))
 @XmlType(name = "testType", propOrder = {"name", "remark", "properties", "testLimits", "testSequence"})
-public class TestType extends AbstractProperties implements Serializable {
+public class TestType extends AbstractProperties {
 
-    public static final long serialVersionUID = 20081114L;
     public static final String STR_SERIAL_NUMBER_CRITERIA = "SERIAL_NUMBER_CRITERIA";
     private String name;
     private String remark;

@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,9 +36,8 @@ import javax.xml.bind.annotation.XmlType;
 @UniqueConstraint(columnNames = {"product_id", "name"}))
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class ProductLimit extends TestLimit implements Serializable {
+public class ProductLimit extends TestLimit {
 
-    public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private Product product;
 

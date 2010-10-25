@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -37,9 +36,8 @@ import javax.persistence.UniqueConstraint;
 @UniqueConstraint(columnNames = {"testfixture_id", "name"}))
 @XmlType
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestFixtureProperty extends TestProperty implements Serializable {
+public class TestFixtureProperty extends TestProperty {
 
-    public static final long serialVersionUID = 20081114L;
     @ManyToOne
     private TestFixture testFixture;
     private int testFixturePropertyPosition;

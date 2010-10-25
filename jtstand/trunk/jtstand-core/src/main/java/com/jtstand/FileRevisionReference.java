@@ -21,7 +21,6 @@ package com.jtstand;
 import org.tmatesoft.svn.core.SVNException;
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.persistence.Column;
@@ -41,7 +40,6 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import org.hibernate.annotations.DiscriminatorOptions;
 
-
 /**
  *
  * @author albert_kurucz
@@ -49,11 +47,10 @@ import org.hibernate.annotations.DiscriminatorOptions;
 @Entity
 @XmlType(propOrder = {"revision", "subversionUrl"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-@DiscriminatorOptions(force=true)
+@DiscriminatorOptions(force = true)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.INTEGER)
-public class FileRevisionReference implements Serializable {
+public class FileRevisionReference {
 
-    public static final long serialVersionUID = 20081114L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -70,7 +67,7 @@ public class FileRevisionReference implements Serializable {
     public String getFileContent() throws URISyntaxException, SVNException, IOException {
         if (null != getSubversionUrl()) {
 //            System.out.println("Getting content from file...");
-            return(getFileRevision(getCreator()).getText(getCharsetName()));
+            return (getFileRevision(getCreator()).getText(getCharsetName()));
         }
         return getText();
     }
