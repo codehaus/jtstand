@@ -32,7 +32,7 @@ public class TestStepScriptTest extends TestCase {
         ScriptEngine engine = factory.getEngineByName("groovy");
         Bindings bindings = new SimpleBindings();
         engine.eval(I1, bindings);
-        assertEquals(new Integer(1), bindings.get("i"));
+        assertEquals(1, bindings.get("i"));
     }
 
     public void testMyClosure() throws ScriptException {
@@ -53,13 +53,7 @@ public class TestStepScriptTest extends TestCase {
         ScriptEngine engine = factory.getEngineByName("groovy");
         assertEquals(2, engine.eval(FOOBAR));
     }
-
-    public void testBar() throws ScriptException {
-        ScriptEngineManager factory = new ScriptEngineManager();
-        ScriptEngine engine = factory.getEngineByName("groovy");
-        //assertEquals("Bar", ((Class) engine.eval(BAR)).getCanonicalName());
-    }
-
+    
     public void testI() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("groovy");
@@ -75,7 +69,7 @@ public class TestStepScriptTest extends TestCase {
     public void testClassEvalBrief() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager();
         ScriptEngine engine = factory.getEngineByName("groovy");
-        //assertEquals("Foo", ((Class) engine.eval(FOO)).getCanonicalName());
+        assertEquals("Foo", ((Class) engine.eval(FOO)).getCanonicalName());
     }
     public static final GroovyClassLoader gcl = (GroovyClassLoader) AccessController.doPrivileged(new PrivilegedAction() {
 
