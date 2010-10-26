@@ -169,7 +169,7 @@ public class Main {
                         }
                     }
                 }
-                if (cmd.hasOption("h")) {
+                if (cmd.hasOption("s")) {
                     station = cmd.getOptionValue("s");
                 }
                 if (cmd.hasOption("r")) {
