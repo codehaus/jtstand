@@ -40,7 +40,7 @@
             <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
         </localUsers>
     </authentication>
-    <product partNumber="RANDOM" partRevision="A01">
+    <product partNumber="RANDOMDEMO" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
@@ -51,10 +51,22 @@
             <testSequence subversionUrl="demoRandom.xml" revision="626"/>
         </testType>
     </product>
-    <product partNumber="HEAVY_RANDOM" partRevision="A01">
+    <product partNumber="RANDOM" partRevision="10">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="heavyRandom.xml" revision="402"/>
+            <testSequence subversionUrl="random10.xml" revision="714"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOM" partRevision="100">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO" >
+            <testSequence subversionUrl="random100.xml" revision="714"/>
+        </testType>
+    </product>
+    <product partNumber="RANDOM" partRevision="1000">
+        <property name="DECIMAL_FORMAT" value="0.000"/>
+        <testType name="DEMO" >
+            <testSequence subversionUrl="random1000.xml" revision="714"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">
@@ -108,8 +120,10 @@
         <property name="FIXTURE_GAP" value="4"/>
         <fixture fixtureName="FX1" serialNumber="FX1">
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
@@ -121,8 +135,10 @@
             <property name="PASSED_RETEST" value="true"/>
             <property name="FAILED_RETEST" value="true"/>
             <property name="ABORTED_RETEST" value="true"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
@@ -147,8 +163,10 @@
         <property name="FIXTURE_GAP" value="4"/>
         <fixture fixtureName="FX1" serialNumber="FX1">
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
@@ -160,8 +178,10 @@
             <property name="PASSED_RETEST" value="true"/>
             <property name="FAILED_RETEST" value="true"/>
             <property name="ABORTED_RETEST" value="true"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
@@ -174,8 +194,10 @@
         <property name="FIXTURE_GAP" value="4"/>
         <fixture fixtureName="FX1" serialNumber="FX1">
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO1"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO1"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
@@ -187,8 +209,10 @@
             <property name="PASSED_RETEST" value="true"/>
             <property name="FAILED_RETEST" value="true"/>
             <property name="ABORTED_RETEST" value="true"/>
-            <testType partNumber="RANDOM" partRevision="A01" name="DEMO2"/>
-            <testType partNumber="HEAVY_RANDOM" partRevision="A01" name="DEMO"/>
+            <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO2"/>
+            <testType partNumber="RANDOM" partRevision="10" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="100" name="DEMO"/>
+            <testType partNumber="RANDOM" partRevision="1000" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A01" name="DEMO"/>
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
