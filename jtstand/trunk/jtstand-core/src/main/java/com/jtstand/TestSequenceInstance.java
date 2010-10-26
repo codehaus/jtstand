@@ -489,37 +489,24 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
 //        System.out.println("adding...");
 //        getTestProject().getLibraries().addAll(toAdd);
 
+
         TestStep testStep = getTestSequence();
         if (testStep != null && testStep.getId() == null) {
-            TestStep ts = TestStep.query(em, getTestSequence().getCreator());
+            TestStep ts = getConnectedTestStep(em, testStep);
             if (ts != null) {
-//                System.out.println("Connecting testStep '" + testStep.getName() + "'...");                
+//                System.out.println("Connecting testSequence '" + testStep.getName() + "'...");
+                testSequence = ts;
+                testStepInstance.connectTestStep(em, ts);
                 setTestSequenceNoCache(ts);
             }
         }
+        testStepInstance.connect(em);
 
         c = getTestSequence().getCreator();
         if (c.getSubversionUrl() == null || c.getRevision() == null) {
             System.err.println("Corrupt creator of testSequence");
         }
 
-        for (TestStepInstance tsi : this) {
-            //System.out.println("step: " + tsi.getName());
-            TestStep calledTestStep = tsi.getCalledTestStep();
-            if (calledTestStep != null && calledTestStep.getId() == null) {
-                TestStep ts = getConnectedTestStep(em, calledTestStep);
-                if (ts != null) {
-                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
-                    tsi.setCalledTestStep(ts);
-                }
-            }
-            if (tsi.getCalledTestStep() != null) {
-                c = tsi.getCalledTestStep().getCreator();
-                if (c.getSubversionUrl() == null || c.getRevision() == null) {
-                    System.err.println("Corrupt creator of test step: " + tsi.getTestStepInstancePath());
-                }
-            }
-        }
         System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
     }
 
@@ -528,8 +515,8 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
 //        synchronized (jaxbLock) {
         System.out.println("Merge...");
         try {
-            connect(em);
             em.getTransaction().begin();
+            connect(em);
             System.out.println("Merging testSequenceInstance...");
 //            String filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path before:" + filePath);

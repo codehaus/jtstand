@@ -114,7 +114,58 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     private transient final Object parentLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
+    public void connect(EntityManager em) throws URISyntaxException, JAXBException, SVNException {
+        if (calledTestStep != null && calledTestStep.getId() == null) {
+            TestStep ts = testSequenceInstance.getConnectedTestStep(em, calledTestStep);
+            if (ts != null) {
+//                System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
+                connectCalledTestStep(em, ts);
+                return;
+            }
+        }
+        for (TestStepInstance step : steps) {
+            step.connect(em);
+        }
+    }
+
+    public void connectCalledTestStep(EntityManager em, TestStep calledTestStep) throws URISyntaxException, JAXBException, SVNException {
+        if (steps.size() != calledTestStep.getSteps().size()) {
+            throw new IllegalArgumentException("childrens size mismatch");
+        }
+        this.calledTestStep = calledTestStep;
+        Iterator<TestStep> it = calledTestStep.getSteps().iterator();
+        for (TestStepInstance tsi : steps) {
+            tsi.connectTestStep(em, it.next());
+        }
+    }
+
+    public void connectTestStep(EntityManager em, TestStep testStep) throws URISyntaxException, JAXBException, SVNException {
+        this.testStep = testStep;
+        if (calledTestStep != null) {
+            if (calledTestStep.getId() == null) {
+                TestStep ts = testSequenceInstance.getConnectedTestStep(em, calledTestStep);
+                if (ts != null) {
+//                    System.out.println("Connecting calledTestStep '" + calledTestStep.getName() + "'...");
+                    connectCalledTestStep(em, ts);
+                    return;
+                }
+            }
+            for (TestStepInstance step : steps) {
+                step.connect(em);
+            }
+        } else {
+            if (steps.size() != testStep.getSteps().size()) {
+                throw new IllegalArgumentException("childrens size mismatch");
+            }
+            Iterator<TestStep> it = testStep.getSteps().iterator();
+            for (TestStepInstance tsi : steps) {
+                tsi.connectTestStep(em, it.next());
+            }
+        }
+    }
+
     @XmlTransient
+    @Override
     public Logger getLogger() {
         return LOGGER;
     }
