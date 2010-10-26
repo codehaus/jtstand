@@ -13,7 +13,7 @@ import javax.script.Bindings;
  */
 public class TestRandom {
 
-    public static Random r = new Random();
+    public static final Random r = new Random();
 
     public static Object eval(String notused, Bindings bindings) {
         Double retval = 1.0 + r.nextGaussian();

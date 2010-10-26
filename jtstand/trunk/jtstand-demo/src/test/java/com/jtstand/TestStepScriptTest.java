@@ -6,6 +6,8 @@ package com.jtstand;
 
 import groovy.lang.Closure;
 import groovy.lang.GroovyClassLoader;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;
@@ -75,18 +77,22 @@ public class TestStepScriptTest extends TestCase {
         ScriptEngine engine = factory.getEngineByName("groovy");
         //assertEquals("Foo", ((Class) engine.eval(FOO)).getCanonicalName());
     }
-    public static GroovyClassLoader gcl = new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
+    public static final GroovyClassLoader gcl = (GroovyClassLoader) AccessController.doPrivileged(new PrivilegedAction() {
 
         @Override
-        public Class<?> findClass(String name) throws ClassNotFoundException {
-            if ("Foo".equals(name)) {
-                return parseClass(FOO);
-            }
-            return super.findClass(name);
+        public Object run() {
+            return new GroovyClassLoader(Thread.currentThread().getContextClassLoader()) {
+
+                @Override
+                public Class<?> findClass(String name) throws ClassNotFoundException {
+                    if ("Foo".equals(name)) {
+                        return parseClass(FOO);
+                    }
+                    return super.findClass(name);
+                }
+            };
         }
-    };
-    public static ClassLoader cl = new ClassLoader() {
-    };
+    });
 
     public void testListEngines() throws ScriptException {
         ScriptEngineManager factory = new ScriptEngineManager(gcl);
