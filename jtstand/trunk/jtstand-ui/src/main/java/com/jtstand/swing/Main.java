@@ -48,7 +48,9 @@ public class Main {
 
     private String projectLocation = null;
     private int revision = 0;
+    private String version = null;
     private String station = null;
+    private String title = null;
     private Options options;
 
     public static URI resolve(String uristr) {
@@ -107,7 +109,7 @@ public class Main {
         }
         System.out.println("Project file requested revision: " + revision);
         try {
-            new MainFrame(TestProject.unmarshal(FileRevision.createFromUrlOrFile(projectLocation, (long) revision), true).getTestStationOrDefault(station));
+            new MainFrame(TestProject.unmarshal(FileRevision.createFromUrlOrFile(projectLocation, (long) revision), true).getTestStationOrDefault(station), title, version);
         } catch (IOException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "IOException", ex);
         } catch (JAXBException ex) {
@@ -142,6 +144,7 @@ public class Main {
         options.addOption("s", true, "station host name");
         options.addOption("t", true, "title text");
         options.addOption("r", true, "revision number");
+        options.addOption("v", true, "version");
         options.addOption("x", true, "schema file location");
     }
 
@@ -174,6 +177,12 @@ public class Main {
                 }
                 if (cmd.hasOption("r")) {
                     revision = Integer.parseInt(cmd.getOptionValue("r"));
+                }
+                if (cmd.hasOption("v")) {
+                    version = cmd.getOptionValue("v");
+                }
+                if (cmd.hasOption("t")) {
+                    title = cmd.getOptionValue("t");
                 }
                 if (cmd.hasOption("x")) {
                     SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

@@ -96,6 +96,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     private JSplitPane jSplitPaneSequenceStep;
     private RSyntaxTextArea textArea;
     private RTextScrollPane jScrollPaneStep;
+    private String title;
+    private String version;
 
     @Override
     public void tableChanged(TableModelEvent e) {
@@ -336,9 +338,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
     }
 
-    public MainFrame(TestStation testStation) throws ScriptException {
+    public MainFrame(TestStation testStation, String title, String version) throws ScriptException {
         this();
         this.testStation = testStation;
+        this.title = title;
+        this.version = version;
         setLookAndFeel();
         if (!testStation.databaseValidate()) {
             switch (getTestStation().getDriver()) {
@@ -359,6 +363,20 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         toDatabase = new ToDatabase(getTestStation(), this);
     }
     private JFrame frame;
+
+    public String getTitle() {
+        return ((title == null)
+                ? getTestStation().getTestProject().getName()
+                + "@"
+                + getTestStation().getTestProject().getCreator().getRevision()
+                + " on "
+                + getTestStation().getHostName()
+                : title)
+                + "@"
+                + ((version == null)
+                ? getClass().getPackage().getImplementationVersion()
+                : version);
+    }
 
     public JFrame getFrame() {
         if (frame == null) {
@@ -386,7 +404,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     formWindowClosing(evt);
                 }
             });
-            frame.setTitle(getTestStation().getTestProject().getName() + "@" + getTestStation().getTestProject().getCreator().getRevision() + " on " + getTestStation().getHostName() + "@" + getClass().getPackage().getImplementationVersion());
+            frame.setTitle(getTitle());
             if (testStation.getFixtures().size() > 0) {
                 fixtures = new Fixtures(testStation, this);
                 frame.getContentPane().add(fixtures, BorderLayout.NORTH);

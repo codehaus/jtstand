@@ -34,13 +34,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     public static final long serialVersionUID = 20081114L;
-    public static final String STR_STARTER_PANEL = "STARTER_PANEL";
-    public static final String STR_DEBUG_ENABLED = "DEBUG_ENABLED";
-    public static final String STR_SERIAL_NUMBER_CRITERIA = "SERIAL_NUMBER_CRITERIA";
+    public static final String STARTER_PANEL = "STARTER_PANEL";
+    public static final String DEBUG_ENABLED = "DEBUG_ENABLED";
+    public static final String SERIAL_NUMBER_PATTERN = "SERIAL_NUMBER_PATTERN";
     public static final String STR_SN_TO_TEST_TYPE = "SN_TO_TEST_TYPE";
     public static final Class<?>[] emptyContructor = {};
     private List<FixtureTestTypeReference> testTypeReferences;
@@ -119,11 +121,11 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     }
 
     private String getStarterPanelClassName() {
-        return properties.getPropertyString(STR_STARTER_PANEL, StarterCommonPanel.class.getCanonicalName());
+        return properties.getPropertyString(STARTER_PANEL, StarterCommonPanel.class.getCanonicalName());
     }
 
     private boolean isDebugEnabled() {
-        return properties.getPropertyBoolean(STR_DEBUG_ENABLED, false);
+        return properties.getPropertyBoolean(DEBUG_ENABLED, false);
     }
 
     public static void initPartNumbers(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, String selectedPartNumber) {
@@ -317,36 +319,11 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
     }
 
-    public static boolean isMatch(String sn, String snCriteria) {
-        if (sn.length() != snCriteria.length()) {
-            return false;
-        }
-        for (int i = 0; i < sn.length(); i++) {
-            char crit = snCriteria.charAt(i);
-            char ch = sn.charAt(i);
-            switch (crit) {
-                case '#':
-                    if (!Character.isDigit(ch)) {
-                        return false;
-                    }
-                    break;
-                case '$':
-                    if (!Character.isLetter(ch)) {
-                        return false;
-                    }
-                    break;
-                case '@':
-                    if (!Character.isLetterOrDigit(ch)) {
-                        return false;
-                    }
-                    break;
-                default:
-                    if (ch != crit) {
-                        return false;
-                    }
-            }
-        }
-        return true;
+    public static boolean isMatch(String stringValue, String pattern) {
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(stringValue);
+        m.find();
+        return m.matches() && m.group().equals(stringValue);
     }
 
     private boolean startWithCheck() {
@@ -652,59 +629,11 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             log("Serial Number cannot be blank!");
             return false;
         }
-        String snCriteria = properties.getPropertyString(STR_SERIAL_NUMBER_CRITERIA, null);
-        if (snCriteria == null) {
+        String serialNumberPattern = properties.getPropertyString(SERIAL_NUMBER_PATTERN, null);
+        if (serialNumberPattern == null) {
             return true;
         }
-        StringTokenizer st = new StringTokenizer(snCriteria, ";");
-        if (st.countTokens() > 1) {
-            while (st.hasMoreTokens()) {
-                if (isMatch(sn, st.nextToken())) {
-                    return true;
-                }
-            }
-            log("Serial Number does not match criteria:" + snCriteria);
-            return false;
-        }
-        if (sn.length() != snCriteria.length()) {
-            log("Serial Number does not match criteria:" + snCriteria);
-            log("Length should be:" + snCriteria.length());
-            return false;
-        }
-        for (int i = 0; i < sn.length(); i++) {
-            char crit = snCriteria.charAt(i);
-            char ch = sn.charAt(i);
-            switch (crit) {
-                case '#':
-                    if (!Character.isDigit(ch)) {
-                        log("Serial Number does not match criteria:" + snCriteria);
-                        log("At position " + (i + 1) + " there should be a digit!");
-                        return false;
-                    }
-                    break;
-                case '$':
-                    if (!Character.isLetter(ch)) {
-                        log("Serial Number does not match criteria:" + snCriteria);
-                        log("At position " + (i + 1) + " there should be a letter!");
-                        return false;
-                    }
-                    break;
-                case '@':
-                    if (!Character.isLetterOrDigit(ch)) {
-                        log("Serial Number does not match criteria:" + snCriteria);
-                        log("At position " + (i + 1) + " there should be a letter or digit!");
-                        return false;
-                    }
-                    break;
-                default:
-                    if (ch != crit) {
-                        log("Serial Number does not match criteria:" + snCriteria);
-                        log("At position " + (i + 1) + " there should be a '" + crit + "'!");
-                        return false;
-                    }
-            }
-        }
-        return true;
+        return isMatch(sn, serialNumberPattern);
     }
 
     @Override
