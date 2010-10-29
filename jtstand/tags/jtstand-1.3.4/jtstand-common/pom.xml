@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, pom.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses />.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>jtstand</artifactId>
+        <groupId>org.codehaus.jtstand</groupId>
+        <version>1.3.4</version>
+    </parent>
+    <groupId>org.codehaus.jtstand</groupId>
+    <artifactId>jtstand-common</artifactId>
+    <packaging>jar</packaging>
+    <name>jtstand-common</name>
+    <description>jtstand-common is a library derived from jcommon, used by jtstand-chart, which is derived from jfreechart</description>
+    <url>http://jtstand.codehaus.org/jtstand-common/</url>
+</project>
