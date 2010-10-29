@@ -57,8 +57,8 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
             this.columnClass = columnClass;
         }
     }
-    public static StatisticsColumn[] statisticsColumns = StatisticsColumn.values();
-    public static int StatisticsColumnCount = statisticsColumns.length;
+    static final StatisticsColumn[] statisticsColumns = StatisticsColumn.values();
+    static final int statisticsColumnCount = statisticsColumns.length;
     private Stats stats;
     private TestSequenceInstance baseSequence;
     private TestStepStatistics testStepStatistics;
@@ -75,7 +75,7 @@ public class TestStepStatisticsModel extends AbstractTableModel implements Table
 
     @Override
     public int getColumnCount() {
-        return StatisticsColumnCount;
+        return statisticsColumnCount;
     }
 
     @Override

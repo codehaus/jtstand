@@ -365,17 +365,17 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     private JFrame frame;
 
     public String getTitle() {
-        return ((title == null)
-                ? getTestStation().getTestProject().getName()
-                + "@"
+        return (title == null)
+                ? (getTestStation().getTestProject().getName()
+                + " - revision "
                 + getTestStation().getTestProject().getCreator().getRevision()
-                + " on "
-                + getTestStation().getHostName()
-                : title)
-                + "@"
+                //                + " on "
+                //                + getTestStation().getHostName()
+                + " - version "
                 + ((version == null)
                 ? getClass().getPackage().getImplementationVersion()
-                : version);
+                : version))
+                : title;
     }
 
     public JFrame getFrame() {
