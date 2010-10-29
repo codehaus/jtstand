@@ -931,24 +931,8 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
             switch (testStepInstance.getStatus()) {
                 case PASSED:
                     setStatus(SequenceStatus.PASSED);
-                    try {
-                        Object o = getPropertyObject(STR_ON_PASS);
-                        if (o instanceof AbstractTestSequenceInstanceProcessor) {
-                            ((AbstractTestSequenceInstanceProcessor) o).process(this);
-                        }
-                    } catch (ScriptException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     break;
                 case FAILED:
-                    try {
-                        Object o = getPropertyObject(STR_ON_FAIL);
-                        if (o instanceof AbstractTestSequenceInstanceProcessor) {
-                            ((AbstractTestSequenceInstanceProcessor) o).process(this);
-                        }
-                    } catch (ScriptException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     setStatus(SequenceStatus.FAILED);
                     break;
                 case ABORTED:
@@ -995,6 +979,28 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
                 }
             };
             t.start();
+        }
+        switch (getStatus()) {
+            case FAILED:
+                try {
+                    Object o = getPropertyObject(STR_ON_FAIL);
+                    if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                        ((AbstractTestSequenceInstanceProcessor) o).process(this);
+                    }
+                } catch (ScriptException ex) {
+                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case PASSED:
+                try {
+                    Object o = getPropertyObject(STR_ON_PASS);
+                    if (o instanceof AbstractTestSequenceInstanceProcessor) {
+                        ((AbstractTestSequenceInstanceProcessor) o).process(this);
+                    }
+                } catch (ScriptException ex) {
+                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
         }
         try {
             Object o = getPropertyObject(STR_ON_FINISH);
