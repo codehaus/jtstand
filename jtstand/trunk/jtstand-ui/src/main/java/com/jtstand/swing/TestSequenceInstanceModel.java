@@ -59,7 +59,7 @@ public class TestSequenceInstanceModel extends AbstractTreeTableModel implements
         }
     }
     public static SequenceColumn[] sequenceColumns = SequenceColumn.values();
-    public static int SequenceColumnCount = sequenceColumns.length;
+    public static final int sequenceColumnCount = sequenceColumns.length;
     private TestSequenceInstance testSequenceInstance;
 
     public TestSequenceInstance getTestSequenceInstance() {
@@ -143,7 +143,7 @@ public class TestSequenceInstanceModel extends AbstractTreeTableModel implements
      */
     @Override
     public int getColumnCount() {
-        return SequenceColumnCount;
+        return sequenceColumnCount;
     }
 
     /**
@@ -152,7 +152,7 @@ public class TestSequenceInstanceModel extends AbstractTreeTableModel implements
     @Override
     public String getColumnName(
             int column) {
-        if (column >= 0 && column < SequenceColumnCount) {
+        if (column >= 0 && column < sequenceColumnCount) {
             return sequenceColumns[column].columnName;
         }
         return "";
@@ -164,7 +164,7 @@ public class TestSequenceInstanceModel extends AbstractTreeTableModel implements
     @Override
     public Class getColumnClass(
             int column) {
-        if (column >= 0 && column < SequenceColumnCount) {
+        if (column >= 0 && column < sequenceColumnCount) {
             return sequenceColumns[column].columnClass;
         }
         return null;

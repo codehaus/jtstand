@@ -31,7 +31,7 @@ public class StatsTableRendererDouble extends DefaultTableCellRenderer {
 
     public static final long serialVersionUID = 20081114L;
     private DecimalFormat decimalFormat;
-    public static DecimalFormat CPKformat = new DecimalFormat("0.0");
+    public static final DecimalFormat CPKformat = new DecimalFormat("0.0");
 
     public StatsTableRendererDouble(DecimalFormat decimalFormat) {
         this.decimalFormat = decimalFormat;

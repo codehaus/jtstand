@@ -60,7 +60,7 @@ public class TestStepInstancesModel extends AbstractTableModel implements TableM
         }
     }
     public static StepsColumn[] sequencesColumns = StepsColumn.values();
-    public static int SequencesColumnCount = sequencesColumns.length;
+    public static final int sequencesColumnCount = sequencesColumns.length;
     private TestStepInstances instances;
 
     public TestStepInstancesModel(TestStepInstances instances) {
@@ -69,7 +69,7 @@ public class TestStepInstancesModel extends AbstractTableModel implements TableM
 
     @Override
     public int getColumnCount() {
-        return SequencesColumnCount;
+        return sequencesColumnCount;
     }
 
     @Override

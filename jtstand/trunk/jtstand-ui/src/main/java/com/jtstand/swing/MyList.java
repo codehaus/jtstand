@@ -112,14 +112,22 @@ public class MyList extends javax.swing.JPanel implements ListDataListener {
         }
         if (file.canWrite()) {
             System.out.println("Saving " + file.getName() + " ...");
+            FileWriter fr = null;
             try {
-                FileWriter fr = new FileWriter(file);
+                fr = new FileWriter(file);
                 for (int i = 0; i < getModel().getSize(); i++) {
                     fr.write(getModel().getElementAt(i).toString() + "\r\n");
                 }
-                fr.close();
             } catch (Exception ex) {
                 Logger.getLogger(MyList.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (fr != null) {
+                    try {
+                        fr.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(MyList.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
         } else {
             System.out.println("Cannot write " + file.getName());
@@ -301,6 +309,7 @@ private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTextField jTextField;
     // End of variables declaration//GEN-END:variables
+
     @Override
     public void intervalAdded(ListDataEvent e) {
         jList.setToolTipText(Integer.toString(jList.getModel().getSize()) + " item" + ((jList.getModel().getSize() > 1) ? "s" : ""));

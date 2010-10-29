@@ -192,9 +192,9 @@ public class QueryDialog extends javax.swing.JDialog implements MouseWheelListen
         jButtonQuery.addActionListener(queryAction);
     }
 
-    public JButton queryButton() {
-        return queryButton();
-    }
+//    public JButton queryButton() {
+//        return queryButton();
+//    }
 
     private void includeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
 //        System.out.println("include all selected:"+jPanelInclude.checkBox().isSelected());

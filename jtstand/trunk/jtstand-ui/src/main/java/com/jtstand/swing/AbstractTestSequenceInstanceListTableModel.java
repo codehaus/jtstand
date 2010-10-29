@@ -127,7 +127,6 @@ public abstract class AbstractTestSequenceInstanceListTableModel extends Abstrac
             if (em.isOpen()) {
                 em.close();
             }
-            em = null;
         }
         TestProject.close();
         super.finalize();

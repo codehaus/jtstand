@@ -31,7 +31,7 @@ public class TestStepStatisticsRenderer extends DefaultTableCellRenderer {
 
     public static final long serialVersionUID = 20081114L;
     private TestStepStatistics testStepStatistics;
-    public static DecimalFormat CPKformat = new DecimalFormat("0.0");
+    public static final DecimalFormat CPKformat = new DecimalFormat("0.0");
 
     public TestStepStatisticsRenderer(TestStepStatistics testStepStatistics) {
         this.testStepStatistics = testStepStatistics;

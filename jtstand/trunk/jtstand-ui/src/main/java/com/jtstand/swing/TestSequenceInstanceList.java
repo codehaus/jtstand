@@ -119,7 +119,6 @@ public class TestSequenceInstanceList extends ArrayList<TestSequenceInstance> im
             if (em.isOpen()) {
                 em.close();
             }
-            em = null;
         }
         TestProject.close();
         super.finalize();

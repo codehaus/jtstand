@@ -451,9 +451,9 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            bar.add(login);
 //        }
 
-        operatorLabel = new JLabel("Operator is not logged on. ");
+        operatorLabel = new JLabel("Operator is not logged in. ");
         if (getTestStation().getTestProject().getAuthentication() != null) {
-            operatorLabel.setToolTipText("Right click for Log On");
+            operatorLabel.setToolTipText("Right click for log in");
             addLoginMenu(operatorLabel);
             bar.add(operatorLabel);
             bar.add(new JSeparator(JSeparator.VERTICAL), getSeparatorConstraint());
@@ -1435,11 +1435,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 && evt.getPropertyName().equals(Authentication.OPERATOR_PROPERTY)) {
 //            System.out.println("Property '" + evt.getPropertyName() + "' changed to " + evt.getNewValue());
             if (evt.getNewValue() == null) {
-                operatorLabel.setText("Operator is logged off. ");
-                operatorLabel.setToolTipText("Right click for Log On");
+                operatorLabel.setText("Operator is logged out. ");
+                operatorLabel.setToolTipText("Right click for log in");
             } else {
                 operatorLabel.setText("Operator: " + evt.getNewValue() + " ");
-                operatorLabel.setToolTipText("Right click for Log Off");
+                operatorLabel.setToolTipText("Right click for log out");
             }
         } else if (TestSequenceInstance.class.isAssignableFrom(evt.getSource().getClass())) {
             TestSequenceInstance seq = (TestSequenceInstance) evt.getSource();
@@ -1523,7 +1523,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         JPopupMenu contextMenu = new JPopupMenu();
 
         if (getTestStation().getTestProject().getAuthentication().getOperator() == null) {
-            JMenuItem loginMenu = contextMenu.add("Log On");
+            JMenuItem loginMenu = contextMenu.add("Log in");
             loginMenu.addActionListener(new ActionListener() {
 
                 @Override
@@ -1532,7 +1532,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             });
         } else {
-            JMenuItem logoutMenu = contextMenu.add("Log Off");
+            JMenuItem logoutMenu = contextMenu.add("Log out");
             logoutMenu.addActionListener(new ActionListener() {
 
                 @Override
@@ -2172,7 +2172,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (path == null) {
             return null;
         }
-        TestStepInstance tsi = (path != null) ? (TestStepInstance) path.getLastPathComponent() : null;
+        TestStepInstance tsi = (TestStepInstance) path.getLastPathComponent();
 
         int col = jXTreeTable.columnAtPoint(e.getPoint());
         if (col >= 0) {

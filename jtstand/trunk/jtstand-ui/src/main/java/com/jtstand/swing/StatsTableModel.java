@@ -52,7 +52,7 @@ public class StatsTableModel extends AbstractTableModel implements TableModel {
         }
     }
     public static StatsTableColumn[] statTableColumns = StatsTableColumn.values();
-    public static int statTableColumnCount = statTableColumns.length;
+    public static final int statTableColumnCount = statTableColumns.length;
     private Stat allstat;
     private TreeMap<String, Stat> catstats;
     private StatsPanel statsPanel;

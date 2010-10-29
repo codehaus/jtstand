@@ -63,7 +63,7 @@ public class Login extends javax.swing.JDialog {
         jButtonCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Log On");
+        setTitle("Log in");
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 

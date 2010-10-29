@@ -632,7 +632,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
 
         /* coloring */
         if (isCategorization()) {
-            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
+//            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
             int i = 0;
             for (Iterator<String> it = catstats.keySet().iterator(); it.hasNext(); i++) {
                 String groupName = it.next();
@@ -814,7 +814,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         placeLimitMarkers(plot, true);
         /* coloring */
         if (isCategorization()) {
-            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
+//            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
             int i = 0;
             for (Iterator<String> it = catstats.keySet().iterator(); it.hasNext(); i++) {
                 String groupName = it.next();
@@ -865,7 +865,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         renderer.setBaseItemLabelsVisible(true);
         plot.setDataset(1, dataset2);
         plot.mapDatasetToRangeAxis(1, 1);
-        ValueAxis domainAxis = plot.getDomainAxis();
+//        ValueAxis domainAxis = plot.getDomainAxis();
         //domainAxis.setCategoryLabelPositions(horizontal?CategoryLabelPositions.STANDARD:CategoryLabelPositions.UP_90);
         ValueAxis axis2 = new NumberAxis("Gaussian");
         plot.setRangeAxis(1, axis2);
@@ -881,7 +881,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         /* coloring */
         Color c;
         if (isMultipleCategorization()) {
-            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
+//            TreeMap<String, Color> cmap = new TreeMap<String, Color>();
             int i = 0;
             for (Iterator<String> it = catstats.keySet().iterator(); it.hasNext(); i++) {
                 String groupName = it.next();
