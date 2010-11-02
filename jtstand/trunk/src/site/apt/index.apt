@@ -2,3 +2,11 @@
 an open source software, written in Java.\
 It helps you to develop and execute Sequences
 and to store and analyze the Results.
+
+  JTStand was developed first, because the available alternatives
+were found to be too expensive and too difficult to use for simple applications.
+
+  JTStand was later completely rewritten, when JTStand's unique new features
+were integrated: Revision Control, Selection of Scripting Languages,
+Support of multiple theads, Database.
+

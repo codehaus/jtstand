@@ -67,9 +67,7 @@ you might run into problems like these:
   You have to set the PATH and/or the JAVA_HOME variable in order to fix this problem.
 
 
-* Download JTStand Demo
-
-  Download site: {{http://download.jtstand.com}}
+* Download JTStand Demo from {{http://repository.codehaus.org/org/codehaus/jtstand/jtstand-demo/}}
 
   The demo comes packaged in a zip file,
 with the file name: jtstand-demo-<version>-distribution.zip
