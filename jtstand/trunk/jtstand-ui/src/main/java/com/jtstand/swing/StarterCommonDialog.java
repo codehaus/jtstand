@@ -45,23 +45,23 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     public static final String SERIAL_NUMBER_PATTERN = "SERIAL_NUMBER_PATTERN";
     public static final String STR_SN_TO_TEST_TYPE = "SN_TO_TEST_TYPE";
     public static final Class<?>[] emptyContructor = {};
-    private List<FixtureTestTypeReference> testTypeReferences;
-    private FixtureTestTypeReference selectedTestType;
-    private String employeeNumber;
-    private TestFixture testFixture;
-    private TestStation testStation;
-    private TestProject testProject;
-    private AbstractStarterPanel starterPanel;
-    private FrameInterface fi;
-    private Fixture fixture;
-    private AdvancedStartPanel advancedStartPanel;
-    private boolean debug;
-    private TestSequenceInstance tsi;
-    private String sn;
-    private Frame parentFrame;
+    List<FixtureTestTypeReference> testTypeReferences;
+    FixtureTestTypeReference selectedTestType;
+    String employeeNumber;
+    TestFixture testFixture;
+    TestStation testStation;
+    TestProject testProject;
+    AbstractStarterPanel starterPanel;
+    FrameInterface fi;
+    Fixture fixture;
+    AdvancedStartPanel advancedStartPanel;
+    boolean debug;
+    TestSequenceInstance tsi;
+    String sn;
+    Frame parentFrame;
 //    private transient Binding binding;
-    private Dimension initialSize;
-    private StarterProperties properties = new StarterProperties(this);
+    Dimension initialSize;
+    StarterProperties properties = new StarterProperties(this);
 
     public StarterCommonDialog(Frame parentFrame, boolean modal, String employeeNumber, TestFixture testFixture, TestStation testStation, TestProject testProject, FrameInterface fi, Fixture fixture) {
         super(parentFrame, modal);
@@ -108,9 +108,9 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
         String t = "New Sequence";
         if (testStation != null) {
-            t += " on " + testStation.getHostName();
+//            t += " on " + testStation.getHostName();
             if (testFixture != null) {
-                t += "@" + testFixture.getFixtureName();
+                t += " on " + testFixture.getFixtureName();
             }
         }
 //        if (employeeNumber != null) {
@@ -345,7 +345,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         recognizeSN(sn, starterPanel.jComboBoxPartNumber(), starterPanel.jComboBoxPartRev());
 
         //check serial number format if mathes to requirements of the test type
-        if (!isSerialNumberOK()) {
+        if (!isSerialNumberOK(sn)) {
             starterPanel.jTextFieldSN().requestFocus();
             return false;
         }
@@ -624,8 +624,8 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         this.dispose();
     }
 
-    public boolean isSerialNumberOK() {
-        if (sn == null || sn.length() == 0) {
+    public boolean isSerialNumberOK(String serialNumber) {
+        if (serialNumber == null || serialNumber.length() == 0) {
             log("Serial Number cannot be blank!");
             return false;
         }
@@ -633,7 +633,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         if (serialNumberPattern == null) {
             return true;
         }
-        return isMatch(sn, serialNumberPattern);
+        return isMatch(serialNumber, serialNumberPattern);
     }
 
     @Override

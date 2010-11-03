@@ -24,6 +24,8 @@ import com.jgoodies.looks.FontSet;
 import com.jgoodies.looks.FontSets;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jtstand.Authentication;
+import com.jtstand.TestFixture;
+import com.jtstand.TestProject;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
 import com.jtstand.TestStepInstance;
@@ -31,6 +33,7 @@ import com.jtstand.TestStepScript;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.ToDatabase;
 import com.jtstand.swing.TestSequenceInstanceModel.SequenceColumn;
+import java.lang.reflect.InvocationTargetException;
 import javax.script.ScriptException;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
@@ -50,6 +53,7 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -69,6 +73,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
 //    public static final long serialVersionUID = 20081114L;
     static final Logger logger = Logger.getLogger(MainFrame.class.getCanonicalName());
+    static final String STARTER_DIALOG_CLASS_NAME = "STARTER_DIALOG_CLASS_NAME";
 //    public static final int WIDTH0 = -1;
     private JXTable jTable = null;
     private JSplitPane jSplitPane = null;
@@ -81,7 +86,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     private QueryDialogTestStep queryDialog = null;
     private TestStation testStation;
     private ToDatabase toDatabase;
-    private JDialog starterDialog = null;
+    private Dialog starterDialog = null;
     private JXStatusBar bar;
     private JXProgressBar pbar;
     private JLabel statusLabel;
@@ -262,6 +267,15 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public void showFreeDisk(long free) {
         freeDiskLabel.setText("D: " + Util.getBytes(free) + " ");
     }
+    public static final Class[] STARTER_DIALOG_CONSTRUCTOR = {
+        Frame.class,
+        boolean.class,
+        String.class,
+        TestFixture.class,
+        TestStation.class,
+        TestProject.class,
+        FrameInterface.class,
+        Fixture.class};
 
     public void showStarterDialog(Fixture fixture) {
         if (starterDialog != null) {
@@ -274,7 +288,29 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 return;
             }
         }
-        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
+        String starterDialogClassName = fixture.getTestFixture().getPropertyString(STARTER_DIALOG_CLASS_NAME, StarterCommonDialog.class.getName());
+        try {
+            Class<?> starterDialogClass = Class.forName(starterDialogClassName);
+            Constructor<?> starterDialogContructor = starterDialogClass.getConstructor(STARTER_DIALOG_CONSTRUCTOR);
+            starterDialog = (Dialog) starterDialogContructor.newInstance(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvocationTargetException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchMethodException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SecurityException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
+
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
 
             @Override

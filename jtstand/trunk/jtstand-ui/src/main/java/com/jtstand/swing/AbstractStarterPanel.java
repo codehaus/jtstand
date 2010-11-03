@@ -26,17 +26,17 @@ import javax.swing.*;
  */
 public abstract class AbstractStarterPanel extends JPanel {
 
-    abstract javax.swing.JButton jButtonStart();
+    abstract public javax.swing.JButton jButtonStart();
 
-    abstract javax.swing.JButton jButtonDebug();
+    abstract public javax.swing.JButton jButtonDebug();
 
-    abstract javax.swing.JButton jButtonCancel();
+    abstract public javax.swing.JButton jButtonCancel();
 
-    abstract javax.swing.JComboBox jComboBoxPartNumber();
+    abstract public javax.swing.JComboBox jComboBoxPartNumber();
 
-    abstract javax.swing.JComboBox jComboBoxPartRev();
+    abstract public javax.swing.JComboBox jComboBoxPartRev();
 
-    abstract javax.swing.JComboBox jComboBoxTestType();
+    abstract public javax.swing.JComboBox jComboBoxTestType();
 
-    abstract javax.swing.JTextField jTextFieldSN();
+    abstract public javax.swing.JTextField jTextFieldSN();
 }
