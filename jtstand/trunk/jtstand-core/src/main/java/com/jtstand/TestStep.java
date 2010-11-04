@@ -63,7 +63,7 @@ import javax.xml.bind.annotation.XmlType;
     @UniqueConstraint(columnNames = {"parent_id", "name"}),
     @UniqueConstraint(columnNames = {"parent_id", "testStepPosition"})})
 @XmlRootElement(name = "step")
-@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "script", "steps"})
+@XmlType(name = "testStepType", propOrder = {"useLimit", "postSleep", "preSleep", "loopSleep", "maxLoops", "failAction", "passAction", "runMode", "name", "remark", "properties", "testLimits", "stepReference", "steps", "script"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStep {
 
