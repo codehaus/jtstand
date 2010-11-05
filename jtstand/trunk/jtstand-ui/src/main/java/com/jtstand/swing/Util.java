@@ -64,7 +64,7 @@ public class Util {
         }
     }
 
-    public static void setVisibleRowCount(JXTable jTable, int rows, JSplitPane jSplitPane) {
+    public static void setVisibleRowCount(final JXTable jTable, int rows, final JSplitPane jSplitPane) {
         if (rows < 0) {
             return;
         }
@@ -73,7 +73,7 @@ public class Util {
 //        Dimension d = new Dimension(table.getPreferredScrollableViewportSize().width, getHeight(table, rows));
 //        System.out.println("setting table preferred scrollable viewport size:" + d);
 //        table.setPreferredScrollableViewportSize(d);
-        
+
         //jTable.revalidate();
         //jTable.getPreferredScrollableViewportSize(); //instead of revalidating, try to calculate
 
@@ -89,6 +89,14 @@ public class Util {
 //        }
 
         //        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                setDividerLocation(jSplitPane, jTable);
+            }
+        });
+
     }
 
 //    public static int setVisibleRowCount(JXTable jTable, int rows, JSplitPane jSplitPane) {
@@ -147,8 +155,9 @@ public class Util {
 //        System.out.println("current: " + current + " row count: " + rc + " current visible row count: " + vrc + " computed visible row count: " + cvrc + " preferred: " + pref);
         if (cvrc != vrc) {
             Util.setVisibleRowCount(jTable, cvrc, jSplitPane);
+        } else {
+            Util.setDividerLocation(jSplitPane, jTable);
         }
-        Util.setDividerLocation(jSplitPane, jTable);
         return cvrc;
     }
 

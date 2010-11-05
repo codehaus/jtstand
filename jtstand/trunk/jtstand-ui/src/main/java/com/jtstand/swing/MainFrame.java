@@ -122,7 +122,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             System.out.println("Sequences Model row count: " + jTable.getModel().getRowCount() + "   Table row count: " + rc + "   Visible row count: " + vrc);
             if (vrc > rc || vrc < 3 && vrc != rc) {
                 Util.setVisibleRowCount(jTable, Math.min(rc, 3), jSplitPane);
-                Util.setDividerLocation(jSplitPane, jTable);
+//                Util.setDividerLocation(jSplitPane, jTable);
                 Util.packColumnsWidthFixedFirst(jTable, 9);
             }
             Util.packColumn(jTable, 0, 9, true);
@@ -1147,7 +1147,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
 //        jSplitPane.setDividerLocation(jScrollPaneSequenceList.getPreferredSize().height);
         Util.setVisibleRowCount(jTable, Math.min(jTable.getRowCount(), jTable.getVisibleRowCount()), jSplitPane);
-        Util.setDividerLocation(jSplitPane, jTable);
+//        Util.setDividerLocation(jSplitPane, jTable);
         jXTreeTable.requestFocus();
     }
 
