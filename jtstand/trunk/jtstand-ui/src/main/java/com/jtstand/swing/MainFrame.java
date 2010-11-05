@@ -106,13 +106,20 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     @Override
     public void tableChanged(TableModelEvent e) {
-        resizeSequences();
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                resizeSequences();
+            }
+        });
     }
 
     private void resizeSequences() {
         synchronized (lock) {
             int rc = jTable.getRowCount();
             int vrc = jTable.getVisibleRowCount();
+            System.out.println("Sequences Model row count: " + jTable.getModel().getRowCount() + "   Table row count: " + rc + "   Visible row count: " + vrc);
             if (vrc > rc || vrc < 3 && vrc != rc) {
                 Util.setVisibleRowCount(jTable, Math.min(rc, 3), jSplitPane);
                 Util.setDividerLocation(jSplitPane, jTable);
@@ -267,15 +274,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public void showFreeDisk(long free) {
         freeDiskLabel.setText("D: " + Util.getBytes(free) + " ");
     }
-    public static final Class[] STARTER_DIALOG_CONSTRUCTOR = {
-        Frame.class,
-        boolean.class,
-        String.class,
-        TestFixture.class,
-        TestStation.class,
-        TestProject.class,
-        FrameInterface.class,
-        Fixture.class};
+    public static final Class[] STARTER_DIALOG_CONSTRUCTOR = {Fixture.class};
 
     public void showStarterDialog(Fixture fixture) {
         if (starterDialog != null) {
@@ -292,23 +291,10 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         try {
             Class<?> starterDialogClass = Class.forName(starterDialogClassName);
             Constructor<?> starterDialogContructor = starterDialogClass.getConstructor(STARTER_DIALOG_CONSTRUCTOR);
-            starterDialog = (Dialog) starterDialogContructor.newInstance(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvocationTargetException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
+            starterDialog = (Dialog) starterDialogContructor.newInstance(fixture);
+        } catch (Exception ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-
 //        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {

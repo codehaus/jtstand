@@ -78,20 +78,18 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
     private final Object testSequenceInstanceLock = new Object();
     private Runner runner;
 
-    /** Creates new form Fx */
-    public Fixture() {
-        super();
-        initComponents();
-    }
-
     /** Creates a new instance of Fixture */
     public Fixture(TestFixture testFixture, MainFrame fi) {
-        this();
+        super();
         this.testFixture = testFixture;
         this.fi = fi;
+        initComponents();
         setName(testFixture.getFixtureName());
         System.out.println("New Fixture created: " + getName());
-//        init();
+    }
+
+    public MainFrame getMainFrame() {
+        return fi;
     }
 
     @Override

@@ -18,8 +18,14 @@
  */
 package com.jtstand.swing;
 
-import com.jtstand.*;
+import com.jtstand.Authentication;
+import com.jtstand.FixtureTestTypeReference;
+import com.jtstand.TestFixture;
+import com.jtstand.TestProject;
+import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestSequenceInstance.SequenceType;
+import com.jtstand.TestStation;
+import com.jtstand.TestTypeReference;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.Runner;
 
@@ -47,37 +53,27 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     public static final Class<?>[] emptyContructor = {};
     List<FixtureTestTypeReference> testTypeReferences;
     FixtureTestTypeReference selectedTestType;
-    String employeeNumber;
-    TestFixture testFixture;
-    TestStation testStation;
-    TestProject testProject;
     AbstractStarterPanel starterPanel;
-    FrameInterface fi;
-    Fixture fixture;
     AdvancedStartPanel advancedStartPanel;
     boolean debug;
     TestSequenceInstance tsi;
-    String sn;
-    Frame parentFrame;
+//    String sn;
+//    Frame parentFrame;
 //    private transient Binding binding;
     Dimension initialSize;
     StarterProperties properties = new StarterProperties(this);
+    Fixture fixture;
 
-    public StarterCommonDialog(Frame parentFrame, boolean modal, String employeeNumber, TestFixture testFixture, TestStation testStation, TestProject testProject, FrameInterface fi, Fixture fixture) {
-        super(parentFrame, modal);
-
-        if (testProject == null) {
-            throw new IllegalArgumentException("testProject cannot be null!");
-        }
-        this.parentFrame = parentFrame;
-        this.employeeNumber = employeeNumber;
-        this.testFixture = testFixture;
-        this.testStation = testStation;
-        this.testProject = testProject;
-        this.fi = fi;
+    public StarterCommonDialog(Fixture fixture) {
+        super((JFrame) SwingUtilities.getWindowAncestor(fixture), false);
         this.fixture = fixture;
+//        if (testProject == null) {
+//            throw new IllegalArgumentException("testProject cannot be null!");
+//        }
+//        this.fixture = fixture;
+//        testFixture.getTestStation().getTestProject().getAuthentication().getOperator();
 
-//        if (testFixture != null && testFixture.getTestTypes().size() > 0) {
+        //        if (testFixture != null && testFixture.getTestTypes().size() > 0) {
 //            testTypeReferences = testFixture.getTestTypes();
 //        } else {
 //            if (testStation != null && testStation.getTestTypes().size() > 0) {
@@ -85,9 +81,8 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 //            }
 //        }
 
-        testTypeReferences = testFixture.getTestTypes();
-
-        if (testTypeReferences == null || testTypeReferences.size() == 0) {
+        testTypeReferences = fixture.getTestFixture().getTestTypes();
+        if (testTypeReferences == null || testTypeReferences.isEmpty()) {
             throw new IllegalArgumentException("Products list is empty");
         }
         selectedTestType = testTypeReferences.get(0);
@@ -106,17 +101,17 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         });
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        String t = "New Sequence";
-        if (testStation != null) {
-//            t += " on " + testStation.getHostName();
-            if (testFixture != null) {
-                t += " on " + testFixture.getFixtureName();
-            }
-        }
-//        if (employeeNumber != null) {
-//            t += " by " + employeeNumber;
+//        String t = "New Sequence";
+//        if (testStation != null) {
+////            t += " on " + testStation.getHostName();
+//            if (testFixture != null) {
+//                t += " on " + testFixture.getFixtureName();
+//            }
 //        }
-        setTitle(t);
+////        if (employeeNumber != null) {
+////            t += " by " + employeeNumber;
+////        }
+        setTitle("New Sequence on " + fixture.getTestFixture().getFixtureName());
         initComponents();
     }
 
@@ -340,7 +335,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         if (selectedTestType == null) {
             return false;
         }
-        sn = starterPanel.jTextFieldSN().getText().toUpperCase().trim();
+        String sn = starterPanel.jTextFieldSN().getText().toUpperCase().trim();
         starterPanel.jTextFieldSN().setText(sn);
         recognizeSN(sn, starterPanel.jComboBoxPartNumber(), starterPanel.jComboBoxPartRev());
 
@@ -349,15 +344,18 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             starterPanel.jTextFieldSN().requestFocus();
             return false;
         }
-//        if (employeeNumber == null || employeeNumber.length() == 0) {
-//            Login login = new Login(parentFrame, true, testProject.getAuthentication());
-//            employeeNumber = testProject.getAuthentication().getOperator();
-//        }
-//        if (employeeNumber == null || employeeNumber.length() == 0) {
-//            return false;
-//        }
+        String employeeNumber = getEmployeeNumber();
+
+        if (employeeNumber == null || employeeNumber.length() == 0) {
+            Login login = new Login((JFrame) SwingUtilities.getWindowAncestor(fixture), true, getAuthentication());
+            employeeNumber = getEmployeeNumber();
+        }
+        if (employeeNumber == null || employeeNumber.length() == 0) {
+            return false;
+        }
 
         try {
+            MainFrame fi = fixture.getMainFrame();
             if (fi != null && !fi.isMemoryEnoughRetry()) {
                 throw new IllegalStateException("Not enough memory to start a new sequence");
             }
@@ -370,6 +368,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
         if (debug) {
             tsi.setStatus(TestSequenceInstance.SequenceStatus.STEPBYSTEP);
             if (fixture != null) {
@@ -636,19 +635,23 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         return isMatch(serialNumber, serialNumberPattern);
     }
 
+    public Authentication getAuthentication() {
+        return getTestProject().getAuthentication();
+    }
+
     @Override
     public String getEmployeeNumber() {
-        return employeeNumber;
+        return getAuthentication().getOperator();
     }
 
     @Override
     public TestStation getTestStation() {
-        return testStation;
+        return getTestFixture().getTestStation();
     }
 
     @Override
     public TestFixture getTestFixture() {
-        return testFixture;
+        return fixture.getTestFixture();
     }
 
     @Override
@@ -658,6 +661,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     @Override
     public TestProject getTestProject() {
-        return testProject;
+        return getTestStation().getTestProject();
     }
 }

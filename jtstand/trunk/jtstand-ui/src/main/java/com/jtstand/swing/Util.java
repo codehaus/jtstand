@@ -57,9 +57,7 @@ public class Util {
 
     public static void setDividerLocation(JSplitPane jSplitPane, JXTable jTable) {
         int pref = getPref(jSplitPane);//jSplitPane.getTopComponent().getPreferredSize().height + jSplitPane.getInsets().top;
-//        System.out.println("TopComponent preferred:" + pref);
-//        System.out.println("Current divider location:" + jSplitPane.getDividerLocation());
-
+//        System.out.println("TopComponent preferred: " + pref + "   Current divider location: " + jSplitPane.getDividerLocation());
         if (jSplitPane.getDividerLocation() != pref) {
             jSplitPane.setDividerLocation(pref);
             scrollSelectedRowToVisible(jTable);
@@ -75,18 +73,22 @@ public class Util {
 //        Dimension d = new Dimension(table.getPreferredScrollableViewportSize().width, getHeight(table, rows));
 //        System.out.println("setting table preferred scrollable viewport size:" + d);
 //        table.setPreferredScrollableViewportSize(d);
-        jTable.revalidate();
+        
+        //jTable.revalidate();
+        //jTable.getPreferredScrollableViewportSize(); //instead of revalidating, try to calculate
+
 //        Dimension psvs = jTable.getPreferredScrollableViewportSize();
 //        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
-        if (jSplitPane != null) {
-            Component c = jSplitPane.getTopComponent();
-            if (c != null) {
-//                System.out.println("revalidating scroll pane...");
-                c.invalidate();
-                c.validate();
-            }
-        }
-//        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
+
+//        if (jSplitPane != null) {
+//            Component c = jSplitPane.getTopComponent();
+//            if (c != null) {
+//                c.invalidate();
+//                c.validate();
+//            }
+//        }
+
+        //        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
     }
 
 //    public static int setVisibleRowCount(JXTable jTable, int rows, JSplitPane jSplitPane) {
@@ -273,9 +275,9 @@ public class Util {
         r.translate(0, (int) r.getHeight() - 1);
         if (or.isLeftToRight()) {
             r.translate((int) r.getWidth() - 1, 0);
-        // The next if makes sure that we don't return -1 simply because
-        // there is white space at the bottom of the table (ie, the display
-        // area is larger than the table)
+            // The next if makes sure that we don't return -1 simply because
+            // there is white space at the bottom of the table (ie, the display
+            // area is larger than the table)
         }
         if (table.rowAtPoint(r.getLocation()) == -1) {
             if (getFirstVisibleRowIndex(table) == -1) {
