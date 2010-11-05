@@ -1438,6 +1438,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     @Override
                     public void run() {
 //                        dividerChanged();
+                        System.out.println("jSplitPane DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jTable, jSplitPane);
                     }
                 });
@@ -1449,6 +1450,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     @Override
                     public void run() {
 //                        dividerChanged();
+                        System.out.println("jSplitPaneSequenceStep DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jXTreeTable, jSplitPaneSequenceStep);
                     }
                 });

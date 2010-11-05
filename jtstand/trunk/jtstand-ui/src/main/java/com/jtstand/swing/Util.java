@@ -57,7 +57,7 @@ public class Util {
 
     public static void setDividerLocation(JSplitPane jSplitPane, JXTable jTable) {
         int pref = getPref(jSplitPane);//jSplitPane.getTopComponent().getPreferredSize().height + jSplitPane.getInsets().top;
-//        System.out.println("TopComponent preferred: " + pref + "   Current divider location: " + jSplitPane.getDividerLocation());
+        System.out.println("TopComponent preferred: " + pref + "   Current divider location: " + jSplitPane.getDividerLocation());
         if (jSplitPane.getDividerLocation() != pref) {
             jSplitPane.setDividerLocation(pref);
             scrollSelectedRowToVisible(jTable);
@@ -68,13 +68,14 @@ public class Util {
         if (rows < 0) {
             return;
         }
-//        System.out.println(jTable.getName() + " setVisibleRowCount:" + rows);
+        System.out.println(jTable.getName() + " setVisibleRowCount:" + rows);
         jTable.setVisibleRowCount(rows);
 //        Dimension d = new Dimension(table.getPreferredScrollableViewportSize().width, getHeight(table, rows));
 //        System.out.println("setting table preferred scrollable viewport size:" + d);
 //        table.setPreferredScrollableViewportSize(d);
 
-        //jTable.revalidate();
+//        jTable.revalidate();
+//        jSplitPane.revalidate();
         //jTable.getPreferredScrollableViewportSize(); //instead of revalidating, try to calculate
 
 //        Dimension psvs = jTable.getPreferredScrollableViewportSize();
