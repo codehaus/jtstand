@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" targetNamespace="http://www.jtstand.com/" xmlns:tns="http://www.jtstand.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="step" type="tns:testStepType"/>
+
+  <xs:element name="testProject" type="tns:projectType"/>
+
+  <xs:complexType name="abstractProperties" abstract="true">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="abstractVariables" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractProperties">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="authentication">
+    <xs:sequence>
+      <xs:element name="domainUsers" type="tns:domainUserList" minOccurs="0"/>
+      <xs:element name="localUsers" type="tns:localUserList" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="authenticatonMode" type="tns:authenticationMode"/>
+  </xs:complexType>
+
+  <xs:complexType name="domainUserList">
+    <xs:sequence>
+      <xs:element name="domainUser" type="tns:domainUser" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="domainUser">
+    <xs:complexContent>
+      <xs:extension base="tns:operator">
+        <xs:sequence/>
+        <xs:attribute name="domainName" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="operator">
+    <xs:sequence/>
+    <xs:attribute name="employeeNumber" type="xs:string" use="required"/>
+    <xs:attribute name="loginName" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="localUserList">
+    <xs:sequence>
+      <xs:element name="localUser" type="tns:localUser" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="localUser">
+    <xs:complexContent>
+      <xs:extension base="tns:operator">
+        <xs:sequence/>
+        <xs:attribute name="password" type="xs:string"/>
+        <xs:attribute name="realName" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="fileRevision">
+    <xs:sequence/>
+    <xs:attribute name="revision" type="xs:long"/>
+    <xs:attribute name="subversionUrl" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="fileRevisionReference">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="revision" type="xs:long"/>
+        <xs:attribute name="subversionUrl" type="xs:string"/>
+        <xs:attribute name="charsetName" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="fixtureInitSequenceReference">
+    <xs:simpleContent>
+      <xs:extension base="tns:fileRevisionReference"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="productType">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractProperties">
+        <xs:sequence>
+          <xs:element name="remark" type="xs:string" minOccurs="0"/>
+          <xs:element name="property" type="tns:productProperty" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testType" type="tns:testType" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="partRevision" type="xs:string" use="required"/>
+        <xs:attribute name="partNumber" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="productProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testProperty">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="final" type="xs:boolean"/>
+        <xs:attribute name="interpreter" type="xs:string"/>
+        <xs:attribute name="mutex" type="xs:boolean"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="value" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testType">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractProperties">
+        <xs:sequence>
+          <xs:element name="remark" type="xs:string" minOccurs="0"/>
+          <xs:element name="property" type="tns:testTypeProperty" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testSequence" type="tns:testTypeSequenceReference" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testTypeProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testTypeSequenceReference">
+    <xs:simpleContent>
+      <xs:extension base="tns:fileRevisionReference"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="stationInitSequenceReference">
+    <xs:simpleContent>
+      <xs:extension base="tns:fileRevisionReference"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="stepReference">
+    <xs:simpleContent>
+      <xs:extension base="tns:fileRevisionReference"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testFixtureType">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractVariables">
+        <xs:sequence>
+          <xs:element name="remark" type="xs:string" minOccurs="0"/>
+          <xs:element name="property" type="tns:testFixtureProperty" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testType" type="tns:productReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="initSequence" type="tns:fixtureInitSequenceReference" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="disabled" type="xs:boolean"/>
+        <xs:attribute name="fixtureName" type="xs:string" use="required"/>
+        <xs:attribute name="serialNumber" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testFixtureProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="productReferenceType">
+    <xs:sequence/>
+    <xs:attribute name="partRevision" type="xs:string" use="required"/>
+    <xs:attribute name="partNumber" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="testLimit">
+    <xs:sequence>
+      <xs:element name="remark" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="unit" type="xs:string"/>
+    <xs:attribute name="usl" type="xs:double"/>
+    <xs:attribute name="lsl" type="xs:double"/>
+    <xs:attribute name="nominal" type="xs:double"/>
+    <xs:attribute name="comp" type="tns:comp" use="required"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="targetCPL" type="xs:double"/>
+    <xs:attribute name="targetCPU" type="xs:double"/>
+  </xs:complexType>
+
+  <xs:complexType name="projectType">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractProperties">
+        <xs:sequence>
+          <xs:element name="remark" type="xs:string" minOccurs="0"/>
+          <xs:element name="property" type="tns:testProjectProperty" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="authentication" type="tns:authentication" minOccurs="0"/>
+          <xs:element name="product" type="tns:productType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testStation" type="tns:testStationType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="defaultHostName" type="xs:string"/>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="pun" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testProjectProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testStationType">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractVariables">
+        <xs:sequence>
+          <xs:element name="remark" type="xs:string" minOccurs="0"/>
+          <xs:element name="property" type="tns:testStationProperty" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testType" type="tns:productReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="fixture" type="tns:testFixtureType" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="initSequence" type="tns:stationInitSequenceReference" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="hostName" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testStationProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testSequenceInstance">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractVariables">
+        <xs:sequence>
+          <xs:element name="createTime" type="xs:long"/>
+          <xs:element name="employeeNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="failureCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="failureStep">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="sequenceType" type="tns:sequenceType" minOccurs="0"/>
+          <xs:element name="serialNumber" type="xs:string" minOccurs="0"/>
+          <xs:element name="status" type="tns:sequenceStatus" minOccurs="0"/>
+          <xs:element name="testFixture" type="tns:testFixtureType" minOccurs="0"/>
+          <xs:element ref="tns:testProject" minOccurs="0"/>
+          <xs:element name="testSequence" type="tns:testStepType" minOccurs="0"/>
+          <xs:element name="testStation" type="tns:testStationType" minOccurs="0"/>
+          <xs:element name="testStepInstance">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="testType" type="tns:testType" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testStepType">
+    <xs:sequence>
+      <xs:element name="remark" type="xs:string" minOccurs="0"/>
+      <xs:element name="property" type="tns:testStepProperty" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="limit" type="tns:testLimit" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="stepFile" type="tns:stepReference" minOccurs="0"/>
+      <xs:element name="script" type="tns:testStepScript" minOccurs="0"/>
+      <xs:element ref="tns:step" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="useLimit" type="xs:string"/>
+    <xs:attribute name="postSleep" type="xs:int"/>
+    <xs:attribute name="preSleep" type="xs:int"/>
+    <xs:attribute name="loopSleep" type="xs:int"/>
+    <xs:attribute name="maxLoops" type="xs:int"/>
+    <xs:attribute name="failAction" type="tns:failAction"/>
+    <xs:attribute name="passAction" type="tns:passAction"/>
+    <xs:attribute name="runMode" type="tns:runMode"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="locks" type="xs:string"/>
+    <xs:attribute name="message" type="xs:string"/>
+    <xs:attribute name="parallel" type="xs:boolean"/>
+  </xs:complexType>
+
+  <xs:complexType name="testStepProperty">
+    <xs:simpleContent>
+      <xs:extension base="tns:testProperty"/>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testStepScript">
+    <xs:simpleContent>
+      <xs:extension base="tns:fileRevisionReference">
+        <xs:attribute name="interpreter" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="testSequenceInstanceIterator">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="testStepInstance">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractVariables">
+        <xs:sequence>
+          <xs:element name="calledTestStep" type="tns:testStepType" minOccurs="0"/>
+          <xs:element name="finishTime" type="xs:long" minOccurs="0"/>
+          <xs:element name="loops" type="xs:long"/>
+          <xs:element name="parent">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:anyType"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="position" type="xs:int"/>
+          <xs:element name="startTime" type="xs:long" minOccurs="0"/>
+          <xs:element name="status" type="tns:stepStatus" minOccurs="0"/>
+          <xs:element name="steps" type="tns:testStepInstance" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="testSequenceInstance" type="tns:testSequenceInstance" minOccurs="0"/>
+          <xs:element name="testStep" type="tns:testStepType" minOccurs="0"/>
+          <xs:element name="testStepNamePath" type="tns:testStepNamePath" minOccurs="0"/>
+          <xs:element name="value" type="xs:anyType" minOccurs="0"/>
+          <xs:element name="valueNumber" type="xs:double" minOccurs="0"/>
+          <xs:element name="valueString" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="testStepNamePath">
+    <xs:sequence>
+      <xs:element name="calledTestStep" type="tns:testStepType" minOccurs="0"/>
+      <xs:element name="id" type="xs:long" minOccurs="0"/>
+      <xs:element name="stepName" type="xs:string" minOccurs="0"/>
+      <xs:element name="stepPath" type="xs:string" minOccurs="0"/>
+      <xs:element name="testLimit" type="tns:testLimit" minOccurs="0"/>
+      <xs:element name="testStep" type="tns:testStepType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="authenticationMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PASSWORD"/>
+      <xs:enumeration value="NO_PASSWORD"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="comp">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="EQ"/>
+      <xs:enumeration value="NE"/>
+      <xs:enumeration value="GT"/>
+      <xs:enumeration value="GE"/>
+      <xs:enumeration value="LT"/>
+      <xs:enumeration value="LE"/>
+      <xs:enumeration value="GTLT"/>
+      <xs:enumeration value="GELE"/>
+      <xs:enumeration value="GELT"/>
+      <xs:enumeration value="GTLE"/>
+      <xs:enumeration value="BOOL"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="persistingPolicy">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NEVER"/>
+      <xs:enumeration value="STEP"/>
+      <xs:enumeration value="SEQUENCE"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sequenceStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PENDING"/>
+      <xs:enumeration value="RUNNING"/>
+      <xs:enumeration value="PASSED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="ABORTED"/>
+      <xs:enumeration value="STEPBYSTEP"/>
+      <xs:enumeration value="STEPBYSTEP_FINISHED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="sequenceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NORMAL"/>
+      <xs:enumeration value="STATION_SETUP"/>
+      <xs:enumeration value="FIXTURE_SETUP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="failAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NEXT_TEST"/>
+      <xs:enumeration value="LOOP"/>
+      <xs:enumeration value="STOP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="passAction">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NEXT_TEST"/>
+      <xs:enumeration value="LOOP"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="runMode">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NORMAL"/>
+      <xs:enumeration value="SKIP"/>
+      <xs:enumeration value="FORCE_PASS"/>
+      <xs:enumeration value="FORCE_FAIL"/>
+      <xs:enumeration value="SKIP_FIRST"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="driver">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="h2"/>
+      <xs:enumeration value="derby"/>
+      <xs:enumeration value="postgresql"/>
+      <xs:enumeration value="mysql"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stepStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="PENDING"/>
+      <xs:enumeration value="LOCKED"/>
+      <xs:enumeration value="RUNNING"/>
+      <xs:enumeration value="PASSED"/>
+      <xs:enumeration value="FAILED"/>
+      <xs:enumeration value="NOTEST"/>
+      <xs:enumeration value="ABORTED"/>
+      <xs:enumeration value="STEPBYSTEP"/>
+      <xs:enumeration value="STEPBYSTEP_FINISHED"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
