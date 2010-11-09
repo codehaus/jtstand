@@ -60,6 +60,7 @@ public class TestProperty {
     private String propertyValue;
     private Boolean mutex;
     private Boolean finalVariable;
+    private Boolean eager;
     @ManyToOne
     private FileRevision creator;
 //    private String interpreter;
@@ -140,6 +141,15 @@ public class TestProperty {
 
     public void setMutex(Boolean mutex) {
         this.mutex = mutex;
+    }
+
+    @XmlAttribute
+    public Boolean isEager() {
+        return eager;
+    }
+
+    public void setEager(Boolean eager) {
+        this.eager = eager;
     }
 
     @XmlAttribute(name = "final")

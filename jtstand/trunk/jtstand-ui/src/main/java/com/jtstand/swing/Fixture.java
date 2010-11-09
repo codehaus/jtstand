@@ -101,13 +101,15 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
             FixtureInitTestTypeReference initTypeReference = testFixture.getInitTypeReference();
             if (initTypeReference != null) {
                 try {
+                    testFixture.initializeProperties();
                     TestSequenceInstance seq = new TestSequenceInstance(TestSequenceInstance.SequenceType.FIXTURE_SETUP, testFixture.getSerialNumber(), STR_AUTO, initTypeReference);
                     if (fi != null) {
                         fi.add(seq);
                     }
                     getNewRunner().execute(seq);
                 } catch (Exception ex) {
-                    System.out.println("Failed to create a new sequence");
+                    setState(State.DISABLED);
+                    System.out.println("Failed to initialize fixture: " + getName());
                     System.out.println(ex.getMessage());
                 }
             } else {

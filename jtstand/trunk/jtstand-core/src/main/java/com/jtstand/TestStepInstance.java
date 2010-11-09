@@ -114,6 +114,14 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     private transient final Object parentLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
+    public void initializeProperties() throws ScriptException {
+        for (TestStepProperty tp : testStep.getProperties()) {
+            if (tp.isEager() != null && tp.isEager()) {
+                tp.getPropertyObject(getBindings());
+            }
+        }
+    }
+
     public void connect(EntityManager em) throws URISyntaxException, JAXBException, SVNException {
         if (calledTestStep != null && calledTestStep.getId() == null) {
             TestStep ts = testSequenceInstance.getConnectedTestStep(em, calledTestStep);
@@ -942,6 +950,16 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             if (getTestSequenceInstance().isAborted()) {
                 return;
             }
+            try {
+                initializeProperties();
+            } catch (Throwable ex) {
+                failureCode = ex.getMessage();
+                System.out.println("failureCode: " + failureCode);
+                if (!isAborted()) {
+                    setStatus(StepStatus.FAILED);
+                }
+                continue;
+            }
             if (!steps.isEmpty()) {
                 ThreadGroup group = new ThreadGroup(getName());
                 if (isParallel()) {
@@ -1205,6 +1223,9 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     }
 
     public boolean containsProperty(String key) {
+        if (bindings != null && bindings.containsKey(key)) {
+            return true;
+        }
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(key)) {
@@ -1302,6 +1323,12 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             }
         } else {
             System.err.println("getVariable : testSequenceInstance is null!");
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         throw new IllegalArgumentException("Undefined variable:" + keyString);
     }

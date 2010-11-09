@@ -26,11 +26,9 @@ import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestSequenceInstance.SequenceType;
 import com.jtstand.TestStation;
 import com.jtstand.TestTypeReference;
-import com.jtstand.query.FrameInterface;
 import com.jtstand.query.Runner;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -42,6 +40,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class StarterCommonDialog extends JDialog implements StarterInterface {
 

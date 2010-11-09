@@ -78,6 +78,14 @@ public class TestFixture extends AbstractVariables {
     private transient final Object propertiesLock = new Object();
     private transient final Object testTypesLock = new Object();
 
+    public void initializeProperties() throws ScriptException {
+        for (TestFixtureProperty tp : properties) {
+            if (tp.isEager() != null && tp.isEager()) {
+                tp.getPropertyObject(getBindings());
+            }
+        }
+    }
+
     @XmlElement(name = "limit")
     public List<TestFixtureLimit> getTestLimits() {
         synchronized (testLimitsLock) {

@@ -89,6 +89,14 @@ public class TestStation extends AbstractVariables {
     private transient final Object testFixturesLock = new Object();
     private transient final Object testLimitsLock = new Object();
 
+    public void initializeProperties() throws ScriptException {
+        for (TestStationProperty tp : properties) {
+            if (tp.isEager() != null && tp.isEager()) {
+                tp.getPropertyObject(getBindings());
+            }
+        }
+    }
+
     @XmlElement(name = "limit")
     public List<TestStationLimit> getTestLimits() {
         synchronized (testLimitsLock) {
@@ -662,6 +670,10 @@ public class TestStation extends AbstractVariables {
 //        System.out.println("User home: " + userHome);
         return userHome;
     }
+
+//    public static File getUserHomeDirectory() {
+//        return new File(getUserHome());
+//    }
     public static final String STR_SAVE_DIRECTORY = "jtstand.saveDirectory";
     public static final String STR_SAVE_DIRECTORY_DEFAULT = "save";
     public static final String STR_SAVED_DIRECTORY = "jtstand.savedDirectory";

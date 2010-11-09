@@ -1065,6 +1065,9 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
         if ("sequence".equals(key)) {
             return true;
         }
+        if (bindings != null && bindings.containsKey(key)) {
+            return true;
+        }
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
                 if (tsp.getName().equals(key)) {
@@ -1173,6 +1176,12 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
             ex1.printStackTrace();
         } catch (SecurityException ex2) {
             ex2.printStackTrace();
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         return null;
     }
