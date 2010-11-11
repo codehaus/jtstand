@@ -606,13 +606,13 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
 //        System.out.println("Property '" + evt.getPropertyName() + "' changed to " + evt.getNewValue());
         if (jSplitPane != null && evt.getSource().equals(jSplitPane)) {
             if (evt.getPropertyName().equals(JSplitPane.DIVIDER_LOCATION_PROPERTY) && !evt.getNewValue().equals((Integer) (-1))) {
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
+//                SwingUtilities.invokeLater(new Runnable() {
+//
+//                    @Override
+//                    public void run() {
                         Util.dividerChanged(jTable, jSplitPane);
-                    }
-                });
+//                    }
+//                });
             }
         } else {
             System.out.println("source class:" + evt.getSource().getClass().getCanonicalName());

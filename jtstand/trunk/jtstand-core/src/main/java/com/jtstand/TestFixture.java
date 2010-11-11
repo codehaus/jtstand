@@ -81,7 +81,7 @@ public class TestFixture extends AbstractVariables {
     public void initializeProperties() throws ScriptException {
         for (TestFixtureProperty tp : properties) {
             if (tp.isEager() != null && tp.isEager()) {
-                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
+                put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
     }
@@ -306,12 +306,6 @@ public class TestFixture extends AbstractVariables {
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("fixture", this);
-        }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {

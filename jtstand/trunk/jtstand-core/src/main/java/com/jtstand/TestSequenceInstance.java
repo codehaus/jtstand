@@ -1118,12 +1118,6 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
         if (bindings != null) {
             bindings.put("sequence", this);
         }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
-        }
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
                 if (tsp.getName().equals(keyString)) {

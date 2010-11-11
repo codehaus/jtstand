@@ -272,12 +272,6 @@ public class Product extends AbstractProperties {
         if (bindings != null) {
             bindings.put("product", this);
         }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
-        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);

@@ -362,7 +362,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public MainFrame(TestStation testStation, String title, String version) throws ScriptException {
         this();
-        testStation.getTestProject().initializeProperties();
         testStation.initializeProperties();
         this.testStation = testStation;
         this.title = title;
@@ -1435,27 +1434,25 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
         if (jSplitPane != null && evt.getSource().equals(jSplitPane)) {
             if (evt.getPropertyName().equals(JSplitPane.DIVIDER_LOCATION_PROPERTY) && !evt.getNewValue().equals((Integer) (-1))) {
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
+//                SwingUtilities.invokeLater(new Runnable() {
+//                    @Override
+//                    public void run() {
 //                        dividerChanged();
                         System.out.println("jSplitPane DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jTable, jSplitPane);
-                    }
-                });
+//                    }
+//                });
             }
         } else if (jSplitPaneSequenceStep != null && evt.getSource().equals(jSplitPaneSequenceStep)) {
             if (evt.getPropertyName().equals(JSplitPane.DIVIDER_LOCATION_PROPERTY) && !evt.getNewValue().equals((Integer) (-1))) {
-                SwingUtilities.invokeLater(new Runnable() {
-
-                    @Override
-                    public void run() {
+//                SwingUtilities.invokeLater(new Runnable() {
+//                    @Override
+//                    public void run() {
 //                        dividerChanged();
                         System.out.println("jSplitPaneSequenceStep DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jXTreeTable, jSplitPaneSequenceStep);
-                    }
-                });
+//                    }
+//                });
             }
         } else if (getTestStation().getTestProject().getAuthentication() != null
                 && evt.getPropertyName().equals(Authentication.OPERATOR_PROPERTY)) {

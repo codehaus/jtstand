@@ -233,14 +233,6 @@ public class TestProject extends AbstractProperties {
     private transient final Object testStationsLock = new Object();
     private transient final Object testLimitsLock = new Object();
 
-    public void initializeProperties() throws ScriptException {
-        for (TestProjectProperty tp : getProperties()) {
-            if (tp.isEager() != null && tp.isEager()) {
-                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
-            }
-        }
-    }
-
     @XmlElement(name = "limit")
     public List<TestProjectLimit> getTestLimits() {
         synchronized (testLimitsLock) {
@@ -743,12 +735,6 @@ public class TestProject extends AbstractProperties {
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("project", this);
-        }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {

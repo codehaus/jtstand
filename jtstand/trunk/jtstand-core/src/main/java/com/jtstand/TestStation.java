@@ -90,9 +90,14 @@ public class TestStation extends AbstractVariables {
     private transient final Object testLimitsLock = new Object();
 
     public void initializeProperties() throws ScriptException {
+        for (TestProjectProperty tp : getTestProject().getProperties()) {
+            if (tp.isEager() != null && tp.isEager()) {
+                put(tp.getName(), tp.getPropertyObject(getBindings()));
+            }
+        }
         for (TestStationProperty tp : properties) {
             if (tp.isEager() != null && tp.isEager()) {
-                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
+                put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
     }
@@ -366,12 +371,6 @@ public class TestStation extends AbstractVariables {
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("station", this);
-        }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
