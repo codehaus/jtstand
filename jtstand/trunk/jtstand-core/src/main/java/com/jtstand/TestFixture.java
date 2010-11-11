@@ -85,15 +85,14 @@ public class TestFixture extends AbstractVariables implements Bindings {
     private transient final Object testTypesLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
-    public void initializeProperties() throws ScriptException {
-        for (TestFixtureProperty tp : properties) {
-            if (tp.isEager() != null && tp.isEager()) {
-                System.out.println("Evaluating eager fixture property: " + tp.getName());
-                put(tp.getName(), tp.getPropertyObject(getBindings()));
-            }
-        }
-    }
-
+//    public void initializeProperties() throws ScriptException {
+//        for (TestFixtureProperty tp : properties) {
+//            if (tp.isEager() != null && tp.isEager()) {
+//                System.out.println("Evaluating eager fixture property: " + tp.getName());
+//                put(tp.getName(), tp.getPropertyObject(getBindings()));
+//            }
+//        }
+//    }
     @XmlElement(name = "limit")
     public List<TestFixtureLimit> getTestLimits() {
         synchronized (testLimitsLock) {
@@ -308,9 +307,9 @@ public class TestFixture extends AbstractVariables implements Bindings {
 
     @Override
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("fixture", this);
-        }
+//        if (bindings != null) {
+//            bindings.put("fixture", this);
+//        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);
@@ -343,11 +342,24 @@ public class TestFixture extends AbstractVariables implements Bindings {
 
     @Override
     public boolean containsKey(Object key) {
-        return "fixture".equals(key)
+        return super.containsKey(key.toString())
+                || "fixture".equals(key)
                 || localVariablesMap.containsKey(key.toString())
                 || containsProperty(key.toString());
     }
 
+//    id
+//    fixtureName
+//    remark
+//    disabled
+//    properties
+//    testLimits
+//    testTypes
+//    testStation
+//    creator
+//    initTypeReference
+//    testFixturePosition
+//    serialNumber
     @Override
     public Object get(Object key) {
         if ("$type$".equals(key)) {
@@ -362,14 +374,38 @@ public class TestFixture extends AbstractVariables implements Bindings {
         if ("id".equals(key)) {
             return id;
         }
-        if ("testStation".equals(key)) {
-            return testStation;
+        if ("fixtureName".equals(key)) {
+            return fixtureName;
+        }
+        if ("remark".equals(key)) {
+            return remark;
+        }
+        if ("disabled".equals(key)) {
+            return disabled;
+        }
+        if ("properties".equals(key)) {
+            return properties;
+        }
+        if ("testLimits".equals(key)) {
+            return testLimits;
         }
         if ("testTypes".equals(key)) {
             return testTypes;
         }
+        if ("testStation".equals(key)) {
+            return testStation;
+        }
+        if ("creator".equals(key)) {
+            return creator;
+        }
+        if ("initTypeReference".equals(key)) {
+            return initTypeReference;
+        }
         if ("position".equals(key)) {
             return testFixturePosition;
+        }
+        if ("serialNumber".equals(key)) {
+            return serialNumber;
         }
 
         if (localVariablesMap.containsKey((String) key)) {
@@ -402,6 +438,7 @@ public class TestFixture extends AbstractVariables implements Bindings {
 
     @Override
     public void clear() {
+        super.clear();
         localVariablesMap.clear();
     }
 
@@ -443,7 +480,6 @@ public class TestFixture extends AbstractVariables implements Bindings {
         }
         throw new IllegalArgumentException("Undefined variable:" + keyString);
     }
-
 //    @Override
 //    public Set<String> getPropertyNames() {
 //        Set<String> propertyNames = new HashSet<String>();

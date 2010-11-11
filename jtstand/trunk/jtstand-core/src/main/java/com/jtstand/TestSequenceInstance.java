@@ -936,7 +936,6 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     }
 
     public void finish() {
-        testStepInstance.dispose();
         setFinishTime(System.currentTimeMillis());
         if (isRunning()) {
             switch (testStepInstance.getStatus()) {
@@ -1020,6 +1019,9 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             }
         } catch (ScriptException ex) {
             Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for(TestStepInstance step:this){
+            step.clear();
         }
     }
 

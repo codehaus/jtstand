@@ -362,7 +362,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public MainFrame(TestStation testStation, String title, String version) throws ScriptException {
         this();
-        testStation.initializeProperties();
+//        testStation.initializeProperties();
         this.testStation = testStation;
         this.title = title;
         this.version = version;
@@ -1438,7 +1438,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                    @Override
 //                    public void run() {
 //                        dividerChanged();
-                        System.out.println("jSplitPane DIVIDER_LOCATION_PROPERTY");
+//                        System.out.println("jSplitPane DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jTable, jSplitPane);
 //                    }
 //                });
@@ -1449,7 +1449,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                    @Override
 //                    public void run() {
 //                        dividerChanged();
-                        System.out.println("jSplitPaneSequenceStep DIVIDER_LOCATION_PROPERTY");
+//                        System.out.println("jSplitPaneSequenceStep DIVIDER_LOCATION_PROPERTY");
                         Util.dividerChanged(jXTreeTable, jSplitPaneSequenceStep);
 //                    }
 //                });

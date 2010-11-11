@@ -114,15 +114,14 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     private transient final Object parentLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
-    public void initializeProperties() throws ScriptException {
-        for (TestStepProperty tp : testStep.getProperties()) {
-            if (tp.isEager() != null && tp.isEager()) {
-                System.out.println("Evaluating eager step property: " + tp.getName());
-                put(tp.getName(), tp.getPropertyObject(getBindings()));
-            }
-        }
-    }
-
+//    public void initializeProperties() throws ScriptException {
+//        for (TestStepProperty tp : testStep.getProperties()) {
+//            if (tp.isEager() != null && tp.isEager()) {
+//                System.out.println("Evaluating eager step property: " + tp.getName());
+//                put(tp.getName(), tp.getPropertyObject(getBindings()));
+//            }
+//        }
+//    }
     public void connect(EntityManager em) throws URISyntaxException, JAXBException, SVNException {
         if (calledTestStep != null && calledTestStep.getId() == null) {
             TestStep ts = testSequenceInstance.getConnectedTestStep(em, calledTestStep);
@@ -951,16 +950,16 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             if (getTestSequenceInstance().isAborted()) {
                 return;
             }
-            try {
-                initializeProperties();
-            } catch (Throwable ex) {
-                failureCode = ex.getMessage();
-                System.out.println("failureCode: " + failureCode);
-                if (!isAborted()) {
-                    setStatus(StepStatus.FAILED);
-                }
-                continue;
-            }
+//            try {
+//                initializeProperties();
+//            } catch (Throwable ex) {
+//                failureCode = ex.getMessage();
+//                System.out.println("failureCode: " + failureCode);
+//                if (!isAborted()) {
+//                    setStatus(StepStatus.FAILED);
+//                }
+//                continue;
+//            }
             if (!steps.isEmpty()) {
                 ThreadGroup group = new ThreadGroup(getName());
                 if (isParallel()) {
@@ -1517,7 +1516,8 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     @Override
     public boolean containsKey(Object key) {
-        return "value".equals(key)
+        return super.containsKey(key.toString())
+                || "value".equals(key)
                 || "step".equals(key)
                 || localVariablesMap.containsKey(key.toString())
                 || containsProperty(key.toString());
@@ -1626,7 +1626,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     @Override
     public void clear() {
-        /* we cannot support the clear, because 'value' cannot be removed */
+        super.clear();
         localVariablesMap.clear();
     }
 

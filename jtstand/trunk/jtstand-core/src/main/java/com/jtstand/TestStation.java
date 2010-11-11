@@ -90,21 +90,20 @@ public class TestStation extends AbstractVariables implements Bindings {
     private transient final Object testLimitsLock = new Object();
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
-    public void initializeProperties() throws ScriptException {
-        for (TestProjectProperty tp : getTestProject().getProperties()) {
-            if (tp.isEager() != null && tp.isEager()) {
-                System.out.println("Evaluating eager project property: " + tp.getName());
-                put(tp.getName(), tp.getPropertyObject(getBindings()));
-            }
-        }
-        for (TestStationProperty tp : properties) {
-            if (tp.isEager() != null && tp.isEager()) {
-                System.out.println("Evaluating eager station property: " + tp.getName());
-                put(tp.getName(), tp.getPropertyObject(getBindings()));
-            }
-        }
-    }
-
+//    public void initializeProperties() throws ScriptException {
+//        for (TestProjectProperty tp : getTestProject().getProperties()) {
+//            if (tp.isEager() != null && tp.isEager()) {
+//                System.out.println("Evaluating eager project property: " + tp.getName());
+//                put(tp.getName(), tp.getPropertyObject(getBindings()));
+//            }
+//        }
+//        for (TestStationProperty tp : properties) {
+//            if (tp.isEager() != null && tp.isEager()) {
+//                System.out.println("Evaluating eager station property: " + tp.getName());
+//                put(tp.getName(), tp.getPropertyObject(getBindings()));
+//            }
+//        }
+//    }
     @XmlElement(name = "limit")
     public List<TestStationLimit> getTestLimits() {
         synchronized (testLimitsLock) {
@@ -368,9 +367,9 @@ public class TestStation extends AbstractVariables implements Bindings {
 
     @Override
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("station", this);
-        }
+//        if (bindings != null) {
+//            bindings.put("station", this);
+//        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);
@@ -437,7 +436,8 @@ public class TestStation extends AbstractVariables implements Bindings {
 
     @Override
     public boolean containsKey(Object key) {
-        return "station".equals(key)
+        return super.containsKey(key.toString())
+                || "station".equals(key)
                 || localVariablesMap.containsKey(key.toString())
                 || containsProperty(key.toString());
     }
@@ -458,6 +458,27 @@ public class TestStation extends AbstractVariables implements Bindings {
         }
         if ("position".equals(key)) {
             return testStationPosition;
+        }
+        if ("hostName".equals(key)) {
+            return hostName;
+        }
+        if ("remark".equals(key)) {
+            return remark;
+        }
+        if ("properties".equals(key)) {
+            return properties;
+        }
+        if ("testLimits".equals(key)) {
+            return testLimits;
+        }
+        if ("creator".equals(key)) {
+            return creator;
+        }
+        if ("testProject".equals(key)) {
+            return testProject;
+        }
+        if ("fixtures".equals(key)) {
+            return fixtures;
         }
         if (localVariablesMap.containsKey((String) key)) {
             return localVariablesMap.get((String) key);
@@ -489,6 +510,7 @@ public class TestStation extends AbstractVariables implements Bindings {
 
     @Override
     public void clear() {
+        super.clear();
         localVariablesMap.clear();
     }
 

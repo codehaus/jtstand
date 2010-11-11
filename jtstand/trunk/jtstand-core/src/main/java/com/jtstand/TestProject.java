@@ -218,7 +218,7 @@ public class TestProject extends AbstractProperties {
     @OrderBy("productPosition ASC")
     private List<Product> products = new ArrayList<Product>();
     @OneToMany(cascade = CascadeType.ALL, mappedBy = TEST_PROJECT)
-    @OrderBy("testStationsPosition ASC")
+    @OrderBy("testStationPosition ASC")
     private List<TestStation> testStations = new ArrayList<TestStation>();
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "testProject")
     private Authentication authentication;
@@ -736,9 +736,9 @@ public class TestProject extends AbstractProperties {
 
     @Override
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("project", this);
-        }
+//        if (bindings != null) {
+//            bindings.put("project", this);
+//        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);

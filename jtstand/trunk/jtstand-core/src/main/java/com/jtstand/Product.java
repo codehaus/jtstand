@@ -272,9 +272,9 @@ public class Product extends AbstractProperties {
 
     @Override
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("product", this);
-        }
+//        if (bindings != null) {
+//            bindings.put("product", this);
+//        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);

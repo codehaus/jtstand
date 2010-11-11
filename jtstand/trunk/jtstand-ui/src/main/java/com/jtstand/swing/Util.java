@@ -57,7 +57,7 @@ public class Util {
 
     public static void setDividerLocation(JSplitPane jSplitPane, JXTable jTable) {
         int pref = getPref(jSplitPane);//jSplitPane.getTopComponent().getPreferredSize().height + jSplitPane.getInsets().top;
-        System.out.println("TopComponent preferred: " + pref + "   Current divider location: " + jSplitPane.getDividerLocation());
+//        System.out.println("TopComponent preferred: " + pref + "   Current divider location: " + jSplitPane.getDividerLocation());
         if (jSplitPane.getDividerLocation() != pref) {
             jSplitPane.setDividerLocation(pref);
             scrollSelectedRowToVisible(jTable);

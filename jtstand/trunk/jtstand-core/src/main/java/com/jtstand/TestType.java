@@ -227,9 +227,9 @@ public class TestType extends AbstractProperties {
 
     @Override
     public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("testType", this);
-        }
+//        if (bindings != null) {
+//            bindings.put("testType", this);
+//        }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
                 return tsp.getPropertyObject(bindings);

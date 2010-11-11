@@ -52,16 +52,16 @@ abstract public class AbstractVariables extends AbstractProperties {
 
     public void dispose() {
         synchronized (variableLock) {
-//            for (Object o : variables.values()) {
-//                TestStepScript.callDispose(o);
-//            }
             Object[] vars = variablesMap.values().toArray();
             for (int i = vars.length - 1; i >= 0; i--) {
                 TestStepScript.disposeOrClose(vars[i]);
             }
-            variablesMap.clear();
             lockerThreads.clear();
         }
+    }
+
+    public void clear() {
+        variablesMap.clear();
     }
 
     /*
