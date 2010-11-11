@@ -49,7 +49,7 @@ import java.sql.Statement;
 import java.util.*;
 import java.util.logging.Logger;
 import javax.script.Bindings;
-import javax.script.SimpleBindings;
+import javax.script.ScriptContext;
 
 /**
  *
@@ -58,7 +58,7 @@ import javax.script.SimpleBindings;
 @Entity
 @XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "fixtures"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStation extends AbstractVariables {
+public class TestStation extends AbstractVariables implements Bindings {
 
     private static final Logger LOGGER = Logger.getLogger(TestStation.class.getCanonicalName());
     @Id
@@ -82,21 +82,24 @@ public class TestStation extends AbstractVariables {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "testStation")
     @OrderBy("testFixturePosition ASC")
     private List<TestFixture> fixtures = new ArrayList<TestFixture>();
-    private int testStationsPosition;
+    private int testStationPosition;
     private static EntityManagerFactory entityManagerFactory;
     private transient final Object propertiesLock = new Object();
 //    private transient final Object testTypesLock = new Object();
     private transient final Object testFixturesLock = new Object();
     private transient final Object testLimitsLock = new Object();
+    private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
     public void initializeProperties() throws ScriptException {
         for (TestProjectProperty tp : getTestProject().getProperties()) {
             if (tp.isEager() != null && tp.isEager()) {
+                System.out.println("Evaluating eager project property: " + tp.getName());
                 put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
         for (TestStationProperty tp : properties) {
             if (tp.isEager() != null && tp.isEager()) {
+                System.out.println("Evaluating eager station property: " + tp.getName());
                 put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
@@ -206,11 +209,11 @@ public class TestStation extends AbstractVariables {
 
     @XmlTransient
     public int getPosition() {
-        return testStationsPosition;
+        return testStationPosition;
     }
 
     public void setPosition(int position) {
-        this.testStationsPosition = position;
+        this.testStationPosition = position;
     }
 
     @XmlTransient
@@ -360,11 +363,7 @@ public class TestStation extends AbstractVariables {
 
     @Override
     public Bindings getBindings() {
-        if (bindings == null) {
-            bindings = new SimpleBindings();
-            bindings.put("station", this);
-        }
-        return bindings;
+        return this;
     }
 
     @Override
@@ -427,6 +426,79 @@ public class TestStation extends AbstractVariables {
         String pp = "jdbc:" + getDriver().toString() + ":";
         System.out.println("Persistence protocol: " + pp);
         return pp;
+    }
+
+    @Override
+    public void putAll(Map<? extends String, ? extends Object> toMerge) {
+        for (Entry<? extends String, ? extends Object> variableEntry : toMerge.entrySet()) {
+            put(variableEntry.getKey(), variableEntry.getValue());
+        }
+    }
+
+    @Override
+    public boolean containsKey(Object key) {
+        return "station".equals(key)
+                || localVariablesMap.containsKey(key.toString())
+                || containsProperty(key.toString());
+    }
+
+    @Override
+    public Object get(Object key) {
+        if ("$type$".equals(key)) {
+            return getClass().getName();
+        }
+        if ("context".equals(key)) {
+            return ScriptContext.ENGINE_SCOPE;
+        }
+        if ("id".equals(key)) {
+            return id;
+        }
+        if ("testStation".equals(key)) {
+            return this;
+        }
+        if ("position".equals(key)) {
+            return testStationPosition;
+        }
+        if (localVariablesMap.containsKey((String) key)) {
+            return localVariablesMap.get((String) key);
+        }
+        try {
+            return getVariable((String) key);
+        } catch (ScriptException ex) {
+            Logger.getLogger(TestFixture.class.getName()).log(Level.SEVERE, null, ex);
+            throw new IllegalStateException(ex.getMessage());
+        } catch (InterruptedException ex) {
+            throw new IllegalStateException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public Object remove(Object key) {
+        return localVariablesMap.remove((String) key);
+    }
+
+    @Override
+    public int size() {
+        return keySet().size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+        localVariablesMap.clear();
+    }
+
+    @Override
+    public Set<Entry<String, Object>> entrySet() {
+        Set<Entry<String, Object>> entries = new HashSet<Entry<String, Object>>();
+        for (String key : keySet()) {
+            entries.add(new HashMap.SimpleEntry(key, get(key)));
+        }
+        return entries;
     }
 
     public static enum Driver {
@@ -726,5 +798,62 @@ public class TestStation extends AbstractVariables {
     @XmlTransient
     public File getSavedErrorDirectory() throws ScriptException {
         return getDirectoryParameter(STR_SAVED_ERROR_DIRECTORY, STR_SAVED_ERROR_DIRECTORY_DEFAULT);
+    }
+
+    public boolean containsProperty(String key) {
+        if ("station".equals(key)) {
+            return true;
+        }
+        for (TestProperty tsp : getProperties()) {
+            if (tsp.getName().equals(key)) {
+                return true;
+            }
+        }
+        return getTestProject().containsProperty(key);
+    }
+
+    public Object getVariable(String keyString) throws InterruptedException, ScriptException {
+        for (TestStationProperty tsp : getProperties()) {
+            if (tsp.getName().equals(keyString)) {
+                return getVariable(keyString, tsp, this);
+            }
+        }
+        if (getTestProject() != null) {
+            for (TestProjectProperty tsp : getTestProject().getProperties()) {
+                if (tsp.getName().equals(keyString)) {
+                    return getVariable(keyString, tsp, this);
+                }
+            }
+        }
+        if ("out".equals(keyString)) {
+            return System.out;
+        }
+        throw new IllegalArgumentException("Undefined variable:" + keyString);
+    }
+
+    @Override
+    public Set<String> keySet() {
+        Set<String> keys = super.keySet();
+        keys.add("fixture");
+        keys.addAll(localVariablesMap.keySet());
+        return keys;
+    }
+
+//    @Override
+//    public Set<String> getPropertyNames() {
+//        Set<String> propertyNames = new HashSet<String>();
+//        for (TestProperty tp : getProperties()) {
+//            propertyNames.add(tp.getName());
+//        }
+//        return propertyNames;
+//    }
+    @Override
+    public boolean containsValue(Object value) {
+        for (String key : keySet()) {
+            if (value.equals(get(key))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

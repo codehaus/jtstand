@@ -20,8 +20,10 @@ package com.jtstand;
 
 import javax.script.ScriptException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import java.util.StringTokenizer;
 import javax.script.Bindings;
 import javax.script.SimpleBindings;
@@ -212,6 +214,7 @@ public class TestType extends AbstractProperties {
         }
         return true;
     }
+    protected transient Bindings bindings;
 
     @Override
     public Bindings getBindings() {
@@ -292,4 +295,13 @@ public class TestType extends AbstractProperties {
         }
         return true;
     }
+
+//    @Override
+//    public Set<String> getPropertyNames() {
+//        Set<String> propertyNames = new HashSet<String>();
+//        for (TestProperty tp : getProperties()) {
+//            propertyNames.add(tp.getName());
+//        }
+//        return propertyNames;
+//    }
 }

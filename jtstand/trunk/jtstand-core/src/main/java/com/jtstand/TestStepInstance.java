@@ -117,6 +117,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     public void initializeProperties() throws ScriptException {
         for (TestStepProperty tp : testStep.getProperties()) {
             if (tp.isEager() != null && tp.isEager()) {
+                System.out.println("Evaluating eager step property: " + tp.getName());
                 put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
@@ -1143,9 +1144,9 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if (parent != null) {
             parent.abort(thread);
         }
-        if (getTestSequenceInstance() != null) {
-            getTestSequenceInstance().abort(thread);
-        }
+//        if (getTestSequenceInstance() != null) {
+//            getTestSequenceInstance().abort(thread);
+//        }
     }
 
     @Override
@@ -1182,7 +1183,62 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if (getParent() != null) {
             return getParent().getPropertyObjectUsingBindings(keyString, bindings);
         }
-        return getTestSequenceInstance().getPropertyObjectUsingBindings(keyString, bindings);
+        if (getTestSequenceInstance() != null) {
+            if (getTestSequenceInstance().getTestType() != null) {
+                for (TestProperty tsp : getTestSequenceInstance().getTestType().getProperties()) {
+                    if (tsp.getName().equals(keyString)) {
+                        return tsp.getPropertyObject(bindings);
+                    }
+                }
+                if (getTestSequenceInstance().getTestType().getProduct() != null) {
+                    for (TestProperty tsp : getTestSequenceInstance().getTestType().getProduct().getProperties()) {
+                        if (tsp.getName().equals(keyString)) {
+                            return tsp.getPropertyObject(bindings);
+                        }
+                    }
+                }
+            }
+            if (getTestSequenceInstance().getTestFixture() != null) {
+                for (TestProperty tsp : getTestSequenceInstance().getTestFixture().getProperties()) {
+                    if (tsp.getName().equals(keyString)) {
+                        return tsp.getPropertyObject(bindings);
+                    }
+                }
+            }
+            if (getTestSequenceInstance().getTestStation() != null) {
+                for (TestProperty tsp : getTestSequenceInstance().getTestStation().getProperties()) {
+                    if (tsp.getName().equals(keyString)) {
+                        return tsp.getPropertyObject(bindings);
+                    }
+                }
+            }
+            if (getTestSequenceInstance().getTestProject() != null) {
+                for (TestProperty tsp : getTestSequenceInstance().getTestProject().getProperties()) {
+                    if (tsp.getName().equals(keyString)) {
+                        return tsp.getPropertyObject(bindings);
+                    }
+                }
+            }
+        }
+        try {
+            String prop = System.getProperty(keyString);
+            if (prop != null) {
+                return prop;
+            }
+        } catch (IllegalArgumentException ex1) {
+            ex1.printStackTrace();
+        } catch (SecurityException ex2) {
+            ex2.printStackTrace();
+        }
+        try {
+            return System.getenv(keyString);
+        } catch (IllegalArgumentException ex1) {
+            ex1.printStackTrace();
+        } catch (SecurityException ex2) {
+            ex2.printStackTrace();
+        }
+        return null;
+
     }
 
     @Override
@@ -1219,9 +1275,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     }
 
     public boolean containsProperty(String key) {
-        if (bindings != null && bindings.containsKey(key)) {
-            return true;
-        }
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(key)) {
@@ -1242,7 +1295,21 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             return getParent().containsProperty(key);
         }
         if (getTestSequenceInstance() != null) {
-            return getTestSequenceInstance().containsProperty(key);
+            if (getTestSequenceInstance().getTestType() != null) {
+                for (TestProperty tsp : getTestSequenceInstance().getTestType().getProperties()) {
+                    if (tsp.getName().equals(key)) {
+                        return true;
+                    }
+                }
+                if (getTestSequenceInstance().getTestType().getProduct() != null) {
+                    for (TestProperty tsp : getTestSequenceInstance().getTestType().getProduct().getProperties()) {
+                        if (tsp.getName().equals(key)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return getTestSequenceInstance().getTestFixture().containsProperty(key);
         }
         return false;
     }
@@ -1319,12 +1386,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             }
         } else {
             System.err.println("getVariable : testSequenceInstance is null!");
-        }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
         }
         throw new IllegalArgumentException("Undefined variable:" + keyString);
     }
@@ -1460,7 +1521,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 || "step".equals(key)
                 || localVariablesMap.containsKey(key.toString())
                 || containsProperty(key.toString());
-        // null != getVariable(key.toString());
     }
 
 //    public boolean containsKeyPublic(Object key) {
@@ -1555,7 +1615,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     @Override
     public boolean containsValue(Object value) {
-        System.out.println("containsValue of Bindings is called");
+//        System.out.println("containsValue of Bindings is called");
         for (String key : keySet()) {
             if (value.equals(get(key))) {
                 return true;
@@ -1567,13 +1627,12 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     @Override
     public void clear() {
         /* we cannot support the clear, because 'value' cannot be removed */
-        //throw new UnsupportedOperationException("'clear' operation is not supported.");
         localVariablesMap.clear();
     }
 
     @Override
     public Set<String> keySet() {
-        System.out.println("keySet of Bindings is called");
+//        System.out.println("keySet of Bindings is called");
         Set<String> keys = keySetPublic();
         keys.add("value");
         keys.add("step");
@@ -1588,7 +1647,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             TestSequenceInstance seq = getTestSequenceInstance();
             if (seq != null) {
-                keys.addAll(seq.keySet());
                 if (seq.getTestFixture() != null) {
                     keys.addAll(seq.getTestFixture().keySet());
                 }

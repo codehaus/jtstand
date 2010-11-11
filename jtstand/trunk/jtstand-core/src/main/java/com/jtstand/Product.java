@@ -20,8 +20,10 @@ package com.jtstand;
 
 import javax.script.ScriptException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -257,6 +259,7 @@ public class Product extends AbstractProperties {
     public String toString() {
         return getPartNumber() + "@" + getPartRevision();
     }
+    protected transient Bindings bindings;
 
     @Override
     public Bindings getBindings() {
@@ -291,4 +294,13 @@ public class Product extends AbstractProperties {
         }
         return false;
     }
+
+//    @Override
+//    public Set<String> getPropertyNames() {
+//        Set<String> propertyNames = new HashSet<String>();
+//        for (TestProperty tp : getProperties()) {
+//            propertyNames.add(tp.getName());
+//        }
+//        return propertyNames;
+//    }
 }

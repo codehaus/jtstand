@@ -43,6 +43,7 @@ public class StarterProperties extends AbstractProperties {
     public StarterProperties(StarterInterface si) {
         this.si = si;
     }
+    protected transient Bindings bindings;
 
     @Override
     public Bindings getBindings() {

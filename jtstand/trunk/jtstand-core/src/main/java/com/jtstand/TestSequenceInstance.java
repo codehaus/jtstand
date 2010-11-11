@@ -39,6 +39,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,7 +73,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement(name = "sequence")
 @XmlType(name = "testSequenceInstanceType", propOrder = {"testProjectFileRevision", "serialNumber", "employeeNumber", "hostName", "fixtureName", "testTypeReference", "createDate", "finishDate", "status", "failureCode", "testSequenceFileRevision", "testStepInstance"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestSequenceInstance extends AbstractVariables implements Runnable, Iterable<TestStepInstance> {
+public class TestSequenceInstance extends AbstractProperties implements Runnable, Iterable<TestStepInstance> {
 
     public static final String STR_FIXTURE = "fixture";
     public static final String STR_STATION = "station";
@@ -337,6 +338,16 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
 
     public void setTestType(TestType testType) {
         this.testType = testType;
+    }
+
+    @Override
+    public Bindings getBindings() {
+        return testStepInstance;
+    }
+
+    @Override
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings binding) throws ScriptException {
+        return testStepInstance.getPropertyObjectUsingBindings(keyString, binding);
     }
 
     public static enum PersistingPolicy {
@@ -790,7 +801,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
 //            System.out.println("setupstep: " + testSequence.getSetupStep());
             setTestStepInstance(new TestStepInstance(testSequence, this));
         }
-        setPersistingPolicy(PersistingPolicy.valueOf(getPropertyString(TestProject.STR_PERSISTING_POLICY, PersistingPolicy.NEVER.toString())));
+        setPersistingPolicy(PersistingPolicy.valueOf(testStepInstance.getPropertyString(TestProject.STR_PERSISTING_POLICY, PersistingPolicy.NEVER.toString())));
 //        logger.log(Level.INFO, "PersistingPolicy: " + getPersistingPolicy());
     }
 //    public TestSequenceInstance factory() throws JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException, IOException{
@@ -925,7 +936,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
     }
 
     public void finish() {
-        dispose();
+        testStepInstance.dispose();
         setFinishTime(System.currentTimeMillis());
         if (isRunning()) {
             switch (testStepInstance.getStatus()) {
@@ -938,7 +949,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
                 case ABORTED:
                 case PENDING:
                     try {
-                        Object o = getPropertyObject(STR_ON_ABORT);
+                        Object o = testStepInstance.getPropertyObject(STR_ON_ABORT);
                         if (o instanceof AbstractTestSequenceInstanceProcessor) {
                             ((AbstractTestSequenceInstanceProcessor) o).process(this);
                         }
@@ -983,7 +994,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
         switch (getStatus()) {
             case FAILED:
                 try {
-                    Object o = getPropertyObject(STR_ON_FAIL);
+                    Object o = testStepInstance.getPropertyObject(STR_ON_FAIL);
                     if (o instanceof AbstractTestSequenceInstanceProcessor) {
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
@@ -993,7 +1004,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
                 break;
             case PASSED:
                 try {
-                    Object o = getPropertyObject(STR_ON_PASS);
+                    Object o = testStepInstance.getPropertyObject(STR_ON_PASS);
                     if (o instanceof AbstractTestSequenceInstanceProcessor) {
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
@@ -1003,7 +1014,7 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
                 break;
         }
         try {
-            Object o = getPropertyObject(STR_ON_FINISH);
+            Object o = testStepInstance.getPropertyObject(STR_ON_FINISH);
             if (o instanceof AbstractTestSequenceInstanceProcessor) {
                 ((AbstractTestSequenceInstanceProcessor) o).process(this);
             }
@@ -1050,136 +1061,113 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
     public boolean isSequenceActive() {
         return isRunning() || isStepByStep();
     }
+//    protected transient Bindings bindings;
 
-    @Override
-    @XmlTransient
-    public Bindings getBindings() {
-        if (bindings == null) {
-            bindings = new SimpleBindings();
-            bindings.put("sequence", this);
-        }
-        return bindings;
-    }
-
-    public boolean containsProperty(String key) {
-        if ("sequence".equals(key)) {
-            return true;
-        }
-        if (bindings != null && bindings.containsKey(key)) {
-            return true;
-        }
-        if (getTestSequence() != null) {
-            for (TestProperty tsp : getTestSequence().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    return true;
-                }
-            }
-        }
-        if (getTestType() != null) {
-            for (TestProperty tsp : getTestType().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    return true;
-                }
-            }
-            if (getTestType().getProduct() != null) {
-                for (TestProperty tsp : getTestType().getProduct().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        if (getTestFixture() != null) {
-            for (TestProperty tsp : getTestFixture().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    return true;
-                }
-            }
-        }
-        if (getTestStation() != null) {
-            for (TestProperty tsp : getTestStation().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    return true;
-                }
-            }
-        }
-        if (getTestProject() != null) {
-            for (TestProperty tsp : getTestProject().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
-        if (bindings != null) {
-            bindings.put("sequence", this);
-        }
-        if (getTestSequence() != null) {
-            for (TestProperty tsp : getTestSequence().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(bindings);
-                }
-            }
-        }
-        if (getTestType() != null) {
-            for (TestProperty tsp : getTestType().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(bindings);
-                }
-            }
-            if (getTestType().getProduct() != null) {
-                for (TestProperty tsp : getTestType().getProduct().getProperties()) {
-                    if (tsp.getName().equals(keyString)) {
-                        return tsp.getPropertyObject(bindings);
-                    }
-                }
-            }
-        }
-        if (getTestFixture() != null) {
-            for (TestProperty tsp : getTestFixture().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(bindings);
-                }
-            }
-        }
-        if (getTestStation() != null) {
-            for (TestProperty tsp : getTestStation().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(bindings);
-                }
-            }
-        }
-        if (getTestProject() != null) {
-            for (TestProperty tsp : getTestProject().getProperties()) {
-                if (tsp.getName().equals(keyString)) {
-                    return tsp.getPropertyObject(bindings);
-                }
-            }
-        }
-        try {
-            String prop = System.getProperty(keyString);
-            if (prop != null) {
-                return prop;
-            }
-        } catch (IllegalArgumentException ex1) {
-            ex1.printStackTrace();
-        } catch (SecurityException ex2) {
-            ex2.printStackTrace();
-        }
-        try {
-            return System.getenv(keyString);
-        } catch (IllegalArgumentException ex1) {
-            ex1.printStackTrace();
-        } catch (SecurityException ex2) {
-            ex2.printStackTrace();
-        }
-        return null;
-    }
-
+//    @Override
+//    @XmlTransient
+//    public Bindings getBindings() {
+//        if (bindings == null) {
+//            bindings = new SimpleBindings();
+//            bindings.put("sequence", this);
+//        }
+//        return bindings;
+//    }
+//    public boolean containsProperty(String key) {
+//        if ("sequence".equals(key)) {
+//            return true;
+//        }
+//        if (bindings != null && bindings.containsKey(key)) {
+//            return true;
+//        }
+//        if (getTestSequence() != null) {
+//            for (TestProperty tsp : getTestSequence().getProperties()) {
+//                if (tsp.getName().equals(key)) {
+//                    return true;
+//                }
+//            }
+//        }
+//        if (getTestType() != null) {
+//            for (TestProperty tsp : getTestType().getProperties()) {
+//                if (tsp.getName().equals(key)) {
+//                    return true;
+//                }
+//            }
+//            if (getTestType().getProduct() != null) {
+//                for (TestProperty tsp : getTestType().getProduct().getProperties()) {
+//                    if (tsp.getName().equals(key)) {
+//                        return true;
+//                    }
+//                }
+//            }
+//        }
+//        return getTestFixture().containsProperty(key);
+//    }
+//    @Override
+//    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
+//        if (bindings != null) {
+//            bindings.put("sequence", this);
+//        }
+//        if (getTestSequence() != null) {
+//            for (TestProperty tsp : getTestSequence().getProperties()) {
+//                if (tsp.getName().equals(keyString)) {
+//                    return tsp.getPropertyObject(bindings);
+//                }
+//            }
+//        }
+//        if (getTestType() != null) {
+//            for (TestProperty tsp : getTestType().getProperties()) {
+//                if (tsp.getName().equals(keyString)) {
+//                    return tsp.getPropertyObject(bindings);
+//                }
+//            }
+//            if (getTestType().getProduct() != null) {
+//                for (TestProperty tsp : getTestType().getProduct().getProperties()) {
+//                    if (tsp.getName().equals(keyString)) {
+//                        return tsp.getPropertyObject(bindings);
+//                    }
+//                }
+//            }
+//        }
+//        if (getTestFixture() != null) {
+//            for (TestProperty tsp : getTestFixture().getProperties()) {
+//                if (tsp.getName().equals(keyString)) {
+//                    return tsp.getPropertyObject(bindings);
+//                }
+//            }
+//        }
+//        if (getTestStation() != null) {
+//            for (TestProperty tsp : getTestStation().getProperties()) {
+//                if (tsp.getName().equals(keyString)) {
+//                    return tsp.getPropertyObject(bindings);
+//                }
+//            }
+//        }
+//        if (getTestProject() != null) {
+//            for (TestProperty tsp : getTestProject().getProperties()) {
+//                if (tsp.getName().equals(keyString)) {
+//                    return tsp.getPropertyObject(bindings);
+//                }
+//            }
+//        }
+//        try {
+//            String prop = System.getProperty(keyString);
+//            if (prop != null) {
+//                return prop;
+//            }
+//        } catch (IllegalArgumentException ex1) {
+//            ex1.printStackTrace();
+//        } catch (SecurityException ex2) {
+//            ex2.printStackTrace();
+//        }
+//        try {
+//            return System.getenv(keyString);
+//        } catch (IllegalArgumentException ex1) {
+//            ex1.printStackTrace();
+//        } catch (SecurityException ex2) {
+//            ex2.printStackTrace();
+//        }
+//        return null;
+//    }
     @XmlTransient
     public String getFileName() {
         Calendar cal = Calendar.getInstance();
@@ -1408,4 +1396,12 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
         }
         super.finalize();
     }
+//    @Override
+//    public Set<String> getPropertyNames() {
+//        Set<String> propertyNames = new HashSet<String>();
+//        for (TestProperty tp : getProperties()) {
+//            propertyNames.add(tp.getName());
+//        }
+//        return propertyNames;
+//    }
 }

@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import javax.script.Bindings;
 import javax.script.ScriptException;
 
 /**
@@ -60,6 +61,23 @@ abstract public class AbstractVariables extends AbstractProperties {
             }
             variablesMap.clear();
             lockerThreads.clear();
+        }
+    }
+
+    /*
+     * when running evaluations outside of steps
+     */
+    public Object getVariable(String keyString, TestProperty tsp, Bindings bindings) throws InterruptedException, ScriptException {
+        synchronized (variableLock) {
+            Object v = variablesMap.get(keyString);
+            if (v != null) {
+                return v;
+            }
+            v = tsp.getPropertyObject(bindings);
+            if (v != null) {
+                put(keyString, v);
+            }
+            return v;
         }
     }
 

@@ -18,6 +18,7 @@
  */
 package com.jtstand;
 
+import java.util.Set;
 import javax.script.ScriptException;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
@@ -34,6 +35,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -721,6 +723,7 @@ public class TestProject extends AbstractProperties {
         }
         throw new IllegalArgumentException("Station configuration cannot be found for host: " + hostName);
     }
+    protected transient Bindings bindings;
 
     @Override
     public Bindings getBindings() {
@@ -792,4 +795,28 @@ public class TestProject extends AbstractProperties {
         }
         return false;
     }
+
+    public boolean containsProperty(String key) {
+        if ("project".equals(key)) {
+            return true;
+        }
+        if (bindings != null && bindings.containsKey(key)) {
+            return true;
+        }
+        for (TestProperty tsp : getProperties()) {
+            if (tsp.getName().equals(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+//    @Override
+//    public Set<String> getPropertyNames() {
+//        Set<String> propertyNames = new HashSet<String>();
+//        for (TestProperty tp : getProperties()) {
+//            propertyNames.add(tp.getName());
+//        }
+//        return propertyNames;
+//    }
 }
