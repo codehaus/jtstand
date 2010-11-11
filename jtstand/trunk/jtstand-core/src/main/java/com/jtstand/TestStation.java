@@ -878,4 +878,10 @@ public class TestStation extends AbstractVariables implements Bindings {
         }
         return false;
     }
+
+    @Override
+    public Object put(String name, Object value) {
+//        System.out.println("putting to station variable: '" + name + "' value: " + value);
+        return super.put(name, value);
+    }
 }

@@ -96,7 +96,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         synchronized (jaxbLock) {
             testSequenceInstance = (TestSequenceInstance) getUnmarshaller().unmarshal(file);
         }
-        System.out.println("Unmarshalled testSequenceInstance:" + testSequenceInstance);
+//        System.out.println("Unmarshalled testSequenceInstance:" + testSequenceInstance);
         return testSequenceInstance;
     }
 
@@ -464,7 +464,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     private void connect(EntityManager em)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
         long startTime = System.currentTimeMillis();
-        System.out.println("Connect...");
+//        System.out.println("Connect...");
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());
             if (tp != null) {
@@ -518,25 +518,25 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             System.err.println("Corrupt creator of testSequence");
         }
 
-        System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//        System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
     }
 
     public boolean merge(EntityManager em) {
         long startTransaction = System.currentTimeMillis();
 //        synchronized (jaxbLock) {
-        System.out.println("Merge...");
+//        System.out.println("Merge...");
         try {
             em.getTransaction().begin();
             connect(em);
-            System.out.println("Merging testSequenceInstance...");
+//            System.out.println("Merging testSequenceInstance...");
 //            String filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path before:" + filePath);
             em.merge(this);
-            System.out.println("Merging testSequenceInstance, committing Transaction...");
+//            System.out.println("Merging testSequenceInstance, committing Transaction...");
             em.getTransaction().commit();
 //            filePath = getTestProjectFileRevision().getFile() == null ? null : getTestProjectFileRevision().getFile().getPath();
 //            System.out.println("project file path after:" + filePath);
-            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+//            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);

@@ -119,7 +119,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         synchronized (lock) {
             int rc = jTable.getRowCount();
             int vrc = jTable.getVisibleRowCount();
-            System.out.println("Sequences Model row count: " + jTable.getModel().getRowCount() + "   Table row count: " + rc + "   Visible row count: " + vrc);
+//            System.out.println("Sequences Model row count: " + jTable.getModel().getRowCount() + "   Table row count: " + rc + "   Visible row count: " + vrc);
             if (vrc > rc || vrc < 3 && vrc != rc) {
                 Util.setVisibleRowCount(jTable, Math.min(rc, 3), jSplitPane);
 //                Util.setDividerLocation(jSplitPane, jTable);
@@ -681,13 +681,13 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     @Override
     public TestSequenceInstance replace(long createTime, String host) {
-        System.out.println("Replacing: " + createTime + " " + host);
+//        System.out.println("Replacing: " + createTime + " " + host);
         if (!isMemoryEnough()) {
             System.out.println("Not enough memory to replace.");
             return null;
         }
         if (getSequence(createTime, host) == null) {
-            System.out.println("There is no candidate to replace.");
+//            System.out.println("There is no candidate to replace.");
             return null;
         }
         TestSequenceInstance seq = super.replace(createTime, host);

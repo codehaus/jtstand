@@ -61,7 +61,7 @@ public class GeneralQuery implements Runnable {
         } catch (InterruptedException ex) {
             Logger.getLogger(GeneralQuery.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(getClass().getCanonicalName() + " took " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//        System.out.println(getClass().getCanonicalName() + " took " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
     }
 
     @Override

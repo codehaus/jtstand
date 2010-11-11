@@ -260,7 +260,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
                         ? ""
                         : testSequenceInstance.getInteractionMessage());
                 ((CardLayout) (getLayout())).show(this, "interactive");
-                System.out.println("Fixture is showing interactive");
+                System.out.println("Fixture '" + getName() + "' is showing interactive");
                 break;
         }
         setBackground();

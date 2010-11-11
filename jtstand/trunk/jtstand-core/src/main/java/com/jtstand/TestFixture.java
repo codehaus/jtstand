@@ -480,6 +480,13 @@ public class TestFixture extends AbstractVariables implements Bindings {
         }
         throw new IllegalArgumentException("Undefined variable:" + keyString);
     }
+
+    @Override
+    public Object put(String name, Object value) {
+//        System.out.println("putting to fixture variable: '" + name + "' value: " + value);
+        return super.put(name,value);
+    }
+
 //    @Override
 //    public Set<String> getPropertyNames() {
 //        Set<String> propertyNames = new HashSet<String>();

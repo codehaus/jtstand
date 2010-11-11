@@ -104,7 +104,7 @@ public class ToDatabase extends Thread {
 //                        seq.connect(em);
                         if (seq.merge(em)) {
                             if (model != null) {
-                                System.out.println("Replace...");
+//                                System.out.println("Replace...");
                                 model.replace(seq.getCreateTime(), seq.getHostName());
                             }
                             if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {

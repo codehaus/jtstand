@@ -68,7 +68,7 @@ public class Util {
         if (rows < 0) {
             return;
         }
-        System.out.println(jTable.getName() + " setVisibleRowCount:" + rows);
+//        System.out.println(jTable.getName() + " setVisibleRowCount:" + rows);
         jTable.setVisibleRowCount(rows);
 //        Dimension d = new Dimension(table.getPreferredScrollableViewportSize().width, getHeight(table, rows));
 //        System.out.println("setting table preferred scrollable viewport size:" + d);
