@@ -18,6 +18,8 @@
  */
 package com.jtstand;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 
@@ -28,193 +30,289 @@ import javax.script.ScriptException;
 abstract public class AbstractProperties {
 
     public Boolean getPropertyBoolean(String keyString, boolean defaultValue) {
-        //System.out.println("Getting "+keyString+" as Boolean...");
+        Object prop;
         try {
-            return getPropertyBoolean(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Boolean.class.isAssignableFrom(prop.getClass())) {
+                return (Boolean) prop;
+            }
+            return Boolean.valueOf(prop.toString().trim());
+        }
+        return defaultValue;
     }
 
     public Boolean getPropertyBoolean(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-//            System.out.println("Required Boolean type property is missing: " + keyString);
-            throw new IllegalArgumentException("Required Boolean type property is missing: " + keyString);
+        if (prop != null) {
+            if (Boolean.class.isAssignableFrom(prop.getClass())) {
+                return (Boolean) prop;
+            }
+            return Boolean.valueOf(prop.toString().trim());
         }
-//        System.out.println("Found boolean: '" + keyString + "': " + prop);
-        if (Boolean.class.isAssignableFrom(prop.getClass())) {
-            return (Boolean) prop;
-        }
-//        System.out.println("Found boolean: '" + keyString + "': " + prop);
-        return Boolean.valueOf(prop.toString().trim());
+        throw new IllegalArgumentException("Required Boolean type property is missing: " + keyString);
     }
 
     public Byte getPropertyByte(String keyString, Byte defaultValue) {
+        Object prop;
         try {
-            return getPropertyByte(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Byte.class.isAssignableFrom(prop.getClass())) {
+                return (Byte) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Byte.parseByte(propString.substring(2), 16);
+            }
+            return Byte.parseByte(propString);
+        }
+        return defaultValue;
     }
 
     public Byte getPropertyByte(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Byte type property is missing: " + keyString);
+        if (prop != null) {
+            if (Byte.class.isAssignableFrom(prop.getClass())) {
+                return (Byte) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Byte.parseByte(propString.substring(2), 16);
+            }
+            return Byte.parseByte(propString);
         }
-        if (Byte.class.isAssignableFrom(prop.getClass())) {
-            return (Byte) prop;
-        }
-        String propString = prop.toString();
-        if (propString.startsWith("0x") || propString.startsWith("0X")) {
-            return Byte.parseByte(propString.substring(2), 16);
-        }
-        return Byte.parseByte(propString);
+        throw new IllegalArgumentException("Required Byte type property is missing: " + keyString);
     }
 
     public Integer getPropertyInteger(String keyString, Integer defaultValue) {
+        Object prop;
         try {
-            return getPropertyInteger(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Integer.class.isAssignableFrom(prop.getClass())) {
+                return (Integer) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Integer.parseInt(propString.substring(2), 16);
+            }
+            return Integer.parseInt(propString);
+        }
+        return defaultValue;
     }
 
     public Integer getPropertyInteger(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
+        if (prop != null) {
+            if (Integer.class.isAssignableFrom(prop.getClass())) {
+                return (Integer) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Integer.parseInt(propString.substring(2), 16);
+            }
+            return Integer.parseInt(propString);
         }
-        if (Integer.class.isAssignableFrom(prop.getClass())) {
-            return (Integer) prop;
-        }
-        String propString = prop.toString();
-        if (propString.startsWith("0x") || propString.startsWith("0X")) {
-            return Integer.parseInt(propString.substring(2), 16);
-        }
-        return Integer.parseInt(propString);
+        throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
     }
 
     public Short getPropertyShort(String keyString, Short defaultValue) {
+        Object prop;
         try {
-            return getPropertyShort(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Short.class.isAssignableFrom(prop.getClass())) {
+                return (Short) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Short.parseShort(propString.substring(2), 16);
+            }
+            return Short.parseShort(propString);
+        }
+        return defaultValue;
     }
 
     public Short getPropertyShort(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
+        if (prop != null) {
+            if (Short.class.isAssignableFrom(prop.getClass())) {
+                return (Short) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Short.parseShort(propString.substring(2), 16);
+            }
+            return Short.parseShort(propString);
         }
-        if (Short.class.isAssignableFrom(prop.getClass())) {
-            return (Short) prop;
-        }
-        String propString = prop.toString();
-        if (propString.startsWith("0x") || propString.startsWith("0X")) {
-            return Short.parseShort(propString.substring(2), 16);
-        }
-        return Short.parseShort(propString);
+        throw new IllegalArgumentException("Required Integer type property is missing: " + keyString);
     }
 
     public Long getPropertyLong(String keyString, Long defaultValue) {
+        Object prop;
         try {
-            return getPropertyLong(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Long.class.isAssignableFrom(prop.getClass())) {
+                return (Long) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Long.parseLong(propString.substring(2), 16);
+            }
+            return Long.parseLong(propString);
+        }
+        return defaultValue;
     }
 
     public Long getPropertyLong(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Long type property is missing: " + keyString);
+        if (prop != null) {
+            if (Long.class.isAssignableFrom(prop.getClass())) {
+                return (Long) prop;
+            }
+            String propString = prop.toString();
+            if (propString.startsWith("0x") || propString.startsWith("0X")) {
+                return Long.parseLong(propString.substring(2), 16);
+            }
+            return Long.parseLong(propString);
         }
-        if (Long.class.isAssignableFrom(prop.getClass())) {
-            return (Long) prop;
-        }
-        String propString = prop.toString();
-        if (propString.startsWith("0x") || propString.startsWith("0X")) {
-            return Long.parseLong(propString.substring(2), 16);
-        }
-        return Long.parseLong(propString);
+        throw new IllegalArgumentException("Required Long type property is missing: " + keyString);
     }
 
     public Double getPropertyDouble(String keyString, Double defaultValue) {
+        Object prop;
         try {
-            return getPropertyDouble(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Double.class.isAssignableFrom(prop.getClass())) {
+                return (Double) prop;
+            }
+            return Double.parseDouble(prop.toString());
+        }
+        return defaultValue;
     }
 
     public Double getPropertyDouble(String keyString) throws ScriptException {
-//        System.out.println("Getting Double property: '" + keyString + "'");
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Double type property is missing: " + keyString);
+        if (prop != null) {
+            if (Double.class.isAssignableFrom(prop.getClass())) {
+                return (Double) prop;
+            }
+            return Double.parseDouble(prop.toString());
         }
-        if (Double.class.isAssignableFrom(prop.getClass())) {
-            return (Double) prop;
-        }
-        return Double.parseDouble(prop.toString());
+        throw new IllegalArgumentException("Required Double type property is missing: " + keyString);
     }
 
     public Character getPropertyCharacter(String keyString, Character defaultValue) {
+        Object prop;
         try {
-            return getPropertyCharacter(keyString);
-        } catch (Exception ex) {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            if (Character.class.isAssignableFrom(prop.getClass())) {
+                return (Character) prop;
+            }
+            String propString = prop.toString();
+            if (propString.length() == 0) {
+                throw new IllegalArgumentException("Required Character type property is empty: " + keyString);
+            }
+            if (propString.length() == 1) {
+                return propString.charAt(0);
+            }
+            throw new IllegalArgumentException("Cannot evaluate the property:'" + keyString + "' as a single Character:'" + propString + "'");
+        }
+        return defaultValue;
     }
 
     public Character getPropertyCharacter(String keyString) throws ScriptException {
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-            throw new IllegalArgumentException("Required Character type property is missing: " + keyString);
+        if (prop != null) {
+            if (Character.class.isAssignableFrom(prop.getClass())) {
+                return (Character) prop;
+            }
+            String propString = prop.toString();
+            if (propString.length() == 0) {
+                throw new IllegalArgumentException("Required Character type property is empty: " + keyString);
+            }
+            if (propString.length() == 1) {
+                return propString.charAt(0);
+            }
+            throw new IllegalArgumentException("Cannot evaluate the property:'" + keyString + "' as a single Character:'" + propString + "'");
         }
-        if (Character.class.isAssignableFrom(prop.getClass())) {
-            return (Character) prop;
-        }
-        String propString = prop.toString();
-        if (propString.length() == 0) {
-            throw new IllegalArgumentException("Required Character type property is empty: " + keyString);
-        }
-        if (propString.length() == 1) {
-            return propString.charAt(0);
-        }
-        throw new IllegalArgumentException("Cannot evaluate the property:'" + keyString + "' as a single Character:'" + propString + "'");
+        throw new IllegalArgumentException("Required Character type property is missing: " + keyString);
     }
 
     public String getPropertyString(String keyString, String defaultValue) {
+        Object prop;
         try {
-            return getPropertyString(keyString);
-        } catch (Exception ex) {
-//            System.out.println("Ex: " + ex.getMessage());
-//            ex.printStackTrace();
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
             return defaultValue;
         }
+        if (prop != null) {
+            return prop.toString();
+        }
+        return defaultValue;
     }
 
     public String getPropertyString(String keyString) throws ScriptException {
-//        System.out.println("Finding String property : '" + keyString + "'...");
         Object prop = getPropertyObject(keyString);
-        if (prop == null) {
-//            System.out.println("Not found String property : '" + keyString + "'");
-            throw new IllegalArgumentException("Required String type property is missing: " + keyString);
+        if (prop != null) {
+            return prop.toString();
         }
-//        System.out.println("Found String property : '" + keyString + "' : '" + prop + "'");
-        return prop.toString();
+        throw new IllegalArgumentException("Required String type property is missing: " + keyString);
+    }
+
+    public Object getPropertyObject(String keyString, String defaultValue) {
+        Object prop;
+        try {
+            prop = getPropertyObject(keyString);
+        } catch (ScriptException ex) {
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            return defaultValue;
+        }
+        if (prop != null) {
+            return prop;
+        }
+        return defaultValue;
     }
 
     public Object getPropertyObject(String keyString) throws ScriptException {
-        return getPropertyObject(keyString, getBindings());
+        return getPropertyObjectUsingBindings(keyString, getBindings());
     }
     protected transient Bindings bindings;
 
     abstract public Bindings getBindings();
 
-    abstract public Object getPropertyObject(String keyString, Bindings binding) throws ScriptException;
+    abstract public Object getPropertyObjectUsingBindings(String keyString, Bindings binding) throws ScriptException;
 }

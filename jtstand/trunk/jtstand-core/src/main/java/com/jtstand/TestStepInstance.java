@@ -117,7 +117,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     public void initializeProperties() throws ScriptException {
         for (TestStepProperty tp : testStep.getProperties()) {
             if (tp.isEager() != null && tp.isEager()) {
-                tp.getPropertyObject(getBindings());
+                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
     }
@@ -1162,11 +1162,17 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
 //        System.out.println("Getting property:'" + keyString + "'...");
 //        if (binding != null) {
 //            binding.setVariable("step", (StepInterface) this);
 //        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
+        }
         if (getTestStep() != null) {
             for (TestProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
@@ -1184,9 +1190,9 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             }
         }
         if (getParent() != null) {
-            return getParent().getPropertyObject(keyString, bindings);
+            return getParent().getPropertyObjectUsingBindings(keyString, bindings);
         }
-        return getTestSequenceInstance().getPropertyObject(keyString, bindings);
+        return getTestSequenceInstance().getPropertyObjectUsingBindings(keyString, bindings);
     }
 
     @Override

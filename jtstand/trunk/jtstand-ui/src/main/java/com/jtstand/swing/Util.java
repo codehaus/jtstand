@@ -90,13 +90,14 @@ public class Util {
 //        }
 
         //        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
-        SwingUtilities.invokeLater(new Runnable() {
 
-            @Override
-            public void run() {
-                setDividerLocation(jSplitPane, jTable);
-            }
-        });
+//        SwingUtilities.invokeLater(new Runnable() {
+//
+//            @Override
+//            public void run() {
+        setDividerLocation(jSplitPane, jTable);
+//            }
+//        });
 
     }
 

@@ -81,7 +81,7 @@ public class TestFixture extends AbstractVariables {
     public void initializeProperties() throws ScriptException {
         for (TestFixtureProperty tp : properties) {
             if (tp.isEager() != null && tp.isEager()) {
-                tp.getPropertyObject(getBindings());
+                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
     }
@@ -153,6 +153,17 @@ public class TestFixture extends AbstractVariables {
     @XmlTransient
     public Long getId() {
         return id;
+    }
+
+    public FixtureTestTypeReference getTestType(String partNumber, String partRevision, String testTypeName) {
+        for (FixtureTestTypeReference fttr : getTestTypes()) {
+            if (fttr.getPartNumber().equals(partNumber)
+                    && fttr.getPartRevision().equals(partRevision)
+                    && fttr.getName().equals(testTypeName)) {
+                return fttr;
+            }
+        }
+        return null;
     }
 
     @XmlElement(name = "testType")
@@ -292,9 +303,15 @@ public class TestFixture extends AbstractVariables {
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("fixture", this);
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
@@ -302,7 +319,7 @@ public class TestFixture extends AbstractVariables {
             }
         }
         if (testStation != null) {
-            return testStation.getPropertyObject(keyString, bindings);
+            return testStation.getPropertyObjectUsingBindings(keyString, bindings);
         }
         return null;
     }

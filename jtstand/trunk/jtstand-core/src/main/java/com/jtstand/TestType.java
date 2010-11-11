@@ -223,9 +223,15 @@ public class TestType extends AbstractProperties {
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("testType", this);
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
@@ -233,7 +239,7 @@ public class TestType extends AbstractProperties {
             }
         }
         if (getProduct() != null) {
-            return getProduct().getPropertyObject(keyString, bindings);
+            return getProduct().getPropertyObjectUsingBindings(keyString, bindings);
         }
         return null;
     }

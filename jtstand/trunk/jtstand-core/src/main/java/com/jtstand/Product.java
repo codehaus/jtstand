@@ -268,9 +268,15 @@ public class Product extends AbstractProperties {
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("product", this);
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
@@ -278,7 +284,7 @@ public class Product extends AbstractProperties {
             }
         }
         if (getTestProject() != null) {
-            return getTestProject().getPropertyObject(keyString, bindings);
+            return getTestProject().getPropertyObjectUsingBindings(keyString, bindings);
         }
         return null;
     }

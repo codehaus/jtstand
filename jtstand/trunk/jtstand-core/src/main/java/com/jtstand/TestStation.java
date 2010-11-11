@@ -92,7 +92,7 @@ public class TestStation extends AbstractVariables {
     public void initializeProperties() throws ScriptException {
         for (TestStationProperty tp : properties) {
             if (tp.isEager() != null && tp.isEager()) {
-                tp.getPropertyObject(getBindings());
+                getBindings().put(tp.getName(), tp.getPropertyObject(getBindings()));
             }
         }
     }
@@ -363,9 +363,15 @@ public class TestStation extends AbstractVariables {
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("station", this);
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         for (TestProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
@@ -373,7 +379,7 @@ public class TestStation extends AbstractVariables {
             }
         }
         if (getTestProject() != null) {
-            return getTestProject().getPropertyObject(keyString, bindings);
+            return getTestProject().getPropertyObjectUsingBindings(keyString, bindings);
         }
         return null;
     }
@@ -670,7 +676,6 @@ public class TestStation extends AbstractVariables {
 //        System.out.println("User home: " + userHome);
         return userHome;
     }
-
 //    public static File getUserHomeDirectory() {
 //        return new File(getUserHome());
 //    }

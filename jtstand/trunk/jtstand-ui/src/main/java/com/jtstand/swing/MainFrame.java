@@ -362,6 +362,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public MainFrame(TestStation testStation, String title, String version) throws ScriptException {
         this();
+        testStation.getTestProject().initializeProperties();
         testStation.initializeProperties();
         this.testStation = testStation;
         this.title = title;

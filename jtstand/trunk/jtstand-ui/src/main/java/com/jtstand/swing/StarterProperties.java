@@ -54,7 +54,7 @@ public class StarterProperties extends AbstractProperties {
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         //System.out.println("Getting " + keyString + "...");
         if (bindings != null) {
             bindings.put("starter", si);

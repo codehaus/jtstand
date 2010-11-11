@@ -1114,9 +1114,15 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
     }
 
     @Override
-    public Object getPropertyObject(String keyString, Bindings bindings) throws ScriptException {
+    public Object getPropertyObjectUsingBindings(String keyString, Bindings bindings) throws ScriptException {
         if (bindings != null) {
             bindings.put("sequence", this);
+        }
+        if (bindings != null) {
+            Object o = bindings.get(keyString);
+            if (o != null) {
+                return o;
+            }
         }
         if (getTestSequence() != null) {
             for (TestProperty tsp : getTestSequence().getProperties()) {
@@ -1176,12 +1182,6 @@ public class TestSequenceInstance extends AbstractVariables implements Runnable,
             ex1.printStackTrace();
         } catch (SecurityException ex2) {
             ex2.printStackTrace();
-        }
-        if (bindings != null) {
-            Object o = bindings.get(keyString);
-            if (o != null) {
-                return o;
-            }
         }
         return null;
     }
