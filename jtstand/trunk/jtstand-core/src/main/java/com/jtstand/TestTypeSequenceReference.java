@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import java.io.ByteArrayInputStream;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -42,13 +41,12 @@ public class TestTypeSequenceReference extends FileRevisionReference {
 
     @XmlTransient
     public TestStep getTestSequence() throws IOException, JAXBException, ParserConfigurationException, SAXException, SVNException, URISyntaxException {
-        if (getSubversionUrl() == null) {
-            TestStep ts = (TestStep) TestStep.getUnmarshaller().unmarshal(new ByteArrayInputStream(getText().getBytes("UTF-8")));
-            ts.setCreator(getCreator());
-            return ts;
-        }
-//        String filePath=getTestType().getCreator().getFile() == null ? null : getTestType().getCreator().getFile().getPath();
-//        System.out.println("test sequence file: " + filePath);
+//   disabled the support of writing test sequences into project files
+//        if (getSubversionUrl() == null) {
+//            TestStep ts = (TestStep) TestStep.getUnmarshaller().unmarshal(new ByteArrayInputStream(getText().getBytes("UTF-8")));
+//            ts.setCreator(getCreator());
+//            return ts;
+//        }
         return TestStep.unmarshal(getFileRevision(getTestType().getCreator()), true);
     }
 

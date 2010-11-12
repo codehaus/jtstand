@@ -18,6 +18,7 @@
  */
 package com.jtstand;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +26,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
@@ -247,22 +252,45 @@ public class FileRevision {
         }
     }
 
-    public String getText(String charsetName) throws SVNException, IOException {
+    public String getText(String charset) throws SVNException, IOException {
 //        System.out.println("Reading file...");
-        InputStream in = getInputStream();
-        StringBuilder out = new StringBuilder();
-        byte[] b = new byte[4096];
-        for (int n; (n = in.read(b)) != -1;) {
-            if (charsetName == null) {
-                out.append(new String(b, 0, n));
-            } else {
-                out.append(new String(b, 0, n, charsetName));
-            }
+        return convertStreamToString(getInputStreamUnprotected(), charset);
+    }
+
+    public static String convertStreamToString(InputStream is, String charset)
+            throws IOException {
+        if (is == null) {
+            return "";
         }
-        return out.toString();
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, charset));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } finally {
+            is.close();
+        }
+        return writer.toString();
+    }
+
+    public static InputStream protectInputStream(InputStream is, String charset) throws IOException {
+        String text = convertStreamToString(is, charset);
+        return (text == null) ? null : new ByteArrayInputStream(text.getBytes(charset));
     }
 
     private InputStream getInputStream() throws SVNException {
+        try {
+            return protectInputStream(getInputStreamUnprotected(), "UTF-8");
+        } catch (IOException ex) {
+            Logger.getLogger(FileRevision.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    private InputStream getInputStreamUnprotected() throws SVNException {
         if (file != null && file.isFile()) {
 //            System.out.println("Path: '" + file.getAbsolutePath() + "' revision: '" + revision + "'");
             SVNClientManager cm = SVNClientManager.newInstance();

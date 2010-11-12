@@ -32,7 +32,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.Date;
@@ -91,10 +93,11 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     private static final Object jaxbLock = new Object();
 
     public static TestSequenceInstance unmarshal(File file)
-            throws JAXBException, SVNException {
+            throws JAXBException, SVNException, IOException {
         TestSequenceInstance testSequenceInstance = null;
         synchronized (jaxbLock) {
-            testSequenceInstance = (TestSequenceInstance) getUnmarshaller().unmarshal(file);
+            InputStream is = FileRevision.protectInputStream(new FileInputStream(file), "UTF-8");
+            testSequenceInstance = (TestSequenceInstance) getUnmarshaller().unmarshal(is);
         }
 //        System.out.println("Unmarshalled testSequenceInstance:" + testSequenceInstance);
         return testSequenceInstance;
@@ -1020,7 +1023,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         } catch (ScriptException ex) {
             Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for(TestStepInstance step:this){
+        for (TestStepInstance step : this) {
             step.clear();
         }
     }

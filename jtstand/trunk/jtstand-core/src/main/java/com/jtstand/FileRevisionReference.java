@@ -145,7 +145,7 @@ public class FileRevisionReference {
         hash += (creator != null ? creator.hashCode() : 0);
         hash += (subversionUrl != null ? subversionUrl.hashCode() : 0);
         hash += (revision != null ? revision.hashCode() : 0);
-        hash += (text != null ? text.hashCode() : 0);
+//        hash += (text != null ? text.hashCode() : 0);
         return hash;
     }
 
@@ -164,9 +164,9 @@ public class FileRevisionReference {
         if ((this.revision == null && other.getRevision() != null) || (this.revision != null && !this.revision.equals(other.getRevision()))) {
             return false;
         }
-        if ((this.text == null && other.getText() != null) || (this.text != null && !this.text.equals(other.getText()))) {
-            return false;
-        }
+//        if ((this.text == null && other.getText() != null) || (this.text != null && !this.text.equals(other.getText()))) {
+//            return false;
+//        }
         return true;
     }
 
