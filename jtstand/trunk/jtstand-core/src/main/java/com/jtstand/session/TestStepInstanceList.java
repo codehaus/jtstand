@@ -109,7 +109,7 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
         queryString = "select ts from TestStepInstance ts where ts.testSequenceInstance.id = " + id + " and ts.testStepNamePath.id = " + tsnp.getId();
         List<TestStepInstance> sList = (List<TestStepInstance>) (new GeneralQuery(em, queryString, 1)).query();
         if (sList == null || sList.size() != 1) {
-            System.out.println("Not found TestStepInstance with testSequenceInstance.id: " + id + " testStepNamePath.id: " + tsnp.getId());
+//            System.out.println("Not found TestStepInstance with testSequenceInstance.id: " + id + " testStepNamePath.id: " + tsnp.getId());
             return false;
         }
         return add(sList.get(0));
