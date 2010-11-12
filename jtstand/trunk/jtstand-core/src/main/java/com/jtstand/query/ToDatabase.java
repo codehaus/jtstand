@@ -87,7 +87,7 @@ public class ToDatabase extends Thread {
                 LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
             } else {
                 if (file.getName().endsWith(".xml")) {
-                    System.out.println("Processing file: " + file.getPath());
+                    System.out.println("Processing file: " + file.getPath() + " ...");
                     seq = TestSequenceInstance.unmarshal(file);
                 }
             }
@@ -110,8 +110,8 @@ public class ToDatabase extends Thread {
                             if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {
 //                                System.out.println("Output file successfully moved to: " + file.getName());
                                 num++;
-                                System.out.println("Processing file: " + file.getName() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
-                                System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
+                                System.out.println("Processing file: " + file.getPath() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//                                System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
                             } else {
                                 System.out.println("Output file cannot be moved: " + file.getName());
                                 ignoredFiles.add(file);

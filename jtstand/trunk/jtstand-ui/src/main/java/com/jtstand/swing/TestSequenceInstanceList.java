@@ -76,11 +76,11 @@ public class TestSequenceInstanceList extends ArrayList<TestSequenceInstance> im
         synchronized (lock) {
             int i = indexOf(seq);
             if (i >= 0) {
-                System.out.println("Replacing sequence #" + i + ":" + seq);
+//                System.out.println("Replacing sequence #" + i + ":" + seq);
                 return set(i, seq);
             }
         }
-        System.out.println("Cannot replace sequence: " + seq);
+//        System.out.println("Cannot replace sequence: " + seq);
         return null;
     }
 
