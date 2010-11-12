@@ -113,9 +113,9 @@ public abstract class AbstractTestSequenceInstanceListTableModel extends Abstrac
 
     @SuppressWarnings("unchecked")
     public boolean addAll(String q, Integer max) {
-        System.out.println("query string:'" + q + "'");
+//        System.out.println("query: '" + q + "'");
         if (max != null) {
-            System.out.println("not more than: " + max);
+//            System.out.println("not more than: " + max);
         }
         return addAll((List<TestSequenceInstance>) (new GeneralQuery(getEntityManager(), q, max)).query());
     }

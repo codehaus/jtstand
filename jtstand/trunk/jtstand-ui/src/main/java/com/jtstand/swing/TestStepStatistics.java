@@ -247,7 +247,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
         long startTime = System.currentTimeMillis();
         baseSequence = find(id);
         if (baseSequence != null) {
-            logger.info("TestSequenceInstance is found in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//            logger.info("TestSequenceInstance is found in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
         } else {
             throw new IllegalArgumentException("TestSequenceInstance with id=" + id + " cannot be found");
         }
@@ -278,7 +278,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
         long startTime = System.currentTimeMillis();
         TestSequenceInstance seq = find(id);
         if (seq != null) {
-            logger.info("TestSequenceInstance is found in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+//            logger.info("TestSequenceInstance is found in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
             synchronized (lock) {
                 changed = super.add(seq);
             }
