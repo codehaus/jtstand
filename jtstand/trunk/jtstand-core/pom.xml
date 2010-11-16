@@ -206,7 +206,7 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
-            <version>10.6.1.0</version>
+            <version>10.6.2.1</version>
         </dependency>
         <!--dependency>
             <groupId>com.h2database</groupId>
@@ -241,7 +241,7 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <!--version>1.2.126</version-->
-            <version>1.2.143</version>
+            <version>1.2.145</version>
         </dependency>
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
