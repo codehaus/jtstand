@@ -141,22 +141,22 @@ public class FileRevision {
         if (file != null) {
             try {
                 File parentFile = file.getParentFile();
-                System.out.println("Path of Filer's parent: '" + parentFile.getAbsolutePath());
+//                System.out.println("Path of Filer's parent: '" + parentFile.getAbsolutePath());
 
                 URI filerURI = URI.create(subversionUrl);
-                System.out.println("filerURI:" + filerURI);
+//                System.out.println("filerURI:" + filerURI);
 
                 URI parentURI = filerURI.resolve(".");
-                System.out.println("parentURI:" + parentURI);
+//                System.out.println("parentURI:" + parentURI);
 
                 URI uri = new URI(subversionUrl);
-                System.out.println("uri:" + uri);
+//                System.out.println("uri:" + uri);
 
                 URI relative = parentURI.relativize(uri);
-                System.out.println("Relative path:" + relative);
+//                System.out.println("Relative path:" + relative);
 
                 File f = new File(parentFile.getPath() + File.separator + relative.toString());
-                System.out.println("Resolved file path:" + f.getPath());
+//                System.out.println("Resolved file path:" + f.getPath());
 
                 return new FileRevision(subversionUrl, revision, f);
             } catch (Exception ex) {
