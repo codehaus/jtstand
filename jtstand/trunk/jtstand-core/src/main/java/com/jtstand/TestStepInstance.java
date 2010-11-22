@@ -1064,7 +1064,8 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                     }
                 }
             }
-        } while (loops.longValue() < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.LOOP)));
+            //} while (loops.longValue() < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || status.equals(StepStatus.FAILED) && getFailAction().equals(TestStep.FailAction.LOOP)));
+        } while (loops.longValue() < getMaxLoops() && ((status.equals(StepStatus.PASSED) || status.equals(StepStatus.RUNNING)) && getPassAction().equals(TestStep.PassAction.LOOP) || isFailedSoftly() && getFailAction().equals(TestStep.FailAction.LOOP)));
         if (getTestSequenceInstance().isAborted()) {
             return;
         }
@@ -1108,6 +1109,25 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     public boolean isFailed() {
         return StepStatus.FAILED.equals(status);
+    }
+
+    public boolean isFailedSoftly() {
+        if (!StepStatus.FAILED.equals(status)) {
+            return false;
+        }
+        if (TestStep.FailAction.STOP.equals(getFailAction())) {
+            return false;
+        }
+        for (TestStepInstance child : getSteps()) {
+            if (child.isFailedHardly()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isFailedHardly() {
+        return StepStatus.FAILED.equals(status) && !isFailedSoftly();
     }
 
     public boolean isRunning() {
