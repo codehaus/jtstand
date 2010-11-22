@@ -92,7 +92,7 @@
             <testSequence subversionUrl="InteractiveDemo.xml" revision="781"/>
         </testType>
     </product>
-    <product partNumber="ITERACTIVE_ERROR" partRevision="1">
+    <product partNumber="INTERACTIVE_ERROR" partRevision="1">
         <testType name="DEMO">
             <testSequence subversionUrl="InteractiveError.xml" revision="780"/>
         </testType>
