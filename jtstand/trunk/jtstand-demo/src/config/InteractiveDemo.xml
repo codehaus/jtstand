@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Interactive Demo" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+    <script>step.interact('Is the UUT working OK?')</script>
+</step>
