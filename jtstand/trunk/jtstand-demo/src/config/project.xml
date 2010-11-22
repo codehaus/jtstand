@@ -94,7 +94,7 @@
     </product>
     <product partNumber="INTERACTIVE_ERROR" partRevision="1">
         <testType name="DEMO">
-            <testSequence subversionUrl="InteractiveError.xml" revision="780"/>
+            <testSequence subversionUrl="InteractiveError.xml" revision="786"/>
         </testType>
     </product>
     <product partNumber="fixture" partRevision="1">
