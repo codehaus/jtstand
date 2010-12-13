@@ -855,8 +855,9 @@ public class TestStation extends AbstractVariables implements Bindings {
 
     @Override
     public Set<String> keySet() {
-        Set<String> keys = super.keySet();
-        keys.add("fixture");
+        Set<String> keys = new HashSet<String>();
+        keys.addAll(super.keySet());
+        keys.add("station");
         keys.addAll(localVariablesMap.keySet());
         return keys;
     }

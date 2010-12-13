@@ -1661,7 +1661,8 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     }
 
     private Set<String> keySetPublic() {
-        Set<String> keys = super.keySet();
+        Set<String> keys = new HashSet<String>();
+        keys.addAll(super.keySet());
         if (parent != null) {
             keys.addAll(parent.keySetPublic());
         } else {

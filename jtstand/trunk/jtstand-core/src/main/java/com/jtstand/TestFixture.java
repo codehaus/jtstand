@@ -453,7 +453,9 @@ public class TestFixture extends AbstractVariables implements Bindings {
 
     @Override
     public Set<String> keySet() {
-        Set<String> keys = testStation.keySet();
+        Set<String> keys = new HashSet<String>();
+        keys.addAll(super.keySet());
+        keys.addAll(testStation.keySet());
         keys.add("fixture");
         keys.addAll(localVariablesMap.keySet());
         return keys;
