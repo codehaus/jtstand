@@ -253,9 +253,17 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     void interact(String message) throws InterruptedException {
         this.message = message;
-        if (!getTestSequenceInstance().interact(this)) {
-            throw new IllegalStateException("Operator interaction failed");
-        }
+        getTestSequenceInstance().interact(this);
+    }
+
+    void startInteraction(String message) throws InterruptedException {
+        this.message = message;
+        getTestSequenceInstance().startInteraction(this);
+    }
+
+    public void finishInteraction(boolean interactionPassed) {
+        getTestSequenceInstance().finishInteraction(interactionPassed);
+        this.message = null;
     }
 
     public static enum StepStatus {

@@ -413,7 +413,17 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         return (interactiveTestStepInstance == null) ? null : interactiveTestStepInstance.getInteractionMessage();
     }
 
-    public boolean interact(TestStepInstance step) throws InterruptedException {
+    public void interact(TestStepInstance step) throws InterruptedException {
+        startInteraction(step);
+        while (this.getStatus() == SequenceStatus.INTERACTIVE) {
+            Thread.sleep(500);
+        }
+        if (!interactionPassed) {
+            throw new IllegalStateException("Operator interaction failed");
+        }
+    }
+
+    public void startInteraction(TestStepInstance step) {
         System.out.println("Sequence interaction pending...");
         synchronized (interactionLock) {
             System.out.println("Sequence interaction starts");
@@ -421,12 +431,9 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                 originalStatus = status;
                 this.interactiveTestStepInstance = step;
                 setStatus(SequenceStatus.INTERACTIVE);
-                while (this.getStatus() == SequenceStatus.INTERACTIVE) {
-                    Thread.sleep(500);
-                }
-                return interactionPassed;
+            } else {
+                throw new IllegalStateException("Cannot start interaction");
             }
-            return false;
         }
     }
 
