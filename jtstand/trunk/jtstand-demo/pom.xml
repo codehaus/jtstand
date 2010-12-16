@@ -210,6 +210,12 @@
             </plugin-->
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>codehaus</id>
+            <url>http://repository.codehaus.org/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <!--dependency>
             <groupId>org.codehaus.groovy.maven.runtime</groupId>
@@ -223,7 +229,7 @@
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy</artifactId>
-            <version>1.7.5</version>
+            <version>1.7.6</version>
         </dependency>
     </dependencies>
     <!--distributionManagement>
