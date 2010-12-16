@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, nbactions.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  --><actions>
+        <action>
+            <actionName>CUSTOM-deploy</actionName>
+            <displayName>deploy</displayName>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:site no test</actionName>
+            <displayName>site:site no test</displayName>
+            <goals>
+                <goal>site:site</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:deploy no test</actionName>
+            <displayName>site:deploy no test</displayName>
+            <goals>
+                <goal>site:deploy</goal>
+            </goals>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-site:site site:deploy</actionName>
+            <displayName>site:site site:deploy</displayName>
+            <goals>
+                <goal>site:site</goal>
+                <goal>site:deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-release:clean release:prepare</actionName>
+            <displayName>release:clean release:prepare</displayName>
+            <goals>
+                <goal>release:clean</goal>
+                <goal>release:prepare</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-release:rollback</actionName>
+            <displayName>release:rollback</displayName>
+            <goals>
+                <goal>release:rollback</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-release:perform</actionName>
+            <displayName>release:perform</displayName>
+            <goals>
+                <goal>release:perform</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-verify</actionName>
+            <displayName>verify</displayName>
+            <goals>
+                <goal>verify</goal>
+            </goals>
+        </action>
+    </actions>
