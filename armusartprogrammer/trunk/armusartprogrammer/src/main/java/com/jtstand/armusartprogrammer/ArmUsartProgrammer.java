@@ -324,8 +324,42 @@ public class ArmUsartProgrammer {
         return false;
     }
 
+    public boolean erasePages(int pageFirst, int pageLast) {
+        System.out.println(serialPortString + " ERASE " + pageFirst + " " + pageLast + "...");
+        int numberOfPages = pageLast - pageFirst;
+        byte[] pages = new byte[numberOfPages + 3];
+        pages[0] = (byte) (numberOfPages);
+        int pos = 1;
+        int checksum = numberOfPages;
+        for (int page = pageFirst; page <= pageLast; page++) {
+            pages[pos] = (byte) page;
+            pos++;
+            checksum ^= page;
+        }
+        pages[pos] = (byte) checksum;
+        try {
+            sp.getOutputStream().write(new byte[]{(byte) 0x43, (byte) 0xbc});
+            sp.getOutputStream().flush();
+            if (ACK == read(100)) {
+                sp.getOutputStream().write(pages);
+                sp.getOutputStream().flush();
+                if (ACK == read(10000)) {
+                    System.out.println(serialPortString + " ERASE done.");
+                    success = true;
+                    return true;
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        success = false;
+        return false;
+    }
+
     public static void printUsage() {
         System.out.println("Usage:");
+        System.out.println("ERASEPAGES firstPage lastPage portlist");
+        System.out.println("or");
         System.out.println("ERASE portlist");
         System.out.println("or");
         System.out.println("WRITE filename portlist");
@@ -356,6 +390,21 @@ public class ArmUsartProgrammer {
                 for (ArmUsartProgrammer p : programmers) {
                     if (!p.erase()) {
                         throw new Exception("Erase on " + p.serialPortString + " could not succeed");
+                    }
+                }
+                System.exit(0);
+            } catch (Exception ex) {
+                Logger.getLogger(ArmUsartProgrammer.class.getName()).log(Level.SEVERE, null, ex);
+                System.exit(1);
+            }
+        } else if ("ERASEPAGES".equals(args[0].toUpperCase())) {
+            try {
+                List<ArmUsartProgrammer> programmers = prepareProgrammers(args, 3);
+                int firstPage = Integer.parseInt(args[1]);
+                int lastPage = Integer.parseInt(args[2]);
+                for (ArmUsartProgrammer p : programmers) {
+                    if (!p.erasePages(firstPage, lastPage)) {
+                        throw new Exception("Erase pages on " + p.serialPortString + " could not succeed");
                     }
                 }
                 System.exit(0);
