@@ -166,9 +166,32 @@ public class ArmUsartProgrammer {
         return true;
     }
 
+    public boolean write(IntelHex hexFile, int endAddress) {
+        System.out.println(serialPortString + " WRITE...");
+        for (Memory mem : hexFile.memorySegments) {
+            if (!write(mem, endAddress)) {
+                System.out.println(serialPortString + " WRITE failed.");
+                success = false;
+                return false;
+            }
+        }
+        System.out.println(serialPortString + " WRITE done.");
+        success = true;
+        return true;
+    }
+
     public boolean verify(IntelHex hexFile) {
         for (Memory mem : hexFile.memorySegments) {
             if (!verify(mem)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean verify(IntelHex hexFile, int endAddress) {
+        for (Memory mem : hexFile.memorySegments) {
+            if (!verify(mem, endAddress)) {
                 return false;
             }
         }
@@ -191,8 +214,48 @@ public class ArmUsartProgrammer {
         return true;
     }
 
+    private boolean write(Memory mem, int endAddress) {
+        int remainingLength = mem.data.length;
+        int endLength = endAddress - mem.address;
+        if (endLength < remainingLength) {
+            remainingLength = endLength;
+        }
+        int address = mem.address;
+        System.out.println(serialPortString + " Writing memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
+        for (int offset = 0; remainingLength > 0;) {
+            int length = (remainingLength > 256) ? 256 : remainingLength;
+            if (!write(address, mem.data, offset, length)) {
+                return false;
+            }
+            offset += length;
+            address += length;
+            remainingLength -= length;
+        }
+        return true;
+    }
+
     private boolean verify(Memory mem) {
         int remainingLength = mem.data.length;
+        int address = mem.address;
+        System.out.println(serialPortString + " Verify memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
+        for (int offset = 0; remainingLength > 0;) {
+            int length = (remainingLength > 256) ? 256 : remainingLength;
+            if (!verify(address, mem.data, offset, length)) {
+                return false;
+            }
+            offset += length;
+            address += length;
+            remainingLength -= length;
+        }
+        return true;
+    }
+
+    private boolean verify(Memory mem, int endAddress) {
+        int remainingLength = mem.data.length;
+        int endLength = endAddress - mem.address;
+        if (endLength < remainingLength) {
+            remainingLength = endLength;
+        }
         int address = mem.address;
         System.out.println(serialPortString + " Verify memory segment at address:0x" + Integer.toString(address, 16) + " size:" + Integer.toString(remainingLength));
         for (int offset = 0; remainingLength > 0;) {
