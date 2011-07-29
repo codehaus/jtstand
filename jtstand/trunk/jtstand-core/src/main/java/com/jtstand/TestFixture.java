@@ -163,14 +163,31 @@ public class TestFixture extends AbstractVariables implements Bindings {
     }
 
     public FixtureTestTypeReference getTestType(String partNumber, String partRevision, String testTypeName) {
+        boolean partNumberExists = false;
+        boolean partRevisionExists = false;
         for (FixtureTestTypeReference fttr : getTestTypes()) {
-            if (fttr.getPartNumber().equals(partNumber)
-                    && fttr.getPartRevision().equals(partRevision)
-                    && fttr.getName().equals(testTypeName)) {
-                return fttr;
+            if (fttr.getPartNumber().equals(partNumber)) {
+                partNumberExists = true;
+                if (fttr.getPartRevision().equals(partRevision)) {
+                    partRevisionExists = true;
+                    if (fttr.getName().equals(testTypeName)) {
+                        return fttr;
+                    }
+                }
             }
         }
-        return null;
+        String errorMessage = null;
+        if (partRevisionExists) {
+            errorMessage = "test type '" + testTypeName + "' is not configured for part number '" + partNumber + "' revision '" + partRevision + "'";
+        } else {
+            if (partNumberExists) {
+                errorMessage = "part revision '" + partRevision + "' is not configured for part number '" + partNumber + "'";
+            } else {
+                errorMessage = "part number '" + partNumber + "' is not configured";
+            }
+        }
+        errorMessage += " on fixture '" + getFixtureName() + "'";
+        throw new IllegalArgumentException(errorMessage);
     }
 
     @XmlElement(name = "testType")
@@ -486,9 +503,8 @@ public class TestFixture extends AbstractVariables implements Bindings {
     @Override
     public Object put(String name, Object value) {
 //        System.out.println("putting to fixture variable: '" + name + "' value: " + value);
-        return super.put(name,value);
+        return super.put(name, value);
     }
-
 //    @Override
 //    public Set<String> getPropertyNames() {
 //        Set<String> propertyNames = new HashSet<String>();
