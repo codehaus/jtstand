@@ -67,39 +67,39 @@ public final class DescriptionGenerator {
      * 
      * @throws Exception if something goes wrong!
      */
-    public static void main(final String[] args) throws Exception {
-
-        Log.getInstance().addTarget(new PrintStreamLogTarget());
-        
-        URL propertyURL = ObjectUtilities.getResourceRelative
-                ("generator.properties", DescriptionGenerator.class);
-        if (args.length > 0) {
-            final File f = new File(args[0]);
-            propertyURL = f.toURL();
-        }
-        final Properties p = loadProperties(propertyURL);
-
-        final String handlerSource = p.getProperty("attributedefinition");
-        if (handlerSource != null) {
-            final Properties handlers = loadProperties(new URL(propertyURL, handlerSource));
-            ModelBuilder.getInstance().addAttributeHandlers(handlers);
-        }
-
-        final String source = p.getProperty("sourcedirectory", ".");
-        final String target = p.getProperty("targetfile", "model.xml");
-        DescriptionModel model = null;
-        try {
-            model = new DefaultModelReader().load(target);
-        }
-        catch (Exception e) {
-            Log.debug("Unable to load default model. Ignoring...");
-        }
-//        Log.debug (model.getModelComments());
-        model = generate(source, p, model);
-        model.prune();
-        writeMultiFile(target, model);
-        System.exit(0);
-    }
+//    public static void main(final String[] args) throws Exception {
+//
+//        Log.getInstance().addTarget(new PrintStreamLogTarget());
+//        
+//        URL propertyURL = ObjectUtilities.getResourceRelative
+//                ("generator.properties", DescriptionGenerator.class);
+//        if (args.length > 0) {
+//            final File f = new File(args[0]);
+//            propertyURL = f.toURL();
+//        }
+//        final Properties p = loadProperties(propertyURL);
+//
+//        final String handlerSource = p.getProperty("attributedefinition");
+//        if (handlerSource != null) {
+//            final Properties handlers = loadProperties(new URL(propertyURL, handlerSource));
+//            ModelBuilder.getInstance().addAttributeHandlers(handlers);
+//        }
+//
+//        final String source = p.getProperty("sourcedirectory", ".");
+//        final String target = p.getProperty("targetfile", "model.xml");
+//        DescriptionModel model = null;
+//        try {
+//            model = new DefaultModelReader().load(target);
+//        }
+//        catch (Exception e) {
+//            Log.debug("Unable to load default model. Ignoring...");
+//        }
+////        Log.debug (model.getModelComments());
+//        model = generate(source, p, model);
+//        model.prune();
+//        writeMultiFile(target, model);
+//        System.exit(0);
+//    }
 
     /**
      * Generates a {@link DescriptionModel} from the specified source.

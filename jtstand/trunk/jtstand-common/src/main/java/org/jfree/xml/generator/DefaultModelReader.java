@@ -90,16 +90,16 @@ public class DefaultModelReader extends AbstractModelReader {
      * @throws IOException  if there is an I/O problem.
      * @throws ObjectDescriptionException  if there is a problem reading the object descriptions.
      */
-    public synchronized DescriptionModel load(final String file) throws IOException,
-                                                                  ObjectDescriptionException {
-        
-        this.model = new DescriptionModel();
-        this.baseURL = new File (file).toURL();
-        parseXml(this.baseURL);
-        fillSuperClasses();
-        return this.model;
-        
-    }
+//    public synchronized DescriptionModel load(final String file) throws IOException,
+//                                                                  ObjectDescriptionException {
+//        
+//        this.model = new DescriptionModel();
+//        this.baseURL = new File (file).toURL();
+//        parseXml(this.baseURL);
+//        fillSuperClasses();
+//        return this.model;
+//        
+//    }
 
     /**
      * Iterates through all the class descriptions in the model, setting the superclass
