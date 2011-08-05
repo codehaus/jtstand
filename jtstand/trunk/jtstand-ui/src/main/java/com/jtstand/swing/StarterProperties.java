@@ -118,6 +118,23 @@ public class StarterProperties extends AbstractProperties {
                 }
             }
         }
+        try {
+            String prop = System.getProperty(keyString);
+            if (prop != null) {
+                return prop;
+            }
+        } catch (IllegalArgumentException ex1) {
+            ex1.printStackTrace();
+        } catch (SecurityException ex2) {
+            ex2.printStackTrace();
+        }
+        try {
+            return System.getenv(keyString);
+        } catch (IllegalArgumentException ex1) {
+            ex1.printStackTrace();
+        } catch (SecurityException ex2) {
+            ex2.printStackTrace();
+        }
         return null;
     }
 }
