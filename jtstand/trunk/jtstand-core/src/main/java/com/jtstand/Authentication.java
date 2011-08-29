@@ -199,7 +199,7 @@ public class Authentication {
         setOperator(null);
     }
 
-    private String getEmployeeNumber(String username, String password) {
+    public String getEmployeeNumber(String username, String password) {
         if ((getLocalUserList() == null || getLocalUserList().getLocalUsers().isEmpty()) && (getDomainUserList() == null || getDomainUserList().getDomainUsers().isEmpty())) {
             return username;
         }
