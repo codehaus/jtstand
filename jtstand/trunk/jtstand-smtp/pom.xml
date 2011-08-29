@@ -4,12 +4,12 @@
     <parent>
         <artifactId>jtstand</artifactId>
         <groupId>org.codehaus.jtstand</groupId>
-        <version>1.4.6-SNAPSHOT</version>
+        <version>1.4.6</version>
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-smtp</artifactId>
     <name>jtstand-smtp</name>
-    <version>1.4.6-SNAPSHOT</version>
+    <version>1.4.6</version>
     <description>jtstand-smtp sends out email notification through smtp</description>
     <url>http://jtstand.codehaus.org/jtstand-smtp/</url>
     <dependencies>
