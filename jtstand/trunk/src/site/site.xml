@@ -35,7 +35,7 @@
             <link href="favicon.ico" rel="SHORTCUT ICON" />
         </head>
         <breadcrumbs>
-            <item name="jtstand"/>
+            <item name="jtstand" href="http://www.jtstand.com/"/>
         </breadcrumbs>
         <menu name="JTStand Overview" inherit="top">
             <item name="About JTStand" href="index.html"/>
