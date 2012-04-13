@@ -17,5 +17,16 @@
             <type>jar</type>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>jbossnexus</id>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases</url>
+        </repository>
+        <repository>
+            <id>tmatesoft</id>
+            <name>Tmatesoft Releases</name>
+            <url>http://maven.tmatesoft.com/content/repositories/releases/</url>
+        </repository>               
+    </repositories>
 </project>
 
