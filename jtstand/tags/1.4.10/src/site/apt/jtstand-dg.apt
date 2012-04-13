@@ -1,0 +1,185 @@
+JTStand Developer's Guide
+
+* TODO
+
+  * Able to print/save generated report
+
+  * Accept custom report generator as plugin
+
+  * Remote notification
+
+  * Analize shared resource usage (from lock to unlock)
+
+  * Admin GUI
+
+  * Complete PMD analysis
+
+  * Database pulling from other stations
+
+  * Memory use analysis and further stress test
+
+  * Unit test coverage
+
+  * Code commenting and JavaDoc
+
+
+* Develop
+
+  Please report in the
+{{{http://jtstand.codehaus.org/issue-tracking.html}issue tracking system}},
+if you have found a bug or a missing feature.
+  Contact the developers through the
+{{{http://jtstand.codehaus.org/mail-lists.html}mailing list}} otherwise,
+for example if you want join the developers.
+
+
+
+* Tools
+
+ JTStand is mostly written in Java.
+ Java sources of JTStand can be compiled
+using Oracle's {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}JDK 6}} or
+{{{http://openjdk.java.net/}OpenJDK 6}}.
+ User Interface is using {{{http://en.wikipedia.org/wiki/Swing_%28Java%29}Swing}} and also uses {{{https://swingx.dev.java.net/}swingx}}, which is an extension of Swing.
+
+ Drivers and libraries can be called from steps of JTStand Sequence, using JNA or JNI the Java Native Interface. Some C programming is required when writing a JNI wrapper. Examples will be provided. Drivers, which will be sub-projects of JTStand, will use JNI technology, but the JTStand core will not be dependent of JNI.
+
+ JTStand is developed and tested on Operating Systems:
+
+  * {{{http://www.microsoft.com/windows/products/windowsxp/default.mspx}Windows XP}}
+
+  * {{{http://distrowatch.com/}Linux}} - Recommended Linux distribution: {{{http://www.opensuse.org/}OpenSUSE}}
+
+*--+--+--+
+|| <<Tool>> || <<Description>> || <<Used in JTStand to>> ||
+*--+--+--+
+| {{{http://www.oracle.com/technetwork/java/javase/downloads/index.html}JDK6}} | Java SE Development Kit | Compile Java code.  The developer will use utilize this through different NetBeans features. |
+*--+--+--+
+| {{{http://www.netbeans.org/}NetBeans}} | "The only IDE you need!" | Edit Java sources and XML files  Compile, Build, Debug, and profile Java code |
+*--+--+--+
+| {{{http://xml-copy-editor.sourceforge.net/} XML Copy Editor}} |  Validating XML editor | Edit and validate XML files.  Do not load the IDE to edit a single XML file and do not use Notepad, because it won't validate! |
+*--+--+--+
+| {{{http://www.jedit.org/} jEdit}} | Editor which also includes a validating XML editor | Same as XML Copy Editor.  Use either one. |
+*--+--+--+
+| {{{http://pmd.sourceforge.net/}PMD}}  | Java Code Scanner | JTStand uses PMD indirectly, through pmd-netbeans |
+*--+--+--+
+| pmd-netbeans  (subproject of {{{http://pmd.sourceforge.net/}PMD}}) | Java Code Scanner Plugin for NetBeans | Cleanup the the Java sources within the NetBeans IDE |
+*--+--+--+
+Tools
+
+
+
+*--+--+
+|| <<Database Server>> ||
+*--+--+
+| {{{http://www.postgresql.org/}PostgreSQL}} |
+*--+--+
+| {{{http://www.mysql.com/}MySQL}} |
+*--+--+
+| {{{http://db.apache.org/derby/}Apache Derby}} |
+*--+--+
+| {{{http://www.h2database.com/}H2}} |
+*--+--+
+Compatible Databases
+
+ Default database is Derby. PostgreSQL is recommended.
+
+
+* Development Policy
+
+  * Do not reinvent the wheel
+
+    * Use the technology what is available.
+
+    * Learn how to use it more effectively.
+
+  * To avoid future problems, design the software with
+
+    * Extensibility
+
+    * Performance
+
+    * {{{http://en.wikipedia.org/wiki/Scalability}Scalability}}
+
+  * Not enough that it works, maintain the {{{http://en.wikipedia.org/wiki/Source_code}sources}}!
+
+    * Use auto-formatting tools for maintaining the nice look. Alt-Shift-F in Netbeans.
+
+    * Use {{{http://en.wikipedia.org/wiki/Refactor}refactoring}} for maintaining the readability and a logical structure.
+
+  * The most important feature of the User Interface is usability.
+    Usability is what helps the operator focusing on the task, without forcing him/her to think.
+
+  * The User Interface must look clean, remove the clutter!
+
+  * Braking the {{{http://en.wikipedia.org/wiki/Backward_compatibility}backward compatibility}} is not always avoidable
+
+    * Assign a new version number label
+
+    * Document the differences
+
+    * Develop migration tools if necessary
+
+
+* Developer's Getting Started
+
+** Setup
+
+  Install JDK6 or OpenJDK 6.
+
+  JTStand is built by {{{http://maven.apache.org/download.html/}Maven}}.
+Find {{{http://www.sonatype.com/book}books about Maven}} and
+{{{http://maven.apache.org/download.html/}download Maven}}.
+Currently JTStand is built using Maven version 3.0.
+
+  JTStand sources are stored on a Subversion server,
+install a {{{http://subversion.tigris.org/}Subversion client}},
+if you want to check out the development version.
+JTStand's Subversion URL:
+http://svn.codehaus.org/jtstand/jtstand/trunk
+
+** Build
+
+  JTStand developers recommend using {{{http://www.netbeans.org/}NetBeans}},
+version 6.9.1 or newer. This IDE includes Maven.
+You can use NetBeans to check out JTStand from Subversion:
+Choose Team/Subversion/Checkout menu, and on the form,
+set Repository URL to http://svn.codehaus.org/jtstand/jtstand/trunk.
+After the project is checked out, using the File/ProjectOpen menu,
+locate this checked out jtstand directory and open the Maven project.
+NetBeans will show some warning abount missing dependencies.
+This time you can ignore these warning;
+the missing dependencies should be downloaded or built during the build process.
+Just right click the parent project and choose build on the context menu.
+
+  Building JTStand without IDE, with Maven is simple:
+Just cd to the directory which contains the parent POM, and mvn<Enter>.
+
+  First time, when you build JTStand,
+Maven will try to download some dependencies.
+At this time, Internet connectivity is required.
+Later the project can be rebuilt offline.
+
+** Running
+
+  If you are using NetBeans, right-click on the jtstand-demo module of jtstand
+and select Set as Main Project from the NetBeans context menu.
+If the build was successful Run the Main Project (jtstand-demo)
+with the big green play button).
+
+  Without IDE support, the options are:
+
+  * Use the {{{http://mojo.codehaus.org/exec-maven-plugin/}exec plugin}}
+on the jtstand-demo project with main class set to "com.jtstand.swing.Main".
+NetBeans does the same thing.
+
+  * Unzip the generated "distribution" archive
+from the target directory of jtstand-demo
+to an empty directory, and execute the application through
+the unzipped jtstand.bat or jtstand.sh scripts.
+
+
+
+  If you need instructions for creating a JTStand based application
+(Project/Sequences/Steps),
+see the {{{http://jtstand.codehaus.org/jtstand-ug.html}User's Guide}}
