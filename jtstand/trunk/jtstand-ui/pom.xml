@@ -133,9 +133,9 @@
             <artifactId>jtstand-desktop</artifactId>
         </dependency-->
         <dependency>
-            <groupId>org.swinglabs</groupId>
+            <groupId>org.swinglabs.swingx</groupId>
             <artifactId>swingx-core</artifactId>
-            <version>1.6.2-2</version>
+            <version>1.6.3</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jtstand</groupId>
