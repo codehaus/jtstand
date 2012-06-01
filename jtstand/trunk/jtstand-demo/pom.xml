@@ -126,7 +126,7 @@
                 <executions>
                     <execution>
                         <id>copy-commands</id>
-                        <phase>validate</phase>
+                        <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
