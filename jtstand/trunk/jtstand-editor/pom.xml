@@ -31,5 +31,18 @@
     <name>jtstand-editor</name>
     <description>jtstand-editor is a syntax highlighting text editor, derived from rsyntaxtextarea</description>
     <url>http://jtstand.codehaus.org/jtstand-editor/</url>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
 
