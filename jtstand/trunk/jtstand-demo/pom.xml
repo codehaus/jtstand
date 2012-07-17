@@ -143,6 +143,27 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.7</version>
+                <!--configuration>                    
+                    <goals>checkout</goals>     
+                </configuration-->
+                <executions>
+                    <execution>
+                        <id>package-single</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>checkout</goal>
+                        </goals>
+                        <configuration>
+                            <connectionUrl>${project.scm.connection}/src/config</connectionUrl>
+                            <developerConnectionUrl>${project.scm.developerConnection}/src/config</developerConnectionUrl>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>

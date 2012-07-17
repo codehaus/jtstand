@@ -53,7 +53,8 @@
             <outputDirectory>/</outputDirectory>
         </fileSet>
         <fileSet>
-            <directory>src/config</directory>
+            <!--directory>src/config</directory-->
+            <directory>target/checkout</directory>
             <outputDirectory>/config</outputDirectory>
             <useDefaultExcludes>false</useDefaultExcludes>
         </fileSet>
