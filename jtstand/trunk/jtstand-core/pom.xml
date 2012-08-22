@@ -175,17 +175,17 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.20</version>
+            <version>5.1.21</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.5.3</version>
+            <version>1.6.6</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.5.3</version>
+            <version>1.6.6</version>
         </dependency>
         <!--dependency>
             <groupId>org.codehaus.jtstand</groupId>
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
             <artifactId>svnkit</artifactId>
-            <version>1.7.5</version>
+            <version>1.7.5-v1</version>
         </dependency>
     </dependencies>
     <!--distributionManagement>
