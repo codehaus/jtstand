@@ -97,6 +97,11 @@
             <testSequence subversionUrl="InteractiveError.xml" revision="786"/>
         </testType>
     </product>
+    <product partNumber="SN_SETTER_DEMO" partRevision="001">
+        <testType name="DEMO">
+            <testSequence subversionUrl="SnSetterDemo.xml" revision="864"/>
+        </testType>
+    </product>
     <product partNumber="fixture" partRevision="1">
         <testType name="init1">
             <testSequence subversionUrl="init1.xml" revision="400"/>
@@ -130,6 +135,7 @@
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <testType partNumber="INTERACTIVE_ERROR" partRevision="1" name="DEMO"/>
+            <testType partNumber="SN_SETTER_DEMO" partRevision="001" name="DEMO"/>
             <initType partNumber="fixture" partRevision="1" name="init1"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -174,6 +180,7 @@
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <testType partNumber="INTERACTIVE_ERROR" partRevision="1" name="DEMO"/>
+            <testType partNumber="SN_SETTER_DEMO" partRevision="001" name="DEMO"/>
             <initType partNumber="fixture" partRevision="1" name="init1"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
@@ -206,6 +213,7 @@
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
             <testType partNumber="INTERACTIVE_ERROR" partRevision="1" name="DEMO"/>
+            <testType partNumber="SN_SETTER_DEMO" partRevision="001" name="DEMO"/>
             <initType partNumber="fixture" partRevision="1" name="init1"/>
         </fixture>
         <fixture fixtureName="FX2" serialNumber="FX2">
