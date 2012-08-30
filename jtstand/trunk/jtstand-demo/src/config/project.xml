@@ -99,7 +99,7 @@
     </product>
     <product partNumber="SN_SETTER_DEMO" partRevision="001">
         <testType name="DEMO">
-            <testSequence subversionUrl="SnSetterDemo.xml" revision="864"/>
+            <testSequence subversionUrl="SnSetterDemo.xml" revision="866"/>
         </testType>
     </product>
     <product partNumber="fixture" partRevision="1">
