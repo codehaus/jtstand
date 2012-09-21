@@ -528,7 +528,7 @@ public class TestStation extends AbstractVariables implements Bindings {
         h2("org.h2.Driver", "org.hibernate.dialect.H2Dialect"),
         derby("org.apache.derby.jdbc.EmbeddedDriver", "org.hibernate.dialect.DerbyDialect"),
         postgresql("org.postgresql.Driver", "org.hibernate.dialect.PostgreSQLDialect"),
-        mysql("com.mysql.jdbc.Driver", "org.hibernate.dialect.MySQLDialect");
+        mysql("com.mysql.jdbc.Driver", "com.jtstand.dialect.Mysql5BitBooleanDialect");
         public final String driverClass;
         public final String dialect;
 
