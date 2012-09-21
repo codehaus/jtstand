@@ -16,9 +16,7 @@
   ~
   ~ You should have received a copy of the GNU Lesser General Public License
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
-<actions>
+  --><actions>
     <action>
         <actionName>run</actionName>
         <goals>
@@ -26,7 +24,7 @@
             <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
         </goals>
         <properties>
-            <exec.args>-Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main</exec.args>
+            <exec.args>-Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main -s MYSTATION</exec.args>
             <exec.executable>java</exec.executable>
         </properties>
     </action>
@@ -37,9 +35,20 @@
             <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
         </goals>
         <properties>
-            <exec.args>-Xdebug -Djava.compiler=none -Xnoagent -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main</exec.args>
+            <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main -s MYSTATION</exec.args>
             <jpda.listen>true</jpda.listen>
             <exec.executable>java</exec.executable>
         </properties>
     </action>
+    <action>
+            <actionName>profile</actionName>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>${profiler.args} -Xmx256m -Xms256m -Xmn64m -classpath %classpath com.jtstand.swing.Main -s MYSTATION</exec.args>
+                <exec.executable>${profiler.java}</exec.executable>
+            </properties>
+        </action>
 </actions>
