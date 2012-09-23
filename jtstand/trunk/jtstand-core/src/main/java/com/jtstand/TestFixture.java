@@ -470,6 +470,7 @@ public class TestFixture extends AbstractVariables implements Bindings {
 
     @Override
     public Set<String> keySet() {
+        System.out.println("TestFixture keySet() is called.");
         Set<String> keys = new HashSet<String>();
         keys.addAll(super.keySet());
         keys.addAll(testStation.keySet());
@@ -497,7 +498,7 @@ public class TestFixture extends AbstractVariables implements Bindings {
         if (getTestStation() != null) {
             return getTestStation().getVariable(keyString);
         }
-        throw new IllegalArgumentException("Undefined variable:" + keyString);
+        throw new IllegalArgumentException("Undefined variable in TestFixture:" + keyString);
     }
 
     @Override

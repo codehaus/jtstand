@@ -1346,6 +1346,9 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if ("out".equals(keyString)) {
             return System.out;
         }
+        if("value".equals(keyString)){
+            return getValue();
+        }
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
@@ -1414,7 +1417,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             System.err.println("getVariable : testSequenceInstance is null!");
         }
-        throw new IllegalArgumentException("Undefined variable:" + keyString);
+        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }
 
     @Override
@@ -1466,7 +1469,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             System.err.println("releaseVariable : testSequenceInstance is null!");
         }
-        throw new IllegalArgumentException("Undefined variable:" + keyString);
+        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }
 
     @Override
@@ -1532,7 +1535,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             }
         }
         return localVariablesMap.put(key, variableValue);
-        //throw new IllegalArgumentException("Undefined variable:" + key);
     }
 
     @Override
@@ -1565,15 +1567,21 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //    }
     @Override
     public Object get(Object key) {
-//        System.out.println("get of Bindings is called with key: '" + key + "'...");
+        System.out.println("get of Bindings is called with key: '" + key + "'...");
         if ("$type$".equals(key)) {
             return getClass().getName();
         }
         if ("context".equals(key)) {
             return ScriptContext.ENGINE_SCOPE;
         }
-        if ("step".equals(key)) {
+        if ("step".equals(key)) {            
             return this;
+        }
+        if("fixture".equals(key)){
+            return this.getTestSequenceInstance().getTestFixture();
+        }
+        if("station".equals(key)){
+            return this.getTestSequenceInstance().getTestStation();
         }
         if ("id".equals(key)) {
             return id;
@@ -1660,7 +1668,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 
     @Override
     public Set<String> keySet() {
-//        System.out.println("keySet of Bindings is called");
+        System.out.println("TestStepInstance keySet() is called.");
         Set<String> keys = keySetPublic();
         keys.add("value");
         keys.add("step");

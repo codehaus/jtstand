@@ -18,23 +18,21 @@
  */
 package com.jtstand;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Column;
 import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.ManyToOne;
 
 /**
  *
  * @author albert_kurucz
  */
 @Entity
-@Table(uniqueConstraints =
-@UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
+//@Table(uniqueConstraints =
+//@UniqueConstraint(columnNames = {"teststep_id", "steppath"}))
 public class TestStepNamePath {
 
 //    private static transient ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>> cache = new ConcurrentHashMap<TestSequence, ConcurrentHashMap<String, TestStepNamePath>>();

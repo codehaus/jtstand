@@ -847,14 +847,15 @@ public class TestStation extends AbstractVariables implements Bindings {
                 }
             }
         }
-        if ("out".equals(keyString)) {
-            return System.out;
-        }
-        throw new IllegalArgumentException("Undefined variable:" + keyString);
+//        if ("out".equals(keyString)) {
+//            return System.out;
+//        }
+        throw new IllegalArgumentException("Undefined variable in TestStation:" + keyString);
     }
 
     @Override
     public Set<String> keySet() {
+        System.out.println("TestStation keySet() is called.");
         Set<String> keys = new HashSet<String>();
         keys.addAll(super.keySet());
         keys.add("station");
