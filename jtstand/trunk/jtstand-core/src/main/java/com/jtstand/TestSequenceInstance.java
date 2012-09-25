@@ -109,6 +109,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             return true;
         } catch (Exception ex) {
             System.out.println("Exception in toFile: " + ex.getMessage());
+            ex.printStackTrace();
         }
         return false;
     }
@@ -143,7 +144,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         super();
     }
 
-    private static JAXBContext getJAXBContext()
+    public static JAXBContext getJAXBContext()
             throws JAXBException {
         if (jc == null) {
             jc = JAXBContext.newInstance(TestSequenceInstance.class);
@@ -344,8 +345,9 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     }
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
-        return testStepInstance;
+        return testStepInstance.getBindings();
     }
 
     @Override
@@ -1391,7 +1393,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         return em;
     }
 
-    public boolean merge(TestStepInstance step) {
+    public boolean merge(TestStepInstance step) {        
         if (!this.equals(step.getTestSequenceInstance())) {
             throw new IllegalArgumentException("Cannot merge " + step.getClass().getCanonicalName() + ", which is not a descendant!");
         }

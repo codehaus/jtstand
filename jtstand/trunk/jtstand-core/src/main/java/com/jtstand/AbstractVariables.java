@@ -96,7 +96,7 @@ abstract public class AbstractVariables extends AbstractProperties {
             if (v != null) {
                 return v;
             }
-            v = tsp.getPropertyObject(step);
+            v = tsp.getPropertyObject(step.getBindings());
             if (v != null) {
                 put(keyString, v);
             }

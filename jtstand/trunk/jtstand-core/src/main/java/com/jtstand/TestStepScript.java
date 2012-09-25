@@ -96,7 +96,7 @@ public class TestStepScript extends FileRevisionReference {
     public Object execute(TestStepInstance step) throws ScriptException, URISyntaxException, SVNException, IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, InstantiationException {
         if (null == getInterpreter()) {
             /* interpreter is not defined, use the default interpreter, which is groovy in our case! */
-            return TestProject.getScriptEngineManager().getEngineByName("groovy").eval(getFileContent(), step);
+            return TestProject.getScriptEngineManager().getEngineByName("groovy").eval(getFileContent(), step.getBindings());
         }
         Object myInterpreterObject = null;
         Class<?> classOfMyInterpreterObjects = null;
@@ -109,7 +109,7 @@ public class TestStepScript extends FileRevisionReference {
                 classOfMyInterpreterObjects = Thread.currentThread().getContextClassLoader().loadClass(getInterpreter());
             } catch (ClassNotFoundException ex1) {
                 //System.out.println("Getting engine by name: " + getInterpreter() + "...");
-                return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step);
+                return TestProject.getScriptEngineManager().getEngineByName(getInterpreter()).eval(getFileContent(), step.getBindings());
             }
         }
         if (ScriptEngine.class.isAssignableFrom(classOfMyInterpreterObjects)) {
@@ -118,11 +118,11 @@ public class TestStepScript extends FileRevisionReference {
                 myInterpreterObject = classOfMyInterpreterObjects.newInstance();
             }
             //System.out.println("Calling eval on engine...");
-            return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step);
+            return ((ScriptEngine) myInterpreterObject).eval(getFileContent(), step.getBindings());
         }
         try {
             //System.out.println("try1...");
-            return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step);
+            return classOfMyInterpreterObjects.getMethod("eval", EVAL_STRING_BINDINGS).invoke(myInterpreterObject, getFileContent(), step.getBindings());
         } catch (NoSuchMethodException ex) {
             try {
                 //System.out.println("try2...");

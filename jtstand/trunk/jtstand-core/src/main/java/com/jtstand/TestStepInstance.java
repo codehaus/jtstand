@@ -18,12 +18,6 @@
  */
 package com.jtstand;
 
-import java.util.Map.Entry;
-import javax.script.ScriptException;
-import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
-import javax.xml.bind.JAXBException;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URISyntaxException;
@@ -31,9 +25,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,26 +36,31 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Basic;
-import javax.script.Bindings;
-import javax.script.ScriptContext;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.EntityManager;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.script.Bindings;
+import javax.script.ScriptException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.parsers.ParserConfigurationException;
+import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -78,12 +75,13 @@ import javax.xml.bind.annotation.XmlType;
 //@XmlRootElement(name = "step")
 @XmlType(name = "testStepInstanceType", propOrder = {"status", "loops", "startDate", "finishDate", "valueNumber", "valueString", "steps"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStepInstance extends AbstractVariables implements Runnable, StepInterface, Bindings {
+public class TestStepInstance extends AbstractVariables implements Runnable, StepInterface {
 
     private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     public static final String STR_DECIMAL_FORMAT = "DECIMAL_FORMAT";
     public static final Class<?>[] STEP_INTERFACE_CONSTRUCTOR = {StepInterface.class};
     public static final Class<?>[] NULL_CONSTRUCTOR = {};
+    private static JAXBContext jc;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -112,7 +110,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     private transient String lslWithUnit = null;
     private transient String uslWithUnit = null;
     private transient final Object parentLock = new Object();
-    private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
+    private transient TestStepInstanceBindings bindings;
 
 //    public void initializeProperties() throws ScriptException {
 //        for (TestStepProperty tp : testStep.getProperties()) {
@@ -122,6 +120,14 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //            }
 //        }
 //    }
+    public static JAXBContext getJAXBContext()
+            throws JAXBException {
+        if (jc == null) {
+            jc = JAXBContext.newInstance(TestStepInstance.class);
+        }
+        return jc;
+    }
+
     public void connect(EntityManager em) throws URISyntaxException, JAXBException, SVNException {
         if (calledTestStep != null && calledTestStep.getId() == null) {
             TestStep ts = testSequenceInstance.getConnectedTestStep(em, calledTestStep);
@@ -197,6 +203,10 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         TestStepNamePath tsnp = getTestStepNamePath();
         return (tsnp == null) ? evaluateName() : tsnp.getStepName();
     }
+    
+    public void setName(String name){
+        /* dummy function to satisfy JAXB */
+    }
 
     @XmlTransient
     public String getTestStepInstancePath() {
@@ -246,6 +256,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         this.testStepInstancePosition = position;
     }
 
+    @XmlTransient
     String getInteractionMessage() {
         return message;
     }
@@ -287,6 +298,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     @Basic(fetch = FetchType.EAGER)
     protected StepStatus status = StepStatus.PENDING;
 
+    @XmlTransient
     public Long getElapsed() {
         return (startTime == null) ? null : ((finishTime == null) ? System.currentTimeMillis() : finishTime) - startTime;
     }
@@ -860,7 +872,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     public void mergeOrSerialize() {
         final TestStepInstance step = this;
         Thread t = new Thread(new Runnable() {
-
             public void run() {
                 if (!getTestSequenceInstance().merge(step)) {
                     getTestSequenceInstance().toFile();
@@ -1186,7 +1197,10 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     @Override
     @XmlTransient
     public Bindings getBindings() {
-        return this;
+        if (this.bindings == null) {
+            this.bindings = new TestStepInstanceBindings(this);
+        }
+        return this.bindings;
     }
 
     @Override
@@ -1346,7 +1360,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if ("out".equals(keyString)) {
             return System.out;
         }
-        if("value".equals(keyString)){
+        if ("value".equals(keyString)) {
             return getValue();
         }
         if (getTestStep() != null) {
@@ -1403,7 +1417,8 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                     for (TestProjectProperty tsp : seq.getTestStation().getTestProject().getProperties()) {
                         if (tsp.getName().equals(keyString)) {
                             /**
-                             * variables defined at project level are still stored at station level
+                             * variables defined at project level are still
+                             * stored at station level
                              */
 //                            System.out.println("From TestProjectProperty: " +
 //                                    ((tsp.getPropertyValueAttribute() == null)
@@ -1472,211 +1487,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }
 
-    @Override
-    public Object put(String key, Object variableValue) {
-        //System.out.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
-        if ("value".equals(key)) {
-            Object retval = getValue();
-            setValue(variableValue);
-            return retval;
-        }
-        for (TestStepProperty tsp : getTestStep().getProperties()) {
-            if (tsp.getName().equals(key)) {
-                if ((tsp.isFinal() == null || tsp.isFinal()) && super.containsKey(key)) {
-                    throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                }
-                return super.put(key, variableValue);
-            }
-        }
-        if (getCalledTestStep() != null) {
-            for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
-                if (tsp.getName().equals(key)) {
-                    if ((tsp.isFinal() == null || tsp.isFinal()) && super.containsKey(key)) {
-                        throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                    }
-                    return super.put(key, variableValue);
-                }
-            }
-        }
-        if (parent != null) {
-            return parent.put(key, variableValue);
-        }
-        TestSequenceInstance seq = getTestSequenceInstance();
-        if (seq != null) {
-            if (seq.getTestFixture() != null) {
-                for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestFixture().containsKey(key)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                        }
-                        return seq.getTestFixture().put(key, variableValue);
-                    }
-                }
-            }
-            if (seq.getTestStation() != null) {
-                for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                        }
-                        return seq.getTestStation().put(key, variableValue);
-                    }
-                }
-            }
-            if (seq.getTestProject() != null) {
-                for (TestProjectProperty tsp : seq.getTestProject().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
-                        }
-                        return seq.getTestStation().put(key, variableValue);
-                    }
-                }
-            }
-        }
-        return localVariablesMap.put(key, variableValue);
-    }
-
-    @Override
-    public void putAll(Map<? extends String, ? extends Object> toMerge) {
-        for (Entry<? extends String, ? extends Object> variableEntry : toMerge.entrySet()) {
-            put(variableEntry.getKey(), variableEntry.getValue());
-        }
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
-        return super.containsKey(key.toString())
-                || "value".equals(key)
-                || "step".equals(key)
-                || localVariablesMap.containsKey(key.toString())
-                || containsProperty(key.toString());
-    }
-
-//    public boolean containsKeyPublic(Object key) {
-//        if (super.containsKey((String) key)) {
-//            return true;
-//        }
-//        if (parent != null) {
-//            return parent.containsKeyPublic(key);
-//        }
-//        TestSequenceInstance seq = getTestSequenceInstance();
-//        return seq != null && (seq.containsKey((String) key) ||
-//                seq.getTestFixture() != null && seq.getTestFixture().containsKey((String) key) ||
-//                seq.getTestStation() != null && seq.getTestStation().containsKey((String) key));
-//    }
-    @Override
-    public Object get(Object key) {
-        System.out.println("get of Bindings is called with key: '" + key + "'...");
-        if ("$type$".equals(key)) {
-            return getClass().getName();
-        }
-        if ("context".equals(key)) {
-            return ScriptContext.ENGINE_SCOPE;
-        }
-        if ("step".equals(key)) {            
-            return this;
-        }
-        if("fixture".equals(key)){
-            return this.getTestSequenceInstance().getTestFixture();
-        }
-        if("station".equals(key)){
-            return this.getTestSequenceInstance().getTestStation();
-        }
-        if ("id".equals(key)) {
-            return id;
-        }
-        if ("testStep".equals(key)) {
-            return testStep;
-        }
-        if ("calledTestStep".equals(key)) {
-            return calledTestStep;
-        }
-        if ("testSequenceInstance".equals(key)) {
-            return testSequenceInstance;
-        }
-        if ("startTime".equals(key)) {
-            return startTime;
-        }
-        if ("finishTime".equals(key)) {
-            return finishTime;
-        }
-        if ("loops".equals(key)) {
-            return loops;
-        }
-        if ("parent".equals(key)) {
-            return parent;
-        }
-        if ("steps".equals(key)) {
-            return steps;
-        }
-        if ("valueString".equals(key)) {
-            return valueString;
-        }
-        if ("valueNumber".equals(key)) {
-            return valueNumber;
-        }
-        if ("position".equals(key)) {
-            return testStepInstancePosition;
-        }
-
-        if (localVariablesMap.containsKey((String) key)) {
-            return localVariablesMap.get((String) key);
-        }
-        try {
-            return getVariable((String) key);
-        } catch (ScriptException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
-            throw new IllegalStateException(ex.getMessage());
-        } catch (InterruptedException ex) {
-            throw new IllegalStateException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public Object remove(Object key) {
-        return localVariablesMap.remove((String) key);
-    }
-
-    @Override
-    public int size() {
-        return keySet().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        /* 'value' is always there, and cannot be removed */
-        return false;
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-//        System.out.println("containsValue of Bindings is called");
-        for (String key : keySet()) {
-            if (value.equals(get(key))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        localVariablesMap.clear();
-    }
-
-    @Override
-    public Set<String> keySet() {
-        System.out.println("TestStepInstance keySet() is called.");
-        Set<String> keys = keySetPublic();
-        keys.add("value");
-        keys.add("step");
-        keys.addAll(localVariablesMap.keySet());
-        return keys;
-    }
-
-    private Set<String> keySetPublic() {
+    public Set<String> keySetPublic() {
         Set<String> keys = new HashSet<String>();
         keys.addAll(super.keySet());
         if (parent != null) {
@@ -1693,24 +1504,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             }
         }
         return keys;
-    }
-
-    @Override
-    public Collection<Object> values() {
-        Collection<Object> values = new ArrayList<Object>();
-        for (String key : keySet()) {
-            values.add(get(key));
-        }
-        return values;
-    }
-
-    @Override
-    public Set<Entry<String, Object>> entrySet() {
-        Set<Entry<String, Object>> entries = new HashSet<Entry<String, Object>>();
-        for (String key : keySet()) {
-            entries.add(new HashMap.SimpleEntry(key, get(key)));
-        }
-        return entries;
     }
 
     @Override
