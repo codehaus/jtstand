@@ -2,7 +2,7 @@
 <!--
   ~ Copyright (c) 2009 Albert Kurucz. 
   ~
-  ~ This file, demoStep.xml is part of JTStand.
+  ~ This file, heavyRandom.xml is part of JTStand.
   ~
   ~ JTStand is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU Lesser General Public License as published by
@@ -18,15 +18,11 @@
   ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<step name="demo step root" xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
-    <remark>This step is the root of the demo step</remark>
+<step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="random1000" xsi:schemaLocation="http://www.jtstand.com/ jtstand-1.0.xsd">
+    <remark>&lt;html&gt;This step is the root of the main sequence&lt;br&gt;and another line&lt;/html&gt;</remark>
+    <property name="DECIMAL_FORMAT" value="0.000"/>
     <property name="AVERAGE">1.0</property>
-    <limit comp="EQ" nominal="3.1"/>
-    <script>value = AVERAGE + 1.0</script>
-    <step name="demo step 1" useLimit="the 1st step's limit">
-        <remark>This is the 1st real step</remark>
-        <property name="SIGMA">1.0</property>
-        <script subversionUrl="testrandom.gs" revision="875"/>
-    </step>
+    <property name="SIGMA">1.0</property>
+    <limit name="the 1st step's limit" comp="GELE" lsl="-3.0" usl="5.0" unit="V"/>
+    <stepFile subversionUrl="heavyStep1000.xml" revision="878"/>
 </step>
-

@@ -24,16 +24,16 @@
         <property name="VAR1" final="false"/>
         <step name="group" parallel="true">
             <step name="sub1">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub2">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub3">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub4">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
         </step>
     </step>
@@ -41,16 +41,16 @@
         <property name="VAR1" final="false" mutex="true"/>
         <step name="group" parallel="true">
             <step name="sub1">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub2">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub3">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub4">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
         </step>
     </step>
@@ -58,16 +58,16 @@
         <property name="VAR1" final="false" mutex="true"/>
         <step name="group">
             <step name="sub1">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub2">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub3">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="sub4">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
         </step>
     </step>
@@ -75,18 +75,18 @@
         <property name="VAR1" final="false" mutex="true">(Integer) 100</property>
         <step name="group1">
             <step name="sub1">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
             <step name="group2" parallel="true">
                 <step name="sub2">
-                    <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                    <stepFile subversionUrl="mutexSub.xml" revision="878"/>
                 </step>
                 <step name="sub3">
-                    <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                    <stepFile subversionUrl="mutexSub.xml" revision="878"/>
                 </step>
             </step>
             <step name="sub4">
-                <stepFile subversionUrl="mutexSub.xml" revision="875"/>
+                <stepFile subversionUrl="mutexSub.xml" revision="878"/>
             </step>
         </step>
     </step>

@@ -44,70 +44,70 @@
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO1" >
             <property name="SERIAL_NUMBER_CRITERIA" value="*"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="875"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="878"/>
         </testType>
         <testType name="DEMO2">
             <property name="SERIAL_NUMBER_CRITERIA" value="**"/>
-            <testSequence subversionUrl="demoRandom.xml" revision="875"/>
+            <testSequence subversionUrl="demoRandom.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="RANDOM" partRevision="10">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="random10.xml" revision="875"/>
+            <testSequence subversionUrl="random10.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="RANDOM" partRevision="100">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="random100.xml" revision="875"/>
+            <testSequence subversionUrl="random100.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="RANDOM" partRevision="1000">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO" >
-            <testSequence subversionUrl="random1000.xml" revision="875"/>
+            <testSequence subversionUrl="random1000.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A01">
         <property name="DECIMAL_FORMAT" value="0.000"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="875"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="RANDOMBREAK" partRevision="A02">
         <remark>another random</remark>
         <property name="DEBUG_ENABLED" value="false"/>
         <testType name="DEMO">
-            <testSequence subversionUrl="demoSequence.xml" revision="875"/>
+            <testSequence subversionUrl="demoSequence.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="MUTEX_DEMO" partRevision="A01">
         <testType name="DEMO">
-            <testSequence subversionUrl="mutexDemo.xml" revision="875"/>
+            <testSequence subversionUrl="mutexDemo.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="INTERACTIVE_DEMO" partRevision="001">
         <testType name="DEMO">
-            <testSequence subversionUrl="InteractiveDemo.xml" revision="875"/>
+            <testSequence subversionUrl="InteractiveDemo.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="INTERACTIVE_ERROR" partRevision="1">
         <testType name="DEMO">
-            <testSequence subversionUrl="InteractiveError.xml" revision="875"/>
+            <testSequence subversionUrl="InteractiveError.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="SN_SETTER_DEMO" partRevision="001">
         <testType name="DEMO">
-            <testSequence subversionUrl="SnSetterDemo.xml" revision="875"/>
+            <testSequence subversionUrl="SnSetterDemo.xml" revision="878"/>
         </testType>
     </product>
     <product partNumber="fixture" partRevision="1">
         <testType name="init1">
-            <testSequence subversionUrl="init1.xml" revision="875"/>
+            <testSequence subversionUrl="init1.xml" revision="878"/>
         </testType>
         <testType name="init2">
-            <testSequence subversionUrl="init2.xml" revision="875"/>
+            <testSequence subversionUrl="init2.xml" revision="878"/>
         </testType>
     </product>
     <testStation hostName="STATION1">
