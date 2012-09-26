@@ -18,17 +18,17 @@
  */
 package com.jtstand;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -90,7 +90,7 @@ public class LocalUser extends Operator {
                 return getEmployeeNumber();
             }
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LocalUser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LocalUser.class.getName()).log(Level.ERROR, null, ex);
         }
         return null;
     }

@@ -18,18 +18,14 @@
  */
 package com.jtstand;
 
-import java.util.Map;
-import java.util.Set;
-import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.script.Bindings;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,13 +35,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
+import javax.script.Bindings;
 import javax.script.ScriptContext;
+import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -431,7 +431,7 @@ public class TestFixture extends AbstractVariables implements Bindings {
         try {
             return getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestFixture.class.getName()).log(Level.WARN, null, ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());

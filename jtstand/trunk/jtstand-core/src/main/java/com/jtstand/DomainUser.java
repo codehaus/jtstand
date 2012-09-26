@@ -18,20 +18,20 @@
  */
 package com.jtstand;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import java.util.Hashtable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -102,13 +102,13 @@ public class DomainUser extends Operator {
             ctx.close();
             return getEmployeeNumber();
         } catch (NamingException ex) {
-            Logger.getLogger(DomainUser.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DomainUser.class.getName()).log(Level.WARN, null, ex);
         } finally {
             if (ctx != null) {
                 try {
                     ctx.close();
                 } catch (NamingException ex) {
-                    Logger.getLogger(DomainUser.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DomainUser.class.getName()).log(Level.ERROR, null, ex);
                 }
             }
         }

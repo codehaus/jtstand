@@ -18,16 +18,15 @@
  */
 package com.jtstand;
 
-import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
-
+import java.io.IOException;
+import java.net.URISyntaxException;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.SAXException;
 
 /**
  *

@@ -18,10 +18,10 @@
  */
 package com.jtstand;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.Bindings;
 import javax.script.ScriptException;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -34,7 +34,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -62,7 +62,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -98,7 +98,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -134,7 +134,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -170,7 +170,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -206,7 +206,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -234,7 +234,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -276,7 +276,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {
@@ -298,7 +298,7 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
             return defaultValue;
         }
         if (prop != null) {

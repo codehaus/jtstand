@@ -20,15 +20,13 @@ package com.jtstand.swing;
 
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStepInstance;
-import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.jdesktop.swingx.treetable.TreeTableModel;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
+import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
+import org.jdesktop.swingx.treetable.TreeTableModel;
 
 /**
  *
@@ -37,7 +35,6 @@ import java.util.logging.Logger;
 public class TestSequenceInstanceModel extends AbstractTreeTableModel implements Serializable {
 
     public static final long serialVersionUID = 20081114L;
-    static final Logger logger = Logger.getLogger(TestSequenceInstanceModel.class.getCanonicalName());
 
     public static enum SequenceColumn {
 

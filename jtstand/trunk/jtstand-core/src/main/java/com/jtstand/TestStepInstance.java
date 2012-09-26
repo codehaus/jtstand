@@ -33,8 +33,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -59,6 +57,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.parsers.ParserConfigurationException;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -178,11 +178,11 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         }
     }
 
-    @XmlTransient
-    @Override
-    public Logger getLogger() {
-        return LOGGER;
-    }
+//    @XmlTransient
+//    @Override
+//    public Logger getLogger() {
+//        return LOGGER;
+//    }
 
     public String evaluate(String str) {
         return str;
@@ -842,7 +842,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             LOGGER.info(getTestStepInstancePath() + " is interrupted!");
             setStatus(StepStatus.ABORTED);
         } catch (Throwable ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.WARN, ex.getMessage());
             getTestSequenceInstance().setFailureCode(ex.getMessage());
             getTestSequenceInstance().setFailureStep(this);
             if (!isAborted()) {
@@ -882,7 +882,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         try {
             t.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestStepInstance.class.getName()).log(Level.WARN, null, ex);
         }
     }
 
@@ -897,7 +897,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //            Log.log("Merging " + getTestStepInstancePath() + " committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Merging testStepInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+            LOGGER.log(Level.ERROR, "Merging testStepInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }

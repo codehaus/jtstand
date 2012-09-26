@@ -18,14 +18,12 @@
  */
 package com.jtstand.swing;
 
-import com.jgoodies.looks.FontPolicies;
-import com.jgoodies.looks.FontPolicy;
-import com.jgoodies.looks.FontSet;
-import com.jgoodies.looks.FontSets;
-import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+//import com.jgoodies.looks.FontPolicies;
+//import com.jgoodies.looks.FontPolicy;
+//import com.jgoodies.looks.FontSet;
+//import com.jgoodies.looks.FontSets;
+//import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jtstand.Authentication;
-import com.jtstand.TestFixture;
-import com.jtstand.TestProject;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
 import com.jtstand.TestStepInstance;
@@ -33,20 +31,6 @@ import com.jtstand.TestStepScript;
 import com.jtstand.query.FrameInterface;
 import com.jtstand.query.ToDatabase;
 import com.jtstand.swing.TestSequenceInstanceModel.SequenceColumn;
-import java.lang.reflect.InvocationTargetException;
-import javax.script.ScriptException;
-import org.jdesktop.swingx.JXStatusBar;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
-import org.jdesktop.swingx.table.ColumnFactory;
-import org.jdesktop.swingx.table.TableColumnExt;
-import javax.swing.*;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.event.*;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableModel;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
@@ -60,15 +44,29 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.script.ScriptException;
+import javax.swing.*;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.event.*;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.tree.TreePath;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jdesktop.swingx.JXStatusBar;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
+import org.jdesktop.swingx.table.ColumnFactory;
+import org.jdesktop.swingx.table.TableColumnExt;
 
 /**
  *
- **/
+ *
+ */
 public class MainFrame extends AbstractTestSequenceInstanceListTableModel implements TableModel, TableModelListener, TreeSelectionListener, List<TestSequenceInstance>, Set<TestSequenceInstance>, Serializable, ListSelectionListener, PropertyChangeListener, MouseListener, FrameInterface, TreeExpansionListener {
 
 //    public static final long serialVersionUID = 20081114L;
@@ -107,7 +105,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     @Override
     public void tableChanged(TableModelEvent e) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 resizeSequences();
@@ -293,12 +290,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             Constructor<?> starterDialogContructor = starterDialogClass.getConstructor(STARTER_DIALOG_CONSTRUCTOR);
             starterDialog = (Dialog) starterDialogContructor.newInstance(fixture);
         } catch (Exception ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
         }
 //        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
-
             @Override
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 starterDialog = null;
@@ -334,29 +330,32 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                return;
 //            }
 //            UIManager.put(Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE);
-            FontSet fontSet = FontSets.createDefaultFontSet(
-                    //                    new Font("Tahoma", Font.PLAIN, 11), // control font
-                    //                    new Font("Tahoma", Font.PLAIN, 11), // menu font
-                    //                    new Font("Tahoma", Font.PLAIN, 11) // title font
-                    //                    new Font("Sans", Font.PLAIN, 11), // control font
-                    //                    new Font("Sans", Font.PLAIN, 11), // menu font
-                    //                    new Font("Sans", Font.PLAIN, 11) // title font
-                    new Font("Verdana", Font.PLAIN, 12), // control font
-                    new Font("Verdana", Font.PLAIN, 12), // menu font
-                    new Font("Verdana", Font.PLAIN, 12) // title font
-                    );
-            FontPolicy fixedPolicy = FontPolicies.createFixedPolicy(fontSet);
-            PlasticXPLookAndFeel.setFontPolicy(fixedPolicy);
-            UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+
+//            FontSet fontSet = FontSets.createDefaultFontSet(
+//                    //                    new Font("Tahoma", Font.PLAIN, 11), // control font
+//                    //                    new Font("Tahoma", Font.PLAIN, 11), // menu font
+//                    //                    new Font("Tahoma", Font.PLAIN, 11) // title font
+//                    //                    new Font("Sans", Font.PLAIN, 11), // control font
+//                    //                    new Font("Sans", Font.PLAIN, 11), // menu font
+//                    //                    new Font("Sans", Font.PLAIN, 11) // title font
+//                    new Font("Verdana", Font.PLAIN, 12), // control font
+//                    new Font("Verdana", Font.PLAIN, 12), // menu font
+//                    new Font("Verdana", Font.PLAIN, 12) // title font
+//                    );
+//            FontPolicy fixedPolicy = FontPolicies.createFixedPolicy(fontSet);
+//            PlasticXPLookAndFeel.setFontPolicy(fixedPolicy);
+//            UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+
 //            System.out.println("getControlTextFont:" + PlasticXPLookAndFeel.getControlTextFont());
 //            System.out.println("getTitleTextFont:" + PlasticXPLookAndFeel.getTitleTextFont());
 //            System.out.println("getMenuTextFont:" + PlasticXPLookAndFeel.getMenuTextFont());
 //            System.out.println("getPlasticTheme:" + PlasticXPLookAndFeel.getPlasticTheme());
 
-
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 //            UIManager.setLookAndFeel(systemlaf);
+
         } catch (Exception ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
         }
     }
 
@@ -421,7 +420,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
             frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             frame.addWindowListener(new java.awt.event.WindowAdapter() {
-
                 @Override
                 public void windowClosing(java.awt.event.WindowEvent evt) {
                     formWindowClosing(evt);
@@ -505,24 +503,23 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         try {
             freeDiskLabel.setToolTipText("Available Disk Space on '" + getTestStation().getSaveDirectory().getPath() + "'");
         } catch (ScriptException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
         }
         freeDiskLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         bar.add(freeDiskLabel);
         Thread t = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 while (true) {
                     try {
                         showFreeDisk(getTestStation().getSaveDirectory().getUsableSpace());
                     } catch (ScriptException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
                     }
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
                     }
                 }
             }
@@ -536,7 +533,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         freeMemoryLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         bar.add(freeMemoryLabel);
         Thread tFreeMemory = new Thread(new Runnable() {
-
             @Override
             public void run() {
                 while (true) {
@@ -544,7 +540,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
                     }
                 }
             }
@@ -561,14 +557,14 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             System.out.println("cancelProgress...");
             cancelProgress();
         } catch (InterruptedException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
         }
         if (toDatabase != null) {
             try {
                 System.out.println("toDatabase.abort()...");
                 toDatabase.abort();
             } catch (InterruptedException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
             }
         }
     }
@@ -863,7 +859,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public JXTable getJTable() {
         if (jTable == null) {
             jTable = new JXTable(this) {
-
                 public static final long serialVersionUID = 20081114L;
 
                 @Override
@@ -888,7 +883,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             jTable.setName("Sequences");
             jTable.setAutoCreateRowSorter(true);
             jTable.getRowSorter().addRowSorterListener(new RowSorterListener() {
-
                 @Override
                 public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(SequencesColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
@@ -1000,7 +994,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 if (!select.equals(selectedSequence)) {
                     displaySequence(select);
                     SwingUtilities.invokeLater(new Runnable() {
-
                         @Override
                         public void run() {
                             jTable.scrollRowToVisible(row);
@@ -1052,7 +1045,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     jSplitPaneSequenceStep.setBottomComponent(jScrollPaneStep);
                     jSplitPaneSequenceStep.setDividerSize(UIManager.getInt("SplitPane.dividerSize"));
                     SwingUtilities.invokeLater(new Runnable() {
-
                         @Override
                         public void run() {
                             int row = jXTreeTable.getSelectedRow();
@@ -1084,7 +1076,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public void displaySequence(TestSequenceInstance select) {
 //        System.out.println("Display: " + select.getStartedString() + "@" + select.getHostName());
-        logger.log(Level.FINE, "contains:" + isContained(select));
+        logger.log(Level.INFO, "contains:" + isContained(select));
         TestSequenceInstanceModel tsim;
         if (isContained(select)) {
             tsim = new TestSequenceInstanceModel(getTestStation().getTestSequenceInstance(select.getId()));
@@ -1093,7 +1085,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         }
         if (jXTreeTable == null) {
             jXTreeTable = new JXTreeTable(tsim) {
-
                 public static final long serialVersionUID = 20081114L;
 
                 @Override
@@ -1396,7 +1387,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public void tick(final boolean forceRepaint) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 if (jTable != null) {
@@ -1439,7 +1429,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                    public void run() {
 //                        dividerChanged();
 //                        System.out.println("jSplitPane DIVIDER_LOCATION_PROPERTY");
-                        Util.dividerChanged(jTable, jSplitPane);
+                Util.dividerChanged(jTable, jSplitPane);
 //                    }
 //                });
             }
@@ -1450,7 +1440,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                    public void run() {
 //                        dividerChanged();
 //                        System.out.println("jSplitPaneSequenceStep DIVIDER_LOCATION_PROPERTY");
-                        Util.dividerChanged(jXTreeTable, jSplitPaneSequenceStep);
+                Util.dividerChanged(jXTreeTable, jSplitPaneSequenceStep);
 //                    }
 //                });
             }
@@ -1511,7 +1501,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     private void addLoginMenu(final JLabel jLabel) {
         jLabel.addMouseListener(new MouseAdapter() {
-
             private void maybeShowPopup(MouseEvent e) {
                 if (e.isPopupTrigger() && jLabel.isEnabled()) {
 
@@ -1548,7 +1537,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         if (getTestStation().getTestProject().getAuthentication().getOperator() == null) {
             JMenuItem loginMenu = contextMenu.add("Log in");
             loginMenu.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     login = new Login(frame, true, getTestStation().getTestProject().getAuthentication());
@@ -1557,7 +1545,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         } else {
             JMenuItem logoutMenu = contextMenu.add("Log out");
             logoutMenu.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     getTestStation().getTestProject().getAuthentication().setOperator(null);
@@ -1569,7 +1556,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     private void addMenu(final JXTable jTable) {
         jTable.getTableHeader().addMouseListener(new MouseAdapter() {
-
             private void maybeShowPopup(MouseEvent e) {
                 if (e.isPopupTrigger() && jTable.isEnabled()) {
                     Point p = new Point(e.getX(), e.getY());
@@ -1600,7 +1586,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         });
         jTable.addMouseListener(new MouseAdapter() {
-
             private void maybeShowPopup(MouseEvent e) {
                 if (e.isPopupTrigger() && jTable.isEnabled()) {
                     Point p = new Point(e.getX(), e.getY());
@@ -1737,7 +1722,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         contextMenu.add(menu);
 //        final MainFrame list = this;
         reloadMenu.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 final String queryString = "select ts from TestSequenceInstance ts where ts.finishTime != null order by ts.createTime desc";
@@ -1752,12 +1736,10 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         });
 
         qMenu.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 final QueryDialog q = getQueryDialog(QueryDialogTestStep.Mode.SEQUENCE);
                 ActionListener queryAction = new ActionListener() {
-
                     @Override
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
                         addAll(q.toString(), q.getMaxResults());
@@ -1780,7 +1762,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
                 JMenuItem copyMenu = selectedMenu.add("Copy");
                 copyMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
 //                        System.out.println("rowIndex: " + rowIndex + " columnIndex: " + columnIndex);
@@ -1792,20 +1773,17 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 if (seqList.size() > 2) {
                     JMenuItem removeMenu = selectedMenu.add("Statistics");
                     removeMenu.addActionListener(new ActionListener() {
-
                         @Override
                         public void actionPerformed(
                                 ActionEvent e) {
 
                             SwingUtilities.invokeLater(
                                     new Runnable() {
-
                                         @Override
                                         public void run() {
 
 
                                             Thread t = new Thread(new Runnable() {
-
                                                 @Override
                                                 public void run() {
                                                     try {
@@ -1850,7 +1828,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
                 JMenuItem removeMenu = selectedMenu.add("Remove from this list");
                 removeMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         removeAll(seqList);
@@ -1916,7 +1893,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     private void addAboutMenu(JPopupMenu contextMenu) {
         JMenuItem aboutMenu = new JMenuItem("About JTStand");
         aboutMenu.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AboutDialog(frame, true);
@@ -2046,7 +2022,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     private void addTreeTableMenu(final JTable jTable) {
         jTable.addMouseListener(new MouseAdapter() {
-
             private void maybeShowPopup(MouseEvent e) {
                 if (e.isPopupTrigger() && jTable.isEnabled()) {
                     Point p = new Point(e.getX(), e.getY());
@@ -2087,7 +2062,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         JMenuItem copyMenu = new JMenuItem();
         copyMenu.setText("Copy");
         copyMenu.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
 //                System.out.println("rowIndex: " + rowIndex + " columnIndex: " + columnIndex);
@@ -2097,7 +2071,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         });
         contextMenu.add(copyMenu);
 
-        logger.log(Level.FINE, "getting stepObject...");
+        logger.log(Level.INFO, "getting stepObject...");
         Object stepObject = jXTreeTable.getValueAt(rowIndex, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal());
         if (stepObject != null && TestStepInstance.class.isAssignableFrom(stepObject.getClass())) {
             final TestStepInstance step = (TestStepInstance) stepObject;
@@ -2106,23 +2080,20 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             JMenuItem timeMenu = menu.add("Run Time Statistics");
 
             timeMenu.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     SwingUtilities.invokeLater(
                             new Runnable() {
-
                                 @Override
                                 public void run() {
                                     Thread t =
                                             new Thread(new Runnable() {
-
                                         @Override
                                         public void run() {
                                             try {
                                                 List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.RUNTIME);
                                             } catch (InterruptedException ex) {
-                                                Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                                Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
                                             }
                                         }
                                     });
@@ -2132,12 +2103,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                             });
                 }
             });
-            logger.log(Level.FINE, "Finding out if numeric...");
+            logger.log(Level.INFO, "Finding out if numeric...");
             if (step.isNumericKind()) {
-                logger.log(Level.FINE, "Adding Parametric Statistics menu");
+                logger.log(Level.INFO, "Adding Parametric Statistics menu");
                 JMenuItem statMenu = menu.add("Parametric Statistics");
                 statMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (pbar != null) {
@@ -2145,18 +2115,16 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                         }
                         SwingUtilities.invokeLater(
                                 new Runnable() {
-
                                     @Override
                                     public void run() {
                                         Thread t =
                                                 new Thread(new Runnable() {
-
                                             @Override
                                             public void run() {
                                                 try {
                                                     List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.PARAMETRIC);
                                                 } catch (InterruptedException ex) {
-                                                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                                    Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
                                                 }
                                             }
                                         });
@@ -2170,13 +2138,12 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (menu.getItemCount() > 0) {
                 contextMenu.add(menu);
             }
-            logger.log(Level.FINE, "Finding out if running...");
+            logger.log(Level.INFO, "Finding out if running...");
 
             if (step.getTestSequenceInstance().isStepByStep() && !step.isSiblingRunning()) {
                 JMenuItem startMenu = new JMenuItem();
                 startMenu.setText("Start " + step.getName());
                 startMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         step.getTestSequenceInstance().start(step);
@@ -2186,7 +2153,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         }
 
-        logger.log(Level.FINE, "Context menu created.");
+        logger.log(Level.INFO, "Context menu created.");
         return contextMenu;
     }
 

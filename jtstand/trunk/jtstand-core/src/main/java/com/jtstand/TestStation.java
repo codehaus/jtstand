@@ -19,37 +19,36 @@
 package com.jtstand;
 
 import com.jtstand.query.GeneralQuery;
-import java.util.logging.Level;
-import javax.script.ScriptException;
-import org.hibernate.ejb.HibernateEntityManagerFactory;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Persistence;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.*;
-import java.util.logging.Logger;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
+import javax.persistence.Persistence;
 import javax.script.Bindings;
 import javax.script.ScriptContext;
+import javax.script.ScriptException;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import org.hibernate.ejb.HibernateEntityManagerFactory;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -166,7 +165,7 @@ public class TestStation extends AbstractVariables implements Bindings {
             try {
                 entityManagerFactory = Persistence.createEntityManagerFactory(getTestProject().getPun(), getPeristencePropertiesFixedMap());
             } catch (ScriptException ex) {
-                Logger.getLogger(TestStation.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TestStation.class.getName()).log(Level.FATAL, null, ex);
             }
         }
         return entityManagerFactory;
@@ -486,7 +485,7 @@ public class TestStation extends AbstractVariables implements Bindings {
         try {
             return getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestFixture.class.getName()).log(Level.WARN, null, ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());

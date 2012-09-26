@@ -24,12 +24,9 @@ import com.jtstand.TestStepInstance;
 import com.jtstand.session.TestStepInstanceList;
 import com.jtstand.statistics.Stats;
 import com.jtstand.statistics.Yields;
-import org.jdesktop.swingx.JXStatusBar;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
-import javax.persistence.EntityManager;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -37,10 +34,15 @@ import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.swing.*;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import org.jdesktop.swingx.JXStatusBar;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
 
 /**
  *
@@ -176,7 +178,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
                                     try {
                                         List<TestStepInstance> steps = querySteps(path);
                                     } catch (InterruptedException ex) {
-                                        Logger.getLogger(TestStepStatistics.class.getName()).log(Level.SEVERE, null, ex);
+                                        Logger.getLogger(TestStepStatistics.class.getName()).log(Level.WARN, null, ex);
                                     }
                                 }
                             });

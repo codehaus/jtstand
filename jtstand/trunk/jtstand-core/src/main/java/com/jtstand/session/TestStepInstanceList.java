@@ -22,12 +22,10 @@ import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStepInstance;
 import com.jtstand.TestStepNamePath;
 import com.jtstand.query.GeneralQuery;
-
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -36,7 +34,6 @@ import java.util.logging.Logger;
 public class TestStepInstanceList extends ArrayList<TestStepInstance> {
 
     public static final long serialVersionUID = 20081114L;
-    private static final Logger LOGGER = Logger.getLogger(TestStepInstanceList.class.getCanonicalName());
     private transient EntityManager em;
     protected final Object lock = new Object();
 

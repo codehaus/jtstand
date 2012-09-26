@@ -33,8 +33,6 @@ import java.io.Writer;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
@@ -50,6 +48,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
@@ -206,7 +206,7 @@ public class FileRevision {
                 System.out.println("Current revision of the file: " + Long.toString(currentRevision));
                 return new FileRevision(svns.getURL().toString(), revision, checkfile);
             } catch (SVNException ex) {
-                Logger.getLogger(FileRevision.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FileRevision.class.getName()).log(Level.FATAL, null, ex);
                 ex.printStackTrace();
                 System.exit(1);
             }
@@ -285,7 +285,7 @@ public class FileRevision {
         try {
             return protectInputStream(getInputStreamUnprotected(), "UTF-8");
         } catch (IOException ex) {
-            Logger.getLogger(FileRevision.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FileRevision.class.getName()).log(Level.FATAL, null, ex);
         }
         return null;
     }

@@ -10,12 +10,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.script.Bindings;
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.xml.bind.JAXBException;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -140,7 +139,7 @@ class TestStepInstanceBindings implements Bindings {
         try {
             return testStepInstance.getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestStepInstance.class.getName()).log(Level.WARN, null, ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());

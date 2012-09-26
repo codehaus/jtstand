@@ -20,14 +20,13 @@ package com.jtstand.query;
 
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.script.ScriptException;
 
 /**
@@ -84,7 +83,7 @@ public class ToDatabase extends Thread {
         try {
             TestSequenceInstance seq = null;
             if (!file.canWrite()) {
-                LOGGER.log(Level.SEVERE, "Output file cannot be written : " + file.getName());
+                LOGGER.log(Level.ERROR, "Output file cannot be written : " + file.getName());
             } else {
                 if (file.getName().endsWith(".xml")) {
                     System.out.println("Processing file: " + file.getPath() + " ...");
@@ -117,13 +116,13 @@ public class ToDatabase extends Thread {
                                 ignoredFiles.add(file);
                             }
                         } else {
-                            LOGGER.log(Level.SEVERE, "Output file cannot be persisted: " + file.getName());
+                            LOGGER.log(Level.ERROR, "Output file cannot be persisted: " + file.getName());
                         }
                     }
                 }
             }
         } catch (Throwable ex) {
-            Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.WARN, null, ex);
             ex.printStackTrace();
             if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {
 //                System.out.println("Output file successfully moved to: " + file.getName());
@@ -155,7 +154,7 @@ public class ToDatabase extends Thread {
                 }
             }
         } catch (InterruptedException ex) {
-            Logger.getLogger(ToDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.log(Level.WARN, null, ex);
         }
     }
 }

@@ -18,17 +18,6 @@
  */
 package com.jtstand;
 
-import java.net.UnknownHostException;
-import javax.script.Bindings;
-import javax.script.ScriptException;
-import org.tmatesoft.svn.core.SVNException;
-import org.xml.sax.SAXException;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.ParserConfigurationException;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
@@ -36,18 +25,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
-import javax.script.SimpleBindings;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
@@ -58,12 +44,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.script.Bindings;
+import javax.script.ScriptException;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import javax.xml.parsers.ParserConfigurationException;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import org.tmatesoft.svn.core.SVNException;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -551,7 +548,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
 //            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
+            LOGGER.log(Level.FATAL, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
             ex.printStackTrace();
             if (em.getTransaction().isActive()) {
                 LOGGER.info("Merging is going to roll back the transaction...");
@@ -578,7 +575,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             try {
                 t.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
             }
         } else {
             toFile();
@@ -596,8 +593,8 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             LOGGER.info("Persisting testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Persisting testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
-            LOGGER.log(Level.SEVERE, "With exception: " + ex);
+            LOGGER.log(Level.ERROR, "Persisting testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+            LOGGER.log(Level.ERROR, "With exception: " + ex);
             if (em.getTransaction().isActive()) {
                 LOGGER.info("Persisting is going to roll back the transaction...");
                 em.getTransaction().rollback();
@@ -790,7 +787,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                 try {
                     Thread.sleep(1L);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
                 }
                 createTime = System.currentTimeMillis();
             }
@@ -965,7 +962,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                             ((AbstractTestSequenceInstanceProcessor) o).process(this);
                         }
                     } catch (ScriptException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
                     }
                     setStatus(SequenceStatus.ABORTED);
                     break;
@@ -1010,7 +1007,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
                 } catch (ScriptException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
                 }
                 break;
             case PASSED:
@@ -1020,7 +1017,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
                 } catch (ScriptException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
                 }
                 break;
         }
@@ -1030,7 +1027,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                 ((AbstractTestSequenceInstanceProcessor) o).process(this);
             }
         } catch (ScriptException ex) {
-            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
         }
         for (TestStepInstance step : this) {
             step.clear();

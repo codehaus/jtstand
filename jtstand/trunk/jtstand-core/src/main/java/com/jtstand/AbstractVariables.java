@@ -24,7 +24,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 
@@ -34,7 +33,6 @@ import javax.script.ScriptException;
  */
 abstract public class AbstractVariables extends AbstractProperties {
 
-    private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
     private Map<String, Object> variablesMap = new HashMap<String, Object>();
     private transient Map<String, HashSet<Thread>> lockerThreads = new HashMap<String, HashSet<Thread>>();
     private transient final Object variableLock = new Object();

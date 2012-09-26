@@ -19,9 +19,8 @@
 package com.jtstand.query;
 
 import com.jtstand.*;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -153,7 +152,7 @@ public class Runner extends Thread {
             }
             seq = null;
         } catch (Exception ex) {
-            Logger.getLogger(this.getClass().getCanonicalName()).log(Level.SEVERE, "Cannot retest", ex);
+            Logger.getLogger(this.getClass().getCanonicalName()).log(Level.ERROR, "Cannot retest", ex);
         }
     }
 

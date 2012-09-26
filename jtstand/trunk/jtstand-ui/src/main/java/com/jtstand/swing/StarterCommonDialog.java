@@ -36,14 +36,14 @@ import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 public class StarterCommonDialog extends JDialog implements StarterInterface {
 
@@ -367,7 +367,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                 fi.add(tsi);
             }
         } catch (Exception ex) {
-            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.ERROR, null, ex);
             return false;
         }
 
@@ -395,7 +395,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         try {
             starterPanel = (AbstractStarterPanel) Class.forName(getStarterPanelClassName()).getConstructor(emptyContructor).newInstance();
         } catch (Exception ex) {
-            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.ERROR, null, ex);
             starterPanel = new StarterCommonPanel();
         }
 

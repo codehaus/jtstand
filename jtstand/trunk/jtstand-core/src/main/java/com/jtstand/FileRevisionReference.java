@@ -18,7 +18,6 @@
  */
 package com.jtstand;
 
-import org.tmatesoft.svn.core.SVNException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -39,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import org.hibernate.annotations.DiscriminatorOptions;
+import org.tmatesoft.svn.core.SVNException;
 
 /**
  *

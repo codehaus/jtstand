@@ -18,15 +18,15 @@
  */
 package com.jtstand.swing;
 
-import javax.swing.*;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -89,7 +89,7 @@ public class MyList extends javax.swing.JPanel implements ListDataListener {
                 }
                 br.close();
             } catch (Exception ex) {
-                Logger.getLogger(MyList.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MyList.class.getName()).log(Level.ERROR, null, ex);
             }
         } else {
             System.out.println("Cannot read " + file.getName());
@@ -119,13 +119,13 @@ public class MyList extends javax.swing.JPanel implements ListDataListener {
                     fr.write(getModel().getElementAt(i).toString() + "\r\n");
                 }
             } catch (Exception ex) {
-                Logger.getLogger(MyList.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MyList.class.getName()).log(Level.ERROR, null, ex);
             } finally {
                 if (fr != null) {
                     try {
                         fr.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(MyList.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MyList.class.getName()).log(Level.ERROR, null, ex);
                     }
                 }
             }

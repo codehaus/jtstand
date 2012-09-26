@@ -20,24 +20,23 @@ package com.jtstand.swing;
 
 import com.jtstand.FileRevision;
 import com.jtstand.TestProject;
-import org.apache.commons.cli.ParseException;
-import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
-import org.xml.sax.SAXException;
-
-import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBException;
-import javax.xml.validation.SchemaFactory;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBException;
+import javax.xml.validation.SchemaFactory;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
+import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -86,10 +85,10 @@ public class Main {
                 projectLocation = "./project.xml";
             }
             if (!new File(projectLocation).isFile()) {
-                projectLocation = "./src/config/project.xml";
+                projectLocation = "./src/main/resources/config/project.xml";
             }
             if (!new File(projectLocation).isFile()) {
-                projectLocation = "../jtstand-demo/src/config/project.xml";
+                projectLocation = "../jtstand-demo/src/main/resources/config/project.xml";
             }
             if (!new File(projectLocation).isFile()) {
                 System.err.println("Project not specified and it could not be found in default locations!");
@@ -111,9 +110,9 @@ public class Main {
         try {
             new MainFrame(TestProject.unmarshal(FileRevision.createFromUrlOrFile(projectLocation, (long) revision), true).getTestStationOrDefault(station), title, version);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "IOException", ex);
+            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "IOException", ex);
         } catch (JAXBException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "JAXBException", ex);
+            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "JAXBException", ex);
             javax.swing.JOptionPane.showMessageDialog(
                     null,
                     "Project file is invalid!\nPress OK to exit.",
@@ -121,7 +120,7 @@ public class Main {
                     javax.swing.JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, "Exception", ex);
+            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "Exception", ex);
         }
     }
 
@@ -192,7 +191,7 @@ public class Main {
                         try {
                             TestProject.setSchema(schemaFactory.newSchema(schemaFile));
                         } catch (SAXException ex) {
-                            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(Main.class.getName()).log(Level.FATAL, null, ex);
                             javax.swing.JOptionPane.showMessageDialog(
                                     null,
                                     "Schema file is invalid!\nPress OK to exit.",

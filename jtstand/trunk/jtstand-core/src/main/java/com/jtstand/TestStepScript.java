@@ -20,20 +20,17 @@ package com.jtstand;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
-import javax.script.ScriptException;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlValue;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
-import javax.persistence.Column;
-import javax.persistence.Lob;
+import java.net.URISyntaxException;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.script.Bindings;
 import javax.script.ScriptEngine;
+import javax.script.ScriptException;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
 import org.tmatesoft.svn.core.SVNException;
 
 /**

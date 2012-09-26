@@ -23,8 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
+import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -108,7 +108,7 @@ public class AboutDialog extends javax.swing.JDialog {
             try {
                 Desktop.getDesktop().browse(URI.create("http://www.jtstand.com/"));
             } catch (IOException ex) {
-                Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(AboutDialog.class.getName()).log(Level.WARN, null, ex);
             }
         }
     }
@@ -125,13 +125,13 @@ public class AboutDialog extends javax.swing.JDialog {
                 try {
                     Runtime.getRuntime().exec("cmd.exe /c " + normalFile.getPath());
                 } catch (IOException ex) {
-                    Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AboutDialog.class.getName()).log(Level.ERROR, null, ex);
                 }
             } else {
                 try {
                     Desktop.getDesktop().browse(uri);
                 } catch (IOException ex) {
-                    Logger.getLogger(AboutDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(AboutDialog.class.getName()).log(Level.ERROR, null, ex);
                 }
             }
             return true;

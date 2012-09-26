@@ -21,11 +21,6 @@ package com.jtstand.swing;
 import com.jtstand.TestStepInstance;
 import com.jtstand.session.TestStepInstanceList;
 import com.jtstand.swing.TestStepInstancesModel.StepsColumn;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.*;
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -36,9 +31,13 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
+import javax.swing.table.TableColumn;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.*;
 
 /**
  *
@@ -47,7 +46,6 @@ import javax.swing.event.RowSorterListener;
 public class TestStepInstances extends TestStepInstanceList implements PropertyChangeListener {
 
     public static final long serialVersionUID = 20081114L;
-    static final Logger logger = Logger.getLogger(TestStepInstances.class.getCanonicalName());
 //    Object stepsLock = new Object();
 //    private List<TestStepInstance> steps = Collections.synchronizedList(new ArrayList<TestStepInstance>());
     private JXTable jTable;
