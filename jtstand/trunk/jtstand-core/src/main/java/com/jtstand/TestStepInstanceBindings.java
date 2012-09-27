@@ -35,7 +35,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object put(String key, Object variableValue) {
-        //System.out.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
+        System.err.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
         if ("value".equals(key)) {
             Object retval = testStepInstance.getValue();
             testStepInstance.setValue(variableValue);
@@ -60,7 +60,7 @@ class TestStepInstanceBindings implements Bindings {
             }
         }
         if (testStepInstance.getParent() != null) {
-            return testStepInstance.getParent().put(key, variableValue);
+            return testStepInstance.getParent().getBindings().put(key, variableValue);
         }
         TestSequenceInstance seq = testStepInstance.getTestSequenceInstance();
         if (seq != null) {
@@ -107,6 +107,8 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public boolean containsKey(Object key) {
+        System.err.println("containsKey of Bindings is called with key: '" + key + "'");
+
         return testStepInstance.containsKey(key.toString())
                 || "value".equals(key)
                 || "step".equals(key)
@@ -116,14 +118,23 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object get(Object key) {
-        System.out.println("get of Bindings is called with key: '" + key + "'...");
+        Object retval = get1(key);
+        if ("VAR1".equals(key)) {
+            System.err.println("get of Bindings is returning value:" + retval);
+        }
+        return retval;
+    }
+
+    //@Override
+    public Object get1(Object key) {
+        System.err.println("get of Bindings is called with key: '" + key + "'...");
         if ("context".equals(key)) {
             try {
                 return TestStepInstance.getJAXBContext();
             } catch (JAXBException ex) {
                 throw new IllegalStateException(ex.getMessage());
             }
-        }        
+        }
         if ("step".equals(key)) {
             return testStepInstance;
         }
@@ -164,7 +175,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public boolean containsValue(Object value) {
-//        System.out.println("containsValue of Bindings is called");
+        System.err.println("containsValue of Bindings is called");
         for (String key : keySet()) {
             if (value.equals(get(key))) {
                 return true;
@@ -181,7 +192,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Set<String> keySet() {
-        System.out.println("TestStepInstance keySet() is called.");
+        System.err.println("keySet of Bindings is called.");
         Set<String> keys = testStepInstance.keySetPublic();
         keys.add("value");
         keys.add("step");

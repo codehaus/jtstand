@@ -184,7 +184,7 @@ abstract public class AbstractVariables extends AbstractProperties {
     }
 
     public Object put(String name, Object value) {
-//        System.out.println("putting '" + name + "' value: " + value);
+        System.err.println("AbstractVariable put name:'" + name + "' value: " + value);
         return variablesMap.put(name, value);
     }
 
