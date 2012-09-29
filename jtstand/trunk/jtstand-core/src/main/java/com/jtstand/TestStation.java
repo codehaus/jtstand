@@ -38,7 +38,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Persistence;
 import javax.script.Bindings;
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -57,7 +56,7 @@ import org.jboss.logging.Logger.Level;
 @Entity
 @XmlType(name = "testStationType", propOrder = {"hostName", "remark", "properties", "testLimits", "fixtures"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestStation extends AbstractVariables implements Bindings {
+public class TestStation extends AbstractVariables {
 
     private static final Logger LOGGER = Logger.getLogger(TestStation.class.getCanonicalName());
     @Id
@@ -87,7 +86,8 @@ public class TestStation extends AbstractVariables implements Bindings {
 //    private transient final Object testTypesLock = new Object();
     private transient final Object testFixturesLock = new Object();
     private transient final Object testLimitsLock = new Object();
-    private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
+    //private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
+    private transient TestStationBindings bindings;
 
 //    public void initializeProperties() throws ScriptException {
 //        for (TestProjectProperty tp : getTestProject().getProperties()) {
@@ -360,8 +360,12 @@ public class TestStation extends AbstractVariables implements Bindings {
     }
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
-        return this;
+        if (this.bindings == null) {
+            this.bindings = new TestStationBindings(this);
+        }
+        return this.bindings;
     }
 
     @Override
@@ -424,102 +428,6 @@ public class TestStation extends AbstractVariables implements Bindings {
         String pp = "jdbc:" + getDriver().toString() + ":";
         System.out.println("Persistence protocol: " + pp);
         return pp;
-    }
-
-    @Override
-    public void putAll(Map<? extends String, ? extends Object> toMerge) {
-        for (Entry<? extends String, ? extends Object> variableEntry : toMerge.entrySet()) {
-            put(variableEntry.getKey(), variableEntry.getValue());
-        }
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
-        return super.containsKey(key.toString())
-                || "station".equals(key)
-                || localVariablesMap.containsKey(key.toString())
-                || containsProperty(key.toString());
-    }
-
-    @Override
-    public Object get(Object key) {
-        if ("$type$".equals(key)) {
-            return getClass().getName();
-        }
-        if ("context".equals(key)) {
-            return ScriptContext.ENGINE_SCOPE;
-        }
-        if ("id".equals(key)) {
-            return id;
-        }
-        if ("testStation".equals(key)) {
-            return this;
-        }
-        if ("position".equals(key)) {
-            return testStationPosition;
-        }
-        if ("hostName".equals(key)) {
-            return hostName;
-        }
-        if ("remark".equals(key)) {
-            return remark;
-        }
-        if ("properties".equals(key)) {
-            return properties;
-        }
-        if ("testLimits".equals(key)) {
-            return testLimits;
-        }
-        if ("creator".equals(key)) {
-            return creator;
-        }
-        if ("testProject".equals(key)) {
-            return testProject;
-        }
-        if ("fixtures".equals(key)) {
-            return fixtures;
-        }
-        if (localVariablesMap.containsKey((String) key)) {
-            return localVariablesMap.get((String) key);
-        }
-        try {
-            return getVariable((String) key);
-        } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Level.WARN, null, ex);
-            throw new IllegalStateException(ex.getMessage());
-        } catch (InterruptedException ex) {
-            throw new IllegalStateException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public Object remove(Object key) {
-        return localVariablesMap.remove((String) key);
-    }
-
-    @Override
-    public int size() {
-        return keySet().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        localVariablesMap.clear();
-    }
-
-    @Override
-    public Set<Entry<String, Object>> entrySet() {
-        Set<Entry<String, Object>> entries = new HashSet<Entry<String, Object>>();
-        for (String key : keySet()) {
-            entries.add(new HashMap.SimpleEntry(key, get(key)));
-        }
-        return entries;
     }
 
     public static enum Driver {
@@ -836,13 +744,13 @@ public class TestStation extends AbstractVariables implements Bindings {
     public Object getVariable(String keyString) throws InterruptedException, ScriptException {
         for (TestStationProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return getVariable(keyString, tsp, this);
+                return getVariable(keyString, tsp, this.getBindings());
             }
         }
         if (getTestProject() != null) {
             for (TestProjectProperty tsp : getTestProject().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-                    return getVariable(keyString, tsp, this);
+                    return getVariable(keyString, tsp, this.getBindings());
                 }
             }
         }
@@ -850,39 +758,5 @@ public class TestStation extends AbstractVariables implements Bindings {
 //            return System.out;
 //        }
         throw new IllegalArgumentException("Undefined variable in TestStation:" + keyString);
-    }
-
-    @Override
-    public Set<String> keySet() {
-        System.out.println("TestStation keySet() is called.");
-        Set<String> keys = new HashSet<String>();
-        keys.addAll(super.keySet());
-        keys.add("station");
-        keys.addAll(localVariablesMap.keySet());
-        return keys;
-    }
-
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
-    @Override
-    public boolean containsValue(Object value) {
-        for (String key : keySet()) {
-            if (value.equals(get(key))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public Object put(String name, Object value) {
-//        System.out.println("putting to station variable: '" + name + "' value: " + value);
-        return super.put(name, value);
     }
 }

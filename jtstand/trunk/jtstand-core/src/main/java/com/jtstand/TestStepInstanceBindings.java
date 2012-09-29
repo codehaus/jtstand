@@ -11,8 +11,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import javax.script.Bindings;
+import javax.script.ScriptContext;
 import javax.script.ScriptException;
-import javax.xml.bind.JAXBException;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 
@@ -22,13 +22,13 @@ import org.jboss.logging.Logger.Level;
  */
 class TestStepInstanceBindings implements Bindings {
 
-    private final TestStepInstance testStepInstance;
+    private transient TestStepInstance testStepInstance;
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
     public TestStepInstanceBindings() {
-        testStepInstance = null;
+        //testStepInstance = null;
     }
-
+    
     public TestStepInstanceBindings(TestStepInstance testStepInstance) {
         this.testStepInstance = testStepInstance;
     }
@@ -129,11 +129,7 @@ class TestStepInstanceBindings implements Bindings {
     public Object get1(Object key) {
         System.err.println("get of Bindings is called with key: '" + key + "'...");
         if ("context".equals(key)) {
-            try {
-                return TestStepInstance.getJAXBContext();
-            } catch (JAXBException ex) {
-                throw new IllegalStateException(ex.getMessage());
-            }
+            return ScriptContext.ENGINE_SCOPE;
         }
         if ("step".equals(key)) {
             return testStepInstance;

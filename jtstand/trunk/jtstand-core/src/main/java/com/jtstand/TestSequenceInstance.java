@@ -563,7 +563,6 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     public void persistOrSerialize(final EntityManager em) {
         if (em != null && em.isOpen()) {
             Thread t = new Thread() {
-
                 @Override
                 public void run() {
                     if (!persist(em)) {
@@ -985,7 +984,6 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             toFile();
         } else if (isPersistPerStep()) {
             Thread t = new Thread() {
-
                 @Override
                 public void run() {
                     if (!merge(em)) {
@@ -1390,7 +1388,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         return em;
     }
 
-    public boolean merge(TestStepInstance step) {        
+    public boolean merge(TestStepInstance step) {
         if (!this.equals(step.getTestSequenceInstance())) {
             throw new IllegalArgumentException("Cannot merge " + step.getClass().getCanonicalName() + ", which is not a descendant!");
         }
@@ -1407,12 +1405,4 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         }
         super.finalize();
     }
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
 }

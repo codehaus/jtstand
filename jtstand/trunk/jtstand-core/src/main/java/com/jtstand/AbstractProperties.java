@@ -310,11 +310,9 @@ abstract public class AbstractProperties {
     public Object getPropertyObject(String keyString) throws ScriptException {
         return getPropertyObjectUsingBindings(keyString, getBindings());
     }
-//    protected transient Bindings bindings;
 
+    //    protected transient Bindings bindings;
     abstract public Bindings getBindings();
 
     abstract public Object getPropertyObjectUsingBindings(String keyString, Bindings binding) throws ScriptException;
-
-//    abstract public Set<String> getPropertyNames();
 }

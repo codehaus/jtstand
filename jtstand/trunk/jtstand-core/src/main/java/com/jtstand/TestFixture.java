@@ -19,12 +19,8 @@
 package com.jtstand;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +32,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.script.Bindings;
-import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -44,8 +39,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
-import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -55,7 +48,7 @@ import org.jboss.logging.Logger.Level;
 //@XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initSequence"})
 @XmlType(name = "testFixtureType", propOrder = {"remark", "properties", "testLimits", "testTypes", "initTypeReference"})
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
-public class TestFixture extends AbstractVariables implements Bindings {
+public class TestFixture extends AbstractVariables {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,7 +76,7 @@ public class TestFixture extends AbstractVariables implements Bindings {
     private transient final Object testLimitsLock = new Object();
     private transient final Object propertiesLock = new Object();
     private transient final Object testTypesLock = new Object();
-    private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
+    private transient TestFixtureBindings bindings;
 
 //    public void initializeProperties() throws ScriptException {
 //        for (TestFixtureProperty tp : properties) {
@@ -318,8 +311,12 @@ public class TestFixture extends AbstractVariables implements Bindings {
     }
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
-        return this;
+        if (this.bindings == null) {
+            this.bindings = new TestFixtureBindings(this);
+        }
+        return this.bindings;
     }
 
     @Override
@@ -350,149 +347,10 @@ public class TestFixture extends AbstractVariables implements Bindings {
         return getTestStation().containsProperty(key);
     }
 
-    @Override
-    public void putAll(Map<? extends String, ? extends Object> toMerge) {
-        for (Entry<? extends String, ? extends Object> variableEntry : toMerge.entrySet()) {
-            put(variableEntry.getKey(), variableEntry.getValue());
-        }
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
-        return super.containsKey(key.toString())
-                || "fixture".equals(key)
-                || localVariablesMap.containsKey(key.toString())
-                || containsProperty(key.toString());
-    }
-
-//    id
-//    fixtureName
-//    remark
-//    disabled
-//    properties
-//    testLimits
-//    testTypes
-//    testStation
-//    creator
-//    initTypeReference
-//    testFixturePosition
-//    serialNumber
-    @Override
-    public Object get(Object key) {
-        if ("$type$".equals(key)) {
-            return getClass().getName();
-        }
-        if ("context".equals(key)) {
-            return ScriptContext.ENGINE_SCOPE;
-        }
-        if ("fixture".equals(key)) {
-            return this;
-        }
-        if ("id".equals(key)) {
-            return id;
-        }
-        if ("fixtureName".equals(key)) {
-            return fixtureName;
-        }
-        if ("remark".equals(key)) {
-            return remark;
-        }
-        if ("disabled".equals(key)) {
-            return disabled;
-        }
-        if ("properties".equals(key)) {
-            return properties;
-        }
-        if ("testLimits".equals(key)) {
-            return testLimits;
-        }
-        if ("testTypes".equals(key)) {
-            return testTypes;
-        }
-        if ("testStation".equals(key)) {
-            return testStation;
-        }
-        if ("creator".equals(key)) {
-            return creator;
-        }
-        if ("initTypeReference".equals(key)) {
-            return initTypeReference;
-        }
-        if ("position".equals(key)) {
-            return testFixturePosition;
-        }
-        if ("serialNumber".equals(key)) {
-            return serialNumber;
-        }
-
-        if (localVariablesMap.containsKey((String) key)) {
-            return localVariablesMap.get((String) key);
-        }
-        try {
-            return getVariable((String) key);
-        } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Level.WARN, null, ex);
-            throw new IllegalStateException(ex.getMessage());
-        } catch (InterruptedException ex) {
-            throw new IllegalStateException(ex.getMessage());
-        }
-    }
-
-    @Override
-    public Object remove(Object key) {
-        return localVariablesMap.remove((String) key);
-    }
-
-    @Override
-    public int size() {
-        return keySet().size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return false;
-    }
-
-    @Override
-    public void clear() {
-        super.clear();
-        localVariablesMap.clear();
-    }
-
-    @Override
-    public Set<Entry<String, Object>> entrySet() {
-        Set<Entry<String, Object>> entries = new HashSet<Entry<String, Object>>();
-        for (String key : keySet()) {
-            entries.add(new HashMap.SimpleEntry(key, get(key)));
-        }
-        return entries;
-    }
-
-    @Override
-    public Set<String> keySet() {
-        System.out.println("TestFixture keySet() is called.");
-        Set<String> keys = new HashSet<String>();
-        keys.addAll(super.keySet());
-        keys.addAll(testStation.keySet());
-        keys.add("fixture");
-        keys.addAll(localVariablesMap.keySet());
-        return keys;
-    }
-
-    @Override
-    public boolean containsValue(Object value) {
-        for (String key : keySet()) {
-            if (value.equals(get(key))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Object getVariable(String keyString) throws InterruptedException, ScriptException {
         for (TestFixtureProperty tsp : getProperties()) {
             if (tsp.getName().equals(keyString)) {
-                return getVariable(keyString, tsp, this);
+                return getVariable(keyString, tsp, getBindings());
             }
         }
         if (getTestStation() != null) {
@@ -500,18 +358,4 @@ public class TestFixture extends AbstractVariables implements Bindings {
         }
         throw new IllegalArgumentException("Undefined variable in TestFixture:" + keyString);
     }
-
-    @Override
-    public Object put(String name, Object value) {
-//        System.out.println("putting to fixture variable: '" + name + "' value: " + value);
-        return super.put(name, value);
-    }
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
 }

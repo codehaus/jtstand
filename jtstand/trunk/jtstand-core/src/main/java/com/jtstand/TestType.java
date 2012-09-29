@@ -293,13 +293,4 @@ public class TestType extends AbstractProperties {
         }
         return true;
     }
-
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
 }

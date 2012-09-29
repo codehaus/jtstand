@@ -69,7 +69,6 @@ public class TestProject extends AbstractProperties {
     //private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
     public static final String STR_PERSISTING_POLICY = "PERSISTING_POLICY";
     public static final OutputStream NULL_OUTPUT_STREAM = new OutputStream() {
-
         @Override
         public void write(int arg0) throws IOException {
         }
@@ -724,6 +723,7 @@ public class TestProject extends AbstractProperties {
     protected transient Bindings bindings;
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
         if (bindings == null) {
             bindings = new SimpleBindings();
@@ -808,13 +808,4 @@ public class TestProject extends AbstractProperties {
         }
         return false;
     }
-
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
 }

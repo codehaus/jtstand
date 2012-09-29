@@ -260,6 +260,7 @@ public class Product extends AbstractProperties {
     protected transient Bindings bindings;
 
     @Override
+    @XmlTransient
     public Bindings getBindings() {
         if (bindings == null) {
             bindings = new SimpleBindings();
@@ -292,13 +293,4 @@ public class Product extends AbstractProperties {
         }
         return false;
     }
-
-//    @Override
-//    public Set<String> getPropertyNames() {
-//        Set<String> propertyNames = new HashSet<String>();
-//        for (TestProperty tp : getProperties()) {
-//            propertyNames.add(tp.getName());
-//        }
-//        return propertyNames;
-//    }
 }
