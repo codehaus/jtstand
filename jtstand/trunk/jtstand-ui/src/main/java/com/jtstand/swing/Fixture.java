@@ -24,13 +24,14 @@ import com.jtstand.TestSequenceInstance;
 import com.jtstand.query.FixtureInterface;
 import com.jtstand.query.Runner;
 import com.jtstand.statistics.Yield;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.beans.PropertyChangeEvent;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.util.Collection;
+import javax.swing.SwingUtilities;
+import javax.swing.border.TitledBorder;
 
 /**
  *

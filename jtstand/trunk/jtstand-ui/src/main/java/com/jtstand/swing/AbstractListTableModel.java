@@ -18,12 +18,12 @@
  */
 package com.jtstand.swing;
 
+import java.io.Serializable;
+import java.util.*;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
-import java.io.Serializable;
-import java.util.*;
 
 /**
  *

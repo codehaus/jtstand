@@ -22,14 +22,13 @@ import com.jtstand.FileRevision;
 import com.jtstand.TestProject;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.query.GeneralQuery;
-
-import javax.persistence.EntityManager;
-import javax.xml.bind.JAXBException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.xml.bind.JAXBException;
 
 /**
  *

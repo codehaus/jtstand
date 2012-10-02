@@ -19,10 +19,9 @@
 package com.jtstand.swing;
 
 import com.jtstand.statistics.Stat;
-
+import java.util.TreeMap;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
-import java.util.TreeMap;
 
 /**
  *

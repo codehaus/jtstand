@@ -50,6 +50,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
     public static final long serialVersionUID = 20081114L;
     public static final String STARTER_PANEL = "STARTER_PANEL";
     public static final String DEBUG_ENABLED = "DEBUG_ENABLED";
+    public static final String ID_ENABLED = "ID_ENABLED";
     public static final String SERIAL_NUMBER_PATTERN = "SERIAL_NUMBER_PATTERN";
     public static final String STR_SN_TO_TEST_TYPE = "SN_TO_TEST_TYPE";
     public static final Class<?>[] emptyContructor = {};
@@ -91,7 +92,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         setLayout(new BorderLayout(5, 5));
 
         addWindowFocusListener(new WindowFocusListener() {
-
             @Override
             public void windowGainedFocus(WindowEvent evt) {
                 formWindowGainedFocus(evt);
@@ -123,6 +123,10 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     private boolean isDebugEnabled() {
         return properties.getPropertyBoolean(DEBUG_ENABLED, false);
+    }
+
+    private boolean isIdEnabled() {
+        return properties.getPropertyBoolean(ID_ENABLED, true);
     }
 
     public static void initPartNumbers(AbstractStarterPanel starter, List<FixtureTestTypeReference> testTypeReferences, String selectedPartNumber) {
@@ -342,9 +346,11 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         recognizeSN(sn, starterPanel.jComboBoxPartNumber(), starterPanel.jComboBoxPartRev());
 
         //check serial number format if mathes to requirements of the test type
-        if (!isSerialNumberOK(sn)) {
-            starterPanel.jTextFieldSN().requestFocus();
-            return false;
+        if (isIdEnabled()) {
+            if (!isSerialNumberOK(sn)) {
+                starterPanel.jTextFieldSN().requestFocus();
+                return false;
+            }
         }
         String employeeNumber = getEmployeeNumber();
 
@@ -402,7 +408,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         add(starterPanel, BorderLayout.CENTER);
         if (starterPanel.jComboBoxPartNumber().getActionListeners().length == 0) {
             starterPanel.jComboBoxPartNumber().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jComboBoxPartNumberActionPerformed(evt);
@@ -412,7 +417,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
         if (starterPanel.jComboBoxPartRev().getActionListeners().length == 0) {
             starterPanel.jComboBoxPartRev().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jComboBoxPartRevActionPerformed(evt);
@@ -422,7 +426,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
         if (starterPanel.jComboBoxTestType().getActionListeners().length == 0) {
             starterPanel.jComboBoxTestType().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jComboBoxTestTypeActionPerformed(evt);
@@ -430,9 +433,10 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             });
         }
 
+        starterPanel.jTextFieldSN().setEnabled(isIdEnabled());
+
         if (starterPanel.jTextFieldSN().getActionListeners().length == 0) {
             starterPanel.jTextFieldSN().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jTextFieldSNActionPerformed(evt);
@@ -442,7 +446,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
         if (starterPanel.jTextFieldSN().getKeyListeners().length == 0) {
             starterPanel.jTextFieldSN().addKeyListener(new java.awt.event.KeyAdapter() {
-
                 @Override
                 public void keyReleased(java.awt.event.KeyEvent evt) {
                     jTextFieldSNKeyReleased(evt);
@@ -451,7 +454,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
         if (starterPanel.jButtonStart().getActionListeners().length == 0) {
             starterPanel.jButtonStart().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jButtonStartActionPerformed(evt);
@@ -464,7 +466,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             starterPanel.jButtonDebug().setEnabled(isDebugEnabled());
             if (starterPanel.jButtonDebug().getActionListeners().length == 0) {
                 starterPanel.jButtonDebug().addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent evt) {
                         jButtonDebugActionPerformed(evt);
@@ -474,7 +475,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         }
         if (starterPanel.jButtonCancel().getActionListeners().length == 0) {
             starterPanel.jButtonCancel().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jButtonCancelActionPerformed(evt);
@@ -499,7 +499,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     private void jComboBoxPartRevActionPerformed(ActionEvent evt) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 changeAction();
@@ -509,7 +508,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     private void jComboBoxTestTypeActionPerformed(ActionEvent evt) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 changeAction();
@@ -524,7 +522,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 //        }
 //        initPartRevs(starterPanel, testTypeReferences, name.toString(), null);
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 changeAction();
@@ -582,7 +579,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         if (advancedStartPanel == null) {
             advancedStartPanel = new AdvancedStartPanel(starterPanel);
             advancedStartPanel.jButtonStepByStep().addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     jButtonStepByStepActionPerformed(evt);

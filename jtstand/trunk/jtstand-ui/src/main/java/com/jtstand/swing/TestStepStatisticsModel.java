@@ -24,7 +24,6 @@ import com.jtstand.TestStepInstance;
 import com.jtstand.TestStepNamePath;
 import com.jtstand.statistics.Stat;
 import com.jtstand.statistics.Stats;
-
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 

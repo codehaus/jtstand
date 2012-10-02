@@ -18,9 +18,8 @@
  */
 package com.jtstand.swing;
 
+import java.awt.Color;
 import org.jfree.chart.ChartColor;
-
-import java.awt.*;
 
 /**
  *

@@ -19,12 +19,14 @@
 package com.jtstand.swing;
 
 import com.jtstand.swing.MainFrame.SequencesColumn;
+import java.awt.Color;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.event.ChangeListener;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  *

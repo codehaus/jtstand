@@ -19,16 +19,26 @@
 package com.jtstand.swing;
 
 import com.jtstand.TestStepInstance;
-import org.jdesktop.swingx.JXTable;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTable;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import org.jdesktop.swingx.JXTable;
 
 /**
  *

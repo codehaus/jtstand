@@ -20,8 +20,7 @@ package com.jtstand.swing;
 
 import com.jtstand.TestStation;
 import com.jtstand.TestStepInstance;
-
-import java.awt.*;
+import java.awt.Frame;
 
 /**
  *

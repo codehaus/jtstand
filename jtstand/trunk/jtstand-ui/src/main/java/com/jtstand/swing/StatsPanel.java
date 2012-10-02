@@ -21,6 +21,14 @@ package com.jtstand.swing;
 import com.jtstand.TestStepInstance;
 import com.jtstand.statistics.Gaussian;
 import com.jtstand.statistics.Stat;
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
+import javax.swing.event.ChangeListener;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jfree.chart.*;
@@ -45,15 +53,6 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.xy.*;
 import org.jfree.ui.RectangleAnchor;
 import org.jfree.ui.TextAnchor;
-
-import javax.swing.*;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.DecimalFormat;
-import java.util.*;
-import java.util.List;
 
 /**
  *

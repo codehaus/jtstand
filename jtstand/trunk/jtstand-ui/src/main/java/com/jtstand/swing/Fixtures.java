@@ -21,11 +21,11 @@ package com.jtstand.swing;
 import com.jtstand.TestFixture;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
+import javax.swing.JPanel;
 
 /**
  *

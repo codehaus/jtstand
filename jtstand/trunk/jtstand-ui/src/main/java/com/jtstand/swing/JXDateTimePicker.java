@@ -18,16 +18,8 @@
  */
 package com.jtstand.swing;
 
-import javax.swing.event.CaretEvent;
-import org.jdesktop.swingx.JXDatePicker;
-
-import javax.swing.*;
-import javax.swing.JSpinner.DefaultEditor;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.DateFormatter;
-import javax.swing.text.DefaultFormatterFactory;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -35,7 +27,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JSpinner.DefaultEditor;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
@@ -54,7 +57,7 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
         picker = new JXDatePicker(date);
         picker.setToolTipText(TOOLTIP1);
         picker.setFormats("yyyy/MM/dd");
-        setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        setLayout(new java.awt.FlowLayout(FlowLayout.LEFT, 0, 0));
         add(picker);
         spinner = new JSpinner();
 

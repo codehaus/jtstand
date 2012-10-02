@@ -23,13 +23,12 @@ import com.jtstand.TestProject;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
 import com.jtstand.query.GeneralQuery;
-
-import javax.persistence.EntityManager;
-import javax.swing.table.TableModel;
-import javax.xml.bind.JAXBException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.EntityManager;
+import javax.swing.table.TableModel;
+import javax.xml.bind.JAXBException;
 
 /**
  *

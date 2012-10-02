@@ -19,7 +19,6 @@
 package com.jtstand.swing;
 
 import com.jtstand.AbstractProperties;
-//import com.jtstand.PropertiesInterface;
 import com.jtstand.FixtureTestTypeReference;
 import com.jtstand.Product;
 import com.jtstand.TestFixture;

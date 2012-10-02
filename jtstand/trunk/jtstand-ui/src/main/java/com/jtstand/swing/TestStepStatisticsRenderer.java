@@ -18,10 +18,12 @@
  */
 package com.jtstand.swing;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
-import java.awt.*;
+
+import java.awt.Component;
 import java.text.DecimalFormat;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
