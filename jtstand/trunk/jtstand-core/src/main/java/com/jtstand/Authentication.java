@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -43,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class Authentication {
 
+    private static final Logger log = Logger.getLogger(Authentication.class.getName());
     public static final String OPERATOR_PROPERTY = "operator";
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -176,9 +178,14 @@ public class Authentication {
         if (((operator == null) && (this.operator != null)) || ((operator != null) && !operator.equals(this.operator))) {
             String oldOperator = this.operator;
             if (operator != null) {
-                System.out.println("Operator '" + operator + "' is logging in.");
+                if (oldOperator != null) {
+                    log.info("Operator '" + oldOperator + "' is logging out.");
+                }
+                log.info("Operator '" + operator + "' is logging in.");
             } else {
-                System.out.println("Operator '" + oldOperator + "' is logging out.");
+                if (oldOperator != null) {
+                    log.info("Operator '" + oldOperator + "' is logging out.");
+                }
             }
             this.operator = operator;
             if (support != null) {
