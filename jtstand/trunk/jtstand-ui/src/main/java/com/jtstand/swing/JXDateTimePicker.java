@@ -38,6 +38,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
+import org.jboss.logging.Logger;
 import org.jdesktop.swingx.JXDatePicker;
 
 /**
@@ -46,6 +47,7 @@ import org.jdesktop.swingx.JXDatePicker;
  */
 public class JXDateTimePicker extends JPanel implements MouseWheelListener, ChangeListener {
 
+    private static final Logger log = Logger.getLogger(JXDateTimePicker.class.getName());
     public static final long serialVersionUID = 20081114L;
     public static final String TOOLTIP1 = "<html><body>Enter date here or click button to select date from calendar<br>You can use the mouse wheel too!</body></html>";
     public static final String TOOLTIP2 = "Clear date by entering an empty string";
@@ -69,7 +71,6 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
         spinner.setVisible(date != null);
         add(spinner);
         ((DefaultEditor) spinner.getEditor()).getTextField().addCaretListener(new CaretListener() {
-
             @Override
             public void caretUpdate(CaretEvent e) {
                 if (0 == ((DefaultEditor) spinner.getEditor()).getTextField().getCaretPosition()) {
@@ -80,7 +81,6 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
             }
         });
         picker.addActionListener(new java.awt.event.ActionListener() {
-
             @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PickerActionPerformed(evt);
@@ -154,7 +154,7 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
         if (spinner.equals(e.getSource())) {
             if (spinner.isVisible()) {
                 Date d = (Date) spinner.getValue();
-                System.out.println("date: " + d);
+                log.trace("date: " + d);
                 TimeZone tz = ((SimpleDateFormat) ((DateFormatter) ((DefaultEditor) spinner.getEditor()).getTextField().getFormatter()).getFormat()).getTimeZone();
                 picker.setTimeZone(tz);
                 picker.setDate(d);
@@ -167,7 +167,6 @@ public class JXDateTimePicker extends JPanel implements MouseWheelListener, Chan
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 JFrame jframe = new JFrame();

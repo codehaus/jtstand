@@ -55,7 +55,6 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
@@ -69,8 +68,8 @@ import org.jdesktop.swingx.table.TableColumnExt;
  */
 public class MainFrame extends AbstractTestSequenceInstanceListTableModel implements TableModel, TableModelListener, TreeSelectionListener, List<TestSequenceInstance>, Set<TestSequenceInstance>, Serializable, ListSelectionListener, PropertyChangeListener, MouseListener, FrameInterface, TreeExpansionListener {
 
+    private static final Logger log = Logger.getLogger(MainFrame.class.getName());
 //    public static final long serialVersionUID = 20081114L;
-    static final Logger logger = Logger.getLogger(MainFrame.class.getCanonicalName());
     static final String STARTER_DIALOG_CLASS_NAME = "STARTER_DIALOG_CLASS_NAME";
 //    public static final int WIDTH0 = -1;
     private JXTable jTable = null;
@@ -253,7 +252,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (removeOldest() && isMemoryEnough()) {
                 return true;
             }
-            System.out.println("Available memory is low. Sleeping before starting a new sequence...");
+            log.warn("Available memory is low. Sleeping before starting a new sequence...");
             //System.gc();
             try {
                 Thread.sleep(1000);
@@ -290,7 +289,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             Constructor<?> starterDialogContructor = starterDialogClass.getConstructor(STARTER_DIALOG_CONSTRUCTOR);
             starterDialog = (Dialog) starterDialogContructor.newInstance(fixture);
         } catch (Exception ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
         }
 //        starterDialog = new StarterCommonDialog(frame, false, fixture.getTestFixture().getTestStation().getTestProject().getAuthentication() == null ? null : fixture.getTestFixture().getTestStation().getTestProject().getAuthentication().getOperator(), fixture.getTestFixture(), fixture.getTestFixture().getTestStation(), fixture.getTestFixture().getTestStation().getTestProject(), this, fixture);
 
@@ -355,7 +354,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            UIManager.setLookAndFeel(systemlaf);
 
         } catch (Exception ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
         }
     }
 
@@ -373,7 +372,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     try {
                         getTestStation().databaseReset(null, null);
                     } catch (Exception ex) {
-                        System.out.println("Cannot reset the database");
+                        log.fatal("Cannot reset the database");
                         System.exit(-1);
                     }
                     break;
@@ -411,9 +410,9 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                formWindowClosing(evt);
 //            }
 //        });
-            System.out.println("Loading icon...");
+            log.trace("Loading icon...");
             URL iconURL = getClass().getResource("/images/jtbean.png");// Thread.currentThread().getContextClassLoader().getResource("/images/jtbean.png");
-            System.out.println("Icon URL: " + iconURL);
+            log.trace("Icon URL: " + iconURL);
             if (iconURL != null) {
                 ImageIcon image = new ImageIcon(iconURL);
                 frame.setIconImage(image.getImage());
@@ -503,7 +502,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         try {
             freeDiskLabel.setToolTipText("Available Disk Space on '" + getTestStation().getSaveDirectory().getPath() + "'");
         } catch (ScriptException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
         }
         freeDiskLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         bar.add(freeDiskLabel);
@@ -514,12 +513,12 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     try {
                         showFreeDisk(getTestStation().getSaveDirectory().getUsableSpace());
                     } catch (ScriptException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+                        log.error("Exception", ex);
                     }
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+                        log.warn("Exception", ex);
                     }
                 }
             }
@@ -540,7 +539,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     try {
                         Thread.sleep(2000L);
                     } catch (InterruptedException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.ERROR, null, ex);
+                        log.warn("Exception", ex);
                     }
                 }
             }
@@ -554,17 +553,17 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
         frame.setTitle("Closing...");
         frame.setEnabled(false);
         try {
-            System.out.println("cancelProgress...");
+            log.info("cancelProgress...");
             cancelProgress();
         } catch (InterruptedException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
+            log.warn("Exception", ex);
         }
         if (toDatabase != null) {
             try {
-                System.out.println("toDatabase.abort()...");
+                log.trace("toDatabase.abort()...");
                 toDatabase.abort();
             } catch (InterruptedException ex) {
-                Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
+                log.warn("Exception", ex);
             }
         }
     }
@@ -679,7 +678,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
     public TestSequenceInstance replace(long createTime, String host) {
 //        System.out.println("Replacing: " + createTime + " " + host);
         if (!isMemoryEnough()) {
-            System.out.println("Not enough memory to replace.");
+            log.warn("Not enough memory to replace.");
             return null;
         }
         if (getSequence(createTime, host) == null) {
@@ -1002,7 +1001,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
                 }
             } else {
-                System.out.println("Cannot select sequence:" + select);
+                log.info("Cannot select sequence:" + select);
             }
         }
     }
@@ -1076,7 +1075,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     public void displaySequence(TestSequenceInstance select) {
 //        System.out.println("Display: " + select.getStartedString() + "@" + select.getHostName());
-        logger.log(Level.INFO, "contains:" + isContained(select));
+        log.trace("contains:" + isContained(select));
         TestSequenceInstanceModel tsim;
         if (isContained(select)) {
             tsim = new TestSequenceInstanceModel(getTestStation().getTestSequenceInstance(select.getId()));
@@ -1182,7 +1181,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             }
         }
-        System.out.println("could not expand:" + tsi);
+        log.warn("could not expand:" + tsi);
     }
 
     public void canExpandAborted(TestStepInstance tsi) {
@@ -1209,7 +1208,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             }
         }
-        System.out.println("could not expand:" + tsi);
+        log.warn("could not expand:" + tsi);
     }
 
     public void canExpandRunning(TestStepInstance tsi) {
@@ -1239,7 +1238,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             }
         }
-        System.out.println("could not expand:" + tsi);
+        log.warn("could not expand:" + tsi);
     }
 //    public boolean expand(TestStepInstance tsi) {
 //        List<String> pathList = tsi.getPathList();
@@ -1325,7 +1324,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             }
         }
-        System.out.println("could not expand: " + tsi);
+        log.warn("could not expand: " + tsi);
         return false;
     }
 
@@ -1456,13 +1455,13 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         } else if (TestSequenceInstance.class.isAssignableFrom(evt.getSource().getClass())) {
             TestSequenceInstance seq = (TestSequenceInstance) evt.getSource();
-            System.out.println("Property change of test sequence: " + seq);
+            log.debug("Property change of test sequence: " + seq);
             tick(true);
             if (!seq.isSequenceActive()) {
                 seq.removePropertyChangeListener(this);
             }
         } else {
-            System.out.println("source class: " + evt.getSource().getClass().getCanonicalName());
+            log.debug("source class: " + evt.getSource().getClass().getCanonicalName());
         }
     }
 
@@ -1943,7 +1942,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                             if (TestSequenceInstanceModel.SequenceColumn.STEPSTATUS.ordinal() == treeClickedColumn) {
                                 Object o = jXTreeTable.getModel().getValueAt(treeClickedRow, SequenceColumn.NAME.ordinal());
                                 if (o != null) {
-                                    System.out.println("Row: " + treeClickedRow + " Column: " + treeClickedColumn + " Object:" + o);
+                                    log.trace("Row: " + treeClickedRow + " Column: " + treeClickedColumn + " Object:" + o);
                                     if (o instanceof TestStepInstance) {
                                         TestStepInstance clickedStep = (TestStepInstance) o;
                                         if (clickedStep.isFailed() || clickedStep.isRunning()) {
@@ -2070,8 +2069,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             }
         });
         contextMenu.add(copyMenu);
-
-        logger.log(Level.INFO, "getting stepObject...");
+        log.trace("getting stepObject...");
         Object stepObject = jXTreeTable.getValueAt(rowIndex, TestSequenceInstanceModel.SequenceColumn.NAME.ordinal());
         if (stepObject != null && TestStepInstance.class.isAssignableFrom(stepObject.getClass())) {
             final TestStepInstance step = (TestStepInstance) stepObject;
@@ -2093,7 +2091,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                                             try {
                                                 List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.RUNTIME);
                                             } catch (InterruptedException ex) {
-                                                Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
+                                                log.warn("Exception", ex);
                                             }
                                         }
                                     });
@@ -2103,9 +2101,9 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                             });
                 }
             });
-            logger.log(Level.INFO, "Finding out if numeric...");
+            log.trace("Finding out if numeric...");
             if (step.isNumericKind()) {
-                logger.log(Level.INFO, "Adding Parametric Statistics menu");
+                log.trace("Adding Parametric Statistics menu");
                 JMenuItem statMenu = menu.add("Parametric Statistics");
                 statMenu.addActionListener(new ActionListener() {
                     @Override
@@ -2124,7 +2122,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                                                 try {
                                                     List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.PARAMETRIC);
                                                 } catch (InterruptedException ex) {
-                                                    Logger.getLogger(MainFrame.class.getName()).log(Level.WARN, null, ex);
+                                                    log.warn("Exception", ex);
                                                 }
                                             }
                                         });
@@ -2138,8 +2136,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             if (menu.getItemCount() > 0) {
                 contextMenu.add(menu);
             }
-            logger.log(Level.INFO, "Finding out if running...");
-
+            log.trace("Finding out if running...");
             if (step.getTestSequenceInstance().isStepByStep() && !step.isSiblingRunning()) {
                 JMenuItem startMenu = new JMenuItem();
                 startMenu.setText("Start " + step.getName());
@@ -2152,8 +2149,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 contextMenu.add(startMenu);
             }
         }
-
-        logger.log(Level.INFO, "Context menu created.");
+        log.trace("Context menu created.");
         return contextMenu;
     }
 

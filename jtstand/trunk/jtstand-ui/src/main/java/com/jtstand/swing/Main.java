@@ -34,7 +34,6 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.xml.sax.SAXException;
 
@@ -45,6 +44,7 @@ import org.xml.sax.SAXException;
  */
 public class Main {
 
+    private static final Logger log = Logger.getLogger(Main.class.getName());
     private String projectLocation = null;
     private int revision = 0;
     private String version = null;
@@ -56,7 +56,7 @@ public class Main {
         File curdirrel = new File(".");
         File curdir = new File(curdirrel.getAbsolutePath());
         URI cururi = curdir.toURI().normalize();
-        System.out.println("URI of the current directory: " + cururi.toString());
+        log.trace("URI of the current directory: " + cururi.toString());
         return resolve(uristr, cururi);
     }
 
@@ -94,25 +94,25 @@ public class Main {
                 System.err.println("Project not specified and it could not be found in default locations!");
                 System.exit(1);
             } else {
-                System.out.println("Project file specified:" + projectLocation);
+                log.trace("Project file specified:" + projectLocation);
             }
-            System.out.println("Resolving: " + projectLocation);
+            log.trace("Resolving: " + projectLocation);
             URI projectURI = resolve(projectLocation);
-            System.out.println("Project file is resolved to URI: " + projectURI);
+            log.trace("Project file is resolved to URI: " + projectURI);
             projectLocation = projectURI.getPath();
-            System.out.println("Project file path: " + projectLocation);
+            log.trace("Project file path: " + projectLocation);
             if (projectLocation.charAt(2) == ':') {
                 projectLocation = projectLocation.substring(1);
-                System.out.println("Project file path is corrected to: " + projectLocation);
+                log.trace("Project file path is corrected to: " + projectLocation);
             }
         }
-        System.out.println("Project file requested revision: " + revision);
+        log.trace("Project file requested revision: " + revision);
         try {
             new MainFrame(TestProject.unmarshal(FileRevision.createFromUrlOrFile(projectLocation, (long) revision), true).getTestStationOrDefault(station), title, version);
         } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "IOException", ex);
+            log.fatal("Exception", ex);
         } catch (JAXBException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "JAXBException", ex);
+            log.fatal("Exception", ex);
             javax.swing.JOptionPane.showMessageDialog(
                     null,
                     "Project file is invalid!\nPress OK to exit.",
@@ -120,7 +120,7 @@ public class Main {
                     javax.swing.JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
         } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.FATAL, "Exception", ex);
+            log.fatal("Exception", ex);
         }
     }
 
@@ -191,7 +191,7 @@ public class Main {
                         try {
                             TestProject.setSchema(schemaFactory.newSchema(schemaFile));
                         } catch (SAXException ex) {
-                            Logger.getLogger(Main.class.getName()).log(Level.FATAL, null, ex);
+                            log.fatal("Exception", ex);
                             javax.swing.JOptionPane.showMessageDialog(
                                     null,
                                     "Schema file is invalid!\nPress OK to exit.",

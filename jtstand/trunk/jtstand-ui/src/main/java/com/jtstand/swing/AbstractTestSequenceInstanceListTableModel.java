@@ -37,7 +37,6 @@ import javax.xml.bind.JAXBException;
 public abstract class AbstractTestSequenceInstanceListTableModel extends AbstractListTableModel<TestSequenceInstance> implements TableModel, List<TestSequenceInstance>, Set<TestSequenceInstance> {
 
     public static final long serialVersionUID = 20081114L;
-//    static final Logger logger = Logger.getLogger(TestSequenceInstanceList.class.getCanonicalName());
     private transient EntityManager em;
     protected final Object lock = new Object();
 

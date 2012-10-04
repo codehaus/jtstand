@@ -23,7 +23,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -31,7 +30,7 @@ import org.jboss.logging.Logger.Level;
  */
 public class GeneralQuery implements Runnable {
 
-    private static final Logger LOGGER = Logger.getLogger(GeneralQuery.class.getCanonicalName());
+    private static final Logger log = Logger.getLogger(GeneralQuery.class.getCanonicalName());
     private EntityManager em;
     private String queryString;
     private Integer maxResults;
@@ -59,7 +58,7 @@ public class GeneralQuery implements Runnable {
         try {
             t.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(GeneralQuery.class.getName()).log(Level.WARN, null, ex);
+            log.warn("Exception", ex);
         }
 //        System.out.println(getClass().getCanonicalName() + " took " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
     }
@@ -67,13 +66,13 @@ public class GeneralQuery implements Runnable {
     @Override
     public void run() {
         try {
-            LOGGER.log(Level.INFO, getClass().getCanonicalName() + " \"" + queryString + "\"" + "...");
+            log.trace("\"" + queryString + "\"" + "...");
             Query q = em.createQuery(queryString);
             if (maxResults != null) {
                 q.setMaxResults(maxResults);
             }
             result = q.getResultList();
-            LOGGER.log(Level.INFO, Integer.toString(result.size()) + " instances loaded from database!");
+            log.info(Integer.toString(result.size()) + " instances loaded from database!");
         } catch (Exception ex) {
 //            logger.log(Level.SEVERE, "Exception: " + ex.getMessage());
         }

@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import javax.swing.JPanel;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -33,6 +34,7 @@ import javax.swing.JPanel;
  */
 public class Fixtures extends JPanel {
 
+    private static final Logger log = Logger.getLogger(Fixtures.class.getName());
     public static final long serialVersionUID = 20081114L;
     public static final String STR_FIXTURE_COLUMNS = "FIXTURE_COLUMNS";
     public static final String STR_FIXTURE_ROWS = "FIXTURE_ROWS";
@@ -47,11 +49,11 @@ public class Fixtures extends JPanel {
 //        return fxs.values();
 //    }
     public void init() {
-        System.out.println("Fixtures init..." + fxs.size());
+        log.trace("Fixtures init..." + fxs.size());
         for (Fixture fx : fxs.values()) {
-            System.out.println(fx.getTestFixture().getFixtureName() + " init...");
+            log.trace(fx.getTestFixture().getFixtureName() + " init...");
             fx.init();
-            System.out.println(fx.getTestFixture().getFixtureName() + " init completed.");
+            log.trace(fx.getTestFixture().getFixtureName() + " init completed.");
         }
     }
 
@@ -78,7 +80,7 @@ public class Fixtures extends JPanel {
         rows = testStation.getPropertyInteger(STR_FIXTURE_ROWS, 1);
         gap = testStation.getPropertyInteger(STR_FIXTURE_GAP, 1);
 
-        System.out.println("Number of fixtures: " + testStation.getFixtures().size());
+        log.trace("Number of fixtures: " + testStation.getFixtures().size());
         if (testStation.getFixtures().size() > 0) {
             setLayout(new GridLayout(0, 1, 0, gap));
             fxs = new Hashtable<String, Fixture>();
@@ -88,7 +90,7 @@ public class Fixtures extends JPanel {
                     JPanel panel = new JPanel();
                     panel.setLayout(new GridLayout(1, 0, gap, 0));
                     for (int col = 0; col < cols; col++) {
-                        System.out.println("col: " + col + " of " + cols);
+                        log.trace("col: " + col + " of " + cols);
                         if (it.hasNext()) {
                             TestFixture fxt = it.next();
                             Fixture fx = new Fixture(fxt, fi);
@@ -98,7 +100,7 @@ public class Fixtures extends JPanel {
                             fxs.put(fx.getName(), fx);
                             panel.add(fx);
                         } else {
-                            System.out.println("No more fixtures!");
+                            log.trace("No more fixtures!");
                         }
                     }
                     add(panel);

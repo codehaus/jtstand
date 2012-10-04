@@ -38,6 +38,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import org.jboss.logging.Logger;
 import org.jdesktop.swingx.JXTable;
 
 /**
@@ -46,13 +47,13 @@ import org.jdesktop.swingx.JXTable;
  */
 public class Util {
 
+    private static final Logger log = Logger.getLogger(TestStepInstances.class.getName());
     public static final Class<?>[] emptyContructor = {};
 
     public static void scrollSelectedRowToVisible(final JXTable jTable) {
 
         if (jTable.getSelectedRows().length == 1) {
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
                     int[] rows = jTable.getSelectedRows();
@@ -102,7 +103,6 @@ public class Util {
         //        System.out.println("table preferred scrollable viewport size:" + jTable.getPreferredScrollableViewportSize());
 
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 setDividerLocation(jSplitPane, jTable);
@@ -313,7 +313,7 @@ public class Util {
     public static void scrollToCenter(JTable table, int rowIndex, int vColIndex) {
         //System.out.println("Scrolling to center...");
         if (!(table.getParent() instanceof JViewport)) {
-            System.out.println("Parent is not a JViewport, but: " + table.getParent());
+            log.trace("Parent is not a JViewport, but: " + table.getParent());
             return;
         }
         JViewport viewport = (JViewport) table.getParent();

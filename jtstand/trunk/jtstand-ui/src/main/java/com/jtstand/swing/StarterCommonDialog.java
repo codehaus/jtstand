@@ -43,10 +43,10 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 public class StarterCommonDialog extends JDialog implements StarterInterface {
 
+    private static final Logger log = Logger.getLogger(StarterCommonDialog.class.getName());
     public static final long serialVersionUID = 20081114L;
     public static final String STARTER_PANEL = "STARTER_PANEL";
     public static final String DEBUG_ENABLED = "DEBUG_ENABLED";
@@ -223,7 +223,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     private void setSelectedTestType(FixtureTestTypeReference selectedTestType) {
         if (this.selectedTestType != selectedTestType) {
-            System.out.println("selected a new test type: " + selectedTestType);
+            log.trace("selected a new test type: " + selectedTestType);
             this.selectedTestType = selectedTestType;
             String cname = getStarterPanelClassName();
             if (!starterPanel.getClass().getCanonicalName().equals(cname)) {
@@ -367,13 +367,13 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             if (fi != null && !fi.isMemoryEnoughRetry()) {
                 throw new IllegalStateException("Not enough memory to start a new sequence");
             }
-            System.out.println("Creating instance of: " + selectedTestType);
+            log.trace("Creating instance of: " + selectedTestType);
             tsi = new TestSequenceInstance(SequenceType.NORMAL, sn, employeeNumber, selectedTestType);
             if (fi != null) {
                 fi.add(tsi);
             }
         } catch (Exception ex) {
-            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
             return false;
         }
 
@@ -389,10 +389,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         return true;
     }
 
-    public void log(String message) {
-        System.out.println(message);
-    }
-
     private void initComponents() {
         hideAdvancedPanel();
         if (starterPanel != null) {
@@ -401,7 +397,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
         try {
             starterPanel = (AbstractStarterPanel) Class.forName(getStarterPanelClassName()).getConstructor(emptyContructor).newInstance();
         } catch (Exception ex) {
-            Logger.getLogger(StarterCommonDialog.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
             starterPanel = new StarterCommonPanel();
         }
 
@@ -525,8 +521,6 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
             @Override
             public void run() {
                 changeAction();
-
-
             }
         });
     }
@@ -623,7 +617,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
 
     public boolean isSerialNumberOK(String serialNumber) {
         if (serialNumber == null || serialNumber.length() == 0) {
-            log("Serial Number cannot be blank!");
+            log.warn("Serial Number cannot be blank!");
             return false;
         }
         String serialNumberPattern = properties.getPropertyString(SERIAL_NUMBER_PATTERN, null);

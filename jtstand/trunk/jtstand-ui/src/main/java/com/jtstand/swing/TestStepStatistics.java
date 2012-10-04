@@ -48,7 +48,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.jdesktop.swingx.JXStatusBar;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
@@ -59,8 +58,8 @@ import org.jdesktop.swingx.plaf.basic.BasicStatusBarUI;
  */
 public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
 
+    public static final Logger log = Logger.getLogger(TestStepStatistics.class.getCanonicalName());
     public static final long serialVersionUID = 20081114L;
-    static final Logger logger = Logger.getLogger(TestStepStatistics.class.getCanonicalName());
     private JXTable jTable;
     private JSplitPane jSplitPane;
     private JFrame frame;
@@ -114,7 +113,6 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
 
     private void addMenu(final JXTable jTable) {
         jTable.addMouseListener(new MouseAdapter() {
-
             private void cancelCellEditing(JXTable jTable) {
                 CellEditor ce = jTable.getCellEditor();
                 if (ce != null) {
@@ -172,22 +170,19 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
             JMenuItem reloadMenu = contextMenu.add("Chart of '" + path + "'");
 
             reloadMenu.addActionListener(new ActionListener() {
-
                 public void actionPerformed(
                         ActionEvent e) {
 
                     SwingUtilities.invokeLater(new Runnable() {
-
                         @Override
                         public void run() {
                             Thread t = new Thread(new Runnable() {
-
                                 @Override
                                 public void run() {
                                     try {
                                         List<TestStepInstance> steps = querySteps(path);
                                     } catch (InterruptedException ex) {
-                                        Logger.getLogger(TestStepStatistics.class.getName()).log(Level.WARN, null, ex);
+                                        log.warn("Exception", ex);
                                     }
                                 }
                             });
@@ -388,8 +383,7 @@ public class TestStepStatistics extends ArrayList<TestSequenceInstance> {
 //            jTable.addMouseListener(this);
             jTable.setAutoCreateRowSorter(true);
 
-            jTable.getRowSorter().addRowSorterListener(new RowSorterListener(){
-
+            jTable.getRowSorter().addRowSorterListener(new RowSorterListener() {
                 @Override
                 public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(TestStepStatisticsModel.StatisticsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {

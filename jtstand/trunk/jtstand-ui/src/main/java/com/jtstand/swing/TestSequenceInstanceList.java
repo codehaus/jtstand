@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.xml.bind.JAXBException;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -36,8 +37,8 @@ import javax.xml.bind.JAXBException;
  */
 public class TestSequenceInstanceList extends ArrayList<TestSequenceInstance> implements List<TestSequenceInstance>, Set<TestSequenceInstance>, Serializable {
 
+    private static final Logger log = Logger.getLogger(TestSequenceInstanceList.class.getName());
     public static final long serialVersionUID = 20081114L;
-//    static final Logger logger = Logger.getLogger(TestSequenceInstanceList.class.getCanonicalName());
     private transient EntityManager em;
     protected final Object lock = new Object();
 
@@ -104,9 +105,9 @@ public class TestSequenceInstanceList extends ArrayList<TestSequenceInstance> im
 
     @SuppressWarnings("unchecked")
     public boolean addAll(String q, Integer max) {
-        System.out.println("query string:'" + q + "'");
+        log.trace("query string:'" + q + "'");
         if (max != null) {
-            System.out.println("not more than: " + max);
+            log.trace("not more than: " + max);
         }
         return addAll((List<TestSequenceInstance>) (new GeneralQuery(em, q, max)).query());
     }

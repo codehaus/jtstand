@@ -54,6 +54,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.RowSorterEvent;
 import javax.swing.event.RowSorterListener;
 import javax.swing.table.TableColumn;
+import org.jboss.logging.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
@@ -64,6 +65,7 @@ import org.jdesktop.swingx.decorator.Highlighter;
  */
 public class TestStepInstances extends TestStepInstanceList implements PropertyChangeListener {
 
+    private static final Logger log = Logger.getLogger(TestStepInstances.class.getName());
     public static final long serialVersionUID = 20081114L;
 //    Object stepsLock = new Object();
 //    private List<TestStepInstance> steps = Collections.synchronizedList(new ArrayList<TestStepInstance>());
@@ -170,18 +172,19 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                     if (row >= 0) {
                         jTable.getSelectionModel().addSelectionInterval(row, row);
                     }
-                } else {
-                    System.out.println("[" + step.getClass().getCanonicalName() + ":" + step.getTestSequenceInstance() + ":" + step.getTestStepNamePath() + "]");
-                    System.out.println("not found in:");
-                    for (TestStepInstance step2 : this) {
-                        System.out.println("[" + step2.getClass().getCanonicalName() + ":" + step2.getTestSequenceInstance() + ":" + step2.getTestStepNamePath() + "]" + step2.equals(step) + ":" + step2.getTestSequenceInstance().equals(step.getTestSequenceInstance()) + ":" + step2.getTestStepNamePath().equals(step.getTestStepNamePath()) + ":" + step2.equals(step));
-                        if (step2.getStartTime().equals(step.getStartTime())) {
-                            System.out.println("[" + step.getClass().getCanonicalName() + ":" + step.getTestSequenceInstance() + ":" + step.getTestStepNamePath() + "]!");
-                            System.out.println((step instanceof TestStepInstance) + ":" + (step2 instanceof TestStepInstance));
-                            System.out.println(step.hashCode() + ":" + step2.hashCode());
-                        }
-                    }
                 }
+//                else {
+//                    System.out.println("[" + step.getClass().getCanonicalName() + ":" + step.getTestSequenceInstance() + ":" + step.getTestStepNamePath() + "]");
+//                    System.out.println("not found in:");
+//                    for (TestStepInstance step2 : this) {
+//                        System.out.println("[" + step2.getClass().getCanonicalName() + ":" + step2.getTestSequenceInstance() + ":" + step2.getTestStepNamePath() + "]" + step2.equals(step) + ":" + step2.getTestSequenceInstance().equals(step.getTestSequenceInstance()) + ":" + step2.getTestStepNamePath().equals(step.getTestStepNamePath()) + ":" + step2.equals(step));
+//                        if (step2.getStartTime().equals(step.getStartTime())) {
+//                            System.out.println("[" + step.getClass().getCanonicalName() + ":" + step.getTestSequenceInstance() + ":" + step.getTestStepNamePath() + "]!");
+//                            System.out.println((step instanceof TestStepInstance) + ":" + (step2 instanceof TestStepInstance));
+//                            System.out.println(step.hashCode() + ":" + step2.hashCode());
+//                        }
+//                    }
+//                }
             }
             /* Scroll to the row, which was selected last */
             if (row >= 0) {
@@ -351,7 +354,6 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
             jTable.setDefaultRenderer(Double.class, new TestStepInstancesRendererDouble(this));
 //            jTable.addHighlighter(new TestStepInstancesHighlighter(jTable));
             jTable.addHighlighter(new Highlighter() {
-
                 @Override
                 public Component highlight(Component c, ComponentAdapter ca) {
                     if (JLabel.class.isAssignableFrom(c.getClass())) {
@@ -406,7 +408,6 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
 //            jTable.addPropertyChangeListener(this);
             jTable.setAutoCreateRowSorter(true);
             jTable.getRowSorter().addRowSorterListener(new RowSorterListener() {
-
                 @Override
                 public void sorterChanged(RowSorterEvent e) {
                     if (jTable.getColumn(TestStepInstancesModel.StepsColumn.ROW.ordinal()).equals(jTable.getSortedColumn())) {
@@ -430,7 +431,6 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
 
     private void addMenu(final JXTable jTable) {
         jTable.addMouseListener(new MouseAdapter() {
-
             private void maybeShowPopup(MouseEvent e) {
                 if (e.isPopupTrigger() && jTable.isEnabled()) {
                     Point p = new Point(e.getX(), e.getY());
@@ -500,15 +500,13 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
             JMenuItem qMenu = contextMenu.add("Query Steps from Database");
 
             qMenu.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     final QueryDialogTestStep q = mainFrame.getQueryDialog(QueryDialogTestStep.Mode.STEP);
                     ActionListener queryAction = new ActionListener() {
-
                         @Override
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
-                            System.out.println(q.toString());
+                            log.trace(q.toString());
                             if (addAll(q.toString(), q.getMaxResults())) {
                                 updateTableView(size());
                             }
@@ -525,17 +523,15 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                 JMenu selectedMenu = new JMenu((seqList.size() > 1) ? "Selected " + Integer.toString(seqList.size()) + " sequences" : "Selected sequence");
                 JMenuItem copyMenu = selectedMenu.add("Copy");
                 copyMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        System.out.println("rowIndex:" + rowIndex + " columnIndex:" + columnIndex);
+                        log.trace("rowIndex:" + rowIndex + " columnIndex:" + columnIndex);
                         Object value = jTable.getValueAt(rowIndex, columnIndex);
                         setClipboardContents(value == null ? "" : value.toString());
                     }
                 });
                 JMenuItem removeMenu = selectedMenu.add("Remove from this list");
                 removeMenu.addActionListener(new ActionListener() {
-
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         removeAll(
@@ -627,12 +623,12 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
 //
 //                    @Override
 //                    public void run() {
-                        Util.dividerChanged(jTable, jSplitPane);
+                Util.dividerChanged(jTable, jSplitPane);
 //                    }
 //                });
             }
         } else {
-            System.out.println("source class:" + evt.getSource().getClass().getCanonicalName());
+            log.trace("source class:" + evt.getSource().getClass().getCanonicalName());
         }
     }
 }
