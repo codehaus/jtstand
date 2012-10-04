@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -39,6 +38,7 @@ import org.jboss.logging.Logger.Level;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class LocalUser extends Operator {
 
+    private static final Logger log = Logger.getLogger(LocalUser.class.getName());
     private String realName;
     private String password;
     private int localUserPosition;
@@ -90,7 +90,7 @@ public class LocalUser extends Operator {
                 return getEmployeeNumber();
             }
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(LocalUser.class.getName()).log(Level.ERROR, null, ex);
+            log.error("Exception", ex);
         }
         return null;
     }

@@ -38,7 +38,6 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepProperty extends TestProperty {
 
-    //private static final Logger LOGGER = Logger.getLogger(TestStepProperty.class.getCanonicalName());
     @ManyToOne
     private TestStep testStep;
     private int testStepPropertyPosition;

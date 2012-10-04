@@ -21,6 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class TestFixtureBindings implements Bindings {
 
+    private static final Logger log = Logger.getLogger(TestFixtureBindings.class.getName());
     private transient TestFixture testFixture;
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
@@ -73,7 +74,7 @@ public class TestFixtureBindings implements Bindings {
         try {
             return testFixture.getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Logger.Level.WARN, null, ex);
+            log.warn("ScriptException", ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());
@@ -107,13 +108,14 @@ public class TestFixtureBindings implements Bindings {
 
     @Override
     public void clear() {
+        log.trace("clear() is called.");
         testFixture.clear();
         localVariablesMap.clear();
     }
 
     @Override
     public Set<String> keySet() {
-        System.out.println("TestFixture keySet() is called.");
+        log.trace("keySet() is called.");
         Set<String> keys = new HashSet<String>();
         keys.addAll(testFixture.keySet());
         TestStation station = testFixture.getTestStation();

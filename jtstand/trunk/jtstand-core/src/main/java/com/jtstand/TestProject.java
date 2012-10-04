@@ -50,6 +50,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
 import javax.xml.validation.Schema;
+import org.jboss.logging.Logger;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -64,9 +65,9 @@ import org.xml.sax.SAXException;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestProject extends AbstractProperties {
 
+    private static final Logger log = Logger.getLogger(TestProject.class.getName());
     public static final Class<?>[] CLASS_LOADER_CONSTRUCTOR = {ClassLoader.class};
     public static final String TEST_PROJECT = "testProject";
-    //private static final Logger LOGGER = Logger.getLogger(TestProject.class.getCanonicalName());
     public static final String STR_PERSISTING_POLICY = "PERSISTING_POLICY";
     public static final OutputStream NULL_OUTPUT_STREAM = new OutputStream() {
         @Override
@@ -82,8 +83,6 @@ public class TestProject extends AbstractProperties {
             emf = null;
         }
     }
-//    public TestProject() {
-//    }
     public static final String schemaLocation = "http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd";
     private static JAXBContext jc;
     private static Marshaller m;
@@ -149,7 +148,7 @@ public class TestProject extends AbstractProperties {
         }
         FileRevision c = FileRevision.query(em, creator);
         if (c == null) {
-            System.out.println("Creator was not found in database: " + creator.getSubversionUrl() + "@" + creator.getRevision());
+            log.info("Creator was not found in database: " + creator.getSubversionUrl() + "@" + creator.getRevision());
             return null;
         }
         try {
@@ -159,8 +158,7 @@ public class TestProject extends AbstractProperties {
             TestProject.getMarshaller().marshal(testProject, TestProject.NULL_OUTPUT_STREAM);
             return testProject;
         } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            e.printStackTrace();
+            log.error("Exception: " + e);
             return null;
         }
     }

@@ -23,11 +23,10 @@ import com.jtstand.TestStation;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
-import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.script.ScriptException;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -35,7 +34,7 @@ import javax.script.ScriptException;
  */
 public class ToDatabase extends Thread {
 
-    private static final Logger LOGGER = Logger.getLogger(ToDatabase.class.getCanonicalName());
+    private static final Logger log = Logger.getLogger(ToDatabase.class.getName());
     private File saveDirectory;
     private File savedDirectory;
     private File savedErrorDirectory;
@@ -53,15 +52,15 @@ public class ToDatabase extends Thread {
         savedErrorDirectory = testStation.getSavedErrorDirectory();
         this.model = model;
         if (saveDirectory == null) {
-            System.out.println("Save directory is not defined");
+            log.error("Save directory is not defined");
             return;
         }
         if (savedDirectory == null) {
-            System.out.println("Saved directory is not defined");
+            log.error("Saved directory is not defined");
             return;
         }
         if (savedErrorDirectory == null) {
-            System.out.println("Saved error directory is not defined");
+            log.error("Saved error directory is not defined");
             return;
         }
         setDaemon(true);
@@ -83,10 +82,10 @@ public class ToDatabase extends Thread {
         try {
             TestSequenceInstance seq = null;
             if (!file.canWrite()) {
-                LOGGER.log(Level.ERROR, "Output file cannot be written : " + file.getName());
+                log.error("Output file cannot be written : " + file.getName());
             } else {
                 if (file.getName().endsWith(".xml")) {
-                    System.out.println("Processing file: " + file.getPath() + " ...");
+                    log.trace("Processing file: " + file.getPath() + " ...");
                     seq = TestSequenceInstance.unmarshal(file);
                 }
             }
@@ -94,11 +93,11 @@ public class ToDatabase extends Thread {
                 long startTime = System.currentTimeMillis();
                 emf = seq.getTestStation().getEntityManagerFactory();
                 if (emf == null) {
-                    System.out.println("Entity Manager Factory cannot be obtained");
+                    log.error("Entity Manager Factory cannot be obtained");
                 } else {
                     em = emf.createEntityManager();
                     if (em == null) {
-                        System.out.println("Entity Manager cannot be obtained");
+                        log.error("Entity Manager cannot be obtained");
                     } else {
 //                        seq.connect(em);
                         if (seq.merge(em)) {
@@ -109,25 +108,25 @@ public class ToDatabase extends Thread {
                             if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {
 //                                System.out.println("Output file successfully moved to: " + file.getName());
                                 num++;
-                                System.out.println("Processing file: " + file.getPath() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+                                log.info("Processing file: " + file.getPath() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
 //                                System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
                             } else {
-                                System.out.println("Output file cannot be moved: " + file.getName());
+                                log.error("Output file cannot be moved: " + file.getName());
                                 ignoredFiles.add(file);
                             }
                         } else {
-                            LOGGER.log(Level.ERROR, "Output file cannot be persisted: " + file.getName());
+                            log.error("Output file cannot be persisted: " + file.getName());
                         }
                     }
                 }
             }
         } catch (Throwable ex) {
-            LOGGER.log(Level.WARN, null, ex);
-            ex.printStackTrace();
+            log.warn("Exception", ex);
+            //ex.printStackTrace();
             if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {
 //                System.out.println("Output file successfully moved to: " + file.getName());
             } else {
-                System.out.println("Output file cannot be moved: " + file.getName());
+                log.error("Output file cannot be moved: " + file.getName());
                 ignoredFiles.add(file);
             }
         } finally {
@@ -139,7 +138,7 @@ public class ToDatabase extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Processing output directory '" + saveDirectory.toString() + "' started...");
+        log.info("Processing output directory '" + saveDirectory.toString() + "' started...");
         try {
             while (!aborted) {
                 if (!saveDirectory.canRead()) {
@@ -154,7 +153,7 @@ public class ToDatabase extends Thread {
                 }
             }
         } catch (InterruptedException ex) {
-            LOGGER.log(Level.WARN, null, ex);
+            log.warn("Exception", ex);
         }
     }
 }

@@ -49,7 +49,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.SVNException;
 import org.tmatesoft.svn.core.SVNNodeKind;
 import org.tmatesoft.svn.core.SVNProperties;
@@ -72,6 +71,7 @@ import org.tmatesoft.svn.core.wc.SVNStatusType;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class FileRevision {
 
+    private static final Logger log = Logger.getLogger(FileRevision.class.getName());
     private static final ConcurrentHashMap<FileRevision, Object> FILE_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, Object>();
     private static final Object FILE_CACHE_LOCK = new Object();
     private String subversionUrl;
@@ -160,7 +160,7 @@ public class FileRevision {
 
                 return new FileRevision(subversionUrl, revision, f);
             } catch (Exception ex) {
-                System.out.println("Exception while checking current revision of local file: " + ex);
+                log.debug("Exception while checking current revision of local file: ", ex);
             }
         }
         return new FileRevision(subversionUrl, revision);
@@ -202,12 +202,11 @@ public class FileRevision {
                 if (revision == 0) {
                     revision = currentRevision;
                 }
-                System.out.println("URL of the file: " + svns.getURL());
-                System.out.println("Current revision of the file: " + Long.toString(currentRevision));
+                log.trace("URL of the file: " + svns.getURL());
+                log.trace("Current revision of the file: " + Long.toString(currentRevision));
                 return new FileRevision(svns.getURL().toString(), revision, checkfile);
             } catch (SVNException ex) {
-                Logger.getLogger(FileRevision.class.getName()).log(Level.FATAL, null, ex);
-                ex.printStackTrace();
+                log.fatal("Exception while trying to create FileRevision", ex);
                 System.exit(1);
             }
         }
@@ -285,7 +284,7 @@ public class FileRevision {
         try {
             return protectInputStream(getInputStreamUnprotected(), "UTF-8");
         } catch (IOException ex) {
-            Logger.getLogger(FileRevision.class.getName()).log(Level.FATAL, null, ex);
+            log.fatal("Exception", ex);
         }
         return null;
     }
@@ -302,21 +301,21 @@ public class FileRevision {
                         if (committedRevision == revision) {
                             return new FileInputStream(file);
                         } else {
-                            System.out.println("Committed revision of the file is " + Long.toString(committedRevision) + " instead of " + revision + "!");
+                            log.error("Committed revision of the file is " + Long.toString(committedRevision) + " instead of " + revision + "!");
                         }
                     } else {
-                        System.out.println("Local copy URL: '" + svns.getURL().toDecodedString() + "' does not match!");
+                        log.error("Local copy URL: '" + svns.getURL().toDecodedString() + "' does not match!");
                     }
                 } else {
-                    System.out.println("Status is '" + svns.getContentsStatus() + "' instead of '" + SVNStatusType.STATUS_NORMAL + "'!");
+                    log.error("Status is '" + svns.getContentsStatus() + "' instead of '" + SVNStatusType.STATUS_NORMAL + "'!");
                 }
             } catch (FileNotFoundException ex) {
-                System.out.println("Exception while reading local file: " + ex);
+                log.error("Exception while reading local file: " + ex);
             } catch (Exception ex) {
-                System.out.println("Exception while checking current revision of local file: " + ex);
+                log.error("Exception while checking current revision of local file: " + ex);
             }
         }
-        System.out.println("URL: '" + subversionUrl + "' revision: '" + revision + "'");
+        log.debug("URL: '" + subversionUrl + "' revision: '" + revision + "'");
         DAVRepositoryFactory.setup();
         int pos = subversionUrl.lastIndexOf('/');
         String url = subversionUrl.substring(0, pos);
@@ -337,7 +336,7 @@ public class FileRevision {
         Long rev = Long.parseLong(props.getStringValue(SVNProperty.COMMITTED_REVISION));
         if (!rev.equals(revision)) {
             if (-1 == revision) {
-                System.out.println("Changing revision from: '" + revision + "' to: '" + rev + "'...");
+                log.debug("Changing revision from: '" + revision + "' to: '" + rev + "'...");
                 revision = rev;
             } else {
                 throw new IllegalArgumentException("Expected revision: " + revision + " found revision: " + rev);

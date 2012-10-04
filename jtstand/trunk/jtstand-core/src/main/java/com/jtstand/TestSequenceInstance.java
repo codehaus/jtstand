@@ -58,7 +58,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -74,6 +73,7 @@ import org.xml.sax.SAXException;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestSequenceInstance extends AbstractProperties implements Runnable, Iterable<TestStepInstance> {
 
+    private static final Logger log = Logger.getLogger(TestSequenceInstance.class.getName());
     public static final String STR_FIXTURE = "fixture";
     public static final String STR_STATION = "station";
     public static final String STR_INIT = "init";
@@ -82,7 +82,6 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     public static final String STR_ON_ABORT = "ON_ABORT";
     public static final String STR_ON_FINISH = "ON_FINISH";
     public static final Object FILE_LOCK = new Object();
-    private static final Logger LOGGER = Logger.getLogger(TestSequenceInstance.class.getCanonicalName());
     private static JAXBContext jc;
     private static Marshaller m;
     private static Unmarshaller um;
@@ -105,8 +104,8 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             toFile(testStation.getSaveDirectory());
             return true;
         } catch (Exception ex) {
-            System.out.println("Exception in toFile: " + ex.getMessage());
-            ex.printStackTrace();
+            log.error("Exception in toFile: ", ex);
+            //ex.printStackTrace();
         }
         return false;
     }
@@ -122,13 +121,13 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             }
             if (!saveDirectory.isDirectory()) {
                 if (saveDirectory.mkdirs()) {
-                    LOGGER.info("Output directory is created: " + saveDirectory.getPath());
+                    log.info("Output directory is created: " + saveDirectory.getPath());
                 } else {
                     throw new IllegalArgumentException("Output directory does not exist and cannot be created: " + saveDirectory);
                 }
             }
             long freeMB = saveDirectory.getFreeSpace() / 1048576L;
-            System.out.println("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
+            log.info("Free space of '" + saveDirectory.getPath() + "': " + freeMB + " MB");
             String filepath = saveDirectory.getPath() + File.separatorChar + getFileName() + ".xml";
             File file = new File(filepath);
             synchronized (jaxbLock) {
@@ -423,9 +422,9 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     }
 
     public void startInteraction(TestStepInstance step) {
-        System.out.println("Sequence interaction pending...");
+        log.trace("Sequence interaction pending...");
         synchronized (interactionLock) {
-            System.out.println("Sequence interaction starts");
+            log.trace("Sequence interaction starts");
             if (SequenceStatus.RUNNING == status || SequenceStatus.STEPBYSTEP == status) {
                 originalStatus = status;
                 this.interactiveTestStepInstance = step;
@@ -548,12 +547,12 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
 //            System.out.println("Merging testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.FATAL, "Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
+            log.fatal("Merging testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
             ex.printStackTrace();
             if (em.getTransaction().isActive()) {
-                LOGGER.info("Merging is going to roll back the transaction...");
+                log.info("Merging is going to roll back the transaction...");
                 em.getTransaction().rollback();
-                LOGGER.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+                log.info("Merging rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             }
         }
         return false;
@@ -574,7 +573,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             try {
                 t.join();
             } catch (InterruptedException ex) {
-                Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+                log.warn("Exception", ex);
             }
         } else {
             toFile();
@@ -589,15 +588,14 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
             em.persist(this);
             //em.flush();
             em.getTransaction().commit();
-            LOGGER.info("Persisting testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+            log.info("Persisting testSequenceInstance committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.ERROR, "Persisting testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
-            LOGGER.log(Level.ERROR, "With exception: " + ex);
+            log.error("Persisting testSequenceInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms", ex);
             if (em.getTransaction().isActive()) {
-                LOGGER.info("Persisting is going to roll back the transaction...");
+                log.info("Persisting is going to roll back the transaction...");
                 em.getTransaction().rollback();
-                LOGGER.info("Persisting rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+                log.info("Persisting rolled back the transaction in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             }
         }
         return false;
@@ -786,7 +784,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                 try {
                     Thread.sleep(1L);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+                    log.warn(null, ex);
                 }
                 createTime = System.currentTimeMillis();
             }
@@ -961,7 +959,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                             ((AbstractTestSequenceInstanceProcessor) o).process(this);
                         }
                     } catch (ScriptException ex) {
-                        Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+                        log.warn(null, ex);
                     }
                     setStatus(SequenceStatus.ABORTED);
                     break;
@@ -1005,7 +1003,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
                 } catch (ScriptException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+                    log.warn("Exception", ex);
                 }
                 break;
             case PASSED:
@@ -1015,7 +1013,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                         ((AbstractTestSequenceInstanceProcessor) o).process(this);
                     }
                 } catch (ScriptException ex) {
-                    Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+                    log.warn("Exception", ex);
                 }
                 break;
         }
@@ -1025,7 +1023,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
                 ((AbstractTestSequenceInstanceProcessor) o).process(this);
             }
         } catch (ScriptException ex) {
-            Logger.getLogger(TestSequenceInstance.class.getName()).log(Level.WARN, null, ex);
+            log.warn("Exception", ex);
         }
         for (TestStepInstance step : this) {
             step.clear();

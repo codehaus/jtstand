@@ -31,7 +31,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -42,6 +41,7 @@ import org.jboss.logging.Logger.Level;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class DomainUser extends Operator {
 
+    private static final Logger log = Logger.getLogger(DomainUser.class.getName());
     private String domainName;
     @ManyToOne
     private DomainUserList domainUserList;
@@ -102,13 +102,13 @@ public class DomainUser extends Operator {
             ctx.close();
             return getEmployeeNumber();
         } catch (NamingException ex) {
-            Logger.getLogger(DomainUser.class.getName()).log(Level.WARN, null, ex);
+            log.warn("Exception", ex);
         } finally {
             if (ctx != null) {
                 try {
                     ctx.close();
                 } catch (NamingException ex) {
-                    Logger.getLogger(DomainUser.class.getName()).log(Level.ERROR, null, ex);
+                    log.error("Exception", ex);
                 }
             }
         }

@@ -14,7 +14,6 @@ import javax.script.Bindings;
 import javax.script.ScriptContext;
 import javax.script.ScriptException;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -22,13 +21,14 @@ import org.jboss.logging.Logger.Level;
  */
 class TestStepInstanceBindings implements Bindings {
 
+    private static final Logger log = Logger.getLogger(TestStepInstanceBindings.class.getName());
     private transient TestStepInstance testStepInstance;
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
     public TestStepInstanceBindings() {
         //testStepInstance = null;
     }
-    
+
     public TestStepInstanceBindings(TestStepInstance testStepInstance) {
         this.testStepInstance = testStepInstance;
     }
@@ -146,7 +146,7 @@ class TestStepInstanceBindings implements Bindings {
         try {
             return testStepInstance.getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.WARN, null, ex);
+            log.warn(null, ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());

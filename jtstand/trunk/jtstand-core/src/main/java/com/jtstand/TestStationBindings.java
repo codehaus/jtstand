@@ -21,6 +21,7 @@ import org.jboss.logging.Logger;
  */
 public class TestStationBindings implements Bindings {
 
+    private static final Logger log = Logger.getLogger(TestStationBindings.class.getName());
     private transient TestStation testStation;
     private transient Map<String, Object> localVariablesMap = new HashMap<String, Object>();
 
@@ -69,7 +70,7 @@ public class TestStationBindings implements Bindings {
         try {
             return testStation.getVariable((String) key);
         } catch (ScriptException ex) {
-            Logger.getLogger(TestFixture.class.getName()).log(Logger.Level.WARN, null, ex);
+            log.warn("Excepion", ex);
             throw new IllegalStateException(ex.getMessage());
         } catch (InterruptedException ex) {
             throw new IllegalStateException(ex.getMessage());
@@ -103,13 +104,14 @@ public class TestStationBindings implements Bindings {
 
     @Override
     public void clear() {
+        log.trace("clear() is called.");
         testStation.clear();
         localVariablesMap.clear();
     }
 
     @Override
     public Set<String> keySet() {
-        System.out.println("TestStation keySet() is called.");
+        log.trace("keySet() is called.");
         Set<String> keys = new HashSet<String>();
         keys.addAll(testStation.keySet());
         keys.add("station");

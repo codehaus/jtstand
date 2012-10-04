@@ -26,12 +26,14 @@ import java.util.Map;
 import java.util.Set;
 import javax.script.Bindings;
 import javax.script.ScriptException;
+import org.jboss.logging.Logger;
 
 /**
  *
  * @author albert_kurucz
  */
 abstract public class AbstractVariables extends AbstractProperties {
+    private static final Logger log = Logger.getLogger(AbstractVariables.class.getName());
 
     private Map<String, Object> variablesMap = new HashMap<String, Object>();
     private transient Map<String, HashSet<Thread>> lockerThreads = new HashMap<String, HashSet<Thread>>();
@@ -125,7 +127,7 @@ abstract public class AbstractVariables extends AbstractProperties {
                                     locked = true;
                                     if (!locker.equals(actualLockerThread)) {
                                         actualLockerThread = locker;
-//                                        LOGGER.info("Variable is locked by: " + actualLockerThread.getName());
+                                          log.trace("Variable is locked by: " + actualLockerThread.getName());
                                     }
                                 }
                             }

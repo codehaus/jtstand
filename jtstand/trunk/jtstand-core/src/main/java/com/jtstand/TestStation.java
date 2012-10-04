@@ -47,7 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import org.hibernate.ejb.HibernateEntityManagerFactory;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -58,7 +57,7 @@ import org.jboss.logging.Logger.Level;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStation extends AbstractVariables {
 
-    private static final Logger LOGGER = Logger.getLogger(TestStation.class.getCanonicalName());
+    private static final Logger log = Logger.getLogger(TestStation.class.getName());
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -165,7 +164,7 @@ public class TestStation extends AbstractVariables {
             try {
                 entityManagerFactory = Persistence.createEntityManagerFactory(getTestProject().getPun(), getPeristencePropertiesFixedMap());
             } catch (ScriptException ex) {
-                Logger.getLogger(TestStation.class.getName()).log(Level.FATAL, null, ex);
+                log.fatal("Exception", ex);
             }
         }
         return entityManagerFactory;
@@ -182,7 +181,7 @@ public class TestStation extends AbstractVariables {
         }
         if (getPeristencePropertiesMap().get("hibernate.connection.url") == null) {
             String url = getPersistenceProtocol() + getPersistencePath();
-            System.out.println("hibernate.connection.url: " + url);
+            log.info("hibernate.connection.url: " + url);
             map.put("hibernate.connection.url", url);
         }
         if (Driver.derby.equals(getDriver()) && System.getProperty("derby.stream.error.file") == null) {
@@ -426,7 +425,7 @@ public class TestStation extends AbstractVariables {
     @XmlTransient
     public String getPersistenceProtocol() throws ScriptException {
         String pp = "jdbc:" + getDriver().toString() + ":";
-        System.out.println("Persistence protocol: " + pp);
+        log.info("Persistence protocol: " + pp);
         return pp;
     }
 
@@ -489,7 +488,7 @@ public class TestStation extends AbstractVariables {
         start++;
         int end = url.indexOf(';');
         String path = end > 0 ? url.substring(start, end) : url.substring(start);
-        System.out.println("Persistence path: " + path);
+        log.info("Persistence path: " + path);
         return path;
     }
 
@@ -518,72 +517,72 @@ public class TestStation extends AbstractVariables {
     private static void createDB_MYSQL(String username, String password) throws ClassNotFoundException, SQLException {
         String url = "jdbc:mysql://localhost:3306";
 
-        System.out.println("Loading driver:'" + TestStation.Driver.mysql.driverClass + "'...");
+        log.info("Loading driver:'" + TestStation.Driver.mysql.driverClass + "'...");
         Class.forName(TestStation.Driver.mysql.driverClass);
 
-        System.out.println("Connecting...");
+        log.trace("Connecting...");
         Connection c = DriverManager.getConnection(url, username, password);
         Statement s = c.createStatement();
         try {
-            System.out.println("Revoking user privileges...");
+            log.trace("Revoking user privileges...");
             s.execute("REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'dbuser'@'localhost'");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            log.error("Cannot revoke user privileges", ex);
         }
         try {
-            System.out.println("Dropping user...");
+            log.trace("Dropping user...");
             s.execute("DROP USER 'dbuser'@'localhost'");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            log.error("Cannot drop user", ex);
         }
         try {
-            System.out.println("Dropping database...");
+            log.trace("Dropping database...");
             s.execute("DROP DATABASE jtfw");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            log.error("Cannot drop database", ex);
         }
-        System.out.println("Creating database...");
+        log.trace("Creating database...");
         s.execute("CREATE DATABASE jtfw");
-        System.out.println("Creating user...");
+        log.trace("Creating user...");
         s.execute("CREATE USER 'dbuser'@'localhost' IDENTIFIED BY 'password'");
-        System.out.println("Grant...");
+        log.trace("Grant...");
         s.execute("GRANT ALL ON jtfw.* TO 'dbuser'@'localhost'");
 
-        System.out.println("Closing connection...");
+        log.trace("Closing connection...");
         s.close();
         c.close();
-        System.out.println("New database is created.");
+        log.info("New database is created.");
     }
 
     private static void createDB_PSQL(String username, String password) throws ClassNotFoundException, SQLException {
         String url = "jdbc:postgresql://localhost/template1";
 
-        System.out.println("Loading driver:'" + TestStation.Driver.postgresql.driverClass + "'...");
+        log.info("Loading driver:'" + TestStation.Driver.postgresql.driverClass + "'...");
         Class.forName(TestStation.Driver.postgresql.driverClass);
 
-        System.out.println("Connecting...");
+        log.trace("Connecting...");
         Connection c = DriverManager.getConnection(url, username, password);
         Statement s = c.createStatement();
         try {
-            System.out.println("Dropping database...");
+            log.trace("Dropping database...");
             s.execute("DROP DATABASE jtfw");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            log.error("Cannot drop database", ex);
         }
         try {
-            System.out.println("Dropping user...");
+            log.trace("Dropping user...");
             s.execute("DROP USER dbuser");
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            log.error("Cannot drop user", ex);
         }
-        System.out.println("Creating user...");
+        log.trace("Creating user...");
         s.execute("CREATE USER dbuser WITH PASSWORD 'password'");
-        System.out.println("Creating database...");
+        log.trace("Creating database...");
         s.execute("CREATE DATABASE jtfw OWNER dbuser TEMPLATE DEFAULT ENCODING 'UNICODE'");
-        System.out.println("Closing connection...");
+        log.trace("Closing connection...");
         s.close();
         c.close();
-        System.out.println("New database is created.");
+        log.info("New database is created.");
     }
 
     public static boolean deleteDir(File dir) {
@@ -603,16 +602,16 @@ public class TestStation extends AbstractVariables {
     public boolean databaseValidate() throws ScriptException {
         if (Driver.derby.equals(getDriver())) {
             if (!(new File(getPersistencePath())).isDirectory()) {
-                System.out.println("Derby directory is missing: " + getPersistencePath());
+                log.error("Derby directory is missing: " + getPersistencePath());
                 return false;
             }
         }
         if (Driver.h2.equals(getDriver())) {
             String path = getPersistencePath();
             String dir = path.substring(0, path.lastIndexOf(File.separatorChar));
-            System.out.println("H2 dir: " + dir);
+            log.info("H2 directory: " + dir);
             if (!(new File(dir)).isDirectory()) {
-                System.out.println("H2 directory is missing: " + dir);
+                log.error("H2 directory is missing: " + dir);
                 return false;
             }
         }
@@ -625,7 +624,7 @@ public class TestStation extends AbstractVariables {
 
     private boolean auto(String operation) {
         long startTime = System.currentTimeMillis();
-        System.out.println("Operation: " + operation + "...");
+        log.trace("Operation: " + operation + "...");
         HibernateEntityManagerFactory emf = null;
         EntityManager em = null;
         try {
@@ -655,11 +654,11 @@ public class TestStation extends AbstractVariables {
             em.close();
 //            System.out.println("Closing entity manager factory");
             emf.close();
-            System.out.println("Database " + operation + " operation succeeded in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+            log.info("Database " + operation + " operation succeeded in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
             return true;
         } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println(ex.getMessage());
+            //ex.printStackTrace();
+            log.error("Exception", ex);
             if (em != null && em.isOpen()) {
                 em.close();
             }
@@ -667,7 +666,7 @@ public class TestStation extends AbstractVariables {
                 emf.close();
             }
         }
-        System.out.println("Database " + operation + " operation failed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
+        log.info("Database " + operation + " operation failed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
         return false;
     }
 
@@ -703,7 +702,7 @@ public class TestStation extends AbstractVariables {
         }
         if (!directory.isDirectory()) {
             if (directory.mkdirs()) {
-                LOGGER.info("Directory is created: " + directory.getPath());
+                log.info("Directory is created: " + directory.getPath());
             } else {
                 throw new IllegalArgumentException("Directory does not exist and cannot be created: " + directory.getPath());
             }

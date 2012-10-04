@@ -21,7 +21,6 @@ package com.jtstand;
 import javax.script.Bindings;
 import javax.script.ScriptException;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 
 /**
  *
@@ -29,12 +28,15 @@ import org.jboss.logging.Logger.Level;
  */
 abstract public class AbstractProperties {
 
+    private static final Logger log = Logger.getLogger(AbstractProperties.class.getName());
+
     public Boolean getPropertyBoolean(String keyString, boolean defaultValue) {
         Object prop;
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -62,7 +64,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -98,7 +101,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -134,7 +138,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -170,7 +175,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -206,7 +212,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -234,7 +241,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -276,7 +284,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {
@@ -298,7 +307,8 @@ abstract public class AbstractProperties {
         try {
             prop = getPropertyObject(keyString);
         } catch (ScriptException ex) {
-            Logger.getLogger(AbstractProperties.class.getName()).log(Level.INFO, null, ex);
+            log.trace("exception while trying to get property: " + keyString, ex);
+            log.trace(keyString + " property's default value is returned: " + defaultValue);
             return defaultValue;
         }
         if (prop != null) {

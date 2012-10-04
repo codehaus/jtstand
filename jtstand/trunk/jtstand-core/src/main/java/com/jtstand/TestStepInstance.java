@@ -58,7 +58,6 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.parsers.ParserConfigurationException;
 import org.jboss.logging.Logger;
-import org.jboss.logging.Logger.Level;
 import org.tmatesoft.svn.core.SVNException;
 import org.xml.sax.SAXException;
 
@@ -77,7 +76,7 @@ import org.xml.sax.SAXException;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestStepInstance extends AbstractVariables implements Runnable, StepInterface {
 
-    private static final Logger LOGGER = Logger.getLogger(TestStepInstance.class.getCanonicalName());
+    private static final Logger log = Logger.getLogger(TestStepInstance.class.getName());
     public static final String STR_DECIMAL_FORMAT = "DECIMAL_FORMAT";
     public static final Class<?>[] STEP_INTERFACE_CONSTRUCTOR = {StepInterface.class};
     public static final Class<?>[] NULL_CONSTRUCTOR = {};
@@ -183,7 +182,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //    public Logger getLogger() {
 //        return LOGGER;
 //    }
-
     public String evaluate(String str) {
         return str;
     }
@@ -203,8 +201,8 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         TestStepNamePath tsnp = getTestStepNamePath();
         return (tsnp == null) ? evaluateName() : tsnp.getStepName();
     }
-    
-    public void setName(String name){
+
+    public void setName(String name) {
         /* dummy function to satisfy JAXB */
     }
 
@@ -839,10 +837,10 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 run1();
             }
         } catch (InterruptedException iex) {
-            LOGGER.info(getTestStepInstancePath() + " is interrupted!");
+            log.info(getTestStepInstancePath() + " is interrupted!");
             setStatus(StepStatus.ABORTED);
         } catch (Throwable ex) {
-            LOGGER.log(Level.WARN, ex.getMessage());
+            log.warn("Exception while executing " + this.getName(), ex);
             getTestSequenceInstance().setFailureCode(ex.getMessage());
             getTestSequenceInstance().setFailureStep(this);
             if (!isAborted()) {
@@ -882,7 +880,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         try {
             t.join();
         } catch (InterruptedException ex) {
-            Logger.getLogger(TestStepInstance.class.getName()).log(Level.WARN, null, ex);
+            log.warn(null, ex);
         }
     }
 
@@ -897,7 +895,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //            Log.log("Merging " + getTestStepInstancePath() + " committed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             return true;
         } catch (Exception ex) {
-            LOGGER.log(Level.ERROR, "Merging testStepInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
+            log.error("Merging testStepInstance failed in " + Long.toString(System.currentTimeMillis() - startTransaction) + "ms");
             if (em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
@@ -950,7 +948,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             return;
         }
         if (getTestStep().getMessage() != null) {
-            LOGGER.info(getTestStep().getMessage());
+            log.info(getTestStep().getMessage());
             //TBD improve this!
         }
         if (getPreSleep() > 0) {
@@ -1077,7 +1075,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                     checkValuePassed(getValue());
                 } catch (Throwable ex) {
                     failureCode = ex.getMessage();
-                    System.out.println("failureCode: " + failureCode);
+                    log.info("failureCode: " + failureCode);
                     if (!isAborted()) {
                         setStatus(StepStatus.FAILED);
                     }
@@ -1356,7 +1354,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
     }
 
     public Object getVariable(String keyString, boolean wait, TestStepInstance step) throws InterruptedException, ScriptException {
-        //System.out.println("Step: " + getName() + " is getting variable: '" + keyString + "'");
+        log.trace("Step: " + getName() + " is getting variable: '" + keyString + "'");
         if ("out".equals(keyString)) {
             return System.out;
         }

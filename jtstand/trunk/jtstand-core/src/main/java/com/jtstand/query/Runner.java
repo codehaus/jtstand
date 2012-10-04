@@ -28,6 +28,7 @@ import org.jboss.logging.Logger.Level;
  */
 public class Runner extends Thread {
 
+    private static final Logger log = Logger.getLogger(TestStepInstance.class.getName());
     private int numPassed = 0;
     private int numFailed = 0;
     private int minTotal = 0;
@@ -131,7 +132,7 @@ public class Runner extends Thread {
     @Override
     public void run() {
         while (run1()) {
-            System.out.println("Free Memory after running " + Integer.toString(numFailed + numPassed) + " times: " + Runtime.getRuntime().freeMemory());
+            log.info("Free Memory after running " + Integer.toString(numFailed + numPassed) + " times: " + Runtime.getRuntime().freeMemory());
         }
         if (fixture != null) {
             fixture.sequenceStatusChanged(seq.getStatus());
@@ -144,7 +145,7 @@ public class Runner extends Thread {
 
     public void retest() {
         try {
-            System.out.println("retesting...");
+            log.trace("retesting...");
             getSequence();
             run1();
             if (fixture != null) {
