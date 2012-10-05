@@ -33,6 +33,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
+import org.apache.log4j.BasicConfigurator;
 import org.jboss.logging.Logger;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.xml.sax.SAXException;
@@ -135,8 +136,9 @@ public class Main {
         System.out.println("Version: " + Main.class.getPackage().getImplementationVersion());
     }
 
-    public Main() {
-//        printVersion();
+    public Main(String[] args) {
+        BasicConfigurator.configure();
+
         options = new Options();
         options.addOption("help", false, "print this message");
         options.addOption("version", false, "print the version information and exit");
@@ -145,10 +147,7 @@ public class Main {
         options.addOption("r", true, "revision number");
         options.addOption("v", true, "version");
         options.addOption("x", true, "schema file location");
-    }
 
-    public Main(String[] args) {
-        this();
         CommandLineParser parser = new PosixParser();
         try {
             CommandLine cmd = parser.parse(options, args);

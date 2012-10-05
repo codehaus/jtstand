@@ -134,8 +134,8 @@
                             <outputDirectory>${basedir}/target</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>src/command</directory>
-                                    <filtering>true</filtering>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>                                    
                                 </resource>
                             </resources>
                         </configuration>
