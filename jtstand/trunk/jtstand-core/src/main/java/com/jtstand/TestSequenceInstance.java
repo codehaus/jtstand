@@ -485,7 +485,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
         }
         FileRevision c = getTestProject().getCreator();
         if (c.getSubversionUrl() == null || c.getRevision() == null) {
-            System.err.println("Corrupt creator of testProject");
+            log.error("Corrupt creator of testProject");
         }
 ////        System.out.println("Connecting libraries...");
 //        List<Library> toAdd = new ArrayList<Library>();
@@ -523,7 +523,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
 
         c = getTestSequence().getCreator();
         if (c.getSubversionUrl() == null || c.getRevision() == null) {
-            System.err.println("Corrupt creator of testSequence");
+            log.error("Corrupt creator of testSequence");
         }
 
 //        System.out.println("Connecting finished in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");

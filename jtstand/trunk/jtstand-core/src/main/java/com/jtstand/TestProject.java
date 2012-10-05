@@ -234,7 +234,7 @@ public class TestProject extends AbstractProperties {
     public List<TestProjectLimit> getTestLimits() {
         synchronized (testLimitsLock) {
             if (testLimits == null) {
-                System.err.println("testLimits is null!");
+                log.trace("testLimits is null!");
             }
             return testLimits;
         }

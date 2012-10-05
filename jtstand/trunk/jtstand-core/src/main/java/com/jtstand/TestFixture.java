@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -50,6 +51,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(value = XmlAccessType.PROPERTY)
 public class TestFixture extends AbstractVariables {
 
+    private static final Logger log = Logger.getLogger(TestFixture.class.getName());
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -90,7 +92,7 @@ public class TestFixture extends AbstractVariables {
     public List<TestFixtureLimit> getTestLimits() {
         synchronized (testLimitsLock) {
             if (testLimits == null) {
-                System.err.println("testLimits is null!");
+                log.trace("testLimits is null!");
             }
             return testLimits;
         }

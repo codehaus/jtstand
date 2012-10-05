@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.event.ChangeListener;
+import org.jboss.logging.Logger;
 import org.jdesktop.swingx.decorator.ComponentAdapter;
 import org.jdesktop.swingx.decorator.Highlighter;
 import org.jfree.chart.*;
@@ -56,10 +57,11 @@ import org.jfree.ui.TextAnchor;
 
 /**
  *
- * @author  albert_kurucz
+ * @author albert_kurucz
  */
 public class StatsPanel extends javax.swing.JPanel implements PropertyChangeListener, ChartMouseListener {
 
+    private static final Logger log = Logger.getLogger(StatsPanel.class.getName());
     public static final long serialVersionUID = 20081114L;
     public static final String VALUE_STR = "Value";
     public static final Stroke myStroke = new BasicStroke(3);
@@ -101,16 +103,20 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
     static class MyBarRenderer extends XYBarRenderer {
 
         public static final long serialVersionUID = 20081114L;
-        /** The row to highlight (-1 for none). */
+        /**
+         * The row to highlight (-1 for none).
+         */
         private int highlightRow = -1;
-        /** The column to highlight (-1 for none). */
+        /**
+         * The column to highlight (-1 for none).
+         */
         private int highlightColumn = -1;
 
         /**
          * Sets the item to be highlighted (use (-1, -1) for no highlight).
          *
-         * @param r  the row index.
-         * @param c  the column index.
+         * @param r the row index.
+         * @param c the column index.
          */
         public void setHighlightedItem(int r, int c) {
 //            System.out.println("setting row:" + r + " column:" + c);
@@ -131,8 +137,8 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         /**
          * Return a special colour for the highlighted item.
          *
-         * @param row  the row index.
-         * @param column  the column index.
+         * @param row the row index.
+         * @param column the column index.
          *
          * @return The outline paint.
          */
@@ -155,7 +161,9 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         }
     }
 
-    /** Creates new form GTParametricStats */
+    /**
+     * Creates new form GTParametricStats
+     */
     public StatsPanel(TestStepInstances testStepInstances) {
         this.testStepInstances = testStepInstances;
         initComponents();
@@ -187,13 +195,13 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
     }
 
     public boolean isGrouping() {
-        return jCheckBoxStation.isSelected() ||
-                jCheckBoxFixture.isSelected() ||
-                jCheckBoxOperator.isSelected() ||
-                jCheckBoxPartNumber.isSelected() ||
-                jCheckBoxPartRevision.isSelected() ||
-                jCheckBoxTestType.isSelected() ||
-                jCheckBoxSerialNumber.isSelected();
+        return jCheckBoxStation.isSelected()
+                || jCheckBoxFixture.isSelected()
+                || jCheckBoxOperator.isSelected()
+                || jCheckBoxPartNumber.isSelected()
+                || jCheckBoxPartRevision.isSelected()
+                || jCheckBoxTestType.isSelected()
+                || jCheckBoxSerialNumber.isSelected();
     }
 
     public boolean isCategorization() {
@@ -419,7 +427,6 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         //((ColumnHeaderRenderer) jTable.getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
         jTable.addHighlighter(
                 new Highlighter() {
-
                     public Component highlight(Component c, ComponentAdapter ca) {
                         if (JLabel.class.isAssignableFrom(c.getClass())) {
                             ((JLabel) c).setHorizontalAlignment(SwingConstants.CENTER);
@@ -476,7 +483,6 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         String propertyName = evt.getPropertyName();
         if (propertyName.equals(JSplitPane.DIVIDER_LOCATION_PROPERTY) && !evt.getNewValue().equals((Integer) (-1))) {
             SwingUtilities.invokeLater(new Runnable() {
-
                 @Override
                 public void run() {
 //                    dividerChanged();
@@ -496,7 +502,6 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
 //        System.out.println("Setting jScrollPaneTable min:" + minDim.height + " max:" + maxDim.height);
 //        dividerChanged();
 //    }
-
 //    public void dividerChanged() {
 //        if (!jScrollPaneBottom.isVisible()) {
 //            return;
@@ -967,7 +972,7 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
 //                    }
                 }
             } else {
-                System.err.println("There is no stat for:" + groupName);
+                log.error("There is no stat for:" + groupName);
             }
 
         }
@@ -1171,7 +1176,6 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
                     if (xNumber != null) {
                         SwingUtilities.invokeLater(
                                 new Runnable() {
-
                                     @Override
                                     public void run() {
                                         long xLong;
@@ -1232,10 +1236,10 @@ public class StatsPanel extends javax.swing.JPanel implements PropertyChangeList
         }
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

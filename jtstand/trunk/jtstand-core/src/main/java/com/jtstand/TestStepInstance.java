@@ -1210,7 +1210,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("testStep is null, while getting property:'" + keyString + "'!");
+            log.error("testStep is null, while getting property:'" + keyString + "'!");
         }
         if (getCalledTestStep() != null) {
             for (TestProperty tsp : getCalledTestStep().getProperties()) {
@@ -1321,7 +1321,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("getVariable : testStep is null!");
+            log.error("getVariable : testStep is null!");
         }
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
@@ -1372,7 +1372,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("getVariable : testStep is null!");
+            log.error("getVariable : testStep is null!");
         }
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
@@ -1428,7 +1428,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("getVariable : testSequenceInstance is null!");
+            log.error("getVariable : testSequenceInstance is null!");
         }
         throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }
@@ -1447,7 +1447,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("getVariable : testStep is null!");
+            log.error("getVariable : testStep is null!");
         }
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
@@ -1480,7 +1480,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
                 }
             }
         } else {
-            System.err.println("releaseVariable : testSequenceInstance is null!");
+            log.error("releaseVariable : testSequenceInstance is null!");
         }
         throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }

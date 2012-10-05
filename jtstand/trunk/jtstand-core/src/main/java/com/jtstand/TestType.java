@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -52,6 +53,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "testType", propOrder = {"name", "remark", "properties", "testLimits", "testSequence"})
 public class TestType extends AbstractProperties {
 
+    private static final Logger log = Logger.getLogger(TestType.class.getName());
     public static final String STR_SERIAL_NUMBER_CRITERIA = "SERIAL_NUMBER_CRITERIA";
     private String name;
     private String remark;
@@ -78,7 +80,7 @@ public class TestType extends AbstractProperties {
     public List<TestTypeLimit> getTestLimits() {
         synchronized (testLimitsLock) {
             if (testLimits == null) {
-                System.err.println("testLimits is null!");
+                log.trace("testLimits is null!");
             }
             return testLimits;
         }

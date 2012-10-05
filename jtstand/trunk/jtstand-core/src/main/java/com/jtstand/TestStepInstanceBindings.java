@@ -35,7 +35,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object put(String key, Object variableValue) {
-        System.err.println("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
+        log.trace("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
         if ("value".equals(key)) {
             Object retval = testStepInstance.getValue();
             testStepInstance.setValue(variableValue);
@@ -107,7 +107,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public boolean containsKey(Object key) {
-        System.err.println("containsKey of Bindings is called with key: '" + key + "'");
+        log.trace("containsKey of Bindings is called with key: '" + key + "'");
 
         return testStepInstance.containsKey(key.toString())
                 || "value".equals(key)
@@ -118,16 +118,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object get(Object key) {
-        Object retval = get1(key);
-        if ("VAR1".equals(key)) {
-            System.err.println("get of Bindings is returning value:" + retval);
-        }
-        return retval;
-    }
-
-    //@Override
-    public Object get1(Object key) {
-        System.err.println("get of Bindings is called with key: '" + key + "'...");
+        log.trace("get of Bindings is called with key: '" + key + "'...");
         if ("context".equals(key)) {
             return ScriptContext.ENGINE_SCOPE;
         }
@@ -171,7 +162,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public boolean containsValue(Object value) {
-        System.err.println("containsValue of Bindings is called");
+        log.trace("containsValue of Bindings is called");
         for (String key : keySet()) {
             if (value.equals(get(key))) {
                 return true;
@@ -188,7 +179,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Set<String> keySet() {
-        System.err.println("keySet of Bindings is called.");
+        log.trace("keySet of Bindings is called.");
         Set<String> keys = testStepInstance.keySetPublic();
         keys.add("value");
         keys.add("step");

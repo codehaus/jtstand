@@ -91,7 +91,7 @@ public class Main {
                 projectLocation = "../jtstand-demo/src/main/resources/config/project.xml";
             }
             if (!new File(projectLocation).isFile()) {
-                System.err.println("Project not specified and it could not be found in default locations!");
+                log.fatal("Project not specified and it could not be found in default locations!");
                 System.exit(1);
             } else {
                 log.trace("Project file specified:" + projectLocation);
@@ -164,10 +164,10 @@ public class Main {
                     if (cmd.getArgs().length == 1) {
                         projectLocation = cmd.getArgs()[0];
                     } else {
-                        System.err.println("Only one argument is expected; the project location!");
-                        System.err.println("Received arguments:");
+                        log.error("Only one argument is expected; the project location!");
+                        log.error("Received arguments:");
                         for (int i = 0; i < cmd.getArgs().length; i++) {
-                            System.err.println(cmd.getArgs()[i]);
+                            log.error(cmd.getArgs()[i]);
                         }
                     }
                 }
@@ -210,7 +210,7 @@ public class Main {
                 startProject();
             }
         } catch (ParseException e) {
-            System.err.println("Parsing failed.  Reason: " + e.getMessage());
+            log.fatal("Parsing failed" + e);
             System.exit(-1);
         }
     }

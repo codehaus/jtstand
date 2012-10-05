@@ -273,7 +273,7 @@ public class StarterCommonDialog extends JDialog implements StarterInterface {
                     }
                 }
             } catch (Exception ex) {
-                System.err.println("Exception while changin test type:" + ex.getMessage());
+                log.error("Exception while changin test type" + ex);
             }
         }
     }

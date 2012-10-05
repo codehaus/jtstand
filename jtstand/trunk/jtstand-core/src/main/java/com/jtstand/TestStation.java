@@ -106,7 +106,7 @@ public class TestStation extends AbstractVariables {
     public List<TestStationLimit> getTestLimits() {
         synchronized (testLimitsLock) {
             if (testLimits == null) {
-                System.err.println("testLimits is null!");
+                log.trace("testLimits is null!");
             }
             return testLimits;
         }
