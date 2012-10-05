@@ -432,13 +432,13 @@ public class TestStation extends AbstractVariables {
     public static enum Driver {
 
         h2("org.h2.Driver", "org.hibernate.dialect.H2Dialect"),
-        derby("org.apache.derby.jdbc.EmbeddedDriver", "org.hibernate.dialect.DerbyDialect"),
+        derby("org.apache.derby.jdbc.EmbeddedDriver", "org.hibernate.dialect.DerbyTenSevenDialect"),
         postgresql("org.postgresql.Driver", "org.hibernate.dialect.PostgreSQLDialect"),
         mysql("com.mysql.jdbc.Driver", "com.jtstand.dialect.Mysql5BitBooleanDialect");
         public final String driverClass;
         public final String dialect;
 
-        Driver(String driverClass, String dialect) {
+        Driver(String driverClass, String dialect) {              
             this.driverClass = driverClass;
             this.dialect = dialect;
         }

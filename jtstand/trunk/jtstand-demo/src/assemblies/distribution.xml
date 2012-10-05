@@ -66,18 +66,11 @@
             </includes>
         </fileSet>
         <fileSet>
-            <directory>src/raw</directory>
-            <outputDirectory>/</outputDirectory>
-        </fileSet>
-        <!--fileSet>
-            <directory>../jtstand-core/target/schema</directory>
-            <outputDirectory>/</outputDirectory>
-        </fileSet-->
-        <fileSet>
             <directory>target</directory>
             <includes>
                 <include>*.sh</include>
                 <include>*.bat</include>
+                <include>**/images/*</include>
             </includes>
             <filtered>true</filtered>
             <outputDirectory>/</outputDirectory>
