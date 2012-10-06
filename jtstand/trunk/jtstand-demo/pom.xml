@@ -144,11 +144,11 @@
                             <resources>
                                 <resource>
                                     <directory>src/main/resources</directory>
-                                    <filtering>true</filtering> 
+                                    <filtering>true</filtering>                                    
                                     <includes>
                                         <include>jtstand.bat</include>
                                         <include>jtstand.sh</include>
-                                    </includes>
+                                    </includes>                                    
                                 </resource>
                                 <resource>
                                     <directory>src/main/resources</directory>

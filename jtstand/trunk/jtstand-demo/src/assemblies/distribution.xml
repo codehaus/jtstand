@@ -70,11 +70,18 @@
             <includes>
                 <include>*.sh</include>
                 <include>*.bat</include>
-                <include>**/images/*</include>
             </includes>
             <filtered>true</filtered>
             <outputDirectory>/</outputDirectory>
             <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <includes>
+                <include>**/images/*</include>
+            </includes>
+            <filtered>false</filtered>
+            <outputDirectory>/</outputDirectory>            
         </fileSet>
     </fileSets>
     <files>
