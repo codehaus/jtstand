@@ -33,12 +33,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 import javax.swing.CellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -239,6 +241,15 @@ public class TestStepInstances extends TestStepInstanceList implements PropertyC
                 }
             }
             frame = new JFrame();
+
+            log.trace("Loading icon...");
+            URL iconURL = getClass().getResource("/images/jtbean.png");// Thread.currentThread().getContextClassLoader().getResource("/images/jtbean.png");
+            log.trace("Icon URL: " + iconURL);
+            if (iconURL != null) {
+                ImageIcon image = new ImageIcon(iconURL);
+                frame.setIconImage(image.getImage());
+            }
+
             frame.getContentPane().add(getSplitPane(), BorderLayout.CENTER);
             frame.setTitle("List of Steps");
 //            Dimension dim = new Dimension(1024, 768);

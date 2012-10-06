@@ -54,7 +54,7 @@
         </fileSet>
         <fileSet>
             <!--directory>src/config</directory-->
-            <directory>target/checkout</directory>
+            <directory>target/config</directory>
             <outputDirectory>/config</outputDirectory>
             <useDefaultExcludes>false</useDefaultExcludes>
         </fileSet>
@@ -78,6 +78,7 @@
         <fileSet>
             <directory>target</directory>
             <includes>
+                <include>log4j.properties</include>
                 <include>**/images/*</include>
             </includes>
             <filtered>false</filtered>
