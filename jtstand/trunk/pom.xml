@@ -84,9 +84,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5</url>
+        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk/</developerConnection>
+        <url>http://svn.codehaus.org/jtstand/jtstand/trunk/</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
@@ -96,7 +96,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>1.6</version>
+                <version>1.8</version>
                 <configuration>
                     <connectionType>developerConnection</connectionType>
                 </configuration>

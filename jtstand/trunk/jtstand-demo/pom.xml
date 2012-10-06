@@ -163,10 +163,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-scm-plugin</artifactId>
-                <version>1.7</version>
+                <version>1.8</version>
                 <executions>
                     <execution>
                         <id>package-single</id>
@@ -175,12 +175,12 @@
                             <goal>checkout</goal>
                         </goals>
                         <configuration>
-                            <connectionUrl>${project.scm.connection}/src/config</connectionUrl>
-                            <developerConnectionUrl>${project.scm.developerConnection}/src/config</developerConnectionUrl>
+                            <connectionUrl>${project.scm.connection}/src/main/resources/config</connectionUrl>
+                            <developerConnectionUrl>${project.scm.developerConnection}/src/main/resources/config</developerConnectionUrl>
                         </configuration>
                     </execution>
                 </executions>
-            </plugin-->
+            </plugin>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
