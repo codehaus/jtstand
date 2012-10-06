@@ -155,9 +155,16 @@
                                     <filtering>false</filtering> 
                                     <includes>
                                         <!--include>config</include-->
+                                        <include>log4j.properties</include>
                                         <include>**/images/*</include>
                                     </includes>
                                 </resource>
+                                <resource>
+                                    <directory>../jtstand-core/target/schema</directory>
+                                    <includes>
+                                        <include>*.xsd</include>
+                                    </includes>
+                                </resource>                                
                             </resources>
                         </configuration>
                     </execution>
@@ -177,6 +184,7 @@
                         <configuration>
                             <connectionUrl>${project.scm.connection}/src/main/resources/config</connectionUrl>
                             <developerConnectionUrl>${project.scm.developerConnection}/src/main/resources/config</developerConnectionUrl>
+                            <checkoutDirectory>${project.build.directory}/config</checkoutDirectory>                            
                         </configuration>
                     </execution>
                 </executions>

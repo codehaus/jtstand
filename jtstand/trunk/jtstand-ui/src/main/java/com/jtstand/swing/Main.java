@@ -21,9 +21,11 @@ package com.jtstand.swing;
 import com.jtstand.FileRevision;
 import com.jtstand.TestProject;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Properties;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBException;
 import javax.xml.validation.SchemaFactory;
@@ -34,6 +36,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.PropertyConfigurator;
 import org.jboss.logging.Logger;
 import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.xml.sax.SAXException;
@@ -45,6 +48,16 @@ import org.xml.sax.SAXException;
  */
 public class Main {
 
+    static {
+        Properties props = new Properties();
+        try {
+            props.load(new FileInputStream("log4j.properties"));
+            PropertyConfigurator.configure(props);
+        } catch (IOException ex) {
+            BasicConfigurator.configure();
+            //log.error("could not load log4j properties");
+        }
+    }
     private static final Logger log = Logger.getLogger(Main.class.getName());
     private String projectLocation = null;
     private int revision = 0;
@@ -137,7 +150,7 @@ public class Main {
     }
 
     public Main(String[] args) {
-        BasicConfigurator.configure();
+        //BasicConfigurator.configure();
 
         options = new Options();
         options.addOption("help", false, "print this message");
