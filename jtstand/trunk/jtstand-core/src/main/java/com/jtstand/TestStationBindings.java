@@ -33,9 +33,9 @@ public class TestStationBindings implements Bindings {
     }
 
     @Override
-    public Object put(String name, Object value) {
-//        System.out.println("putting to station variable: '" + name + "' value: " + value);
-        return testStation.put(name, value);
+    public Object put(String key, Object variableValue) {
+        log.trace("put key: '" + key + "', value: '" + variableValue + "'");
+        return testStation.put(key, variableValue);
     }
 
     @Override
@@ -55,9 +55,7 @@ public class TestStationBindings implements Bindings {
 
     @Override
     public Object get(Object key) {
-        if ("$type$".equals(key)) {
-            return getClass().getName();
-        }
+        log.trace("get key: '" + key + "'...");
         if ("context".equals(key)) {
             return ScriptContext.ENGINE_SCOPE;
         }

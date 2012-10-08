@@ -35,7 +35,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object put(String key, Object variableValue) {
-        log.trace("put of Bindings is called with key: '" + key + "', value: '" + variableValue + "'");
+        log.trace("put key: '" + key + "', value: '" + variableValue + "'");
         if ("value".equals(key)) {
             Object retval = testStepInstance.getValue();
             testStepInstance.setValue(variableValue);
@@ -118,7 +118,7 @@ class TestStepInstanceBindings implements Bindings {
 
     @Override
     public Object get(Object key) {
-        log.trace("get of Bindings is called with key: '" + key + "'...");
+        log.trace("get key: '" + key + "'...");
         if ("context".equals(key)) {
             return ScriptContext.ENGINE_SCOPE;
         }
