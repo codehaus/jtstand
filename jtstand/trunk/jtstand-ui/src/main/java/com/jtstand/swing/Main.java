@@ -52,7 +52,11 @@ public class Main {
         Properties props = new Properties();
         try {
             props.load(new FileInputStream("log4j.properties"));
+            if (!props.containsKey("log4j.appender.file.File") || props.getProperty("log4j.appender.file.File").startsWith("./target/")) {
+                props.setProperty("log4j.appender.file.File", System.getProperty("user.home") + File.separator + ".jtstand" + File.separator + "jtstand.log");
+            }
             PropertyConfigurator.configure(props);
+            //System.out.println("logging to:" + props.getProperty("log4j.appender.file.File"));
         } catch (IOException ex) {
             BasicConfigurator.configure();
             //log.error("could not load log4j properties");
