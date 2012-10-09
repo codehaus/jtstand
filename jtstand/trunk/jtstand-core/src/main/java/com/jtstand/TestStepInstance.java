@@ -1364,10 +1364,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if (getTestStep() != null) {
             for (TestStepProperty tsp : getTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-//                    System.out.println("From TestStepProperty: " +
-//                            ((tsp.getPropertyValueAttribute() == null)
-//                            ? tsp.getPropertyValue()
-//                            : tsp.getPropertyValueAttribute()));
                     return getVariable(keyString, wait, tsp, step);
                 }
             }
@@ -1377,10 +1373,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if (getCalledTestStep() != null) {
             for (TestStepProperty tsp : getCalledTestStep().getProperties()) {
                 if (tsp.getName().equals(keyString)) {
-//                    System.out.println("From Called TestStepProperty: " +
-//                            ((tsp.getPropertyValueAttribute() == null)
-//                            ? tsp.getPropertyValue()
-//                            : tsp.getPropertyValueAttribute()));
                     return getVariable(keyString, wait, tsp, step);
                 }
             }
@@ -1390,39 +1382,30 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         }
         TestSequenceInstance seq = getTestSequenceInstance();
         if (seq != null) {
-            if (seq.getTestFixture() != null) {
-                for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
+            TestFixture fixture = seq.getTestFixture();
+            if (fixture != null) {
+                for (TestFixtureProperty tsp : fixture.getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-//                        System.out.println("From TestFixtureProperty: " +
-//                                ((tsp.getPropertyValueAttribute() == null)
-//                                ? tsp.getPropertyValue()
-//                                : tsp.getPropertyValueAttribute()));
-                        return seq.getTestFixture().getVariable(keyString, wait, tsp, step);
+                        return fixture.getVariable(keyString, wait, tsp, step);
                     }
                 }
             }
-            if (seq.getTestStation() != null) {
-                for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
+            TestStation station = seq.getTestStation();
+            if (station != null) {
+                for (TestStationProperty tsp : station.getProperties()) {
                     if (tsp.getName().equals(keyString)) {
-//                        System.out.println("From TestStationProperty: " +
-//                                ((tsp.getPropertyValueAttribute() == null)
-//                                ? tsp.getPropertyValue()
-//                                : tsp.getPropertyValueAttribute()));
-                        return seq.getTestStation().getVariable(keyString, wait, tsp, step);
+                        return station.getVariable(keyString, wait, tsp, step);
                     }
                 }
-                if (seq.getTestStation().getTestProject() != null) {
-                    for (TestProjectProperty tsp : seq.getTestStation().getTestProject().getProperties()) {
+                TestProject project = station.getTestProject();
+                if (project != null) {
+                    for (TestProjectProperty tsp : project.getProperties()) {
                         if (tsp.getName().equals(keyString)) {
                             /**
-                             * variables defined at project level are still
+                             * Variables defined at project level are still
                              * stored at station level
                              */
-//                            System.out.println("From TestProjectProperty: " +
-//                                    ((tsp.getPropertyValueAttribute() == null)
-//                                    ? tsp.getPropertyValue()
-//                                    : tsp.getPropertyValueAttribute()));
-                            return seq.getTestStation().getVariable(keyString, wait, tsp, step);
+                            return station.getVariable(keyString, wait, tsp, step);
                         }
                     }
                 }

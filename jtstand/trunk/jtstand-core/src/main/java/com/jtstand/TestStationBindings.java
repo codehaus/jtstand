@@ -35,7 +35,26 @@ public class TestStationBindings implements Bindings {
     @Override
     public Object put(String key, Object variableValue) {
         log.trace("put key: '" + key + "', value: '" + variableValue + "'");
-        return testStation.put(key, variableValue);
+        for (TestStationProperty tsp : testStation.getProperties()) {
+            if (tsp.getName().equals(key)) {
+                if ((tsp.isFinal() == null || tsp.isFinal()) && testStation.containsKey(key)) {
+                    throw new IllegalStateException("Cannot change final variable: '" + key + "'");
+                }
+                return testStation.put(key, variableValue);
+            }
+        }
+        TestProject testProject = testStation.getTestProject();
+        if (testProject != null) {
+            for (TestProjectProperty tsp : testProject.getProperties()) {
+                if (tsp.getName().equals(key)) {
+                    if ((tsp.isFinal() == null || tsp.isFinal()) && testStation.containsKey(key)) {
+                        throw new IllegalStateException("Cannot change final variable: '" + key + "'");
+                    }
+                    return testStation.put(key, variableValue);
+                }
+            }
+        }
+        return localVariablesMap.put(key, variableValue);
     }
 
     @Override

@@ -64,33 +64,36 @@ class TestStepInstanceBindings implements Bindings {
         }
         TestSequenceInstance seq = testStepInstance.getTestSequenceInstance();
         if (seq != null) {
-            if (seq.getTestFixture() != null) {
-                for (TestFixtureProperty tsp : seq.getTestFixture().getProperties()) {
+            TestFixture testFixture = seq.getTestFixture();
+            if (testFixture != null) {
+                for (TestFixtureProperty tsp : testFixture.getProperties()) {
                     if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestFixture().containsKey(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && testFixture.containsKey(key)) {
                             throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                         }
-                        return seq.getTestFixture().put(key, variableValue);
+                        return testFixture.put(key, variableValue);
                     }
                 }
             }
-            if (seq.getTestStation() != null) {
-                for (TestStationProperty tsp : seq.getTestStation().getProperties()) {
+            TestStation testStation = seq.getTestStation();
+            if (testStation != null) {
+                for (TestStationProperty tsp : testStation.getProperties()) {
                     if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
+                        if ((tsp.isFinal() == null || tsp.isFinal()) && testStation.containsKey(key)) {
                             throw new IllegalStateException("Cannot change final variable: '" + key + "'");
                         }
-                        return seq.getTestStation().put(key, variableValue);
+                        return testStation.put(key, variableValue);
                     }
                 }
-            }
-            if (seq.getTestProject() != null) {
-                for (TestProjectProperty tsp : seq.getTestProject().getProperties()) {
-                    if (tsp.getName().equals(key)) {
-                        if ((tsp.isFinal() == null || tsp.isFinal()) && seq.getTestStation().containsKey(key)) {
-                            throw new IllegalStateException("Cannot change final variable: '" + key + "'");
+                TestProject project = seq.getTestProject();
+                if (project != null) {
+                    for (TestProjectProperty tsp : project.getProperties()) {
+                        if (tsp.getName().equals(key)) {
+                            if ((tsp.isFinal() == null || tsp.isFinal()) && testStation.containsKey(key)) {
+                                throw new IllegalStateException("Cannot change final variable: '" + key + "'");
+                            }
+                            return testStation.put(key, variableValue);
                         }
-                        return seq.getTestStation().put(key, variableValue);
                     }
                 }
             }
