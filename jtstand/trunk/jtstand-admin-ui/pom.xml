@@ -22,14 +22,14 @@
             </plugin>
         </plugins>
     </build>
-    <dependencies>
+    <!--dependencies>
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
             <artifactId>svnkit</artifactId>
-            <version>1.7.4</version>
+            <version>?.?.?</version>
             <type>jar</type>
         </dependency>
-    </dependencies>
+    </dependencies-->
     <repositories>
         <repository>
             <id>jbossnexus</id>
