@@ -108,6 +108,7 @@
                     <!--do not verify!-->
                     <!--preparationGoals>clean verify</preparationGoals-->
                     <preparationGoals>clean</preparationGoals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>            
             <plugin>
