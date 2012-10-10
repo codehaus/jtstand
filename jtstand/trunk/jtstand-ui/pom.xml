@@ -62,6 +62,10 @@
                     <inputEncoding>UTF-8</inputEncoding>
                     <!--stagingDirectory>../target/staging</stagingDirectory-->
                     <reportPlugins>
+                        <plugin>                            
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.5.1</version>
+                        </plugin>      
                         <plugin>
                             <artifactId>maven-pmd-plugin</artifactId>
                             <version>2.7.1</version>
