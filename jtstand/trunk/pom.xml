@@ -84,9 +84,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:http://svn.codehaus.org/jtstand/jtstand/trunk/</connection>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk/</connection>
         <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk/</developerConnection>
-        <url>http://svn.codehaus.org/jtstand/jtstand/trunk/</url>
+        <url>https://svn.codehaus.org/jtstand/jtstand/trunk/</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
