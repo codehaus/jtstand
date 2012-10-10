@@ -195,7 +195,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
     public transient EntityManager em;
     private transient PersistingPolicy persistingPolicy = PersistingPolicy.NEVER;
     private transient final Object testStepInstanceLock = new Object();
-    private transient final ConcurrentHashMap<FileRevision, TestStep> TEST_STEP_CACHE = new java.util.concurrent.ConcurrentHashMap<FileRevision, TestStep>();
+    private transient final ConcurrentHashMap<FileRevision, TestStep> TEST_STEP_CACHE = new ConcurrentHashMap<FileRevision, TestStep>();
     private transient final Object TEST_STEP_CACHE_LOCK = new Object();
 
     public TestStep getCalledTestStep(StepReference ref, boolean useCache) throws URISyntaxException, JAXBException, SVNException {
@@ -471,7 +471,7 @@ public class TestSequenceInstance extends AbstractProperties implements Runnable
 
     private void connect(EntityManager em)
             throws IOException, JAXBException, ParserConfigurationException, SAXException, URISyntaxException, SVNException {
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
 //        System.out.println("Connect...");
         if (getTestProject() != null && getTestProject().getId() == null) {
             TestProject tp = TestProject.query(em, getTestProject().getCreator());

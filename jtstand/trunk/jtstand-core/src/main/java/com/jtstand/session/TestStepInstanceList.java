@@ -87,7 +87,7 @@ public class TestStepInstanceList extends ArrayList<TestStepInstance> {
 
     @SuppressWarnings("unchecked")
     public boolean add(long id, String path) {
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
         TestSequenceInstance seq = em.find(TestSequenceInstance.class, id);
         if (seq == null) {
             return false;

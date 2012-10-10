@@ -27,7 +27,7 @@ import org.jboss.logging.Logger;
  */
 public class Runner extends Thread {
 
-    private static final Logger log = Logger.getLogger(TestStepInstance.class.getName());
+    private static final Logger log = Logger.getLogger(Runner.class.getName());
     private int numPassed = 0;
     private int numFailed = 0;
     private int minTotal = 0;

@@ -19,7 +19,6 @@
 package com.jtstand;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URISyntaxException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -1105,15 +1104,15 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         }
     }
 
-    private void bind(Object stepObject) throws IllegalArgumentException, IllegalAccessException {
-        Field[] fa = stepObject.getClass().getDeclaredFields();
-        for (Field f : fa) {
-            if (f.getType().isAssignableFrom(StepInterface.class)) {
-                f.setAccessible(true);
-                f.set(stepObject, (StepInterface) this);
-            }
-        }
-    }
+//    private void bind(Object stepObject) throws IllegalArgumentException, IllegalAccessException {
+//        Field[] fa = stepObject.getClass().getDeclaredFields();
+//        for (Field f : fa) {
+//            if (f.getType().isAssignableFrom(StepInterface.class)) {
+//                f.setAccessible(true);
+//                f.set(stepObject, (StepInterface) this);
+//            }
+//        }
+//    }
 
     @Override
     public boolean isAborted() {

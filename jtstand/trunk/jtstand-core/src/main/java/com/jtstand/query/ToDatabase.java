@@ -41,12 +41,12 @@ public class ToDatabase extends Thread {
     private boolean aborted = false;
     private FrameInterface model;
     private Set<File> ignoredFiles = new HashSet<File>();
-    private TestStation testStation;
-    private transient int num = 0;
+//    private TestStation testStation;
+//    private transient int num = 0;
 
     public ToDatabase(TestStation testStation, FrameInterface model) throws ScriptException {
         super();
-        this.testStation = testStation;
+//        this.testStation = testStation;
         saveDirectory = testStation.getSaveDirectory();
         savedDirectory = testStation.getSavedDirectory();
         savedErrorDirectory = testStation.getSavedErrorDirectory();
@@ -107,7 +107,7 @@ public class ToDatabase extends Thread {
                             }
                             if (file.renameTo(new File(savedDirectory.getPath() + File.separator + file.getName()))) {
 //                                System.out.println("Output file successfully moved to: " + file.getName());
-                                num++;
+//                                num++;
                                 log.info("Processing file: " + file.getPath() + " successfuly completed in " + Long.toString(System.currentTimeMillis() - startTime) + "ms");
 //                                System.out.println("Free Memory after processing " + Integer.toString(num) + " times: " + Runtime.getRuntime().freeMemory());
                             } else {
@@ -124,7 +124,7 @@ public class ToDatabase extends Thread {
             log.warn("Exception", ex);
             //ex.printStackTrace();
             if (file.renameTo(new File(savedErrorDirectory.getPath() + File.separator + file.getName()))) {
-//                System.out.println("Output file successfully moved to: " + file.getName());
+                log.trace("Output file successfully moved to: " + file.getName());
             } else {
                 log.error("Output file cannot be moved: " + file.getName());
                 ignoredFiles.add(file);

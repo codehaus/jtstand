@@ -51,7 +51,7 @@ public class GeneralQuery implements Runnable {
         this.em = em;
         this.queryString = queryString;
         this.maxResults = maxResults;
-        long startTime = System.currentTimeMillis();
+//        long startTime = System.currentTimeMillis();
         Thread t = new Thread(this);
         t.setName(getClass().getCanonicalName());
         t.start();
@@ -74,7 +74,7 @@ public class GeneralQuery implements Runnable {
             result = q.getResultList();
             log.info(Integer.toString(result.size()) + " instances loaded from database!");
         } catch (Exception ex) {
-//            logger.log(Level.SEVERE, "Exception: " + ex.getMessage());
+            log.error("Exception", ex);
         }
     }
 
