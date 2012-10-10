@@ -23,7 +23,7 @@
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
     <name>jtstand</name>
-    <version>1.5.3</version>
+    <version>1.5.4-SNAPSHOT</version>
     <description>JTStand is a Scripting Environment for Data Collection.</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
@@ -84,9 +84,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5.3</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5.3</developerConnection>
-        <url>https://svn.codehaus.org/jtstand/jtstand/tags/jtstand-1.5.3</url>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jtstand/trunk/</developerConnection>
+        <url>https://svn.codehaus.org/jtstand/jtstand/trunk/</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
