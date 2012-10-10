@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009 Albert Kurucz. 
+  ~
+  ~ This file, nbactions.xml is part of JTStand.
+  ~
+  ~ JTStand is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Lesser General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ JTStand is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public License
+  ~ along with GTStand.  If not, see <http://www.gnu.org/licenses/>.
+  --><actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>-Xmx256m -Xms256m -Xmn64m  -Dorg.jboss.logging.provider=log4j -classpath %classpath com.jtstand.swing.Main</exec.args>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>org.codehaus.mojo:exec-maven-plugin:1.1:exec</goal>
+        </goals>
+        <properties>
+            <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -Xmx256m -Xms256m -Xmn64m  -Dorg.jboss.logging.provider=log4j -classpath %classpath com.jtstand.swing.Main</exec.args>
+            <jpda.listen>true</jpda.listen>
+            <exec.executable>java</exec.executable>
+        </properties>
+    </action>
+    <action>
+            <actionName>profile</actionName>
+            <goals>
+                <goal>process-classes</goal>
+                <goal>org.codehaus.mojo:exec-maven-plugin:1.2:exec</goal>
+            </goals>
+            <properties>
+                <exec.args>${profiler.args} -Xmx256m -Xms256m -Xmn64m  -Dorg.jboss.logging.provider=log4j -classpath %classpath com.jtstand.swing.Main</exec.args>
+                <exec.executable>${profiler.java}</exec.executable>
+            </properties>
+        </action>
+</actions>
