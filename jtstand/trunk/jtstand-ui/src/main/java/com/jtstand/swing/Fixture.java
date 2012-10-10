@@ -73,7 +73,7 @@ public class Fixture extends javax.swing.JPanel implements FixtureInterface, Pro
     }
     private final Object stateLock = new Object();
     private State state = null;
-    private Component message = null;
+//    private Component message = null;
     private Yield y = new Yield();
     private TestFixture testFixture;
     private MainFrame fi;
@@ -514,17 +514,17 @@ private void jButtonReadyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 }//GEN-LAST:event_jButtonReadyActionPerformed
 
 private void jButtonPassedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPassedActionPerformed
-    message = null;
+//    message = null;
     setState(State.READY);
 }//GEN-LAST:event_jButtonPassedActionPerformed
 
 private void jButtonFailedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFailedActionPerformed
-    message = null;
+//    message = null;
     setState(State.READY);
 }//GEN-LAST:event_jButtonFailedActionPerformed
 
 private void jButtonAbortedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbortedActionPerformed
-    message = null;
+//    message = null;
     setState(State.READY);
 }//GEN-LAST:event_jButtonAbortedActionPerformed
 

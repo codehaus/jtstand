@@ -106,9 +106,10 @@ public class Fixtures extends JPanel {
                     add(panel);
                 }
             }
-        } else {
+        }
+//        else {
             /* fixtureless configuration */
             //...
-        }
+//        }
     }
 }

@@ -91,15 +91,16 @@ public class AboutDialog extends javax.swing.JDialog {
         jButtonBrowseDocumentation = new javax.swing.JButton();
         jButtonBrowseDocumentation.setText("Browse Documentation");
         jButtonBrowseDocumentation.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browseDocumentationActionPerformed(evt);
+                browseDocumentationActionPerformed();
             }
         });
         jPanelButtons.add(jButtonBrowseDocumentation);
 
     }
 
-    private void browseDocumentationActionPerformed(java.awt.event.ActionEvent evt) {
+    private void browseDocumentationActionPerformed() {
         openHelp();
         dispose();
     }

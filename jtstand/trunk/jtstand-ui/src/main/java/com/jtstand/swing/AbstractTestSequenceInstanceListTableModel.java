@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.swing.table.TableModel;
 import javax.xml.bind.JAXBException;
+import org.jboss.logging.Logger;
 
 /**
  *
@@ -36,6 +37,7 @@ import javax.xml.bind.JAXBException;
  */
 public abstract class AbstractTestSequenceInstanceListTableModel extends AbstractListTableModel<TestSequenceInstance> implements TableModel, List<TestSequenceInstance>, Set<TestSequenceInstance> {
 
+    private static final Logger log = Logger.getLogger(AbstractTestSequenceInstanceListTableModel.class.getName());
     public static final long serialVersionUID = 20081114L;
     private transient EntityManager em;
     protected final Object lock = new Object();
@@ -111,9 +113,9 @@ public abstract class AbstractTestSequenceInstanceListTableModel extends Abstrac
 
     @SuppressWarnings("unchecked")
     public boolean addAll(String q, Integer max) {
-//        System.out.println("query: '" + q + "'");
+        log.trace("query: '" + q + "'");
         if (max != null) {
-//            System.out.println("not more than: " + max);
+            log.trace("not more than: " + max);
         }
         return addAll((List<TestSequenceInstance>) (new GeneralQuery(getEntityManager(), q, max)).query());
     }
