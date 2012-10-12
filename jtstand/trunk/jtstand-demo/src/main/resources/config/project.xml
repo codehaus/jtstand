@@ -240,7 +240,7 @@
         </fixture>
         <fixture fixtureName="FX3" serialNumber="FX3">
             <property name="ID_ENABLED" final="true">false</property>
-            <property name="ON_FINISH">com.jtstand.processors.TestSequenceSimplePrint</property>
+            <property name="ON_FINISH">new com.jtstand.processors.TestSequenceSimplePrint()</property>
             <testType partNumber="SN_SETTER_DEMO" partRevision="001" name="DEMO"/>
             <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
         </fixture>
