@@ -23,6 +23,7 @@ package com.jtstand.swing;
 //import com.jgoodies.looks.FontSet;
 //import com.jgoodies.looks.FontSets;
 //import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jtstand.AbstractTestSequenceInstanceNamedProcessor;
 import com.jtstand.Authentication;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
@@ -70,7 +71,8 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
     private static final Logger log = Logger.getLogger(MainFrame.class.getName());
 //    public static final long serialVersionUID = 20081114L;
-    static final String STARTER_DIALOG_CLASS_NAME = "STARTER_DIALOG_CLASS_NAME";
+    public static final String STARTER_DIALOG_CLASS_NAME = "STARTER_DIALOG_CLASS_NAME";
+    public static final String PROCESSOR_LIST = "PROCESSOR_LIST";
 //    public static final int WIDTH0 = -1;
     private JXTable jTable = null;
     private JSplitPane jSplitPane = null;
@@ -1833,6 +1835,28 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 });
 
+                /* add custom context menu */
+                Object processorList = getTestStation().getPropertyObject(PROCESSOR_LIST, null);
+                if (processorList != null) {
+                    //List< AbstractTestSequenceInstanceNamedProcessor> list = processorList.asSubclass(List < AbstractTestSequenceInstanceNamedProcessor >);
+                    if (Collection.class.isAssignableFrom(processorList.getClass())) {
+                        for (final Object processor : (Collection) processorList) {
+                            if (AbstractTestSequenceInstanceNamedProcessor.class.isAssignableFrom(processor.getClass())) {
+                                JMenuItem customMenu = selectedMenu.add(((AbstractTestSequenceInstanceNamedProcessor) processor).getName());
+                                customMenu.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        for (TestSequenceInstance seq : seqList) {
+                                            ((AbstractTestSequenceInstanceNamedProcessor) processor).process(seq);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+
+
 //                JMenuItem removeDatabaseMenu = selectedMenu.add("Remove from database");
 //                removeDatabaseMenu.addActionListener(new ActionListener() {
 //
@@ -1883,6 +1907,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                    contextMenu.add(statsMenu);
 //                }
 //            }
+
         }
 
         addAboutMenu(contextMenu);

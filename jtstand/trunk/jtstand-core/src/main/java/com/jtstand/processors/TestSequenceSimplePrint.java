@@ -1,6 +1,6 @@
 package com.jtstand.processors;
 
-import com.jtstand.AbstractTestSequenceInstanceProcessor;
+import com.jtstand.AbstractTestSequenceInstanceNamedProcessor;
 import com.jtstand.TestSequenceInstance;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 
-public class TestSequenceSimplePrint extends AbstractTestSequenceInstanceProcessor {
+public class TestSequenceSimplePrint extends AbstractTestSequenceInstanceNamedProcessor {
 
     private static final org.jboss.logging.Logger log = org.jboss.logging.Logger.getLogger(TestSequenceSimplePrint.class.getName());
     public static final String REPORT_FILE_PATH = "REPORT_FILE_PATH";

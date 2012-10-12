@@ -32,6 +32,7 @@
     <property name="ON_FAIL">class Failer extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has failed';} } ; new Failer()</property>
     <property name="ON_ABORT">class Aborter extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Testing of ' + seq.getSerialNumber() + ' has been aborted';} } ; new Aborter()</property>
     <property name="ON_FINISH">class Finisher extends com.jtstand.AbstractTestSequenceInstanceProcessor { void process(com.jtstand.TestSequenceInstance seq) { println 'Finished testing ' + seq.getSerialNumber(); } } ; new Finisher()</property>
+    <property name="PROCESSOR_LIST">[new com.jtstand.processors.TestSequenceSimplePrint()]</property>
     <authentication>
         <domainUsers>
             <domainUser loginName="albert_kurucz" employeeNumber="87377" domainName="AM"/>
