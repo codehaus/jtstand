@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.Properties;
 
 public class TestSequenceSimplePrint extends AbstractTestSequenceInstanceProcessor {
 
@@ -17,7 +16,7 @@ public class TestSequenceSimplePrint extends AbstractTestSequenceInstanceProcess
 
     public void printReport(TestSequenceInstance seq, File file) {
         FileOutputStream fos = null;
-        Properties props = new Properties();
+        SortedProperties props = new SortedProperties();
 
         props.setProperty("project.url", seq.getTestProject().getCreator().getSubversionUrl());
         props.setProperty("project.revision", Long.toString(seq.getTestProject().getCreator().getRevision()));
