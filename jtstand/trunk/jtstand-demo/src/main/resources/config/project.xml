@@ -208,7 +208,7 @@
     </testStation>
     <testStation hostName="DEFAULTSTATION">
         <remark>This is the configuration file for the host: 'DEFAULTSTATION'</remark>
-        <property name="FIXTURE_COLUMNS" value="2"/>
+        <property name="FIXTURE_COLUMNS" value="3"/>
         <property name="FIXTURE_GAP" value="4"/>
         <fixture fixtureName="FX1" serialNumber="FX1">
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
@@ -237,6 +237,12 @@
             <testType partNumber="RANDOMBREAK" partRevision="A02" name="DEMO"/>
             <testType partNumber="MUTEX_DEMO" partRevision="A01" name="DEMO"/>
             <initType partNumber="fixture" partRevision="1" name="init2"/>
+        </fixture>
+        <fixture fixtureName="FX3" serialNumber="FX3">
+            <property name="ID_ENABLED" final="true">false</property>
+            <property name="ON_FINISH">com.jtstand.processors.TestSequenceSimplePrint</property>
+            <testType partNumber="SN_SETTER_DEMO" partRevision="001" name="DEMO"/>
+            <testType partNumber="INTERACTIVE_DEMO" partRevision="001" name="DEMO"/>
         </fixture>
     </testStation>
 </testProject>
