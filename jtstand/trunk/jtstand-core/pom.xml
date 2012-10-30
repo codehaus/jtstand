@@ -226,13 +226,7 @@
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>
             <artifactId>svnkit</artifactId>
-            <version>1.7.5-v1</version>
-        </dependency>
-        <dependency>
-            <artifactId>jboss-logging</artifactId>
-            <groupId>org.jboss.logging</groupId>
-            <type>jar</type>
-            <version>3.1.0.GA</version>
+            <version>1.7.6</version>
         </dependency>
     </dependencies>
     <!--distributionManagement>

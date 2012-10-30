@@ -172,12 +172,6 @@
             <artifactId>jtstand-editor</artifactId>
         </dependency>
         <dependency>
-            <artifactId>jboss-logging</artifactId>
-            <groupId>org.jboss.logging</groupId>
-            <type>jar</type>
-            <version>3.1.0.GA</version>
-        </dependency>
-        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
