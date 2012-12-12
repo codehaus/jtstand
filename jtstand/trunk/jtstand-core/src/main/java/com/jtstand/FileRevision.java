@@ -58,6 +58,7 @@ import org.tmatesoft.svn.core.internal.io.dav.DAVRepositoryFactory;
 import org.tmatesoft.svn.core.io.SVNRepository;
 import org.tmatesoft.svn.core.wc.SVNClientManager;
 import org.tmatesoft.svn.core.wc.SVNStatus;
+import org.tmatesoft.svn.core.wc.SVNStatusClient;
 import org.tmatesoft.svn.core.wc.SVNStatusType;
 
 /**
@@ -194,10 +195,21 @@ public class FileRevision {
 
     public static FileRevision createFromUrlOrFile(String subversionUrlorFilePath, long revision) {
         File checkfile = new File(subversionUrlorFilePath);
+        log.trace("project file: " + subversionUrlorFilePath);
         if (checkfile.isFile()) {
             SVNClientManager cm = SVNClientManager.newInstance();
+            if(cm==null){
+                log.error("cannot get an instance of SVNClientManager");
+            }
             try {
+                SVNStatusClient svnsc = cm.getStatusClient();
+                if(svnsc==null){
+                    log.error("cannot get an SVNStatusClient");
+                }                
                 SVNStatus svns = cm.getStatusClient().doStatus(checkfile, false);
+                if(svns==null){
+                    log.error("cannot get SVNStatus of the project file");
+                }
                 long currentRevision = svns.getCommittedRevision().getNumber();
                 if (revision == 0) {
                     revision = currentRevision;
@@ -209,6 +221,8 @@ public class FileRevision {
                 log.fatal("Exception while trying to create FileRevision", ex);
                 System.exit(1);
             }
+        }else{
+            log.debug("project file is not a file");
         }
         if (revision == 0) {
             revision = -1L;

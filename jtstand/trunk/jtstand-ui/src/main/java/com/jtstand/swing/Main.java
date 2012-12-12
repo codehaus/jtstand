@@ -114,6 +114,8 @@ public class Main {
             } else {
                 log.trace("Project file specified:" + projectLocation);
             }
+        }
+        if (new File(projectLocation).isFile()) {
             log.trace("Resolving: " + projectLocation);
             URI projectURI = resolve(projectLocation);
             log.trace("Project file is resolved to URI: " + projectURI);
@@ -122,7 +124,7 @@ public class Main {
             if (projectLocation.charAt(2) == ':') {
                 projectLocation = projectLocation.substring(1);
                 log.trace("Project file path is corrected to: " + projectLocation);
-            }
+            }            
         }
         log.trace("Project file requested revision: " + revision);
         try {
