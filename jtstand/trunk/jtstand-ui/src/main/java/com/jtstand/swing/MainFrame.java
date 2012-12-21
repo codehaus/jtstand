@@ -18,11 +18,12 @@
  */
 package com.jtstand.swing;
 
-//import com.jgoodies.looks.FontPolicies;
-//import com.jgoodies.looks.FontPolicy;
-//import com.jgoodies.looks.FontSet;
-//import com.jgoodies.looks.FontSets;
-//import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.FontPolicies;
+import com.jgoodies.looks.FontPolicy;
+import com.jgoodies.looks.FontSet;
+import com.jgoodies.looks.FontSets;
+import com.jgoodies.looks.Options;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jtstand.AbstractTestSequenceInstanceNamedProcessor;
 import com.jtstand.Authentication;
 import com.jtstand.TestSequenceInstance;
@@ -308,52 +309,52 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            String crosslaf = UIManager.getCrossPlatformLookAndFeelClassName();
 //            System.out.println("Cross Platfowm Look & Feel:" + crosslaf);
 
-//            String systemlaf = UIManager.getSystemLookAndFeelClassName();
+            String systemlaf = UIManager.getSystemLookAndFeelClassName();
 //            System.out.println("System Look & Feel:" + systemlaf);
 
-//            String nimbus = null;
-//            String windows = null;
+            String nimbus = null;
+            String windows = null;
             LookAndFeelInfo[] lafis = UIManager.getInstalledLookAndFeels();
 //            System.out.println("Installed Look & Feels:");
             for (int i = 0; i < lafis.length; i++) {
                 LookAndFeelInfo lafi = lafis[i];
                 String name = lafi.getName();
 //                System.out.println("[" + i + "]=" + name);
-//                if ("Nimbus".equals(name)) {
-//                    nimbus = lafi.getClassName();
-//                } else if ("Windows".equals(name)) {
-//                    windows = lafi.getClassName();
-//                }
+                if ("Nimbus".equals(name)) {
+                    nimbus = lafi.getClassName();
+                } else if ("Windows".equals(name)) {
+                    windows = lafi.getClassName();
+                }
             }
 
-//            if (windows != null) {
-//                UIManager.setLookAndFeel(windows);
-//                return;
-//            }
-//            UIManager.put(Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE);
+            if (windows != null) {
+                UIManager.setLookAndFeel(windows);
+                return;
+            }
+            UIManager.put(Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE);
 
-//            FontSet fontSet = FontSets.createDefaultFontSet(
-//                    //                    new Font("Tahoma", Font.PLAIN, 11), // control font
-//                    //                    new Font("Tahoma", Font.PLAIN, 11), // menu font
-//                    //                    new Font("Tahoma", Font.PLAIN, 11) // title font
-//                    //                    new Font("Sans", Font.PLAIN, 11), // control font
-//                    //                    new Font("Sans", Font.PLAIN, 11), // menu font
-//                    //                    new Font("Sans", Font.PLAIN, 11) // title font
-//                    new Font("Verdana", Font.PLAIN, 12), // control font
-//                    new Font("Verdana", Font.PLAIN, 12), // menu font
-//                    new Font("Verdana", Font.PLAIN, 12) // title font
-//                    );
-//            FontPolicy fixedPolicy = FontPolicies.createFixedPolicy(fontSet);
-//            PlasticXPLookAndFeel.setFontPolicy(fixedPolicy);
-//            UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
+            FontSet fontSet = FontSets.createDefaultFontSet(
+                    //                    new Font("Tahoma", Font.PLAIN, 11), // control font
+                    //                    new Font("Tahoma", Font.PLAIN, 11), // menu font
+                    //                    new Font("Tahoma", Font.PLAIN, 11) // title font
+                    //                    new Font("Sans", Font.PLAIN, 11), // control font
+                    //                    new Font("Sans", Font.PLAIN, 11), // menu font
+                    //                    new Font("Sans", Font.PLAIN, 11) // title font
+                    new Font("Verdana", Font.PLAIN, 12), // control font
+                    new Font("Verdana", Font.PLAIN, 12), // menu font
+                    new Font("Verdana", Font.PLAIN, 12) // title font
+                    );
+            FontPolicy fixedPolicy = FontPolicies.createFixedPolicy(fontSet);
+            PlasticXPLookAndFeel.setFontPolicy(fixedPolicy);
+            UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
 
 //            System.out.println("getControlTextFont:" + PlasticXPLookAndFeel.getControlTextFont());
 //            System.out.println("getTitleTextFont:" + PlasticXPLookAndFeel.getTitleTextFont());
 //            System.out.println("getMenuTextFont:" + PlasticXPLookAndFeel.getMenuTextFont());
 //            System.out.println("getPlasticTheme:" + PlasticXPLookAndFeel.getPlasticTheme());
 
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-//            UIManager.setLookAndFeel(systemlaf);
+//            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+            UIManager.setLookAndFeel(systemlaf);
 
         } catch (Exception ex) {
             log.error("Exception", ex);

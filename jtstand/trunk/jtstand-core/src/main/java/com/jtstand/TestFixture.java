@@ -358,6 +358,8 @@ public class TestFixture extends AbstractVariables {
         if (getTestStation() != null) {
             return getTestStation().getVariable(keyString);
         }
-        throw new IllegalArgumentException("Undefined variable in TestFixture:" + keyString);
+        //throw new IllegalArgumentException("Undefined variable in TestFixture:" + keyString);
+        log.trace("Undefined variable in TestFixture:" + keyString);
+        return null;
     }
 }

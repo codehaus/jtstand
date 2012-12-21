@@ -1412,7 +1412,9 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             log.error("getVariable : testSequenceInstance is null!");
         }
-        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
+        //throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
+        log.trace("Undefined variable in TestStepInstance:" + keyString);
+        return null;
     }
 
     @Override
@@ -1464,7 +1466,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             log.error("releaseVariable : testSequenceInstance is null!");
         }
-        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
+        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);        
     }
 
     public Set<String> keySetPublic() {

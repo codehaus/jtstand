@@ -756,6 +756,8 @@ public class TestStation extends AbstractVariables {
 //        if ("out".equals(keyString)) {
 //            return System.out;
 //        }
-        throw new IllegalArgumentException("Undefined variable in TestStation:" + keyString);
+        //throw new IllegalArgumentException("Undefined variable in TestStation:" + keyString);
+        log.trace("Undefined variable in TestStation:" + keyString);
+        return null;
     }
 }
