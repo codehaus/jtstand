@@ -4,7 +4,7 @@
     <parent>
         <artifactId>jtstand</artifactId>
         <groupId>org.codehaus.jtstand</groupId>
-        <version>1.5.4-SNAPSHOT</version>
+        <version>1.5.4</version>
     </parent>
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-admin-ui</artifactId>
