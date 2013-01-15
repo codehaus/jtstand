@@ -19,6 +19,12 @@ public class UsbtmcDevice {
     UsbEndpointDescriptor bulkOut;
     Pointer handle;
 
+    Pointer udev;
+    
+    public void open(){
+        udev=device.open();
+    }
+    
     public static UsbtmcDevice findSerialNumber(String sn) {
         return new UsbtmcDevice(UsbBus.getBusses().findSerialNumber(sn));
     }
@@ -80,7 +86,7 @@ public class UsbtmcDevice {
         }
     }
 
-    void send(String string) {
-        throw new UnsupportedOperationException("Not yet implemented");
+    int send(Pointer udev,String string) {
+        return device.write(udev,0x81, string.getBytes(), string.length(), 1000);
     }
 }
