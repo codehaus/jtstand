@@ -62,6 +62,8 @@ class UsbDevice extends Structure{
      * struct usb_device **children;
      */
     public Pointer children
+    
+    
 
     UsbDevice(){
         super()
@@ -73,10 +75,34 @@ class UsbDevice extends Structure{
     Pointer open(){
         usb_open(getPointer())
     }
+    
+    int close(Pointer udev){
+        usb_close(udev)
+    }
+    
+    int write(Pointer udev, int ep, byte[] bytes, int size, int timeout){
+        usb_bulk_write(udev, ep, bytes, size, timeout)
+    }
+    
+//    int detachKernelDriver(Pointer udev, int iInterface){
+//        usb_detach_kernel_driver_np(udev,iInterface)
+//    }
+    
+    int claimInterface(Pointer udev, int iInterface){
+        usb_claim_interface(udev, iInterface)
+    }
 
-    //    static close(Pointer udev){
-    //        usb_close(udev)
-    //    }
+    int releaseInterface(Pointer udev, int iInterface){
+        usb_release_interface(udev, iInterface)
+    }
+    
+    int setConfiguration(Pointer udev, int bConfigurationValue){
+        usb_set_configuration(udev,bConfigurationValue)
+    }
+    
+    String usbError(Pointer udev, int iInterface){
+        usb_strerror()
+    }
 
     def methodMissing(String name, args) {
         //println "UsbDevice methodMissing: $name, with args: $args"
@@ -84,7 +110,9 @@ class UsbDevice extends Structure{
         if (f == null) {
             throw new MissingMethodException(name, getClass(), args)
         }
-        if("usb_open".equals(name)){
+        if("usb_strerror".equals(name)){
+            f.invokeString(args,false)
+        }else if("usb_open".equals(name)){
             f.invokePointer(args)
         }else{
             f.invokeInt(args)
