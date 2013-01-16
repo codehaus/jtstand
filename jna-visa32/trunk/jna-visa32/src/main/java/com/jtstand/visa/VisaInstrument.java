@@ -5,6 +5,8 @@
 package com.jtstand.visa;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +18,10 @@ public class VisaInstrument implements Instrument {
     private VisaInst inst;
 
     public VisaInstrument(String instAddress) {
-        inst = (VisaInst) visa.openFirst(instAddress);
+        inst = (VisaInst) visa.open(instAddress);
+        if (inst == null) {
+            System.out.println("could name open instrument at address:" + instAddress);
+        }
     }
 
     @Override
@@ -91,5 +96,14 @@ public class VisaInstrument implements Instrument {
     @Override
     public void close() throws IOException {
         inst.close();
+    }
+
+    public static void main(String[] args) {
+        Instrument i = new VisaInstrument("USB0::0x0957::0x2007::MY49001053::0::INSTR");
+        try {
+            System.out.println("ID:" + i.getIdn());
+        } catch (IOException ex) {
+            Logger.getLogger(VisaInstrument.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

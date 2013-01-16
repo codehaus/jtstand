@@ -513,10 +513,10 @@ public class Visa {
     static def libc = NativeLibrary.getInstance(Platform.isWindows() ? "visa32" : "visa32")
     final int sesn
 
-    void setSesn(int newSesn){
-        this.sesn = newSesn
-        println "Visa opened: $sesn"
-    }
+//    void setSesn(int newSesn){
+//        this.sesn = newSesn
+//        println "Visa opened: $sesn"
+//    }
 
     void close(){
         viClose(sesn)
@@ -526,7 +526,7 @@ public class Visa {
     Visa(){
         IntByReference defaultRM = new IntByReference()
         if (0 == viOpenDefaultRM(defaultRM)) {
-            setSesn(defaultRM.getValue())
+            this.sesn = defaultRM.getValue()
         } else {
             throw new IllegalStateException('Cannot open default RM')
         }
@@ -543,11 +543,15 @@ public class Visa {
     }
 
     def open(String rsrcName, int accessMode, int openTimeout){
+        println "opening: $rsrcName"
         IntByReference vi = new IntByReference()
-        if (0 != viOpen(sesn, rsrcName, accessMode, openTimeout, vi)){
+        def retval = viOpen(sesn, rsrcName, accessMode, openTimeout, vi)
+        if (0 != retval){
+            println "viOpen returned: $retval"
             throw new IllegalStateException("Cannot open: $rsrcName")
         }
         String name = getRsrcClass(vi.getValue())
+        println "class: $name"
         if (name.equals('INSTR')){
             return new VisaInst(this, vi.getValue())
         } else if (name.equals('RAW')) {
@@ -557,11 +561,6 @@ public class Visa {
             viClose(vi.getValue())
             throw new IllegalArgumentException("Not supported class: $name")
         }
-    }
-
-    def openFirst(String rsrcName){
-        List<String> resources = findResources(rsrcName)
-        resources.size() > 0 ? open(resources[0]) : null
     }
 
     List<String> findResources(String expr) {
@@ -625,7 +624,7 @@ public class Visa {
     }
 
     String getRsrcClass(int inst){
-        getAttributeString(inst,(int)0xBFFF0001)
+        getAttributeString(inst, VI_ATTR_RSRC_CLASS)
     }
 
     def methodMissing(String name, args) {

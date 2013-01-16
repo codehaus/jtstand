@@ -12,27 +12,14 @@ import com.sun.jna.Native
  * @author albert_kurucz
  */
 class VisaRaw {
-    def base
+    final Visa base
     final int sesn
 
-    VisaRaw(def base, int sesn){
-        setBase(base)
-        setSesn(sesn)
-        println "VisaRaw init..."
-
+    VisaRaw(def newBase, int newSesn){
+        base = newBase
+        this.sesn = newSesn
     }
     
-    void setBase(def newBase){
-        this.base = newBase
-        println "Base is set"
-    }
-
-    void setSesn(int newSesn){
-        this.sesn = newSesn
-        println "VisaRaw opened: $sesn"
-    }
-
-
     void close(){
         viClose(sesn)
         println "VisaRaw closed: $sesn"

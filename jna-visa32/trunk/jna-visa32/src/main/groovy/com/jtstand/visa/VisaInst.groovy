@@ -12,26 +12,18 @@ import com.sun.jna.Native
  * @author albert_kurucz
  */
 class VisaInst {
+    final Visa base
     final int sesn
-    def base
     boolean loggingEnabled=false;
 
-    VisaInst(def base, int sesn){
-        println "VisaInst init..."
-        setBase(base)
-        setSesn(sesn)
-        
-        //...
-    }
-
-    void setSesn(int newSesn){
-        this.sesn = newSesn
-        println "VisaInst opened: $sesn"
+    VisaInst(def newBase, int newSesn){
+        base = newBase
+        sesn = newSesn
     }
 
     void close(){
         viClose(sesn)
-        println "VisaInst closed: $sesn"
+//        println "VisaInst closed: $sesn"
     }
 
     def methodMissing(String name, args) {
@@ -128,5 +120,4 @@ class VisaInst {
     String getRsrcClass(){
         getRsrcClass(sesn)
     }
-
 }
