@@ -315,11 +315,11 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
             String nimbus = null;
             String windows = null;
             LookAndFeelInfo[] lafis = UIManager.getInstalledLookAndFeels();
-//            System.out.println("Installed Look & Feels:");
+            log.info("Installed Look & Feels:");
             for (int i = 0; i < lafis.length; i++) {
                 LookAndFeelInfo lafi = lafis[i];
                 String name = lafi.getName();
-//                System.out.println("[" + i + "]=" + name);
+                log.info("[" + i + "]=" + name);
                 if ("Nimbus".equals(name)) {
                     nimbus = lafi.getClassName();
                 } else if ("Windows".equals(name)) {
@@ -327,10 +327,10 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 }
             }
 
-            if (windows != null) {
-                UIManager.setLookAndFeel(windows);
-                return;
-            }
+//            if (windows != null) {
+//                UIManager.setLookAndFeel(windows);
+//                return;
+//            }
             UIManager.put(Options.USE_SYSTEM_FONTS_APP_KEY, Boolean.TRUE);
 
             FontSet fontSet = FontSets.createDefaultFontSet(
@@ -354,7 +354,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //            System.out.println("getPlasticTheme:" + PlasticXPLookAndFeel.getPlasticTheme());
 
 //            UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-            UIManager.setLookAndFeel(systemlaf);
+            //UIManager.setLookAndFeel(systemlaf);
 
         } catch (Exception ex) {
             log.error("Exception", ex);

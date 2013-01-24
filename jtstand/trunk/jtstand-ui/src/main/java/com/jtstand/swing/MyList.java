@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.StringTokenizer;
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -64,9 +65,9 @@ public class MyList extends javax.swing.JPanel implements ListDataListener {
                         switch (keyChar) {
                             case KeyEvent.VK_DELETE:
                             case KeyEvent.VK_BACK_SPACE:
-                                Object[] selected = jList.getSelectedValues();
-                                for (int i = 0; i < selected.length; i++) {
-                                    ((DefaultListModel) jList.getModel()).removeElement(selected[i]);
+                                List selected = jList.getSelectedValuesList();
+                                for (Object o : selected) {
+                                    ((DefaultListModel) jList.getModel()).removeElement(o);
                                 }
                         }
                     }
