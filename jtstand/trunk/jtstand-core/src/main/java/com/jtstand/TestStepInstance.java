@@ -912,6 +912,16 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         return TestStep.RunMode.NORMAL;
     }
 
+    public TestStep.PassAction getPassActionNullDefault() {
+        if (getTestStep().getPassAction() != null) {
+            return getTestStep().getPassAction();
+        }
+        if (getCalledTestStep() != null && getCalledTestStep().getPassAction() != null) {
+            return getCalledTestStep().getPassAction();
+        }
+        return null;
+    }
+
     public TestStep.PassAction getPassAction() {
         if (getTestStep().getPassAction() != null) {
             return getTestStep().getPassAction();
@@ -920,6 +930,16 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
             return getCalledTestStep().getPassAction();
         }
         return TestStep.PassAction.NEXT_TEST;
+    }
+
+    public TestStep.FailAction getFailActionNullDefault() {
+        if (getTestStep().getFailAction() != null) {
+            return getTestStep().getFailAction();
+        }
+        if (getCalledTestStep() != null && getCalledTestStep().getFailAction() != null) {
+            return getCalledTestStep().getFailAction();
+        }
+        return null;
     }
 
     public TestStep.FailAction getFailAction() {
@@ -1113,7 +1133,6 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
 //            }
 //        }
 //    }
-
     @Override
     public boolean isAborted() {
         return StepStatus.ABORTED.equals(status);
@@ -1131,7 +1150,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         if (!StepStatus.FAILED.equals(status)) {
             return false;
         }
-        if (TestStep.FailAction.STOP.equals(getFailAction())) {
+        if (TestStep.FailAction.STOP.equals(getFailActionNullDefault())) {
             return false;
         }
         for (TestStepInstance child : getSteps()) {
@@ -1466,7 +1485,7 @@ public class TestStepInstance extends AbstractVariables implements Runnable, Ste
         } else {
             log.error("releaseVariable : testSequenceInstance is null!");
         }
-        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);        
+        throw new IllegalArgumentException("Undefined variable in TestStepInstance:" + keyString);
     }
 
     public Set<String> keySetPublic() {
