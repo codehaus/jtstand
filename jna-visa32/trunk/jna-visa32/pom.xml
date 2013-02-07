@@ -26,11 +26,11 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.codehaus.jtstand</groupId>
-    <artifactId>jna-visa</artifactId>
+    <artifactId>jna-visa32</artifactId>
     <packaging>jar</packaging>
-    <name>jna-visa</name>
+    <name>jna-visa32</name>
     <version>1.0-SNAPSHOT</version>
-    <description>jna-visa is a visa library for Java</description>
+    <description>jna-visa32 is an instrument control library for Java</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
         <maven>3.0.4</maven>
