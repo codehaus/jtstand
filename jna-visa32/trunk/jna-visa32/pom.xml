@@ -29,7 +29,7 @@
     <artifactId>jna-visa32</artifactId>
     <packaging>jar</packaging>
     <name>jna-visa32</name>
-    <version>1.0.1</version>
+    <version>1.0.1-SNAPSHOT</version>
     <description>jna-visa32 is an instrument control library for Java</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
@@ -90,9 +90,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0.1</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0.1</developerConnection>
-        <url>https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0.1</url>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</developerConnection>
+        <url>https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
