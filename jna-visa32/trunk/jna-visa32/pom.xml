@@ -15,7 +15,7 @@
 ~ GNU Lesser General Public License for more details.
 ~
 ~ You should have received a copy of the GNU Lesser General Public License
-~ along with JTStand.  If not, see <http://www.gnu.org/licenses/>.
+~ along with JTStand.  If not, see <http://www.gnu.org/licenses />.
 -->
 
 <!--
@@ -29,7 +29,7 @@
     <artifactId>jna-visa32</artifactId>
     <packaging>jar</packaging>
     <name>jna-visa32</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <description>jna-visa32 is an instrument control library for Java</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
@@ -90,9 +90,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/trunk/</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/trunk/</developerConnection>
-        <url>https://svn.codehaus.org/jtstand/jna-visa32/trunk/</url>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</developerConnection>
+        <url>https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
