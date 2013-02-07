@@ -29,7 +29,7 @@
     <artifactId>jna-visa</artifactId>
     <packaging>jar</packaging>
     <name>jna-visa</name>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <description>jna-visa is a visa library for Java</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
@@ -90,9 +90,9 @@
         </license>
     </licenses>
     <scm>
-        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa-1.0</connection>
-        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa-1.0</developerConnection>
-        <url>https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa-1.0</url>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/trunk/</developerConnection>
+        <url>https://svn.codehaus.org/jtstand/jna-visa32/trunk/</url>
     </scm>
     <organization>
         <name>jtstand.com</name>
