@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+~ Copyright (c) 2009 Albert Kurucz. 
+~
+~ This file, pom.xml is part of JTStand.
+~
+~ JTStand is free software: you can redistribute it and/or modify
+~ it under the terms of the GNU Lesser General Public License as published by
+~ the Free Software Foundation, either version 3 of the License, or
+~ (at your option) any later version.
+~
+~ JTStand is distributed in the hope that it will be useful,
+~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+~ GNU Lesser General Public License for more details.
+~
+~ You should have received a copy of the GNU Lesser General Public License
+~ along with JTStand.  If not, see <http://www.gnu.org/licenses />.
+-->
+
+<!--
+    Generated from archetype; please customize.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.codehaus.jtstand</groupId>
+    <artifactId>jna-visa32</artifactId>
+    <packaging>jar</packaging>
+    <name>jna-visa32</name>
+    <version>1.0</version>
+    <description>jna-visa32 is an instrument control library for Java</description>
+    <url>http://jtstand.codehaus.org/</url>
+    <prerequisites>
+        <maven>3.0.4</maven>
+    </prerequisites>
+    <issueManagement>
+        <system>JIRA</system>
+        <url>http://jira.codehaus.org/browse/JTSTAND</url>
+    </issueManagement>
+    <inceptionYear>2009</inceptionYear>
+    <mailingLists>
+        <mailingList>
+            <name>JTStand Users</name>
+            <post>user@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/user@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.user</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Dev</name>
+            <post>dev@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/dev@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.dev</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand SCM</name>
+            <post>scm@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/scm@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.scm</archive>
+        </mailingList>
+        <mailingList>
+            <name>JTStand Announce</name>
+            <post>announce@jtstand.codehaus.org</post>
+            <subscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/subscribe</subscribe>
+            <unsubscribe>http://xircles.codehaus.org/lists/announce@jtstand.codehaus.org/unsubscribe</unsubscribe>
+            <archive>http://archive.codehaus.org/lists/org.codehaus.jtstand.announce</archive>
+        </mailingList>
+    </mailingLists>
+    <developers>
+        <developer>
+            <id>albert_kurucz</id>
+            <name>Albert Kurucz</name>
+            <email>albert.kurucz@gmail.com</email>
+            <organization>jtstand.com</organization>
+            <organizationUrl>http://www.jtstand.com/</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+    <licenses>
+        <license>
+            <name>LGPL</name>
+            <url>http://www.gnu.org/licenses/lgpl.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</connection>
+        <developerConnection>scm:svn:https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</developerConnection>
+        <url>https://svn.codehaus.org/jtstand/jna-visa32/tags/jna-visa32-1.0</url>
+    </scm>
+    <organization>
+        <name>jtstand.com</name>
+        <url>http://www.jtstand.com/</url>
+    </organization>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-scm-plugin</artifactId>
+                <version>1.8.1</version>
+                <configuration>
+                    <connectionType>developerConnection</connectionType>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>            
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <providerSelection>2.0</providerSelection>
+                    <sourceEncoding>UTF-8</sourceEncoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generateStubs</goal>
+                            <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.codehaus.gmaven.runtime</groupId>
+            <artifactId>gmaven-runtime-2.0</artifactId>
+            <version>1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+    </dependencies>
+    <!--repositories>
+        <repository>
+            <id>javanet</id>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+    </repositories-->
+    <distributionManagement>
+        <repository>
+            <id>jtstand.codehaus.org</id>
+            <name>JTStand Release Repository</name>
+            <url>dav:https://dav.codehaus.org/repository/jtstand/</url>
+        </repository>
+        <snapshotRepository>
+            <id>jtstand.codehaus.org</id>
+            <uniqueVersion>false</uniqueVersion>
+            <name>JTStand Snapshots Repository</name>
+            <url>dav:https://dav.codehaus.org/snapshots.repository/jtstand/</url>
+        </snapshotRepository>
+        <!--site>
+            <id>jtstand.codehaus.org</id>
+            <url>dav:https://dav.codehaus.org/jtstand/</url>
+        </site-->
+    </distributionManagement>
+    <properties>
+        <jtstand.specificationVersion>1.0</jtstand.specificationVersion>
+        <jtstand.schemaFileName>jtstand-${jtstand.specificationVersion}.xsd</jtstand.schemaFileName>
+        <jtstand.schemaNameSpace>${project.url}${jtstand.schemaFileName}</jtstand.schemaNameSpace>
+        <jtstand.schemaDestDir>../src/site/resources</jtstand.schemaDestDir>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+</project>
