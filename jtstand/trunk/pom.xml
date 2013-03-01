@@ -212,17 +212,22 @@
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
-                <artifactId>jtstand-demo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-admin-ui</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-smtp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-label</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jtstand</groupId>
+                <artifactId>jtstand-demo</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
@@ -233,9 +238,10 @@
         <module>jtstand-chart</module>
         <module>jtstand-editor</module>
         <module>jtstand-ui</module>
-        <module>jtstand-demo</module>
         <module>jtstand-admin-ui</module>
         <module>jtstand-smtp</module>
+        <module>jtstand-label</module>
+        <module>jtstand-demo</module>
     </modules>
     <distributionManagement>
         <repository>
