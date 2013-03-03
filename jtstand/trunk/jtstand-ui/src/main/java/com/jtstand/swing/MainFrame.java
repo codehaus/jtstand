@@ -1781,49 +1781,49 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 
                             SwingUtilities.invokeLater(
                                     new Runnable() {
+                                @Override
+                                public void run() {
+
+
+                                    Thread t = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
-
-
-                                            Thread t = new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    try {
-                                                        cancelProgress();
-                                                    } catch (InterruptedException ex) {
-                                                        return;
-                                                    }
-                                                    pbar.reset();
-                                                    pbar.setMaximum(seqList.size());
-                                                    pbar.setMinimum(0);
-                                                    pbar.setValue(0);
-                                                    progressLabel.setText("Statistics:");
-                                                    progressLabel.setVisible(true);
-                                                    pbar.setVisible(true);
-                                                    pbar.setStringPainted(true);
-                                                    TestStepStatistics tss = new TestStepStatistics(MainFrame.this, clickedSequence);
-                                                    for (TestSequenceInstance tsi : seqList) {
-                                                        if (MainFrame.super.isContained(tsi)) {
-                                                            tss.add(tsi.getId());
-                                                        } else {
-                                                            tss.add(tsi);
-                                                        }
-                                                        pbar.setValue(pbar.getValue() + 1);
-                                                        if (pbar.isCancelled()) {
-                                                            pbar.setVisible(false);
-                                                            progressLabel.setVisible(false);
-                                                            return;
-                                                        }
-                                                    }
-                                                    tss.getFrame();
+                                            try {
+                                                cancelProgress();
+                                            } catch (InterruptedException ex) {
+                                                return;
+                                            }
+                                            pbar.reset();
+                                            pbar.setMaximum(seqList.size());
+                                            pbar.setMinimum(0);
+                                            pbar.setValue(0);
+                                            progressLabel.setText("Statistics:");
+                                            progressLabel.setVisible(true);
+                                            pbar.setVisible(true);
+                                            pbar.setStringPainted(true);
+                                            TestStepStatistics tss = new TestStepStatistics(MainFrame.this, clickedSequence);
+                                            for (TestSequenceInstance tsi : seqList) {
+                                                if (MainFrame.super.isContained(tsi)) {
+                                                    tss.add(tsi.getId());
+                                                } else {
+                                                    tss.add(tsi);
+                                                }
+                                                pbar.setValue(pbar.getValue() + 1);
+                                                if (pbar.isCancelled()) {
                                                     pbar.setVisible(false);
                                                     progressLabel.setVisible(false);
+                                                    return;
                                                 }
-                                            });
-                                            t.setPriority(Thread.MIN_PRIORITY);
-                                            t.start();
+                                            }
+                                            tss.getFrame();
+                                            pbar.setVisible(false);
+                                            progressLabel.setVisible(false);
                                         }
                                     });
+                                    t.setPriority(Thread.MIN_PRIORITY);
+                                    t.start();
+                                }
+                            });
                         }
                     });
                 }
@@ -1866,6 +1866,14 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                        removeAll(seqList);
 //                    }
 //                });
+
+                /*
+                 * If configured add more context menus
+                 */
+                Object o = getTestStation().getPropertyObject("TEST_SEQUENCES_CONTEXT_MENU", null);
+                if (o != null) {
+                    //TBD
+                }
 
                 contextMenu.add(selectedMenu);
             }//            if (jTable.getSortedColumn() != null) {
@@ -2108,23 +2116,23 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                 public void actionPerformed(ActionEvent e) {
                     SwingUtilities.invokeLater(
                             new Runnable() {
+                        @Override
+                        public void run() {
+                            Thread t =
+                                    new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Thread t =
-                                            new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.RUNTIME);
-                                            } catch (InterruptedException ex) {
-                                                log.warn("Exception", ex);
-                                            }
-                                        }
-                                    });
-                                    t.setPriority(Thread.MIN_PRIORITY);
-                                    t.start();
+                                    try {
+                                        List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.RUNTIME);
+                                    } catch (InterruptedException ex) {
+                                        log.warn("Exception", ex);
+                                    }
                                 }
                             });
+                            t.setPriority(Thread.MIN_PRIORITY);
+                            t.start();
+                        }
+                    });
                 }
             });
             log.trace("Finding out if numeric...");
@@ -2139,23 +2147,23 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                         }
                         SwingUtilities.invokeLater(
                                 new Runnable() {
+                            @Override
+                            public void run() {
+                                Thread t =
+                                        new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Thread t =
-                                                new Thread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                try {
-                                                    List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.PARAMETRIC);
-                                                } catch (InterruptedException ex) {
-                                                    log.warn("Exception", ex);
-                                                }
-                                            }
-                                        });
-                                        t.setPriority(Thread.MIN_PRIORITY);
-                                        t.start();
+                                        try {
+                                            List<TestStepInstance> steps = querySteps(path, TestStepInstances.Mode.PARAMETRIC);
+                                        } catch (InterruptedException ex) {
+                                            log.warn("Exception", ex);
+                                        }
                                     }
                                 });
+                                t.setPriority(Thread.MIN_PRIORITY);
+                                t.start();
+                            }
+                        });
                     }
                 });
             }

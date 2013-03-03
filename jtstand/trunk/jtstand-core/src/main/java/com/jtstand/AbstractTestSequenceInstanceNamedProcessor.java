@@ -4,9 +4,6 @@
  */
 package com.jtstand;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  *
  * @author albert_kurucz
