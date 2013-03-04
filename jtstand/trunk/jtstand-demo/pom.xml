@@ -290,6 +290,10 @@
             <artifactId>jtstand-ui</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.codehaus.jtstand</groupId>
+            <artifactId>jtstand-label</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-jsr223</artifactId>
             <version>2.1.1</version>
