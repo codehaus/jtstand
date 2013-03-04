@@ -6,7 +6,7 @@
         <artifactId>jtstand</artifactId>
         <version>1.5.6-SNAPSHOT</version>
     </parent>
-    <groupId>com.jtstand</groupId>
+    <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-label</artifactId>    
     <packaging>jar</packaging>
     <name>jtstand-label</name>
