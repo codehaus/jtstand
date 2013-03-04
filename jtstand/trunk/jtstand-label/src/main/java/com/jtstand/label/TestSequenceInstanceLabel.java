@@ -262,6 +262,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setLayout(new java.awt.BorderLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -379,6 +380,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         add(jPanel2, java.awt.BorderLayout.CENTER);
 
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setLayout(new java.awt.BorderLayout());
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
