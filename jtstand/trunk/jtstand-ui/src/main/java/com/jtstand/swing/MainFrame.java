@@ -25,6 +25,7 @@ import com.jgoodies.looks.FontSets;
 import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jtstand.AbstractTestSequenceInstanceNamedProcessor;
+import com.jtstand.AbstractTestSequenceInstanceProcessor;
 import com.jtstand.Authentication;
 import com.jtstand.TestSequenceInstance;
 import com.jtstand.TestStation;
@@ -43,8 +44,10 @@ import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 import javax.script.ScriptException;
 import javax.swing.*;
@@ -74,6 +77,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //    public static final long serialVersionUID = 20081114L;
     public static final String STARTER_DIALOG_CLASS_NAME = "STARTER_DIALOG_CLASS_NAME";
     public static final String PROCESSOR_LIST = "PROCESSOR_LIST";
+    public static final String PROCESSOR_MAP = "PROCESSOR_MAP";
 //    public static final int WIDTH0 = -1;
     private JXTable jTable = null;
     private JSplitPane jSplitPane = null;
@@ -1836,7 +1840,7 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 });
 
-                /* add custom context menu */
+                /* add custom context menu from list */
                 Object processorList = getTestStation().getPropertyObject(PROCESSOR_LIST, null);
                 if (processorList != null) {
                     //List< AbstractTestSequenceInstanceNamedProcessor> list = processorList.asSubclass(List < AbstractTestSequenceInstanceNamedProcessor >);
@@ -1857,6 +1861,27 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
                     }
                 }
 
+                /* add custom context menu from map */
+                Object processorMap = getTestStation().getPropertyObject(PROCESSOR_MAP, null);
+                if (processorMap != null) {
+                    //List< AbstractTestSequenceInstanceNamedProcessor> list = processorList.asSubclass(List < AbstractTestSequenceInstanceNamedProcessor >);
+                    if (Map.class.isAssignableFrom(processorMap.getClass())) {
+                        for (final Object k : ((Map) processorMap).keySet()) {
+                            final Object processor = ((Map) processorMap).get(k);
+                            if (AbstractTestSequenceInstanceProcessor.class.isAssignableFrom(processor.getClass())) {
+                                JMenuItem customMenu = selectedMenu.add(k.toString());
+                                customMenu.addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        for (TestSequenceInstance seq : seqList) {
+                                            ((AbstractTestSequenceInstanceProcessor) processor).process(seq);
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
 
 //                JMenuItem removeDatabaseMenu = selectedMenu.add("Remove from database");
 //                removeDatabaseMenu.addActionListener(new ActionListener() {
@@ -1866,14 +1891,6 @@ public class MainFrame extends AbstractTestSequenceInstanceListTableModel implem
 //                        removeAll(seqList);
 //                    }
 //                });
-
-                /*
-                 * If configured add more context menus
-                 */
-                Object o = getTestStation().getPropertyObject("TEST_SEQUENCES_CONTEXT_MENU", null);
-                if (o != null) {
-                    //TBD
-                }
 
                 contextMenu.add(selectedMenu);
             }//            if (jTable.getSortedColumn() != null) {

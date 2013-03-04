@@ -45,14 +45,31 @@ public class TestSequenceInstanceLabel extends JPanel {
 
     public static final String PRINTER_NAME = "Smart Label Printer 450";
     public static final String PRINTER_MEDIA = "SLP-SRL Shipping(2.13x4.00)";
-    private TestSequenceInstance tsi;
+    String printerName = PRINTER_NAME;
+    String printerMedia = PRINTER_MEDIA;
 
-    /**
-     * Creates new form TestSequenceInstanceLabel
-     */
-    public TestSequenceInstanceLabel(TestSequenceInstance tsi) {
-        this.tsi = tsi;
+    public TestSequenceInstanceLabel() {
         initComponents();
+        try {
+            //Barcode barcode = BarcodeFactory.createCode128B(jLabelSerialNumber.getText());
+            Barcode barcodeSerial = BarcodeFactory.createCode128B("1234567890");
+            barcodeSerial.setBarWidth(1);
+            jPanel1.add(barcodeSerial);
+            Barcode barcodeErrorCode = BarcodeFactory.createCode128B("ERR01");
+            barcodeErrorCode.setBarWidth(1);
+            jPanel16.add(barcodeErrorCode);
+        } catch (BarcodeException ex) {
+            Logger.getLogger(TestSequenceInstanceLabel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public TestSequenceInstanceLabel(String printerName, String printerMedia) {
+        this();
+        this.printerName = printerName;
+        this.printerMedia = printerMedia;
+    }
+
+    public void setTestSequenceInstance(TestSequenceInstance tsi) {
         jLabelOperator.setText(tsi.getEmployeeNumber());
         jLabelTestStation.setText(tsi.getTestStation().getHostName());
         jLabelFixture.setText(tsi.getTestFixture().getFixtureName());
@@ -73,37 +90,21 @@ public class TestSequenceInstanceLabel extends JPanel {
         }
     }
 
-    public TestSequenceInstanceLabel() {
-        initComponents();
-        try {
-            //Barcode barcode = BarcodeFactory.createCode128B(jLabelSerialNumber.getText());
-            Barcode barcodeSerial = BarcodeFactory.createCode128B("1234567890");
-            barcodeSerial.setBarWidth(1);
-            jPanel1.add(barcodeSerial);
-            Barcode barcodeErrorCode = BarcodeFactory.createCode128B("ERR01");
-            barcodeErrorCode.setBarWidth(1);
-            jPanel16.add(barcodeErrorCode);
-        } catch (BarcodeException ex) {
-            Logger.getLogger(TestSequenceInstanceLabel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public static void printPageFormat(PageFormat pf) {
         System.out.println("paper size:" + pf.getWidth() + "x" + pf.getHeight() + " orientation:" + pf.getOrientation());
         System.out.println("imageable position: X=" + pf.getImageableX() + " Y=" + pf.getImageableY());
         System.out.println("imageable size:" + pf.getImageableWidth() + "x" + pf.getImageableHeight());
     }
 
-    public void printTo(PrinterJob printerJob) throws PrinterException {
+    public void print(PrinterJob printerJob) throws PrinterException {
         HashPrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
         Media[] res = (Media[]) printerJob.getPrintService().getSupportedAttributeValues(Media.class, null,
                 null);
         for (int i = 0; i < res.length; i++) {
             System.out.println("res[" + i + "]=" + res[i]);
             System.out.println(res[i].toString());
-            if (res[i].toString().equals(PRINTER_MEDIA)) {
+            if (res[i].toString().equals(printerMedia)) {
                 attributes.add(res[i]);
-                //attributes.add(new sun.print.SunAlternateMedia(res[i]));
             }
         }
         printerJob.print(attributes);
@@ -119,7 +120,13 @@ public class TestSequenceInstanceLabel extends JPanel {
         }
     }
 
-    public void printTo(String printerName) {
+    public void print(String printerName, String printerMedia) {
+        this.printerName = printerName;
+        this.printerMedia = printerMedia;
+        print();
+    }
+
+    public void print() {
         PrinterJob printerJob = PrinterJob.getPrinterJob();
         PrintService[] printService = PrinterJob.lookupPrintServices();
         for (int i = 0; i < printService.length; i++) {
@@ -131,7 +138,7 @@ public class TestSequenceInstanceLabel extends JPanel {
                     setSize(getPreferredSize());
                     addNotify();
                     validate();
-                    printTo(printerJob);
+                    print(printerJob);
                 } catch (PrinterException e) {
                     e.printStackTrace();
                 }
@@ -141,25 +148,28 @@ public class TestSequenceInstanceLabel extends JPanel {
     }
 
     public static void main(String[] args) {
-        PrinterJob printerJob = PrinterJob.getPrinterJob();
-        PrintService[] printService = PrinterJob.lookupPrintServices();
-        for (int i = 0; i < printService.length; i++) {
-            System.out.println(printService[i].getName());
+        TestSequenceInstanceLabel tsil = new TestSequenceInstanceLabel();
+        tsil.print();
 
-            if (printService[i].getName().compareTo(PRINTER_NAME) == 0) {
-                try {
-                    printerJob.setPrintService(printService[i]);
-                    TestSequenceInstanceLabel tsil = new TestSequenceInstanceLabel();
-                    tsil.setDoubleBuffered(false);
-                    tsil.setSize(tsil.getPreferredSize());
-                    tsil.addNotify();
-                    tsil.validate();
-                    tsil.printTo(printerJob);
-                } catch (PrinterException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+//        PrinterJob printerJob = PrinterJob.getPrinterJob();
+//        PrintService[] printService = PrinterJob.lookupPrintServices();
+//        for (int i = 0; i < printService.length; i++) {
+//            System.out.println(printService[i].getName());
+//
+//            if (printService[i].getName().compareTo(PRINTER_NAME) == 0) {
+//                try {
+//                    printerJob.setPrintService(printService[i]);
+//                    TestSequenceInstanceLabel tsil = new TestSequenceInstanceLabel();
+//                    tsil.setDoubleBuffered(false);
+//                    tsil.setSize(tsil.getPreferredSize());
+//                    tsil.addNotify();
+//                    tsil.validate();
+//                    tsil.printTo(printerJob);
+//                } catch (PrinterException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
     }
 
     public static class MyPrintable implements Printable {

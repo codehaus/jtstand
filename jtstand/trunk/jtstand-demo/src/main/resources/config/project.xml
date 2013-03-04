@@ -125,6 +125,8 @@
         </property>
         <property name="FIXTURE_COLUMNS" value="3"/>
         <property name="FIXTURE_GAP" value="4"/>
+        <property name="labelPrinter">new com.jtstand.label.LabelPrinter()</property>
+        <property name="PROCESSOR_MAP">['print label':labelPrinter]</property>
         <fixture fixtureName="FX1" serialNumber="FX1">
             <property name="UUT_PORT" mutex="true" value="ASRL1::INSTR"/>
             <testType partNumber="RANDOMDEMO" partRevision="A01" name="DEMO1"/>
