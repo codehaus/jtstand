@@ -245,6 +245,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel12.setLayout(new java.awt.BorderLayout());
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -262,8 +263,10 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         add(jPanel12, java.awt.BorderLayout.NORTH);
 
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1));
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel3.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -276,6 +279,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel4);
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel5.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -288,6 +292,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel5);
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel7.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -300,6 +305,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel6);
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel10.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -312,6 +318,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel10);
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel12.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -324,6 +331,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel9);
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel14.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -336,6 +344,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel2.add(jPanel8);
 
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel16.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
@@ -352,6 +361,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel13.setLayout(new java.awt.BorderLayout());
 
+        jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.Y_AXIS));
 
         jLabel2.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
