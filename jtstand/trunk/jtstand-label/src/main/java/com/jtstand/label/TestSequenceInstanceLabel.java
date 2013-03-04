@@ -268,7 +268,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel1.setText("Serial Number:");
         jPanel3.add(jLabel1);
 
@@ -290,7 +290,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new javax.swing.BoxLayout(jPanel4, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel3.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel3.setText("Operator:");
         jPanel4.add(jLabel3);
 
@@ -303,7 +303,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new javax.swing.BoxLayout(jPanel5, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel5.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel5.setText("Test Station:");
         jPanel5.add(jLabel5);
 
@@ -316,7 +316,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new javax.swing.BoxLayout(jPanel6, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel7.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel7.setText("Fixture:");
         jPanel6.add(jLabel7);
 
@@ -329,7 +329,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new javax.swing.BoxLayout(jPanel10, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel10.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel10.setText("Part Number:");
         jPanel10.add(jLabel10);
 
@@ -342,7 +342,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new javax.swing.BoxLayout(jPanel9, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel12.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel12.setText("Part Revision:");
         jPanel9.add(jLabel12);
 
@@ -355,7 +355,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new javax.swing.BoxLayout(jPanel8, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel14.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel14.setText("Test Type:");
         jPanel8.add(jLabel14);
 
@@ -368,7 +368,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setLayout(new javax.swing.BoxLayout(jPanel11, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel16.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel16.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel16.setText("Test Time:");
         jPanel11.add(jLabel16);
 
@@ -386,7 +386,7 @@ public class TestSequenceInstanceLabel extends JPanel {
         jPanel14.setBackground(new java.awt.Color(255, 255, 255));
         jPanel14.setLayout(new javax.swing.BoxLayout(jPanel14, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel2.setFont(new java.awt.Font("DejaVu Sans Condensed", 0, 11)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel2.setText("Error Code:");
         jPanel14.add(jLabel2);
 
