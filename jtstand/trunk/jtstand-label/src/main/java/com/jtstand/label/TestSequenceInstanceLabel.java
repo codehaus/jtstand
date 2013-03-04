@@ -79,15 +79,34 @@ public class TestSequenceInstanceLabel extends JPanel {
         jLabelTestTime.setText(tsi.getStartedString());
         try {
             //Barcode barcode = BarcodeFactory.createCode128B(jLabelSerialNumber.getText());
-            Barcode barcodeSerial = BarcodeFactory.createCode128B(tsi.getSerialNumber());
+            String sn = tsi.getSerialNumber();
+            if (sn == null) {
+                sn = "null";
+            }
+            Barcode barcodeSerial = BarcodeFactory.createCode128B(sn);
             barcodeSerial.setBarWidth(1);
+            jPanel1.removeAll();
             jPanel1.add(barcodeSerial);
-            Barcode barcodeErrorCode = BarcodeFactory.createCode128B(tsi.getFailureCode());
+            jPanel1.validate();
+
+            String fcode = "PASS";
+            if (!tsi.isPassed()) {
+                fcode = tsi.getFailureCode();
+                if (fcode == null) {
+                    fcode = "null";
+                }
+            }
+            Barcode barcodeErrorCode = BarcodeFactory.createCode128B(fcode);
             barcodeErrorCode.setBarWidth(1);
+            jPanel16.removeAll();
             jPanel16.add(barcodeErrorCode);
+            jPanel16.validate();
         } catch (BarcodeException ex) {
             Logger.getLogger(TestSequenceInstanceLabel.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        setSize(getPreferredSize());
+//        this.doLayout();
+        validate();
     }
 
     public static void printPageFormat(PageFormat pf) {
@@ -254,6 +273,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel12.add(jPanel3, java.awt.BorderLayout.NORTH);
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new javax.swing.BoxLayout(jPanel7, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel1.setLayout(new javax.swing.BoxLayout(jPanel1, javax.swing.BoxLayout.Y_AXIS));
@@ -370,6 +390,7 @@ public class TestSequenceInstanceLabel extends JPanel {
 
         jPanel13.add(jPanel14, java.awt.BorderLayout.NORTH);
 
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new javax.swing.BoxLayout(jPanel15, javax.swing.BoxLayout.Y_AXIS));
 
         jPanel16.setLayout(new javax.swing.BoxLayout(jPanel16, javax.swing.BoxLayout.Y_AXIS));
