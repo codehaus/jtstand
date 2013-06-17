@@ -179,6 +179,9 @@ public class TestStation extends AbstractVariables {
         if (getPeristencePropertiesMap().get("hibernate.dialect") == null) {
             map.put("hibernate.dialect", getDriver().dialect);
         }
+        if (getPeristencePropertiesMap().get("hibernate.show_sql") == null) {
+            map.put("hibernate.show_sql", "true");
+        }
         if (getPeristencePropertiesMap().get("hibernate.connection.url") == null) {
             String url = getPersistenceProtocol() + getPersistencePath();
             log.info("hibernate.connection.url: " + url);
