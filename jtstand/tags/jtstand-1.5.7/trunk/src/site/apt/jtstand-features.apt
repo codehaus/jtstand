@@ -1,0 +1,95 @@
+JTStand Features
+
+    * Simple
+
+        * You need to provide only a single
+          configuration file, the Project file, which is in XML format.
+
+        * There are only 3 different file types used by JTStand and each one is
+          in XML format and they are defined and verifiable by the provided XSD schema.
+
+              * Project (Input)
+
+              * Sequence (Input)
+
+              * Sequence Instance (Output)
+
+
+    * Revision control
+
+          * Subversion client (SVNKIT) is built into JTStand.
+            JTStand can check out input files directly from your Subversion server.
+
+          * Optionally JTStand can also use a working copy on the local drive.
+
+    * Programmable
+
+          * JTStand sequences can use all the features of modern object oriented languages
+
+          * Use any of the JSR223 compatible scripting languages
+
+                  * Groovy
+
+                  * JavaScript (Rhino)
+
+                  * Jython
+
+                  * JRuby
+
+                  * ...
+
+    * Extensible. JTStand extensions can be created to
+
+          * Automate the start/abort of Sequences
+
+          * Interpret your favorite scripting language (interpreters)
+
+          * Control of instruments  or other hardware devices (drivers)
+
+          * Communicate with the operator (user interface)
+
+          * Present or process the results (report generators)
+
+    * Multitasking
+
+          * Multiple Sequences can be executed parallel
+
+          * Sequences may have multiple threads, executing multiple Steps parallel
+
+          * Lock/Unlock shared objects
+
+    * Database
+
+          * No database programming required.
+            The Results are saved into the database automatically by JTStand.
+
+          * Related Project configuration and Sequence definitions are also saved,
+            not only the data what is acquired by executing a Sequence Instance.
+
+          * No redundant data is stored in the database.
+
+          * No database installation is required,
+            because of the built in Derby database engine
+
+    * Analysis
+
+          * Tools are provided to query and process the Results
+
+    * Charts
+
+          * JTStand can present the Results in different charts:
+
+                * Trend
+
+                * Distribution
+
+                * Pareto
+
+    * Open source
+
+          * You can improve
+
+          * You can trust
+
+          * You can build up on
+
