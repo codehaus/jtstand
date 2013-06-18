@@ -23,7 +23,7 @@
     <artifactId>jtstand</artifactId>
     <packaging>pom</packaging>
     <name>jtstand</name>
-    <version>1.5.8-SNAPSHOT</version>
+    <version>1.5.7-SNAPSHOT</version>
     <description>JTStand is a Scripting Environment for Data Collection.</description>
     <url>http://jtstand.codehaus.org/</url>
     <prerequisites>
