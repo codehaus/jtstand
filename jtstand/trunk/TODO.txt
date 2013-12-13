@@ -1,0 +1,48 @@
+If Unmarshall of TestSequenceInstance fails (by toDatabase), file stays opened, cannot move to Error (neither delete)
+
+complete the code analysis, using FindBugs
+
+Database validation is useless, and it brakes JPA
+
+message panel from test step
+
+Data pulling PTP
+
+Memory leak? of derby
+
+avoid multiple start
+
+jXTreeTable should have a lock! (null ex)
+
+write roadmap
+
+about dialog
+
+automatic close is not always appropriate, especially not when we have an alias. Calling close by finalize() is not good either: close() will be delayed. Check for references before close?
+
+Find out if H2 was causing that Debug button was disabled!
+
+Add path to categories on Steps List
+
+toDatabase cannot be aborted if crashed
+
+add yield to charts' categories table
+
+support test types to run using multiple serial numbers consisting same or different products
+
+Cleanup Logger
+
+MODBUS driver
+
+Cleanup Class documentation
+
+Defect Pareto
+
+printing
+
+status bar separators are ugly on windows if windows is in classic mode
+
+Show statistics table in place of a seqence
+
+If NO_PASSWORD is the authentication mode, do not show password on login prompt!
+
