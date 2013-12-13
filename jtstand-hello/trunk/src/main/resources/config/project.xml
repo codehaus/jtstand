@@ -30,7 +30,7 @@
     <property name="DEBUG_ENABLED" value="true"/>
     <product partNumber="DEMO_HELLO" partRevision="001">
         <testType name="DEMO">
-            <testSequence subversionUrl="sequence.xml" revision="727"/>
+            <testSequence subversionUrl="sequence.xml" revision="1025"/>
         </testType>
     </product>
     <testStation hostName="DEFAULTSTATION">
