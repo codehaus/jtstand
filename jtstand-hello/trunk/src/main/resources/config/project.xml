@@ -28,6 +28,11 @@
     </property>
     <property name="PERSISTING_POLICY" value="SEQUENCE"/>
     <property name="DEBUG_ENABLED" value="true"/>
+    <authentication authenticatonMode="NO_PASSWORD">
+        <localUsers>
+            <localUser realName="anybody"  employeeNumber="55555" password="DA39A3EE5E6B4B0D3255BFEF95601890AFD80709" loginName="55555"/>
+        </localUsers>
+    </authentication>
     <product partNumber="DEMO_HELLO" partRevision="001">
         <testType name="DEMO">
             <testSequence subversionUrl="sequence.xml" revision="1025"/>
