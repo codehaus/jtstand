@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<step xmlns="http://www.jtstand.com/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Interactive Error" failAction="LOOP" maxLoops="3" xsi:schemaLocation="http://www.jtstand.com/ http://www.jtstand.com/jtstand-1.0.xsd">
+    <step name="Interactive Check" runMode="SKIP_FIRST" failAction="STOP">
+        <script>step.interact('&lt;html&gt;&lt;center&gt;There was an error.&lt;br&gt;If you are optimistic choose Pass to retry, if hopeless choose Fail!&lt;/center&gt;&lt;/html&gt;')</script>
+    </step>
+    <script>throw new Exception("This error is an expected ERROR")</script>
+</step>
