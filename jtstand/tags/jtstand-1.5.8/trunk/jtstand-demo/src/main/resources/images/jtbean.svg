@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="48px"
+   height="48px"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="bean1.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.313708"
+     inkscape:cx="27.232976"
+     inkscape:cy="24.636383"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:grid-bbox="true"
+     inkscape:document-units="px"
+     inkscape:window-width="1024"
+     inkscape:window-height="721"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <defs
+     id="defs2385">
+    <inkscape:perspective
+       id="perspective2391"
+       inkscape:persp3d-origin="24 : 16 : 1"
+       inkscape:vp_z="48 : 24 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 24 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <metadata
+     id="metadata2388">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1"
+     id="layer1">
+    <path
+       transform="matrix(1.0291262,0,0,1.0700637,-14.524964,-15.045041)"
+       d="M 59.714285,45.5 A 22.071428,11.214286 0 1 1 15.571428,45.5 A 22.071428,11.214286 0 1 1 59.714285,45.5 z"
+       sodipodi:ry="11.214286"
+       sodipodi:rx="22.071428"
+       sodipodi:cy="45.5"
+       sodipodi:cx="37.642857"
+       id="path2393"
+       style="fill:#3f0000;fill-opacity:1"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       transform="translate(-13.642856,-15.5)"
+       d="M 59.714285,45.5 A 22.071428,11.214286 0 1 1 15.571428,45.5 A 22.071428,11.214286 0 1 1 59.714285,45.5 z"
+       sodipodi:ry="11.214286"
+       sodipodi:rx="22.071428"
+       sodipodi:cy="45.5"
+       sodipodi:cx="37.642857"
+       id="path2398"
+       style="fill:#500000;fill-opacity:1"
+       sodipodi:type="arc"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.186;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 2.0860259,31.662091 C 3.3263677,31.605374 4.5763918,31.595708 5.7582526,31.254803 C 7.5033825,30.911893 9.2988912,30.648852 11.087587,30.554314 C 13.644594,30.846997 16.20792,31.097353 18.791406,31.179 C 20.607468,31.30698 22.418341,31.522944 24.228733,31.683407 C 25.363413,31.953451 26.472982,32.328516 27.679834,32.296709 C 28.875302,32.396194 30.064892,32.167477 31.257596,32.11276 C 32.05782,31.815392 32.743603,31.213293 33.686391,31.295542 C 34.682903,31.213678 35.746484,31.361266 36.640839,30.929912 C 37.786935,30.464431 39.068166,30.295514 40.312779,30.084756 C 41.920623,30.103636 43.548007,30.047133 45.143694,30.112906 C 45.448073,30.216191 45.752453,30.319474 46.056833,30.422758"
+       id="path3170"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#88e800;fill-opacity:1;stroke-width:2.18600011000000016;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3189"
+       width="6.4285712"
+       height="30"
+       x="20.428572"
+       y="1.9999998"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#28d000;fill-opacity:1;stroke-width:2.18600011000000016;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3201"
+       width="6.4285712"
+       height="21.04011"
+       x="29.178572"
+       y="10.888461"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#00a000;fill-opacity:1;stroke-width:2.18600011000000016;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3203"
+       width="6.4285712"
+       height="12.270369"
+       x="37.928574"
+       y="18.229631"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#28d000;fill-opacity:1;stroke-width:2.18600011000000016;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3205"
+       width="6.4285712"
+       height="19.938353"
+       x="11.678572"
+       y="11.418792"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:#004000;fill-opacity:1;stroke-width:2.18600011;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect3207"
+       width="6.4285712"
+       height="9.8571424"
+       x="2.9285719"
+       y="21.5"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 6.0104076,31.648156 C 6.03676,31.661332 6.0104076,31.58923 6.0104076,31.648156 z"
+       id="path3211"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:0.986;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.2330039,31.932723 C 3.4733459,31.876006 4.7233699,31.86634 5.9052309,31.525435 C 7.6503609,31.182525 9.4458689,30.919484 11.234565,30.824946 C 13.791572,31.117629 16.354898,31.367985 18.938384,31.449632 C 20.754446,31.577612 22.565319,31.793576 24.375711,31.954039 C 25.510391,32.224083 26.61996,32.599148 27.826812,32.567341 C 29.02228,32.666826 30.21187,32.438109 31.404574,32.383392 C 32.204798,32.086024 32.890581,31.483925 33.833369,31.566174 C 34.829881,31.48431 35.893462,31.631898 36.787817,31.200544 C 37.933913,30.735063 39.215144,30.566146 40.459757,30.355388 C 42.067601,30.374268 43.694985,30.317765 45.290672,30.383538 C 45.595051,30.486823 45.899431,30.590106 46.203811,30.69339"
+       id="path3217"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#00a000;fill-opacity:1"
+       d="M 2.943857,24.778012 L 2.943857,18.237275 L 6.1258377,18.237275 L 9.3078183,18.237275 L 9.3084441,23.393262 C 9.3087923,26.229055 9.3342305,28.904354 9.3649755,29.338371 C 9.4191337,30.102904 9.4142953,30.129148 9.2096675,30.180624 C 9.0935048,30.209851 8.4018377,30.348574 7.6726338,30.488906 C 6.9434299,30.629234 5.8563548,30.873362 5.2569121,31.031403 C 4.6574694,31.189444 3.8918044,31.318751 3.5554363,31.318751 L 2.943857,31.318751 L 2.943857,24.778012 z"
+       id="path2389"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#7c0000;fill-opacity:1"
+       d="M 26.941295,34.634371 C 26.795454,34.607401 26.198833,34.46927 25.615469,34.327412 C 24.031629,33.942268 21.405883,33.588746 18.10246,33.315884 C 17.324642,33.251638 15.475739,33.081504 13.993786,32.937811 C 12.511832,32.794116 10.978994,32.67655 10.587475,32.67655 C 9.7064752,32.67655 8.3996138,32.870511 5.9932551,33.358412 C 4.4650373,33.668267 1.975765,34.014829 1.9218472,33.925244 C 1.8648023,33.830467 1.8225845,33.116166 1.8690113,33.031316 C 1.9011202,32.972633 2.4643502,32.864114 3.1206337,32.79016 C 3.7769172,32.716206 4.9900473,32.513873 5.8164784,32.34053 C 7.7619334,31.932474 9.8959142,31.612666 10.677838,31.611989 C 11.018133,31.611694 12.469912,31.729147 13.904013,31.872997 C 15.338114,32.016845 17.605275,32.233217 18.942149,32.353822 C 22.822611,32.703895 24.044466,32.867987 25.447223,33.227434 C 26.666097,33.539762 26.896598,33.565524 28.532285,33.572232 C 30.591772,33.580677 31.276632,33.465629 32.294236,32.94027 C 32.97276,32.589967 33.140728,32.55122 34.62378,32.402879 C 35.909518,32.27427 36.429487,32.171369 37.282732,31.876666 C 39.479664,31.117864 39.911237,31.053613 42.895392,31.04107 C 44.892881,31.032672 45.71407,31.067037 46.065405,31.173725 L 46.539572,31.317711 L 46.492681,31.739402 C 46.466891,31.971335 46.423414,32.188084 46.396067,32.221071 C 46.36872,32.254058 46.055366,32.221011 45.699727,32.147632 C 45.240863,32.052956 44.335642,32.029196 42.582135,32.065795 C 39.890998,32.121966 39.675922,32.157339 37.35736,32.925123 C 36.492742,33.211438 35.858912,33.340232 34.698839,33.465338 C 33.337842,33.612108 33.097785,33.668418 32.444936,33.994006 C 32.043067,34.194427 31.435842,34.408572 31.095547,34.469885 C 30.417799,34.592 27.365663,34.712847 26.941295,34.634371 L 26.941295,34.634371 z"
+       id="path2409"
+       inkscape:export-filename="/home/albert_kurucz/Desktop/bean2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
