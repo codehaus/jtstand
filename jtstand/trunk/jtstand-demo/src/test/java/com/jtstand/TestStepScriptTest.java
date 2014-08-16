@@ -113,6 +113,6 @@ public class TestStepScriptTest extends TestCase {
         Thread.currentThread().setContextClassLoader(gcl);
         ScriptEngine engine = factory.getEngineByName("js");
         engine.put("localvar", 1);
-        assertEquals(3.0, engine.eval(JS_SCRIPT));
+        assertEquals(3, engine.eval(JS_SCRIPT));
     }
 }
