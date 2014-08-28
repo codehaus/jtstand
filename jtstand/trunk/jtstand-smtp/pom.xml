@@ -11,7 +11,7 @@
     <name>jtstand-smtp</name>
     <description>jtstand-smtp sends out email notification through smtp</description>
     <url>http://jtstand.codehaus.org/jtstand-smtp/</url>
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -23,7 +23,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build-->
     <dependencies>
         <dependency>
             <groupId>javax.mail</groupId>

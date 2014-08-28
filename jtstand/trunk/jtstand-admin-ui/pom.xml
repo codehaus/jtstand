@@ -9,7 +9,7 @@
     <groupId>org.codehaus.jtstand</groupId>
     <artifactId>jtstand-admin-ui</artifactId>
     <name>jtstand-admin-ui</name>
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -21,7 +21,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build-->
     <!--dependencies>
         <dependency>
             <groupId>org.tmatesoft.svnkit</groupId>

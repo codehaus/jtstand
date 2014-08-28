@@ -31,7 +31,7 @@
     <name>jtstand-common</name>
     <description>jtstand-common is a library derived from jcommon, used by jtstand-chart, which is derived from jfreechart</description>
     <url>http://jtstand.codehaus.org/jtstand-common/</url>
-    <build>
+    <!--build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -43,5 +43,5 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build-->
 </project>
