@@ -190,7 +190,7 @@
                 <artifactId>jtstand-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
+            <!--dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-common</artifactId>
                 <version>${project.version}</version>
@@ -199,7 +199,7 @@
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-chart</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency-->
             <dependency>
                 <groupId>org.codehaus.jtstand</groupId>
                 <artifactId>jtstand-editor</artifactId>
@@ -234,8 +234,8 @@
     </dependencyManagement>
     <modules>
         <module>jtstand-core</module>
-        <module>jtstand-common</module>
-        <module>jtstand-chart</module>
+        <!--module>jtstand-common</module>
+        <module>jtstand-chart</module-->
         <module>jtstand-editor</module>
         <module>jtstand-ui</module>
         <module>jtstand-admin-ui</module>
