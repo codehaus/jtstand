@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class TestStepScriptTest extends TestCase {
 
     public static final String GROOVY_SCRIPT = "Foo f = new Foo(); f.getResult() + localvar + globalvar";
-    public static final String JS_SCRIPT = "var f = new Packages.Foo(); f.getResult() + localvar + globalvar";
+//    public static final String JS_SCRIPT = "var f = new Packages.Foo(); f.getResult() + localvar + globalvar";
     public static final String FOO_CLASS = "class Foo { int getResult() { return 1; } } ; Foo.class";
     public static final String FOO = "class Foo { int getResult() { return 1; } }";
     public static final String I = "Integer i = 1";
@@ -107,14 +107,14 @@ public class TestStepScriptTest extends TestCase {
         assertEquals(3, engine.eval(GROOVY_SCRIPT));
     }
 
-    public void testClassLoaderJSR223Js() throws ScriptException {
-        ScriptEngineManager factory = new ScriptEngineManager();
-        factory.put("globalvar", 1);
-        Thread.currentThread().setContextClassLoader(gcl);
-        ScriptEngine engine = factory.getEngineByName("js");
-        engine.put("localvar", 1);
-        Object eva = engine.eval(JS_SCRIPT);
-        System.out.println(eva.getClass());
-        assertEquals(3L, eva);
-    }
+//    public void testClassLoaderJSR223Js() throws ScriptException {
+//        ScriptEngineManager factory = new ScriptEngineManager();
+//        factory.put("globalvar", 1);
+//        Thread.currentThread().setContextClassLoader(gcl);
+//        ScriptEngine engine = factory.getEngineByName("js");
+//        engine.put("localvar", 1);
+//        Object eva = engine.eval(JS_SCRIPT);
+//        System.out.println(eva.getClass());
+//        assertEquals(3L, eva);
+//    }
 }
